@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RunningPencil - 달리고 걷는 길이 아트가 됩니다</title>
+    <meta name="description"
+        content="지도 위에 그려진 GPS 아트 코스를 따라 걷거나 뛰어 보세요. 완주하면 그 모양 그대로 뱃지가 되고, 모은 포인트로 기념 굿즈를 만날 수 있어요. iOS · Android 앱 출시 준비 중." />
+    <meta name="theme-color" content="#F7F6F2" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="RunningPencil - 달리고 걷는 길이 아트가 됩니다" />
+    <meta property="og:description"
+        content="GPS 아트 코스를 완주하고 코스 모양의 뱃지를 모으세요. 동네 코스북을 완성하고, 나만의 코스를 그려 올리고, 포인트로 기념 굿즈를 만나보세요." />
+    <meta property="og:url" content="https://runningpencil.com/" />
+    <meta property="og:image" content="https://runningpencil.com/favicon/web-app-manifest-512x512.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="RunningPencil" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "paper": "#F7F6F2",
+                        "ink": "#16181D",
+                        "ink-2": "#23262D",
+                        "ink-line": "#3A3E47",
+                        "ink-muted": "#C9CCD3",
+                        "ink-muted-2": "#9EA3AD",
+                        "accent": "#FF5A1F",
+                        "muted": "#4A4F59",
+                        "muted-2": "#5A5F6A",
+                        "line": "#E6E3DA",
+                        "map": "#F2F0EA",
+                    },
+                    fontFamily: {
+                        "sans": ["Noto Sans KR", "system-ui", "sans-serif"],
+                        "mono": ["Space Mono", "monospace"],
+                    },
+                    boxShadow: {
+                        "hard": "8px 8px 0 #16181D",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* 32px 격자 배경 — Tailwind config 밖의 유일한 커스텀 CSS */
+        .rp-grid {
+            background-color: #F7F6F2;
+            background-image: linear-gradient(#E6E3DA 1px, transparent 1px),
+                linear-gradient(90deg, #E6E3DA 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+
+<body class="bg-paper font-sans text-ink antialiased">
+    <!-- Header -->
+    <header class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-6">
+        <a href="#top" class="flex items-center gap-2.5 text-ink" aria-label="RunningPencil 홈">
+            <svg viewBox="0 0 512 512" width="36" height="36" aria-hidden="true" class="block">
+                <defs>
+                    <clipPath id="rp-clip-nav">
+                        <rect width="512" height="512" rx="116" />
+                    </clipPath>
+                </defs>
+                <g clip-path="url(#rp-clip-nav)">
+                    <rect width="512" height="512" fill="#E9E4D8" />
+                    <rect width="200" height="118" fill="#CDDDBE" />
+                    <path d="M512 330 C452 342 408 404 428 512 L512 512 Z" fill="#BFD5DE" />
+                    <g fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round">
+                        <path d="M0 130 L212 130" />
+                        <path d="M212 0 L212 130" />
+                        <path d="M212 84 L512 84" />
+                        <path d="M330 240 L512 240" />
+                        <path d="M330 240 L330 512" />
+                        <path d="M0 440 L400 440" />
+                    </g>
+                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330 L330 240" fill="none"
+                        stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330" fill="none"
+                        stroke="#FF5A1F" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="116" cy="180" r="30" fill="#FF5A1F" />
+                    <circle cx="116" cy="180" r="12" fill="#FFFFFF" />
+                    <g transform="translate(240 330) rotate(45) scale(0.76)">
+                        <path d="M0 0 L-16 -44 L16 -44 Z" fill="#FF5A1F" />
+                        <path d="M-16 -44 L-42 -116 L42 -116 L16 -44 Z" fill="#EAC89A" />
+                        <rect x="-42" y="-312" width="84" height="196" fill="#16181D" />
+                        <rect x="-42" y="-334" width="84" height="22" fill="#8E939B" />
+                        <path d="M-42 -334 L-42 -356 Q-42 -376 -22 -376 L22 -376 Q42 -376 42 -356 L42 -334 Z"
+                            fill="#F29BAA" />
+                    </g>
+                </g>
+            </svg>
+            <span class="font-mono text-xl font-bold tracking-[-0.5px]">runningpencil</span>
+        </a>
+        <nav aria-label="주요 메뉴" class="flex flex-wrap items-center gap-2">
+            <a href="#features" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">기능
+                소개</a>
+            <a href="#coursebook" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">코스북</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="top" class="rp-grid border-y border-line">
+        <div
+            class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-14 px-6 pb-[clamp(64px,7vw,96px)] pt-[clamp(56px,7vw,88px)]">
+            <div class="flex min-w-0 flex-[1_1_460px] flex-col items-start gap-7">
+                <span
+                    class="inline-flex items-center gap-2 rounded-full border-[1.5px] border-ink bg-white px-3.5 py-2 text-sm font-bold">
+                    <span class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></span>곧 출시됩니다</span>
+                <h1 class="text-[clamp(40px,9vw,64px)] font-black leading-[1.12] tracking-[-1.5px]">달리고 걷는 길이<br />아트가
+                    됩니다</h1>
+                <p class="max-w-[500px] text-[clamp(17px,2vw,19px)] leading-[1.7] text-muted">
+                    지도 위에 그려진 GPS 아트 코스를 따라 걷거나 뛰어 보세요. 완주하면 그 모양 그대로 뱃지가 되고, 모은 포인트로 기념 굿즈를 만날 수 있어요.</p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#features"
+                        class="rounded-full bg-ink px-7 py-4 text-[17px] font-bold text-white transition-colors hover:bg-ink-2">어떻게
+                        하나요?</a>
+                    <a href="#coursebook"
+                        class="rounded-full border-[1.5px] border-ink bg-white px-7 py-4 text-[17px] font-bold text-ink transition-colors hover:bg-paper">코스북
+                        보기</a>
+                </div>
+                <p class="font-mono text-sm text-muted-2">iOS · Android 앱으로 준비 중</p>
+            </div>
+
+            <!-- Course card -->
+            <div class="flex min-w-0 flex-[1_1_460px] justify-center">
+                <div class="w-full max-w-[520px] rounded-[28px] border-[1.5px] border-ink bg-white p-5 shadow-hard">
+                    <div class="flex items-center justify-between px-1.5 pb-3.5 pt-1 font-mono text-[13px] text-muted-2">
+                        <span>성수 · 연필</span><span>성수동</span>
+                    </div>
+                    <svg viewBox="0 0 480 360" class="block w-full rounded-2xl bg-map" role="img"
+                        aria-label="지도 위에 연필 모양으로 그려진 GPS 아트 코스">
+                        <g stroke="#E6E2D7" stroke-width="8" fill="none" stroke-linecap="square">
+                            <path d="M0 50 L480 50" />
+                            <path d="M0 180 L480 180" />
+                            <path d="M0 310 L480 310" />
+                            <path d="M118 0 L118 360" />
+                            <path d="M200 0 L200 360" />
+                            <path d="M250 0 L250 360" />
+                            <path d="M380 0 L380 360" />
+                            <path d="M450 0 L450 360" />
+                        </g>
+                        <g stroke="#D9D4C7" stroke-width="16" fill="none" stroke-linecap="square">
+                            <path d="M0 120 L480 120" />
+                            <path d="M0 240 L480 240" />
+                            <path d="M70 0 L70 360" />
+                            <path d="M320 0 L320 360" />
+                            <path d="M200 48 L480 216" />
+                            <path d="M200 312 L480 144" />
+                        </g>
+                        <path
+                            d="M70 120 L320 120 L420 180 L320 240 L70 240 Z M118 120 L118 240 M320 120 L320 240 M380 156 L380 204"
+                            fill="none" stroke="#FF5A1F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" />
+                        <circle cx="70" cy="240" r="13" fill="#16181D" />
+                        <circle cx="70" cy="240" r="5" fill="#FFFFFF" />
+                        <rect x="40" y="262" width="62" height="26" rx="13" fill="#16181D" />
+                        <text x="71" y="280" text-anchor="middle" font-family="Space Mono, monospace" font-size="12"
+                            font-weight="700" fill="#FFFFFF">START</text>
+                    </svg>
+                    <div class="flex items-center gap-3 px-1.5 pb-1 pt-[18px]">
+                        <div class="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-ink">
+                            <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+                                <path d="M6 18 L32 18 L42 24 L32 30 L6 30 Z M13 18 L13 30" fill="none" stroke="#FF5A1F"
+                                    stroke-width="3.5" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <strong class="text-base">완주하면 ‘연필’ 뱃지 획득</strong>
+                            <span class="text-sm text-muted-2">+ 100P 적립</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="features"
+        class="mx-auto flex max-w-[1200px] flex-col gap-12 px-6 pb-[clamp(64px,7vw,96px)] pt-[clamp(72px,8vw,112px)]">
+        <div class="flex max-w-[640px] flex-col gap-3.5">
+            <span class="font-mono text-sm font-bold">HOW IT WORKS</span>
+            <h2 class="text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">걷고, 모으고, 그리고, 나누세요</h2>
+        </div>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
+            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
+                <span class="font-mono text-sm text-muted-2">01</span>
+                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M8 38 C8 26 20 30 22 20 C24 10 36 14 40 8" fill="none" stroke="#FF5A1F" stroke-width="3.5"
+                        stroke-linecap="round" />
+                    <circle cx="8" cy="38" r="4" fill="#16181D" />
+                    <path d="M36 4 L44 10 L38 14" fill="none" stroke="#16181D" stroke-width="3" stroke-linejoin="round"
+                        stroke-linecap="round" />
+                </svg>
+                <h3 class="text-[22px] font-bold">코스 완주 → 뱃지</h3>
+                <p class="text-base leading-[1.65] text-muted">GPS 아트 코스를 따라 걷거나 뛰어 완주하면, 코스 모양 그대로의 뱃지와 포인트를 받아요.</p>
+            </article>
+
+            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
+                <span class="font-mono text-sm text-muted-2">02</span>
+                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M6 10 C14 6 20 6 24 10 C28 6 34 6 42 10 L42 40 C34 36 28 36 24 40 C20 36 14 36 6 40 Z M24 10 L24 40"
+                        fill="none" stroke="#16181D" stroke-width="3" stroke-linejoin="round" />
+                    <circle cx="15" cy="22" r="4" fill="#FF5A1F" />
+                    <circle cx="33" cy="22" r="4" fill="none" stroke="#16181D" stroke-width="2" stroke-dasharray="3 3" />
+                </svg>
+                <h3 class="text-[22px] font-bold">지역 코스북 완성</h3>
+                <p class="text-base leading-[1.65] text-muted">동네마다 준비된 코스북의 빈칸을 뱃지로 하나씩 채워, 코스북을 완성하세요.</p>
+            </article>
+
+            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
+                <span class="font-mono text-sm text-muted-2">03</span>
+                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M30 8 L40 18 L18 40 L8 40 L8 30 Z M26 12 L36 22" fill="none" stroke="#16181D"
+                        stroke-width="3" stroke-linejoin="round" />
+                    <path d="M30 42 L44 42" stroke="#FF5A1F" stroke-width="3.5" stroke-linecap="round" />
+                </svg>
+                <h3 class="text-[22px] font-bold">내가 그린 코스 업로드</h3>
+                <p class="text-base leading-[1.65] text-muted">지도 위에 나만의 GPS 아트 코스를 직접 그려 올리세요. 누군가 완주할 때마다 내게 포인트가 쌓여요.</p>
+            </article>
+
+            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
+                <span class="font-mono text-sm text-muted-2">04</span>
+                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M8 18 L40 18 L37 42 L11 42 Z M17 18 C17 8 31 8 31 18" fill="none" stroke="#16181D"
+                        stroke-width="3" stroke-linejoin="round" />
+                    <circle cx="24" cy="30" r="5" fill="#FF5A1F" />
+                </svg>
+                <h3 class="text-[22px] font-bold">포인트로 굿즈 교환</h3>
+                <p class="text-base leading-[1.65] text-muted">모은 포인트로 완주를 기념하는 다양한 굿즈를 만나보세요.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Coursebook -->
+    <section id="coursebook" class="bg-ink text-white">
+        <div class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-14 px-6 py-[clamp(72px,8vw,104px)]">
+            <div class="flex min-w-0 flex-[1_1_380px] flex-col gap-5">
+                <span class="font-mono text-sm font-bold text-accent">COURSEBOOK</span>
+                <h2 class="text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">빈칸을 채울수록<br />동네가
+                    새로워져요</h2>
+                <p class="text-lg leading-[1.7] text-ink-muted">익숙한 골목도 하트, 별, 연필이 숨은 캔버스가 됩니다. 코스를 하나씩 완주하며 지역 코스북을 완성해
+                    보세요.</p>
+            </div>
+            <div
+                class="flex min-w-0 flex-[1_1_460px] flex-col gap-5 rounded-[28px] border border-ink-line bg-ink-2 p-7">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                    <strong class="text-xl">성수동 코스북</strong>
+                    <span class="font-mono text-sm text-ink-muted">3 / 8 수집</span>
+                </div>
+                <ul class="grid grid-cols-4 gap-3.5" aria-label="수집한 뱃지">
+                    <li class="flex aspect-square items-center justify-center rounded-full bg-paper">
+                        <svg class="w-[56%]" viewBox="0 0 48 48" role="img" aria-label="연필 뱃지">
+                            <path d="M6 18 L32 18 L42 24 L32 30 L6 30 Z M13 18 L13 30" fill="none" stroke="#FF5A1F"
+                                stroke-width="3.5" stroke-linejoin="round" />
+                        </svg>
+                    </li>
+                    <li class="flex aspect-square items-center justify-center rounded-full bg-paper">
+                        <svg class="w-[56%]" viewBox="0 0 48 48" role="img" aria-label="하트 뱃지">
+                            <path d="M24 40 C10 30 6 22 6 16 C6 10 11 6 16 6 C20 6 23 9 24 12 C25 9 28 6 32 6 C37 6 42 10 42 16 C42 22 38 30 24 40 Z"
+                                fill="none" stroke="#FF5A1F" stroke-width="3.5" stroke-linejoin="round" />
+                        </svg>
+                    </li>
+                    <li class="flex aspect-square items-center justify-center rounded-full bg-paper">
+                        <svg class="w-[56%]" viewBox="0 0 48 48" role="img" aria-label="별 뱃지">
+                            <path d="M24 5 L29 18 L43 18 L32 27 L36 41 L24 33 L12 41 L16 27 L5 18 L19 18 Z" fill="none"
+                                stroke="#FF5A1F" stroke-width="3.5" stroke-linejoin="round" />
+                        </svg>
+                    </li>
+                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
+                        aria-label="미수집 뱃지">?</li>
+                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
+                        aria-label="미수집 뱃지">?</li>
+                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
+                        aria-label="미수집 뱃지">?</li>
+                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
+                        aria-label="미수집 뱃지">?</li>
+                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
+                        aria-label="미수집 뱃지">?</li>
+                </ul>
+                <div class="h-2 overflow-hidden rounded-full bg-ink-line" role="progressbar" aria-valuemin="0"
+                    aria-valuemax="8" aria-valuenow="3" aria-label="코스북 진행률">
+                    <div class="h-2 w-[37.5%] bg-accent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Launch notice -->
+    <section id="launch" class="rp-grid border-b border-line">
+        <div class="mx-auto flex max-w-[760px] flex-col items-center gap-5 px-6 py-[clamp(72px,8vw,112px)] text-center">
+            <span
+                class="inline-flex items-center gap-2 rounded-full border-[1.5px] border-ink bg-white px-3.5 py-2 text-sm font-bold">
+                <span class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></span>곧 출시됩니다</span>
+            <h2 class="text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">첫 번째 코스를<br />함께 그려요</h2>
+            <p class="text-lg leading-[1.7] text-muted">iOS · Android 앱으로 준비하고 있어요. <br class="hidden sm:block" />출시 소식은 이곳
+                runningpencil.com에서 가장 먼저 전해드릴게요.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-10 text-sm text-muted-2">
+        <span class="font-mono font-bold text-ink">runningpencil.com</span>
+        <nav aria-label="약관 및 정책" class="flex flex-wrap gap-x-5 gap-y-2">
+            <a href="/privacy-policy/" class="transition-colors hover:text-ink">개인정보처리방침</a>
+            <a href="/terms/" class="transition-colors hover:text-ink">이용약관</a>
+            <a href="/data-deletion/" class="transition-colors hover:text-ink">데이터 삭제 안내</a>
+        </nav>
+        <span>© 2026 RunningPencil. All rights reserved.</span>
+    </footer>
+</body>
+
+</html>

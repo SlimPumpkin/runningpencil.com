@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>서비스 이용약관 - RunningPencil</title>
+    <meta name="description" content="RunningPencil 서비스 이용약관. 서비스 이용 조건, 코스·뱃지·포인트에 관한 규정, 이용자의 의무와 안전 책임을 안내합니다." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#F7F6F2" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="RunningPencil" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "paper": "#F7F6F2",
+                        "ink": "#16181D",
+                        "ink-2": "#23262D",
+                        "ink-line": "#3A3E47",
+                        "ink-muted": "#C9CCD3",
+                        "ink-muted-2": "#9EA3AD",
+                        "accent": "#FF5A1F",
+                        "muted": "#4A4F59",
+                        "muted-2": "#5A5F6A",
+                        "line": "#E6E3DA",
+                        "map": "#F2F0EA",
+                    },
+                    fontFamily: {
+                        "sans": ["Noto Sans KR", "system-ui", "sans-serif"],
+                        "mono": ["Space Mono", "monospace"],
+                    },
+                    boxShadow: {
+                        "hard": "8px 8px 0 #16181D",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* 32px 격자 배경 — Tailwind config 밖의 유일한 커스텀 CSS */
+        .rp-grid {
+            background-color: #F7F6F2;
+            background-image: linear-gradient(#E6E3DA 1px, transparent 1px),
+                linear-gradient(90deg, #E6E3DA 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+
+<body class="bg-paper font-sans text-ink antialiased">
+    <!-- Header -->
+    <header class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-6">
+        <a href="/" class="flex items-center gap-2.5 text-ink" aria-label="RunningPencil 홈">
+            <svg viewBox="0 0 512 512" width="36" height="36" aria-hidden="true" class="block">
+                <defs>
+                    <clipPath id="rp-clip-nav">
+                        <rect width="512" height="512" rx="116" />
+                    </clipPath>
+                </defs>
+                <g clip-path="url(#rp-clip-nav)">
+                    <rect width="512" height="512" fill="#E9E4D8" />
+                    <rect width="200" height="118" fill="#CDDDBE" />
+                    <path d="M512 330 C452 342 408 404 428 512 L512 512 Z" fill="#BFD5DE" />
+                    <g fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round">
+                        <path d="M0 130 L212 130" />
+                        <path d="M212 0 L212 130" />
+                        <path d="M212 84 L512 84" />
+                        <path d="M330 240 L512 240" />
+                        <path d="M330 240 L330 512" />
+                        <path d="M0 440 L400 440" />
+                    </g>
+                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330 L330 240" fill="none"
+                        stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330" fill="none"
+                        stroke="#FF5A1F" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="116" cy="180" r="30" fill="#FF5A1F" />
+                    <circle cx="116" cy="180" r="12" fill="#FFFFFF" />
+                    <g transform="translate(240 330) rotate(45) scale(0.76)">
+                        <path d="M0 0 L-16 -44 L16 -44 Z" fill="#FF5A1F" />
+                        <path d="M-16 -44 L-42 -116 L42 -116 L16 -44 Z" fill="#EAC89A" />
+                        <rect x="-42" y="-312" width="84" height="196" fill="#16181D" />
+                        <rect x="-42" y="-334" width="84" height="22" fill="#8E939B" />
+                        <path d="M-42 -334 L-42 -356 Q-42 -376 -22 -376 L22 -376 Q42 -376 42 -356 L42 -334 Z"
+                            fill="#F29BAA" />
+                    </g>
+                </g>
+            </svg>
+            <span class="font-mono text-xl font-bold tracking-[-0.5px]">runningpencil</span>
+        </a>
+        <nav aria-label="주요 메뉴" class="flex flex-wrap items-center gap-2">
+            <a href="/#features" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">기능
+                소개</a>
+            <a href="/#coursebook" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">코스북</a>
+        </nav>
+    </header>
+
+    <main class="rp-grid border-y border-line">
+        <div class="mx-auto max-w-[800px] px-6 py-[clamp(48px,6vw,80px)]">
+            <article class="rounded-[28px] border-[1.5px] border-ink bg-white p-7 shadow-hard md:p-12">
+                <span class="font-mono text-sm font-bold">TERMS OF SERVICE</span>
+                <h1 class="mt-3.5 text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">서비스 이용약관</h1>
+                <p class="mt-3 font-mono text-[13px] text-muted-2">최종 업데이트: 2026년 10월 31일</p>
+                <div class="mt-10 space-y-8 leading-[1.7] text-muted">
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제1조 (목적)</h2>
+                        <p>본 약관은 RunningPencil(이하 "회사")이 제공하는 모바일 애플리케이션 및 관련 서비스(이하 "서비스")의 이용 조건과 절차, 회사와 이용자의 권리·의무 및 책임 사항을 규정함을 목적으로 합니다.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제2조 (정의)</h2>
+                        <ul class="list-disc space-y-1 pl-5">
+                            <li>"이용자"란 본 약관에 따라 회사가 제공하는 서비스를 이용하는 회원 및 비회원을 말합니다.</li>
+                            <li>"회원"이란 회사에 개인정보를 제공하여 회원 등록을 한 자로서, 서비스를 지속적으로 이용할 수 있는 자를 말합니다.</li>
+                            <li>"코스"란 지도 위에 특정 모양으로 그려진 GPS 아트 경로를 말하며, 회사가 제공하는 코스와 이용자가 창작하여 업로드한 코스를 모두 포함합니다.</li>
+                            <li>"뱃지"란 이용자가 코스를 완주했을 때 지급되는 코스 모양의 디지털 수집 아이템을 말합니다.</li>
+                            <li>"포인트"란 코스 완주, 창작 코스의 타인 완주 등 서비스 내 활동에 따라 적립되어 굿즈 교환에 사용할 수 있는 서비스 내 단위를 말합니다.</li>
+                            <li>"콘텐츠"란 이용자가 서비스 내에서 입력·생성·업로드한 코스, 완주 기록 등 일체의 정보를 의미합니다.</li>
+                        </ul>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제3조 (약관의 효력 및 변경)</h2>
+                        <p>본 약관은 서비스 화면에 게시하거나 기타 방법으로 이용자에게 공지함으로써 효력이 발생합니다. 회사는 관련 법령을 위배하지 않는 범위에서 약관을 개정할 수 있으며, 변경 시 최소 7일 전(이용자에게 불리한 변경의 경우 30일 전)에 공지합니다.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제4조 (서비스의 제공)</h2>
+                        <p>회사는 GPS 아트 코스 안내, 완주 판정 및 뱃지 지급, 지역 코스북, 코스 창작·업로드, 포인트 적립 및 굿즈 교환 기능을 제공합니다. 회사는 서비스 내용을 변경·중단할 수 있으며, 이 경우 이용자에게 사전 공지합니다. 천재지변, 시스템 점검 등 불가피한 사유로 일시적인 중단이 발생할 수 있습니다.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제5조 (회원 가입 및 탈퇴)</h2>
+                        <p>이용자는 회사가 정한 절차에 따라 회원으로 가입할 수 있으며, 언제든지 앱 내 설정에서 탈퇴를 요청할 수 있습니다. 탈퇴 및 데이터 삭제 절차는 <a href="/data-deletion/" class="font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent">데이터 삭제 안내</a> 페이지를 참고하십시오.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제6조 (이용자의 의무)</h2>
+                        <ul class="list-disc space-y-1 pl-5">
+                            <li>타인의 정보를 도용하거나 허위 정보를 등록하지 않을 것</li>
+                            <li>코스를 이용하거나 창작할 때 도로교통법 등 관련 법령과 보행·안전 수칙을 준수하고, 타인의 사유지나 출입 제한 구역을 침범하지 않을 것</li>
+                            <li>GPS 조작 등 부정한 방법으로 완주 기록, 뱃지, 포인트를 취득하지 않을 것</li>
+                            <li>타인이 창작한 코스를 무단으로 복제하여 업로드하지 않을 것</li>
+                            <li>서비스의 정상적인 운영을 방해하는 행위를 하지 않을 것</li>
+                            <li>회사 또는 제3자의 지식재산권 및 권리를 침해하지 않을 것</li>
+                            <li>관련 법령 및 본 약관, 회사의 운영 정책을 준수할 것</li>
+                        </ul>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제7조 (콘텐츠의 권리)</h2>
+                        <p>이용자가 창작하여 업로드한 코스 등 콘텐츠의 저작권은 이용자에게 있습니다. 이용자는 콘텐츠를 업로드함과 동시에, 회사가 해당 코스를 서비스 내에서 다른 이용자에게 공개·안내하고 서비스 운영·개선·홍보 목적으로 이용할 수 있는 권리를 회사에 부여합니다. 회사는 통계 분석 목적에 한해 비식별화된 형태로 콘텐츠를 활용할 수 있습니다.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제8조 (포인트 및 굿즈)</h2>
+                        <p>포인트는 현금으로 환급되지 않으며 타인에게 양도할 수 없습니다. 회원 탈퇴 시 잔여 포인트는 소멸합니다. 굿즈의 종류, 교환에 필요한 포인트, 배송 조건은 앱 내에 별도로 안내하며 회사 사정에 따라 변경될 수 있습니다. 부정한 방법으로 적립된 포인트와 뱃지는 사전 통지 후 회수될 수 있습니다.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제9조 (안전 및 면책)</h2>
+                        <p>본 서비스는 야외에서 걷거나 달리는 활동을 수반합니다. 이용자는 자신의 건강 상태, 날씨, 교통 상황 등을 스스로 판단하여 안전하게 이용할 책임이 있으며, 코스는 공공 도로와 보행로를 포함할 수 있으므로 교통 신호 등 관련 법규를 준수해야 합니다. GPS 수신 환경에 따라 위치 오차가 발생할 수 있으며, 이로 인해 완주 판정이 달라질 수 있습니다. 회사는 천재지변, 이용자의 귀책 사유 등 회사가 통제할 수 없는 사유로 발생한 손해에 대하여 책임을 지지 않습니다.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제10조 (개인정보 보호)</h2>
+                        <p>회사는 이용자의 개인정보를 중요시하며, 이를 보호하기 위해 노력합니다. 자세한 내용은 <a href="/privacy-policy/" class="font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent">개인정보처리방침</a>을 참고하십시오.</p>
+                    </section>
+
+                    <section class="space-y-3">
+                        <h2 class="text-xl font-bold text-ink">제11조 (준거법 및 관할)</h2>
+                        <p>본 약관은 대한민국 법률에 따라 해석되며, 회사와 이용자 간 분쟁이 발생할 경우 민사소송법상 관할 법원을 제1심 관할 법원으로 합니다.</p>
+                    </section>
+
+                    <p class="border-t border-line pt-4 text-sm text-muted-2">
+                        본 약관은 임시 게시본이며, 정식 서비스 출시 시 갱신될 수 있습니다.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-10 text-sm text-muted-2">
+        <span class="font-mono font-bold text-ink">runningpencil.com</span>
+        <nav aria-label="약관 및 정책" class="flex flex-wrap gap-x-5 gap-y-2">
+            <a href="/privacy-policy/" class="transition-colors hover:text-ink">개인정보처리방침</a>
+            <a href="/terms/" class="transition-colors hover:text-ink">이용약관</a>
+            <a href="/data-deletion/" class="transition-colors hover:text-ink">데이터 삭제 안내</a>
+        </nav>
+        <span>© 2026 RunningPencil. All rights reserved.</span>
+    </footer>
+</body>
+
+</html>
