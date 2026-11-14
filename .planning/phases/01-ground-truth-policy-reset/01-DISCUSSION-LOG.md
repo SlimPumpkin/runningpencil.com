@@ -128,7 +128,7 @@
 - 기준 문서의 파일 구성·위치, 이름 표·URL 대장의 형식(마크다운 또는 YAML)
 - 결정 목록의 항목별 권장안·기본 동작 문구(CONTEXT D-12 규칙 안에서)
 - 데이터 목록의 범주 태그 이름·행 순서
-- ROADMAP·STATE·PROJECT의 ImprovMX 전제 문장을 고치는 시점(PROJECT.md Key Decisions의 U12 기록은 이 단계에서 함)
+- (ImprovMX 전제 문장 갱신은 논의 뒤 검토에서 재량이 아니라 이 단계의 결정 D-21로 옮김)
 
 ## Deferred Ideas
 

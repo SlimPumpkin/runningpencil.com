@@ -27,6 +27,8 @@
 - **D-01:** 코드 설명 구간은 지금 코드의 실제 모습을 그대로 둔다(Tailwind CDN, `python3 -m http.server`, 복사된 공통 블록 등). 대신 문서 맨 앞에 「이번 마일스톤 방침」 구간을 새로 둔다.
   - 방침마다 적용 단계와 현재 상태를 표로 적는다. 예: 「Jekyll 빌드 — Phase 2에서 적용, 그전까지는 `http.server`」, 「지원 이메일 공개 — 이메일 게이트(Phase 5) 뒤, 그전에는 주소를 사이트에 넣지 않음」.
   - 로컬 미리보기 안내 같은 현재 상태 설명에는 언제까지 유효한지 표시한다.
+  - 지금 사실이지만 규칙처럼 쓰인 문장은 「현재 X, Phase N에서 바뀜」 형태의 날짜 붙은 상태 문장으로 고친다. 예: `CLAUDE.md:58`(연락처 이메일 미표시), `:69`(`ko` 전용), `:71`(RunningPencil 쓰지 않음), `.planning/codebase/CONVENTIONS.md:146`(`noindex` 유지). 「현재 상태는 그대로 둔다」를 핑계로 남겨 두면 성공 기준 5를 통과하지 못한다.
+  - 방침 표에는 성공 기준 5의 6가지와 함께 U14(법적 페이지 `noindex` 해제와 「임시 게시본」 문구 삭제, 적용 Phase 6·7·8)도 넣는다.
 - **D-02:** 방침마다 한 줄 이유와 출처 경로(예: `.planning/PROJECT.md` Key Decisions)를 단다.
   - 옛 규칙 문장은 인용하지 않는다. 「이전 방침을 뒤집음」이라고만 적는다.
   - 이유: 성공 기준 5의 grep 검사(옛 문장이 남아 있지 않음)와 충돌하지 않게 하고, 다음 세션이 「연락처를 감추는 편이 안전해 보인다」며 되돌리지 못하게 막는다.
@@ -45,7 +47,7 @@
   - 앱 저장소의 코드와 설정 파일
   - dev 프로젝트(`running-pencil-dev`)를 대상으로 한 읽기 전용 CLI 조회. 예: `gcloud firestore databases list/describe`, `gcloud storage buckets describe`, `gcloud compute instances list`, `firebase` CLI의 list·get 계열.
   - 설정을 바꾸거나 배포하거나 리소스를 만들고 지우는 명령은 쓰지 않는다.
-  - 이 컴퓨터에는 gcloud·firebase CLI가 설치돼 있고 로그인돼 있다.
+  - 이 컴퓨터에는 gcloud·firebase CLI가 설치돼 있고, 둘 다 `@slimpumpkin.com` 계정으로 로그인돼 있다(2026-11-14 확인).
   - Analytics 보존 기간처럼 콘솔에만 있는 값은 「미확인」으로 두고 사용자 확인 항목으로 넘긴다.
 - **D-07:** 행은 필드 단위로 쓴다. Firestore 필드, Storage 경로, SDK가 자동으로 모으는 항목을 한 행씩 적는다.
   - 각 행에 범주 태그(프로필·위치 기록·코스·뱃지·기기·분석/크래시 등)를 단다.
@@ -66,7 +68,7 @@
   - 사용자 별칭 도메인(user alias domain)은 공식 문서상 추가 비용이 없어 1순위로 검토한다. 보조 도메인(secondary domain)은 그 도메인에 만드는 사용자 계정마다 과금된다.
   - 실제 방식과 절차는 연구자가 Google 공식 문서로 확인한다. 확인할 것: `support@`를 그룹으로 둘지 별칭으로 둘지, 「다른 주소로 보내기(send as)」, 별칭 도메인에도 DKIM을 걸 수 있는지.
   - `.planning/research/STACK.md`는 Workspace 경로를 unverified로 적었다.
-  - PROJECT.md·ROADMAP·STATE에 남은 ImprovMX 전제 문장(예: ROADMAP Phase 5 External gates)은 이 결정에 맞춰 고쳐야 한다. — **Reversibility:** costly — DNS MX를 다른 메일 서비스로 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거쳐야 한다.
+  - ImprovMX를 전제한 문장은 **이 단계(Phase 1) 안에서** Workspace 결정에 맞게 고친다(D-21). — **Reversibility:** costly — DNS MX를 다른 메일 서비스로 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거쳐야 한다.
 - **D-11:** 지원 메일 답장은 지원 주소 `support@runningpencil.com`에서 보낸다.
   - 그래서 가비아 DNS 표에 `runningpencil.com`의 DKIM 레코드를 넣는다.
   - Phase 10에서 Apple Private Email Relay에 발신처로 등록할 도메인은 `runningpencil.com`이다.
@@ -88,6 +90,12 @@
   - 사용자가 이 목록을 받으면 Phase 2~4와 병행해 작업을 시작한다.
 - **D-14 (조사로 고정):** 어느 결정이 어느 단계를 막는지는 `.planning/ROADMAP.md`의 External Gates 표를 따른다.
   - `.planning/research/SUMMARY.md`의 U 표는 예전의 8단계 번호와 옛 요구사항 ID(PRIV-15, SITE-09 등)를 쓰므로 단계 번호의 근거로 쓰지 않는다.
+- **D-21:** 이번 논의의 결정(U12 Workspace, `support@runningpencil.com`, 지원 주소로 답장, `/location-terms/`)을 이 단계 안에서 계획 문서에도 반영한다.
+  - 고칠 곳 1: `.planning/ROADMAP.md`. External Gates 표의 U12 행과 「가비아 DNS 레코드」 행, Phase 5 External gates의 ImprovMX MX·SPF 문장과 「U12 결과」 문장, Phase 8 Notes의 「후보 `/location-terms/`」를 확정값으로.
+  - 고칠 곳 2: `.planning/STATE.md` Blockers/Concerns의 ImprovMX 문장과 U12 항목.
+  - 고칠 곳 3: `.planning/PROJECT.md` Key Decisions(U12 결과 추가).
+  - 이유: Phase 5의 discuss 단계는 최근 CONTEXT 3개만 읽는다. ROADMAP·STATE가 ImprovMX를 말하면 이 결정이 뒤집힌다.
+  - 방법: GSD 규칙 15에 따라 `gsd_run query`의 roadmap·state 핸들러가 있으면 그것을 쓴다. 핸들러가 없는 본문 문장은 계획자가 안전한 수정 방법을 정한다.
 
 ### 이름 표와 URL 대장 (BASE-01·BASE-02)
 - **D-15:** 위치기반서비스 이용약관 경로는 `https://runningpencil.com/location-terms/`로 고정한다.
@@ -114,7 +122,6 @@
 - 이름 표·URL 대장의 형식(마크다운 표 또는 YAML). Phase 5의 `_data`로 옮기기 쉬운 쪽을 고른다.
 - 결정 목록의 항목별 권장안과 기본 동작의 구체 문구(D-12 규칙 안에서).
 - 데이터 목록의 범주 태그 이름과 행 순서.
-- ROADMAP·STATE·PROJECT의 ImprovMX 전제 문장을 이 단계에서 고칠지, 해당 단계(Phase 5) 계획 때 고칠지. 단, PROJECT.md Key Decisions에는 U12 결과(Workspace, `support@runningpencil.com`, 지원 주소로 답장)를 이 단계에서 기록한다.
 
 </decisions>
 
@@ -135,7 +142,7 @@ ROADMAP의 Phase 1에는 `Canonical refs:` 줄이 없다. 아래 목록은 요�
 - `.planning/research/SUMMARY.md` — 「연구 간 충돌과 PROJECT.md 가정 정정」(KO 처리방침 URL, DNS TXT 도메인 속성 등의 판정), 「Consolidated Open Decisions」 U1~U14(설명·근거만 쓰고, 단계 번호는 옛 번호이므로 쓰지 않음)
 - `.planning/research/STACK.md` — 현재 DNS 상태(`dig`, 2026-11-14: NS 가비아, A 4개, MX·TXT 없음, `www` CNAME), 메일 전달 선택지(Workspace 경로는 unverified), SPF 하나로 합치기, Search Console 도메인 속성
 - `.planning/research/FEATURES.md` — 제공자·스토어별 웹사이트 요건(URL 대장의 콘솔 필드 범주 근거)
-- `.planning/research/PITFALLS.md` — Pitfall 3·4·5·7(이름 불일치, URL 변경, 데이터 불일치, CLAUDE.md 역행)
+- `.planning/research/PITFALLS.md` — Pitfall 3(서비스·운영사 이름이 곳마다 다름), 4(등록한 URL 변경), 5(처리방침과 앱 실제 동작 불일치), 7(`CLAUDE.md` 규칙 역행), 8(지원 이메일이 실제로 받거나 답하지 못함), 9(사업자 정보 오타·페이지마다 다른 값), 10(Google 도메인 소유권·OAuth 브랜드 설정)
 - `.planning/research/ARCHITECTURE.md` — 사실값 슬롯(`_data`)과 이메일 게이트 패턴(이름 표가 가리킬 Phase 5 경로)
 
 ### 고칠 방침 문서 (BASE-05)
@@ -148,11 +155,13 @@ ROADMAP의 Phase 1에는 `Canonical refs:` 줄이 없다. 아래 목록은 요�
 - `.planning/config.json` — `claude_md_path: ./.claude/CLAUDE.md`
 
 ### 앱 저장소 (데이터 목록 근거, 읽기 전용)
-- `~/dv/woody/running_pencil/.planning/PROJECT.md`, `.planning/REQUIREMENTS.md` — 출시 범위(포인트 리워드 Out of Scope, 코스북 후순위), D-15(소셜 6개), 탈퇴 후 공개 코스 유지(D-28, U6)
+- `~/dv/woody/running_pencil/.planning/PROJECT.md`, `.planning/REQUIREMENTS.md` — 출시 범위(포인트 리워드 Out of Scope, 코스북 후순위), D-15(소셜 6개, PROJECT.md 105행)
+- 탈퇴 후 공개 코스 유지(U6) — SUMMARY는 근거를 「D-28」로 적었지만, 앱의 D-번호는 단계마다 다시 매겨져 출처가 모호하다. `03-CONTEXT.md`의 D-28은 에뮬레이터 ADC에 관한 결정이다. 연구자가 앱 `.planning/`과 `functions/src/auth/delete_user_account.ts`에서 탈퇴 시 코스 처리 근거를 찾아 확정한다.
 - `~/dv/woody/running_pencil/.firebaserc`, `firebase.json` — dev 프로젝트만 있음(`running-pencil-dev`)
 - `~/dv/woody/running_pencil/lib/core/firebase/firebase_options_{dev,stg,prod}.dart` — prod·stg는 placeholder(D-08)
 - `~/dv/woody/running_pencil/functions/src/shared/region.ts` — Functions 리전 `asia-northeast3`(변경 불가 주석)
-- `~/dv/woody/running_pencil/functions/src/` — `auth`, `email`, `messaging`, `places`, `running_pencil` 등 서버 처리
+- `~/dv/woody/running_pencil/functions/src/` — `auth`(탈퇴 `delete_user_account.ts`, 제공자 연결 해제, 카카오 커스텀 토큰 등), `email`, `messaging`, `running_pencil`, `shared` 서버 처리
+- `~/dv/woody/running_pencil/infra/` — `firestore`, `functions`, `places`, `region`, `router` 인프라 정의(지역검색 경유·리전 근거)
 - `~/dv/woody/running_pencil/infra/router/deploy.sh` — OSRM 라우터 VM 기본 zone `asia-northeast3-a`(실제 값은 CLI로 확인)
 - `~/dv/woody/running_pencil/firestore.rules`, `storage.rules`, `firestore.indexes.json` — 컬렉션·경로 구조
 - `~/dv/woody/running_pencil/lib/core/auth/provider_id.dart` — 로그인 제공자 목록(Email/Password 포함 여부, U5)
