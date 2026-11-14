@@ -5,322 +5,649 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RunningPencil - 달리고 걷는 길이 아트가 됩니다</title>
+    <title>러닝펜슬 - 달리고 걷는 길이 아트가 됩니다</title>
     <meta name="description"
         content="지도 위에 그려진 GPS 아트 코스를 따라 걷거나 뛰어 보세요. 완주하면 그 모양 그대로 뱃지가 되고, 모은 포인트로 기념 굿즈를 만날 수 있어요. iOS · Android 앱 출시 준비 중." />
-    <meta name="theme-color" content="#F7F6F2" />
+    <meta name="theme-color" content="#F2B134" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="RunningPencil - 달리고 걷는 길이 아트가 됩니다" />
+    <meta property="og:title" content="러닝펜슬 - 달리고 걷는 길이 아트가 됩니다" />
     <meta property="og:description"
         content="GPS 아트 코스를 완주하고 코스 모양의 뱃지를 모으세요. 동네 코스북을 완성하고, 나만의 코스를 그려 올리고, 포인트로 기념 굿즈를 만나보세요." />
     <meta property="og:url" content="https://runningpencil.com/" />
     <meta property="og:image" content="https://runningpencil.com/favicon/web-app-manifest-512x512.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap"
-        rel="stylesheet" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin />
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="RunningPencil" />
+    <meta name="apple-mobile-web-app-title" content="러닝펜슬" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "paper": "#F7F6F2",
-                        "ink": "#16181D",
-                        "ink-2": "#23262D",
-                        "ink-line": "#3A3E47",
-                        "ink-muted": "#C9CCD3",
-                        "ink-muted-2": "#9EA3AD",
-                        "accent": "#FF5A1F",
-                        "muted": "#4A4F59",
-                        "muted-2": "#5A5F6A",
-                        "line": "#E6E3DA",
-                        "map": "#F2F0EA",
-                    },
-                    fontFamily: {
-                        "sans": ["Noto Sans KR", "system-ui", "sans-serif"],
-                        "mono": ["Space Mono", "monospace"],
-                    },
-                    boxShadow: {
-                        "hard": "8px 8px 0 #16181D",
-                    },
-                },
-            },
-        }
+    <script>
+        // 「세 가지 이유」 구간을 화면에 고정할지 첫 그리기 전에 정한다(나중에 켜면 구간 높이가 바뀌어 화면이 밀린다).
+        if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && window.innerHeight <= 2400) document.documentElement.classList.add('rp-pin');
     </script>
     <style>
-        /* 32px 격자 배경 — Tailwind config 밖의 유일한 커스텀 CSS */
-        .rp-grid {
-            background-color: #F7F6F2;
-            background-image: linear-gradient(#E6E3DA 1px, transparent 1px),
-                linear-gradient(90deg, #E6E3DA 1px, transparent 1px);
-            background-size: 32px 32px;
+        /* ── 공통: 바탕 · 머리말 · 바닥글 ──
+           네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+        html { background: #F2B134; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { margin: 0; overflow-x: clip; font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; color: #2B2B2B; background: #FAFAF7; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        *, *::before, *::after { box-sizing: border-box; }
+        :focus-visible { outline: 3px solid #1E5AA8; outline-offset: 3px; }
+        .rp-wrap { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: clamp(20px, 5vw, 64px); padding-right: clamp(20px, 5vw, 64px); }
+        .rp-head { background: #F2B134; line-height: normal; }
+        .rp-head-in { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 20px; padding-bottom: 20px; }
+        .rp-brand { display: flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; color: #2B2B2B; }
+        .rp-brand-tile { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: #FAFAF7; }
+        .rp-brand-name { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
+        .rp-nav { display: flex; align-items: center; gap: 28px; font-size: 16px; font-weight: 600; }
+        .rp-nav a { text-decoration: none; color: #2B2B2B; }
+        .rp-nav a:hover { text-decoration: underline; }
+        .rp-foot { background: #2B2B2B; color: #D8D4CB; padding: clamp(40px, 5vw, 64px) 0; line-height: normal; }
+        .rp-foot p { margin: 0; }
+        .rp-foot-in { display: flex; flex-direction: column; gap: 28px; }
+        .rp-foot-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+        .rp-foot-brand { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
+        .rp-foot-logo { display: flex; align-items: center; gap: 10px; }
+        .rp-foot-logo .rp-brand-tile { background: #F2B134; }
+        .rp-foot-logo .rp-brand-name { color: #FAFAF7; }
+        .rp-foot-nav { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 15px; font-weight: 600; }
+        .rp-foot-nav a { display: inline-flex; align-items: center; min-height: 44px; color: #FAFAF7; text-decoration: none; }
+        .rp-foot-nav a:hover { text-decoration: underline; }
+        .rp-foot-legal { display: flex; flex-direction: column; gap: 6px; padding-top: 20px; border-top: 1px solid #4A4844; font-size: 13px; line-height: 1.6; color: #B5B0A7; }
+        @media (max-width: 860px) { .rp-nav { display: none; } }
+
+        /* ── 랜딩 전용 ── */
+        /* 페이지 안 이동은 부드럽게. 처음 열 때는 바로 서야 하므로(주소에 #demo 처럼 구간이 붙어 온 경우) 스크립트가 준비를 마친 뒤부터 켠다 */
+        html.rp-ready { scroll-behavior: smooth; }
+        h1, h2, h3, p, ul, ol { margin: 0; }
+        ul, ol { padding: 0; list-style: none; }
+        button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+        .rp-btn { transition: transform .15s ease, background-color .15s ease; }
+        .rp-btn:hover { transform: translateY(-2px); }
+        .rp-btn:active { transform: none; }
+        .rp-cta { display: inline-flex; align-items: center; gap: 10px; height: 58px; padding: 0 28px 0 22px; border-radius: 999px; background: #2B2B2B; color: #FAFAF7; font-size: 17px; font-weight: 700; text-decoration: none; }
+        .rp-cta:hover { background: #000000; }
+        .rp-run { display: inline-flex; align-items: center; gap: 10px; height: 60px; padding: 0 30px 0 22px; border-radius: 999px; background: #F2B134; color: #2B2B2B; font-size: 18px; font-weight: 800; }
+        .rp-run:hover { background: #FFC455; }
+
+        /* 뱃지: 코스 모양을 담는 네모 종이. t-* 는 종이 종류(앱의 뱃지 템플릿과 같은 색) */
+        .rp-badge { display: block; flex: none; position: relative; border: 1.5px solid; border-radius: 8%; overflow: hidden; }
+        .rp-badge > svg { display: block; width: 100%; height: 100%; }
+        .rp-badge.t-yellow { background-color: #F2B134; border-color: #D4962A; color: #3A3A3A; }
+        .rp-badge.t-graphite { background-color: #FAFAF7; border-color: #DCDBD3; color: #3A3A3A; }
+        .rp-badge.t-red { background-color: #FAFAF7; border-color: #DCDBD3; color: #C62F2F; }
+        .rp-badge.t-kraft { background-color: #A87B4F; border-color: #8A6340; color: #FBF8F2; }
+        .rp-badge.t-graph { background-color: #F5F9FC; border-color: #C9D9E8; color: #1E5AA8; background-image: linear-gradient(#D3E2EF 1px, transparent 1px), linear-gradient(90deg, #D3E2EF 1px, transparent 1px); background-size: 12.5% 12.5%; }
+        .rp-badge.t-empty { background-color: #EEEEEE; border-color: #DCDCDC; color: #BDBDBD; }
+
+        /* 히어로 그림 속 캐릭터의 통통 걸음 */
+        @keyframes rp-bob { to { transform: translateY(-3px); } }
+        .rp-bob { animation: rp-bob .32s ease-in-out infinite alternate; }
+        .rp-bob2 { animation: rp-bob .2s ease-in-out infinite alternate; }
+
+        /* 「세 가지 이유」: 단계 글 · 폰 화면을 한자리에 겹쳐 두고 is-on 인 것만 보여 준다 */
+        .rp-stack { display: grid; }
+        .rp-stack > * { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .4s ease, transform .4s ease, visibility 0s .4s; }
+        .rp-stack > .is-on { opacity: 1; visibility: visible; transition: opacity .4s ease, transform .4s ease, visibility 0s; }
+        .rp-step { transform: translateY(14px); }
+        .rp-step.is-on { transform: none; }
+        .rp-stage { padding: clamp(64px, 8vw, 112px) 0; }
+        .rp-stage-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+        /* html.rp-pin: 구간을 화면에 고정하고 스크롤로 단계를 넘긴다(머리말의 스크립트가 붙인다). 없으면 단계 버튼으로 넘긴다 */
+        .rp-pin .rp-scrolly { height: 340vh; margin-top: clamp(24px, 3vw, 40px); }
+        .rp-pin .rp-scrolly .rp-stage { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0; display: flex; align-items: center; }
+        .rp-pin .rp-scrolly .rp-stage-in { width: 100%; height: 100%; max-height: 960px; padding-top: 28px; padding-bottom: 28px; }
+        .rp-panel { position: relative; min-height: 720px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 40px 24px; border-radius: clamp(28px, 3.4vw, 48px); background: #F5F9FC; border: 1.5px solid #C9D9E8; transition: background-color .5s ease, border-color .5s ease; }
+        .rp-panel::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(#D3E2EF 1.5px, transparent 1.5px), linear-gradient(90deg, #D3E2EF 1.5px, transparent 1.5px); background-size: 32px 32px; transition: opacity .5s ease; }
+        .rp-panel.is-s1 { background: #F2B134; border-color: #F2B134; }
+        .rp-panel.is-s2 { background: #2E4A3B; border-color: #2E4A3B; }
+        .rp-panel.is-s1::before, .rp-panel.is-s2::before { opacity: 0; }
+        .rp-pin .rp-scrolly .rp-panel { min-height: 0; height: 100%; }
+        .rp-stickers { opacity: 0; transition: opacity .5s ease; }
+        .rp-panel.is-s2 .rp-stickers { opacity: 1; }
+        .rp-stickers > .rp-badge { position: absolute; box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22); }
+        .rp-phone { position: relative; z-index: 1; flex: none; }
+        .rp-pill { height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #8E887E; font-size: 15px; font-weight: 700; color: #4A463F; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+        .rp-pill.is-on { background: #2B2B2B; border-color: #2B2B2B; color: #FAFAF7; }
+        @media (max-height: 820px) { .rp-pin .rp-scrolly .rp-phone { zoom: .84; } }
+        @media (max-height: 720px) { .rp-pin .rp-scrolly .rp-phone { zoom: .72; } }
+        @media (max-height: 620px) { .rp-pin .rp-scrolly .rp-phone { zoom: .6; } }
+
+        /* 「달려 보기」 */
+        .rp-demo-map { position: relative; aspect-ratio: 4 / 3; border-radius: clamp(24px, 3vw, 40px); overflow: hidden; background: #EFEBE2; }
+        .rp-done { opacity: 0; visibility: hidden; transform: scale(.92); transition: opacity .35s ease, transform .35s cubic-bezier(.2, 1.4, .4, 1), visibility 0s .35s; }
+        .rp-done.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity .35s ease, transform .35s cubic-bezier(.2, 1.4, .4, 1), visibility 0s; }
+        @keyframes rp-pulse { 0% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(2.6); } }
+        .rp-pulse { transform-box: fill-box; transform-origin: center; animation: rp-pulse 1.4s ease-out infinite; }
+
+        /* 「출시 안내」: 윗부분이 「달려 보기」의 둥근 아래 모서리 밑으로 들어간다 */
+        .rp-get { display: flex; align-items: center; min-height: min(100vh, 860px); margin-top: calc(-1 * clamp(28px, 4vw, 56px)); padding: calc(clamp(72px, 9vw, 128px) + clamp(28px, 4vw, 56px)) 0 clamp(72px, 9vw, 128px); background: #F2B134; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html.rp-ready { scroll-behavior: auto; }
+            .rp-bob, .rp-bob2, .rp-pulse { animation: none !important; }
+        }
+        @media (max-width: 860px) {
+            .rp-only-d { display: none !important; }
+            .rp-2col { grid-template-columns: minmax(0, 1fr) !important; }
+            .rp-stage-in { grid-template-columns: minmax(0, 1fr); }
+            .rp-pin .rp-scrolly .rp-stage-in { grid-template-rows: auto minmax(0, 1fr); padding-top: 16px; padding-bottom: 16px; gap: 14px; }
+            .rp-get { min-height: 0; }
+            .rp-panel { min-height: 0; padding: 28px 12px; }
+            .rp-phone { zoom: .74; }
+            .rp-pin .rp-scrolly .rp-phone { zoom: .6; }
+            .rp-pin .rp-scrolly .rp-facts { display: none !important; }
+            .rp-stickers > *:nth-child(n+5) { display: none !important; }
+            .rp-demo-map { aspect-ratio: 4 / 5; }
+            @media (max-height: 780px) { .rp-pin .rp-scrolly .rp-phone { zoom: .5; } }
+            @media (max-height: 720px) { .rp-pin .rp-scrolly .rp-phone { zoom: .42; } }
+            @media (max-height: 650px) { .rp-pin .rp-scrolly .rp-phone { zoom: .34; } }
         }
     </style>
 </head>
 
-<body class="bg-paper font-sans text-ink antialiased">
+<body id="top">
+    <!-- Shapes: courses, map, logo, icons, hero characters -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+        <defs>
+            <path id="rp-c-dog" pathLength="1000" d="M74 45.2L73.5 32.8L85.8 33.4L86 44.7L88.2 45L90.3 46.7L99.3 84.5L100 93.7L91.3 93L78.7 94.7L78.6 87.5L56.4 87.7L56.2 88.4L62.2 88.4L52.6 88.5L54.6 88.5L54.7 87.6L38.1 87.5L37.9 93.6L29.1 93L27.9 91.7L27.9 89L26.4 88.7L27.5 80.1L25.9 56.9L20.6 54L14.7 52.7L11.7 53.6L6.8 52.9L0 32.1L11.6 33L10.9 10.7L12.3 7.3L24.6 5.9L38.7 8L39.1 5.4L50.4 5.8L49.9 14.5L46.6 19.8L42.5 22.7L39.5 33.7L38.7 40.9L39.2 53L39.2 52.2L51.6 54.6L57.9 54.7L74.3 46.1L74 45.2" />
+            <path id="rp-c-heart" pathLength="1000" d="M50 26.4L50.1 25.1L51.1 21.5L53.6 16.6L57.9 11.4L64 7.1L71.6 4.9L79.8 5.3L87.6 8.4L94.2 14L98.5 21.2L100 29.5L98.5 38L94.2 46.3L87.6 54.2L79.8 61.6L71.6 68.6L64 75.3L57.9 81.5L53.6 87L51.1 91.3L50.1 94.1L50 95.1L49.9 94.1L48.9 91.3L46.4 87L42.1 81.5L36 75.3L28.4 68.6L20.2 61.6L12.4 54.2L5.8 46.3L1.5 38L0 29.5L1.5 21.2L5.8 14L12.4 8.4L20.2 5.3L28.4 4.9L36 7.1L42.1 11.4L46.4 16.6L48.9 21.5L49.9 25.1L50 26.4" />
+            <path id="rp-c-star" pathLength="1000" d="M50 2.4L56.1 18.7L57.7 19.4L63.1 33.9L63 37.2L82 38L83.2 36.6L97.1 37.2L100 38.8L84.1 51.4L82.4 51.3L72.6 59.1L71 61.8L75.6 78.6L74.6 80.1L78.8 95L80.9 97.6L65.3 87.2L65.1 85.3L53.3 77.5L50 77.1L35.8 86.5L35.8 88.5L22.5 97.3L19.1 97.6L24.1 79.6L22.9 78L26.7 64.3L29 61.8L16 51.5L14.3 51.7L1.6 41.6L0 38.8L16.4 38.1L17.7 39.3L34.1 38.6L37 37.2L43.9 18.9L45.7 18.3L50.4 5.8L50 2.4" />
+            <path id="rp-c-fish" pathLength="1000" d="M1.5 23.4L12.9 34.8L12.6 36.8L20.4 44.6L23.6 45.6L34.7 32.3L52.4 23.4L72.3 25.6L90 36.7L100 50L90 63.3L72.3 74.4L52.4 76.6L34.7 67.7L23.6 54.4L11.4 66.7L11.7 68.7L4.7 75.6L1.5 76.6L1.5 57.1L0 55.9L0 38.6L1.5 37.4L1.5 23.4" />
+            <path id="rp-c-cat" pathLength="1000" d="M6 0L17.8 13.2L19.5 13.2L29.7 24.5L30.7 27.5L47.9 27.5L49.1 26.3L66.3 26.3L69.3 27.5L80.3 15.2L80.4 13.7L91.4 1.6L94 0L95.8 16.1L97.1 17.2L98.8 33.2L97.9 34.5L99.5 49.5L94.6 63.1L95.8 64.8L91.2 77.6L88.5 79.8L77.2 89.7L77.2 91.6L69.7 98.2L66.5 99.1L50.4 99.1L49.2 100L36.5 100L33.5 99.1L21.5 88.6L21.5 86.9L14.5 80.8L11.5 79.8L5.9 64.5L6.8 62.9L2.8 51.9L0.5 49.5L2.4 31.9L1.2 30.6L2.8 15.5L4.4 14.5L6 0" />
+            <path id="rp-c-bolt" pathLength="1000" d="M60.9 0L50.2 13.3L48.5 13.4L36.3 28.7L36.5 30.4L29.9 38.7L28 38.8L18.1 51.1L17.4 54.3L31.4 54.3L32.6 53L40.5 53L43.5 54.3L40.3 67.6L41.4 69.1L37.8 84.5L36.1 85.4L32.6 100L44.8 85.1L44.5 83.3L58.5 66.2L60.4 66.2L67.5 57.5L67.4 55.9L79.9 40.8L82.6 39.1L69.9 39.1L68.7 40.7L58.4 40.7L55.4 39.1L58 20.4L56.8 19L59.1 2.8L60.9 0" />
+            <path id="rp-c-crown" pathLength="1000" d="M1.4 89.4L1.4 74.4L0 73.2L0 54.1L1.4 53L1.4 35.5L0.5 34.3L0.5 24.4L1.4 21.5L14.3 36.2L16.2 36.1L26.1 47.4L26.9 50.6L33.3 39.2L32.4 37.4L41.2 21.8L43.1 21.6L49.9 9.4L56.3 20.7L55.4 22.5L62.8 35.6L64.7 35.8L73 50.6L86.6 35L88.6 35.2L97.7 24.8L98.4 21.5L98.4 40.5L100 41.7L100 53.5L98.4 54.7L98.4 75.3L96.8 76.5L96.8 86.5L98.4 89.4L78.5 89.4L77.3 88L55.1 88L54 89.4L38.6 89.4L37.5 90.6L19.7 90.6L18.6 89.4L1.4 89.4" />
+            <symbol id="rp-map-seoul" viewBox="-50 -50 200 200"><rect x="-50" y="-50" width="200" height="200" fill="#EFEBE2" /><path d="M-42 -50V150M-30 -50V150M-18 -50V150M-6 -50V150M51 -50V150M62 -50V150M74 -50V150M86 -50V150M112 -50V150M124 -50V150M136 -50V150M-50 -42H150M-50 -30H150M-50 -18H150M-50 -6H150M-50 20H150M-50 33H150M-50 66H150M-50 77H150M-50 112H150M-50 124H150M-50 136H150" stroke="#FFFFFF" stroke-width="1.3" fill="none" /><path d="M11.3 -50V150M39.3 -50V150M99.6 -50V150M-50 6.5H150M-50 54.5H150M-50 88H150M-50 100H150" stroke="#FFFFFF" stroke-width="2.6" fill="none" /><path d="M-50 54.5H150M39.3 54.5V150" stroke="#FBE7B0" stroke-width="1.4" fill="none" /><rect x="14" y="9.5" width="22.6" height="42" rx="2.5" fill="#CBE2B5" /><path d="M90 -50H150V40H96Q90 40 90 34Z" fill="#CBE2B5" /><rect x="103.5" y="58" width="46.5" height="27" rx="2.5" fill="#CBE2B5" /><path d="M-50 30Q-18 30 -14 46T-50 66Z" fill="#CBE2B5" /><rect x="-44" y="114" width="24" height="22" rx="3" fill="#CBE2B5" /><path d="M-50 95C-10 92.5 30 96 62 94S120 96 150 93" stroke="#B4D7EF" stroke-width="2.6" fill="none" /></symbol>
+            <symbol id="rp-logo" viewBox="33 12 54 102"><path fill-rule="evenodd" fill="#2B2B2B" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#F2B134" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M52.66 77.69Q53.17 77.31 53.68 76.8Q54.35 77.33 55.01 77.74L57.69 97.2L56.61 97.2ZM64.99 77.74Q65.65 77.33 66.32 76.8Q66.83 77.31 67.34 77.69L63.39 97.2L62.31 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></symbol>
+            <symbol id="rp-i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.6" r="1.9" fill="currentColor" /><path d="M12.4 8.8l-2.2 4.4 3.2 2.6.6 5M10.2 13.2L8.4 20.6M12.4 8.8l2.8 2.6 2.6.6M12.4 8.8L9 10.4l-.8 2.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-run" viewBox="0 0 24 24"><circle cx="15.2" cy="4.6" r="1.9" fill="currentColor" /><path d="M13.6 8.6l-3.8 1.2-1.6 3M13.6 8.6l1.2 4.2 3.6 1.6M14.8 12.8l-3 3.4-4.4.6M11.8 16.2l2.6 4.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-bike" viewBox="0 0 24 24"><circle cx="5.6" cy="16.6" r="3.4" fill="none" stroke="currentColor" stroke-width="1.9" /><circle cx="18.4" cy="16.6" r="3.4" fill="none" stroke="currentColor" stroke-width="1.9" /><path d="M5.6 16.6l4-7.2h5.4l3.4 7.2M9.6 9.4l3.2 7.2M13.6 6.4H16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-play" viewBox="0 0 24 24"><path d="M8 5.2v13.6L19.4 12z" fill="currentColor" /></symbol>
+            <symbol id="rp-i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5" fill="currentColor" /></symbol>
+            <symbol id="rp-i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-check" viewBox="0 0 24 24"><path d="M5 12.6l4.4 4.4L19 7.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-replay" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5M4.5 4.5v4.6h4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-undo" viewBox="0 0 24 24"><path d="M8.5 7l-4 4 4 4M4.5 11H14a4.5 4.5 0 0 1 0 9h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-loop" viewBox="0 0 24 24"><path d="M5 11a7 7 0 0 1 12.2-3.9L19 9M19 13a7 7 0 0 1-12.2 3.9L5 15M19 5v4h-4M5 19v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="rp-i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.2" /><path d="M15 15l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></symbol>
+            <symbol id="rp-i-more" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8" fill="currentColor" /><circle cx="12" cy="12" r="1.8" fill="currentColor" /><circle cx="12" cy="19" r="1.8" fill="currentColor" /></symbol>
+            <symbol id="rp-i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="12" cy="12" r="2.4" fill="currentColor" /><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></symbol>
+            <g id="rp-t-tree"><path d="M0 0V-12" stroke="#2B2B2B" stroke-width="2" stroke-linecap="round" /><circle cy="-19" r="9" fill="#8DBB73" stroke="#2B2B2B" stroke-width="2" /></g>
+            <g id="rp-t-pencil"><ellipse cx="0" cy="0" rx="9" ry="3.4" fill="#2B2B2B" opacity=".18" /><path d="M-7 -16L-3 -5H3L7 -16Z" fill="#E9C38F" stroke="#2B2B2B" stroke-width="2" stroke-linejoin="round" /><path d="M-3 -5L0 1L3 -5Z" fill="#2B2B2B" stroke="#2B2B2B" stroke-width="2" stroke-linejoin="round" /><rect x="-7" y="-42" width="14" height="26" fill="#F2B134" stroke="#2B2B2B" stroke-width="2" stroke-linejoin="round" /><rect x="-7" y="-50" width="14" height="8" rx="3" fill="#F29C8E" stroke="#2B2B2B" stroke-width="2" /><circle cx="-2.6" cy="-31" r="1.4" fill="#2B2B2B" /><circle cx="2.6" cy="-31" r="1.4" fill="#2B2B2B" /></g>
+            <g id="rp-t-person"><ellipse cx="0" cy="0" rx="8" ry="3" fill="#2B2B2B" opacity=".18" /><path d="M-3 -2V-10M3 -2V-10" stroke="#2B2B2B" stroke-width="2.4" stroke-linecap="round" /><rect x="-7" y="-28" width="14" height="19" rx="7" fill="currentColor" stroke="#2B2B2B" stroke-width="2" /><circle cx="0" cy="-35" r="6.5" fill="#FAFAF7" stroke="#2B2B2B" stroke-width="2" /></g>
+            <g id="rp-t-bike"><ellipse cx="0" cy="0" rx="14" ry="3.4" fill="#2B2B2B" opacity=".18" /><circle cx="-9" cy="-6" r="6" fill="#FAFAF7" stroke="#2B2B2B" stroke-width="2" /><circle cx="9" cy="-6" r="6" fill="#FAFAF7" stroke="#2B2B2B" stroke-width="2" /><path d="M-9 -6L-2 -16H6L9 -6M-2 -16L2 -6" fill="none" stroke="#2B2B2B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><rect x="-5" y="-34" width="12" height="17" rx="6" fill="#1E5AA8" stroke="#2B2B2B" stroke-width="2" /><circle cx="2" cy="-40" r="6" fill="#FAFAF7" stroke="#2B2B2B" stroke-width="2" /></g>
+        </defs>
+    </svg>
+
     <!-- Header -->
-    <header class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-6">
-        <a href="#top" class="flex items-center gap-2.5 text-ink" aria-label="RunningPencil 홈">
-            <svg viewBox="0 0 512 512" width="36" height="36" aria-hidden="true" class="block">
-                <defs>
-                    <clipPath id="rp-clip-nav">
-                        <rect width="512" height="512" rx="116" />
-                    </clipPath>
-                </defs>
-                <g clip-path="url(#rp-clip-nav)">
-                    <rect width="512" height="512" fill="#E9E4D8" />
-                    <rect width="200" height="118" fill="#CDDDBE" />
-                    <path d="M512 330 C452 342 408 404 428 512 L512 512 Z" fill="#BFD5DE" />
-                    <g fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round">
-                        <path d="M0 130 L212 130" />
-                        <path d="M212 0 L212 130" />
-                        <path d="M212 84 L512 84" />
-                        <path d="M330 240 L512 240" />
-                        <path d="M330 240 L330 512" />
-                        <path d="M0 440 L400 440" />
-                    </g>
-                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330 L330 240" fill="none"
-                        stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330" fill="none"
-                        stroke="#FF5A1F" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="116" cy="180" r="30" fill="#FF5A1F" />
-                    <circle cx="116" cy="180" r="12" fill="#FFFFFF" />
-                    <g transform="translate(240 330) rotate(45) scale(0.76)">
-                        <path d="M0 0 L-16 -44 L16 -44 Z" fill="#FF5A1F" />
-                        <path d="M-16 -44 L-42 -116 L42 -116 L16 -44 Z" fill="#EAC89A" />
-                        <rect x="-42" y="-312" width="84" height="196" fill="#16181D" />
-                        <rect x="-42" y="-334" width="84" height="22" fill="#8E939B" />
-                        <path d="M-42 -334 L-42 -356 Q-42 -376 -22 -376 L22 -376 Q42 -376 42 -356 L42 -334 Z"
-                            fill="#F29BAA" />
-                    </g>
-                </g>
-            </svg>
-            <span class="font-mono text-xl font-bold tracking-[-0.5px]">runningpencil</span>
-        </a>
-        <nav aria-label="주요 메뉴" class="flex flex-wrap items-center gap-2">
-            <a href="#features" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">기능
-                소개</a>
-            <a href="#coursebook" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">코스북</a>
-        </nav>
+    <header class="rp-head">
+        <div class="rp-wrap rp-head-in">
+            <a class="rp-brand" href="#top" aria-label="러닝펜슬 홈">
+                <span class="rp-brand-tile"><svg viewBox="33 12 54 102" width="14.3" height="27" aria-hidden="true"><path fill="#2B2B2B" fill-rule="evenodd" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#F2B134" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></svg></span>
+                <span class="rp-brand-name">러닝펜슬</span>
+            </a>
+            <nav class="rp-nav" aria-label="주요 메뉴">
+                <a href="#story">즐기는 법</a>
+                <a href="#demo">달려 보기</a>
+                <a href="#get">출시 안내</a>
+            </nav>
+        </div>
     </header>
 
-    <!-- Hero -->
-    <section id="top" class="rp-grid border-y border-line">
-        <div
-            class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-14 px-6 pb-[clamp(64px,7vw,96px)] pt-[clamp(56px,7vw,88px)]">
-            <div class="flex min-w-0 flex-[1_1_460px] flex-col items-start gap-7">
-                <span
-                    class="inline-flex items-center gap-2 rounded-full border-[1.5px] border-ink bg-white px-3.5 py-2 text-sm font-bold">
-                    <span class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></span>곧 출시됩니다</span>
-                <h1 class="text-[clamp(40px,9vw,64px)] font-black leading-[1.12] tracking-[-1.5px]">달리고 걷는 길이<br />아트가
-                    됩니다</h1>
-                <p class="max-w-[500px] text-[clamp(17px,2vw,19px)] leading-[1.7] text-muted">
-                    지도 위에 그려진 GPS 아트 코스를 따라 걷거나 뛰어 보세요. 완주하면 그 모양 그대로 뱃지가 되고, 모은 포인트로 기념 굿즈를 만날 수 있어요.</p>
-                <div class="flex flex-wrap gap-3">
-                    <a href="#features"
-                        class="rounded-full bg-ink px-7 py-4 text-[17px] font-bold text-white transition-colors hover:bg-ink-2">어떻게
-                        하나요?</a>
-                    <a href="#coursebook"
-                        class="rounded-full border-[1.5px] border-ink bg-white px-7 py-4 text-[17px] font-bold text-ink transition-colors hover:bg-paper">코스북
-                        보기</a>
-                </div>
-                <p class="font-mono text-sm text-muted-2">iOS · Android 앱으로 준비 중</p>
-            </div>
-
-            <!-- Course card -->
-            <div class="flex min-w-0 flex-[1_1_460px] justify-center">
-                <div class="w-full max-w-[520px] rounded-[28px] border-[1.5px] border-ink bg-white p-5 shadow-hard">
-                    <div class="flex items-center justify-between px-1.5 pb-3.5 pt-1 font-mono text-[13px] text-muted-2">
-                        <span>성수 · 연필</span><span>성수동</span>
+    <main>
+        <!-- Hero -->
+        <section aria-labelledby="rp-h-hero" style="background: #F2B134; border-radius: 0 0 clamp(28px, 4vw, 56px) clamp(28px, 4vw, 56px); padding: clamp(24px, 4vw, 56px) 0 clamp(48px, 6vw, 88px)">
+            <div class="rp-wrap rp-2col" style="display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(28px, 4vw, 56px); align-items: center">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; gap: clamp(18px, 2.2vw, 28px)">
+                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px">
+                        <p style="font-size: clamp(14px, 1.2vw, 16px); font-weight: 700; padding: 8px 14px; border-radius: 999px; background: #FAFAF7; color: #2B2B2B">걷고 달리며 그림을 완성하는 러닝 앱</p>
+                        <span style="display: inline-flex; align-items: center; padding: 4px 10px; border: 2px solid #2B2B2B; border-radius: 8px; font-size: clamp(13px, 1.1vw, 15px); font-weight: 800; letter-spacing: 0.02em; color: #2B2B2B; transform: rotate(-3deg)">출시 준비 중</span>
                     </div>
-                    <svg viewBox="0 0 480 360" class="block w-full rounded-2xl bg-map" role="img"
-                        aria-label="지도 위에 연필 모양으로 그려진 GPS 아트 코스">
-                        <g stroke="#E6E2D7" stroke-width="8" fill="none" stroke-linecap="square">
-                            <path d="M0 50 L480 50" />
-                            <path d="M0 180 L480 180" />
-                            <path d="M0 310 L480 310" />
-                            <path d="M118 0 L118 360" />
-                            <path d="M200 0 L200 360" />
-                            <path d="M250 0 L250 360" />
-                            <path d="M380 0 L380 360" />
-                            <path d="M450 0 L450 360" />
+                    <h1 id="rp-h-hero" style="font-size: clamp(40px, 6.3vw, 92px); font-weight: 800; line-height: 1.08; letter-spacing: -0.035em">지도는 <br class="rp-only-d"><span style="position: relative; display: inline-block">스케치북<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: -2%; bottom: -0.16em; width: 104%; height: 0.24em; overflow: visible"><path d="M3 12C28 3 52 18 82 10S142 3 197 11" fill="none" stroke="#C62F2F" stroke-width="6" stroke-linecap="round" vector-effect="non-scaling-stroke" /></svg></span>,<br>두 발은 연필.</h1>
+                    <p style="font-size: clamp(16px, 1.5vw, 21px); line-height: 1.6; font-weight: 500; color: #33302B; max-width: 30em">지도에 점을 찍어 코스를 그리고, 그 모양을 따라 걷고 달려요. 완주하면 코스 모양이 그대로 뱃지가 돼요.</p>
+                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 14px 24px; margin-top: 4px">
+                        <a class="rp-btn rp-cta" href="#demo"><svg width="22" height="22" aria-hidden="true"><use href="#rp-i-play" /></svg>10초 만에 달려 보기</a>
+                    </div>
+                </div>
+                <div style="position: relative; background: #FAFAF7; border-radius: clamp(24px, 3vw, 40px); padding: clamp(6px, 0.8vw, 12px)">
+                    <svg id="rp-hero-art" viewBox="60 50 780 510" role="img" aria-label="쿼터뷰 지도 위 댕댕런 코스를 따라 사람과 연필 캐릭터가 걷고 달리는 그림" style="display: block; width: 100%; height: auto">
+                        <ellipse cx="450" cy="452" rx="352" ry="94" fill="#2B2B2B" opacity=".08" />
+                        <polygon points="811,348 353,501 353,523 811,370" fill="#CFC7B8" />
+                        <polygon points="353,501 89,236 89,258 353,523" fill="#DAD3C6" />
+                        <g transform="matrix(2.8579 -0.9570 1.6500 1.6576 224.61 256.97)"><svg x="-30" y="-30" width="160" height="160" viewBox="-30 -30 160 160"><use href="#rp-map-seoul" x="-50" y="-50" width="200" height="200" /></svg><use href="#rp-c-dog" fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round" /><use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" /></g>
+                        <polygon points="89,236 547,83 811,348 353,501" fill="none" stroke="#2B2B2B" stroke-width="2.5" stroke-linejoin="round" />
+                        <g stroke="#2B2B2B" stroke-width="2" stroke-linejoin="round">
+                            <polygon points="371,182 351,162 351,128 371,148" fill="#D5CEC0" /><polygon points="405,170 371,182 371,148 405,136" fill="#E6E0D5" /><polygon points="351,128 385,116 405,136 371,148" fill="#FAFAF7" />
+                            <polygon points="142,258 125,242 125,222 142,238" fill="#D5CEC0" /><polygon points="182,245 142,258 142,238 182,225" fill="#E6E0D5" /><polygon points="125,222 165,208 182,225 142,238" fill="#FAFAF7" />
+                            <polygon points="644,280 624,260 624,234 644,254" fill="#D5CEC0" /><polygon points="684,267 644,280 644,254 684,241" fill="#E6E0D5" /><polygon points="624,234 664,221 684,241 644,254" fill="#FAFAF7" />
+                            <polygon points="531,322 517,309 517,287 531,300" fill="#D5CEC0" /><polygon points="558,313 531,322 531,300 558,291" fill="#E6E0D5" /><polygon points="517,287 544,277 558,291 531,300" fill="#FAFAF7" />
+                            <polygon points="288,413 265,389 265,373 288,397" fill="#D5CEC0" /><polygon points="322,401 288,413 288,397 322,385" fill="#E6E0D5" /><polygon points="265,373 299,362 322,385 288,397" fill="#FFF3C4" />
                         </g>
-                        <g stroke="#D9D4C7" stroke-width="16" fill="none" stroke-linecap="square">
-                            <path d="M0 120 L480 120" />
-                            <path d="M0 240 L480 240" />
-                            <path d="M70 0 L70 360" />
-                            <path d="M320 0 L320 360" />
-                            <path d="M200 48 L480 216" />
-                            <path d="M200 312 L480 144" />
+                        <use href="#rp-t-tree" x="520" y="171" /><use href="#rp-t-tree" x="574" y="180" /><use href="#rp-t-tree" x="548" y="206" /><use href="#rp-t-tree" x="650" y="256" /><use href="#rp-t-tree" x="321" y="278" /><use href="#rp-t-tree" x="361" y="287" /><use href="#rp-t-tree" x="360" y="309" /><use href="#rp-t-tree" x="310" y="427" />
+                        <g transform="translate(511 261)"><path d="M0 0V-22" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="round" /><circle cy="-30" r="10" fill="#2E7D32" stroke="#FFFFFF" stroke-width="2.5" /><path d="M-3.4 -27.4c1.2 1 5.8 1.2 5.8-1 0-2.6-5.6-1.2-5.6-3.8 0-2 4-2 5.4-1" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-person" style="color: #C62F2F" /></g><animateMotion dur="64s" begin="-27.4s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-pencil" /></g><animateMotion dur="64s" begin="-18.3s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-person" style="color: #1E5AA8" /></g><animateMotion dur="64s" begin="-9.1s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-pencil" /></g><animateMotion dur="64s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-person" style="color: #2E4A3B" /></g><animateMotion dur="64s" begin="-45.7s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-person" style="color: #F2B134" /></g><animateMotion dur="64s" begin="-54.9s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob"><use href="#rp-t-pencil" /></g><animateMotion dur="64s" begin="-36.6s" repeatCount="indefinite" path="M511 261L489 241L525 230L544 249L551 247L560 248L648 302L665 317L639 324L606 339L594 327L530 348L531 350L548 344L521 353L527 351L525 350L478 366L487 376L461 383L456 382L451 378L446 379L435 363L393 327L373 327L354 330L346 335L331 338L278 310L312 301L273 264L272 257L305 243L348 233L345 229L378 218L391 233L390 245L384 254L393 275L403 288L424 307L423 306L462 298L480 292L513 262L511 261" /></g>
+                        <g><g class="rp-bob2"><use href="#rp-t-bike" /></g><animateMotion dur="9s" begin="-2s" repeatCount="indefinite" path="M304 451L761 298" /></g>
+                        <g stroke="#2B2B2B" stroke-width="2" stroke-linejoin="round">
+                            <polygon points="730,344 711,324 711,306 730,326" fill="#D5CEC0" /><polygon points="765,332 730,344 730,326 765,314" fill="#E6E0D5" /><polygon points="711,306 745,295 765,314 730,326" fill="#FAFAF7" />
+                            <polygon points="574,385 562,374 562,362 574,373" fill="#D5CEC0" /><polygon points="608,374 574,385 574,373 608,362" fill="#E6E0D5" /><polygon points="562,362 596,350 608,362 574,373" fill="#FFF3C4" />
+                            <polygon points="362,472 346,455 346,441 362,458" fill="#D5CEC0" /><polygon points="408,456 362,472 362,458 408,442" fill="#E6E0D5" /><polygon points="346,441 391,426 408,442 362,458" fill="#FAFAF7" />
                         </g>
-                        <path
-                            d="M70 120 L320 120 L420 180 L320 240 L70 240 Z M118 120 L118 240 M320 120 L320 240 M380 156 L380 204"
-                            fill="none" stroke="#FF5A1F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" />
-                        <circle cx="70" cy="240" r="13" fill="#16181D" />
-                        <circle cx="70" cy="240" r="5" fill="#FFFFFF" />
-                        <rect x="40" y="262" width="62" height="26" rx="13" fill="#16181D" />
-                        <text x="71" y="280" text-anchor="middle" font-family="Space Mono, monospace" font-size="12"
-                            font-weight="700" fill="#FFFFFF">START</text>
                     </svg>
-                    <div class="flex items-center gap-3 px-1.5 pb-1 pt-[18px]">
-                        <div class="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-ink">
-                            <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
-                                <path d="M6 18 L32 18 L42 24 L32 30 L6 30 Z M13 18 L13 30" fill="none" stroke="#FF5A1F"
-                                    stroke-width="3.5" stroke-linejoin="round" />
-                            </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story: three reasons (pinned while scrolling) -->
+        <section id="story" class="rp-scrolly" aria-labelledby="rp-h-story" style="--q0: 1; --q1: 0.62; --q2: 1">
+            <div class="rp-stage">
+                <div class="rp-wrap rp-stage-in">
+                    <div style="display: flex; flex-direction: column; gap: clamp(14px, 2.2vw, 30px)">
+                        <p id="rp-h-story" style="font-size: 15px; font-weight: 700; color: #7C580D">러닝펜슬에 빠지는 세 가지 이유</p>
+                        <div class="rp-stack">
+                            <div class="rp-step is-on" data-step="0" style="display: flex; flex-direction: column; align-items: flex-start; gap: clamp(12px, 1.6vw, 20px)">
+                                <p style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 800"><span style="display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #2B2B2B; color: #FAFAF7; font-size: 15px">1</span>그리는 재미</p>
+                                <h2 style="font-size: clamp(30px, 4.3vw, 60px); font-weight: 800; line-height: 1.14; letter-spacing: -0.03em">연필로 그리듯<br>코스를 그려요</h2>
+                                <p style="font-size: clamp(16px, 1.4vw, 19px); line-height: 1.65; color: #4A463F; max-width: 27em">지도에 점을 찍으면 걷는 길을 따라 선이 이어져요. 하트도, 강아지도, 우리 동네 골목 위에 그릴 수 있어요.</p>
+                                <ul class="rp-facts" style="display: flex; flex-wrap: wrap; gap: 8px">
+                                    <li style="font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: #EFEBE2">점만 찍으면 길 따라 착</li>
+                                    <li style="font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: #EFEBE2">되돌리기 · 이어 그리기</li>
+                                    <li style="font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: #EFEBE2">장소 검색</li>
+                                </ul>
+                            </div>
+                            <div class="rp-step" data-step="1" style="display: flex; flex-direction: column; align-items: flex-start; gap: clamp(12px, 1.6vw, 20px)">
+                                <p style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 800"><span style="display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #2B2B2B; color: #FAFAF7; font-size: 15px">2</span>걷고 달리는 건강</p>
+                                <h2 style="font-size: clamp(30px, 4.3vw, 60px); font-weight: 800; line-height: 1.14; letter-spacing: -0.03em">그림을 따라<br>걷고 달려요</h2>
+                                <p style="font-size: clamp(16px, 1.4vw, 19px); line-height: 1.65; color: #4A463F; max-width: 27em">진행률과 페이스를 보면서 선을 끝까지 따라가요. 걷기만 해도 그림은 완성돼요. 오늘의 운동이 지도 위에 남아요.</p>
+                                <ul class="rp-facts" style="display: flex; flex-wrap: wrap; gap: 8px">
+                                    <li style="font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: #EFEBE2">걷기도 달리기도 OK</li>
+                                    <li style="font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: #EFEBE2">실시간 진행률</li>
+                                    <li style="font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: #EFEBE2">거리 · 페이스 기록</li>
+                                </ul>
+                            </div>
+                            <div class="rp-step" data-step="2" style="display: flex; flex-direction: column; align-items: flex-start; gap: clamp(12px, 1.6vw, 20px)">
+                                <p style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 800"><span style="display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #2B2B2B; color: #FAFAF7; font-size: 15px">3</span>모으는 성취감</p>
+                                <h2 style="font-size: clamp(30px, 4.3vw, 60px); font-weight: 800; line-height: 1.14; letter-spacing: -0.03em">완주하면 코스 모양<br>그대로 뱃지가 돼요</h2>
+                                <p style="font-size: clamp(16px, 1.4vw, 19px); line-height: 1.65; color: #4A463F; max-width: 27em">끝까지 달리면 그 코스의 모양이 뱃지로 남아요. 아직 못 받은 뱃지는 회색 실루엣이에요. 하나씩 완주해 색을 채워 보세요.</p>
+                                <div class="rp-facts" style="display: flex; flex-direction: column; gap: 10px">
+                                    <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                                        <span class="rp-badge t-yellow" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-dog" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                        <span class="rp-badge t-red" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-heart" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                        <span class="rp-badge t-kraft" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-star" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                        <span class="rp-badge t-graph" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-fish" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                        <span class="rp-badge t-empty" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-cat" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                        <span class="rp-badge t-empty" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-bolt" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                        <span class="rp-badge t-empty" style="width: 46px; height: 46px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-crown" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                    </div>
+                                    <p style="font-size: 14px; font-weight: 600; color: #57534C">보관함 · 받은 뱃지 4 · 채울 뱃지 3</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-0.5">
-                            <strong class="text-base">완주하면 ‘연필’ 뱃지 획득</strong>
-                            <span class="text-sm text-muted-2">+ 100P 적립</span>
+                        <div role="group" aria-label="단계 보기" style="display: flex; flex-wrap: wrap; gap: 8px">
+                            <button type="button" class="rp-pill is-on" data-go="0" aria-pressed="true">1 그리기</button>
+                            <button type="button" class="rp-pill" data-go="1" aria-pressed="false">2 달리기</button>
+                            <button type="button" class="rp-pill" data-go="2" aria-pressed="false">3 뱃지</button>
+                        </div>
+                    </div>
+                    <div class="rp-panel is-s0" id="rp-panel">
+                        <div class="rp-stickers" aria-hidden="true">
+                            <span class="rp-badge t-red" style="left: 5%; top: 8%; width: 112px; height: 112px; transform: rotate(-9deg)"><svg viewBox="-15.8 -15.8 131.6 131.6"><use href="#rp-c-heart" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                            <span class="rp-badge t-kraft" style="right: 6%; top: 12%; width: 98px; height: 98px; transform: rotate(8deg)"><svg viewBox="-15.8 -15.8 131.6 131.6"><use href="#rp-c-star" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                            <span class="rp-badge t-graph" style="left: 7%; bottom: 9%; width: 102px; height: 102px; transform: rotate(6deg)"><svg viewBox="-15.8 -15.8 131.6 131.6"><use href="#rp-c-fish" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                            <span class="rp-badge t-empty" style="right: 5%; bottom: 11%; width: 108px; height: 108px; transform: rotate(-7deg)"><svg viewBox="-15.8 -15.8 131.6 131.6"><use href="#rp-c-cat" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                            <span class="rp-badge t-graphite" style="left: 3%; top: 45%; width: 84px; height: 84px; transform: rotate(10deg)"><svg viewBox="-15.8 -15.8 131.6 131.6"><use href="#rp-c-bolt" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                            <span class="rp-badge t-empty" style="right: 3%; top: 47%; width: 84px; height: 84px; transform: rotate(-12deg)"><svg viewBox="-15.8 -15.8 131.6 131.6"><use href="#rp-c-crown" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                        </div>
+                        <div class="rp-phone" style="width: 300px; height: 620px; border-radius: 46px; background: #1F1B13; padding: 9px; box-shadow: 0 28px 56px rgba(31, 27, 19, 0.28)">
+                            <div class="rp-stack" role="img" aria-label="러닝펜슬 앱 화면: 코스 그리기, 따라 달리기, 뱃지 받기" style="width: 100%; height: 100%; border-radius: 37px; overflow: hidden; background: #FFF8F3; color: #201B13">
+
+                                <div class="is-on" data-step="0" style="display: flex; flex-direction: column">
+                                    <div style="display: flex; align-items: center; gap: 12px; padding: 20px 14px 6px">
+                                        <svg width="20" height="20" aria-hidden="true"><use href="#rp-i-left" /></svg>
+                                        <span style="flex: 1; font-size: 16px; font-weight: 600">코스 그리기</span>
+                                        <svg width="20" height="20" aria-hidden="true"><use href="#rp-i-search" /></svg>
+                                        <svg width="20" height="20" aria-hidden="true"><use href="#rp-i-more" /></svg>
+                                    </div>
+                                    <div style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; padding: 2px 16px 10px">
+                                        <span style="font-size: 20px; font-weight: 600">8.3 km</span>
+                                        <span style="display: flex; align-items: center; gap: 3px; font-size: 11px; color: #4E4539"><svg width="13" height="13" aria-hidden="true"><use href="#rp-i-walk" /></svg>111분 ·<svg width="13" height="13" aria-hidden="true"><use href="#rp-i-run" /></svg>71분 ·<svg width="13" height="13" aria-hidden="true"><use href="#rp-i-bike" /></svg>33분</span>
+                                    </div>
+                                    <div style="position: relative; flex: 1; border-top: 1px solid #D8CBB8; border-bottom: 1px solid #D8CBB8; overflow: hidden">
+                                        <svg viewBox="-12 -42 124 184" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%">
+                                            <use href="#rp-map-seoul" x="-50" y="-50" width="200" height="200" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 1000px; stroke-dashoffset: calc(1000px * (1 - var(--q0)))" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 1000px; stroke-dashoffset: calc(1000px * (1 - var(--q0)))" />
+                                            <g font-size="3.6" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.056) * 40), 1)"><circle cx="85.8" cy="33.4" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="85.8" y="34.7">1</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.182) * 40), 1)"><circle cx="99.3" cy="84.5" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="99.3" y="85.8">2</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.252) * 40), 1)"><circle cx="78.7" cy="94.7" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="78.7" y="96">3</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.4) * 40), 1)"><circle cx="38.1" cy="87.5" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="38.1" y="88.8">4</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.521) * 40), 1)"><circle cx="25.9" cy="56.9" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="25.9" y="58.2">5</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.617) * 40), 1)"><circle cx="0" cy="32.1" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="0" y="33.4">6</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.694) * 40), 1)"><circle cx="10.9" cy="10.7" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="10.9" y="12">7</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.795) * 40), 1)"><circle cx="50.4" cy="5.8" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="50.4" y="7.1">8</text></g>
+                                                <g style="opacity: clamp(0, calc((var(--q0) - 0.911) * 40), 1)"><circle cx="39.2" cy="53" r="3.1" fill="#1A237E" stroke="#FFFFFF" stroke-width="1" /><text x="39.2" y="54.3">9</text></g>
+                                                <circle cx="74" cy="45.2" r="3.6" fill="#2E7D32" stroke="#FFFFFF" stroke-width="1" /><text x="74" y="46.5">S</text>
+                                            </g>
+                                        </svg>
+                                        <span style="position: absolute; top: 10px; right: 10px; width: 56px; height: 56px; border-radius: 12px; background: #FFF8F3; border: 1px solid #D8CBB8; padding: 6px"><svg viewBox="-6 -6 112 112" aria-hidden="true" style="display: block; width: 100%; height: 100%"><use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 1000px; stroke-dashoffset: calc(1000px * (1 - var(--q0)))" /></svg></span>
+                                        <span style="position: absolute; left: 10px; right: 10px; bottom: 10px; padding: 9px 12px; border-radius: 8px; background: #36302A; color: #FFF8F3; font-size: 11.5px; font-weight: 500">다음 점을 탭하면 길을 따라 이어져요</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px 18px; font-size: 12px; font-weight: 600; color: #4E4539">
+                                        <span style="display: flex; align-items: center; gap: 4px"><svg width="16" height="16" aria-hidden="true"><use href="#rp-i-undo" /></svg>되돌리기</span>
+                                        <span style="display: flex; align-items: center; gap: 4px"><svg width="16" height="16" aria-hidden="true"><use href="#rp-i-loop" /></svg>닫기</span>
+                                        <span style="margin-left: auto; display: flex; align-items: center; gap: 5px; height: 38px; padding: 0 16px 0 12px; border-radius: 19px; background: #7C580D; color: #FFFFFF; font-size: 13px"><svg width="16" height="16" aria-hidden="true"><use href="#rp-i-check" /></svg>완료</span>
+                                    </div>
+                                </div>
+
+                                <div data-step="1" style="display: flex; flex-direction: column">
+                                    <div style="position: relative; flex: 1; overflow: hidden">
+                                        <svg viewBox="-12 -42 124 184" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%">
+                                            <use href="#rp-map-seoul" x="-50" y="-50" width="200" height="200" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#E53935" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 1000px; stroke-dashoffset: calc(1000px * (1 - var(--q1)))" />
+                                            <circle cx="74" cy="45.2" r="3.6" fill="#2E7D32" stroke="#FFFFFF" stroke-width="1" /><text x="74" y="46.5" font-size="3.6" font-weight="700" fill="#FFFFFF" text-anchor="middle">S</text>
+                                            <g id="rp-run-dot" style="transform: translate(74px, 45.2px)"><circle r="7" fill="#1E88E5" opacity="0.2" /><circle r="3.2" fill="#1E88E5" stroke="#FFFFFF" stroke-width="1.3" /></g>
+                                        </svg>
+                                        <span style="position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #F3E0C0; color: #3F2E00"><svg width="18" height="18" aria-hidden="true"><use href="#rp-i-target" /></svg></span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 18px; border-top: 1px solid #D8CBB8">
+                                        <span id="rp-run-pct" style="font-size: 26px; font-weight: 500; line-height: 1">62 %</span>
+                                        <span style="display: block; height: 7px; border-radius: 4px; background: #EADFD2; overflow: hidden"><span style="display: block; height: 100%; border-radius: 4px; background: #E53935; width: calc(var(--q1) * 100%)"></span></span>
+                                        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; text-align: center">
+                                            <div><div id="rp-run-time" style="font-size: 14px; font-weight: 600">39:27</div><div style="font-size: 10.5px; color: #4E4539">움직인 시간</div></div>
+                                            <div><div id="rp-run-dist" style="font-size: 14px; font-weight: 600">5.15 km</div><div style="font-size: 10.5px; color: #4E4539">거리</div></div>
+                                            <div><div style="font-size: 14px; font-weight: 600">7'40"/km</div><div style="font-size: 10.5px; color: #4E4539">평균 페이스</div></div>
+                                        </div>
+                                        <span style="display: flex; align-items: center; justify-content: center; gap: 6px; height: 44px; border-radius: 22px; background: #F3E0C0; color: #3F2E00; font-size: 13px; font-weight: 600"><svg width="16" height="16" aria-hidden="true"><use href="#rp-i-stop" /></svg>종료</span>
+                                    </div>
+                                </div>
+
+                                <div data-step="2" style="position: relative; display: flex; flex-direction: column">
+                                    <div style="padding: 20px 16px 10px; font-size: 16px; font-weight: 600">댕댕런</div>
+                                    <div style="position: relative; flex: 1; overflow: hidden">
+                                        <svg viewBox="-12 -42 124 184" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%">
+                                            <use href="#rp-map-seoul" x="-50" y="-50" width="200" height="200" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" />
+                                            <use href="#rp-c-dog" fill="none" stroke="#E53935" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; padding: 14px 16px 22px">
+                                        <div><div style="font-size: 17px; font-weight: 500">1:06:12</div><div style="font-size: 10.5px; color: #4E4539">총 시간</div></div>
+                                        <div><div style="font-size: 17px; font-weight: 500">1:03:38</div><div style="font-size: 10.5px; color: #4E4539">움직인 시간</div></div>
+                                        <div><div style="font-size: 17px; font-weight: 500">8.30 km</div><div style="font-size: 10.5px; color: #4E4539">거리</div></div>
+                                        <div><div style="font-size: 17px; font-weight: 500">7'40"/km</div><div style="font-size: 10.5px; color: #4E4539">평균 페이스</div></div>
+                                    </div>
+                                    <div style="position: absolute; inset: 0; display: grid; place-items: center; padding: 22px; background: rgba(31, 27, 19, 0.55)">
+                                        <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; padding: 20px; border-radius: 28px; background: #F6EBDD">
+                                            <span class="rp-badge" style="width: 196px; height: 196px; background-color: #F2B134; border-color: #D4962A"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 1000px; stroke-dashoffset: calc(1000px * (1 - var(--q2)))" /></svg></span>
+                                            <span style="font-size: 17px; font-weight: 600; text-align: center">댕댕런 뱃지를 받았어요!</span>
+                                            <span style="display: flex; align-items: center; justify-content: center; width: 100%; height: 42px; border-radius: 21px; background: #7C580D; color: #FFFFFF; font-size: 13px; font-weight: 600">확인</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- How it works -->
-    <section id="features"
-        class="mx-auto flex max-w-[1200px] flex-col gap-12 px-6 pb-[clamp(64px,7vw,96px)] pt-[clamp(72px,8vw,112px)]">
-        <div class="flex max-w-[640px] flex-col gap-3.5">
-            <span class="font-mono text-sm font-bold">HOW IT WORKS</span>
-            <h2 class="text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">걷고, 모으고, 그리고, 나누세요</h2>
-        </div>
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
-            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
-                <span class="font-mono text-sm text-muted-2">01</span>
-                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M8 38 C8 26 20 30 22 20 C24 10 36 14 40 8" fill="none" stroke="#FF5A1F" stroke-width="3.5"
-                        stroke-linecap="round" />
-                    <circle cx="8" cy="38" r="4" fill="#16181D" />
-                    <path d="M36 4 L44 10 L38 14" fill="none" stroke="#16181D" stroke-width="3" stroke-linejoin="round"
-                        stroke-linecap="round" />
-                </svg>
-                <h3 class="text-[22px] font-bold">코스 완주 → 뱃지</h3>
-                <p class="text-base leading-[1.65] text-muted">GPS 아트 코스를 따라 걷거나 뛰어 완주하면, 코스 모양 그대로의 뱃지와 포인트를 받아요.</p>
-            </article>
-
-            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
-                <span class="font-mono text-sm text-muted-2">02</span>
-                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M6 10 C14 6 20 6 24 10 C28 6 34 6 42 10 L42 40 C34 36 28 36 24 40 C20 36 14 36 6 40 Z M24 10 L24 40"
-                        fill="none" stroke="#16181D" stroke-width="3" stroke-linejoin="round" />
-                    <circle cx="15" cy="22" r="4" fill="#FF5A1F" />
-                    <circle cx="33" cy="22" r="4" fill="none" stroke="#16181D" stroke-width="2" stroke-dasharray="3 3" />
-                </svg>
-                <h3 class="text-[22px] font-bold">지역 코스북 완성</h3>
-                <p class="text-base leading-[1.65] text-muted">동네마다 준비된 코스북의 빈칸을 뱃지로 하나씩 채워, 코스북을 완성하세요.</p>
-            </article>
-
-            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
-                <span class="font-mono text-sm text-muted-2">03</span>
-                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M30 8 L40 18 L18 40 L8 40 L8 30 Z M26 12 L36 22" fill="none" stroke="#16181D"
-                        stroke-width="3" stroke-linejoin="round" />
-                    <path d="M30 42 L44 42" stroke="#FF5A1F" stroke-width="3.5" stroke-linecap="round" />
-                </svg>
-                <h3 class="text-[22px] font-bold">내가 그린 코스 업로드</h3>
-                <p class="text-base leading-[1.65] text-muted">지도 위에 나만의 GPS 아트 코스를 직접 그려 올리세요. 누군가 완주할 때마다 내게 포인트가 쌓여요.</p>
-            </article>
-
-            <article class="flex flex-col gap-4 rounded-3xl border-[1.5px] border-ink bg-white p-7">
-                <span class="font-mono text-sm text-muted-2">04</span>
-                <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M8 18 L40 18 L37 42 L11 42 Z M17 18 C17 8 31 8 31 18" fill="none" stroke="#16181D"
-                        stroke-width="3" stroke-linejoin="round" />
-                    <circle cx="24" cy="30" r="5" fill="#FF5A1F" />
-                </svg>
-                <h3 class="text-[22px] font-bold">포인트로 굿즈 교환</h3>
-                <p class="text-base leading-[1.65] text-muted">모은 포인트로 완주를 기념하는 다양한 굿즈를 만나보세요.</p>
-            </article>
-        </div>
-    </section>
-
-    <!-- Coursebook -->
-    <section id="coursebook" class="bg-ink text-white">
-        <div class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-14 px-6 py-[clamp(72px,8vw,104px)]">
-            <div class="flex min-w-0 flex-[1_1_380px] flex-col gap-5">
-                <span class="font-mono text-sm font-bold text-accent">COURSEBOOK</span>
-                <h2 class="text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">빈칸을 채울수록<br />동네가
-                    새로워져요</h2>
-                <p class="text-lg leading-[1.7] text-ink-muted">익숙한 골목도 하트, 별, 연필이 숨은 캔버스가 됩니다. 코스를 하나씩 완주하며 지역 코스북을 완성해
-                    보세요.</p>
-            </div>
-            <div
-                class="flex min-w-0 flex-[1_1_460px] flex-col gap-5 rounded-[28px] border border-ink-line bg-ink-2 p-7">
-                <div class="flex flex-wrap items-baseline justify-between gap-3">
-                    <strong class="text-xl">성수동 코스북</strong>
-                    <span class="font-mono text-sm text-ink-muted">3 / 8 수집</span>
+        <!-- Demo: run a course -->
+        <section id="demo" aria-labelledby="rp-h-demo" style="position: relative; z-index: 1; background: #2E4A3B; color: #F1F1EA; border-radius: clamp(28px, 4vw, 56px); padding: clamp(56px, 7vw, 104px) 0">
+            <div class="rp-wrap rp-2col" style="display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4vw, 64px); align-items: center">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; gap: clamp(16px, 2vw, 24px)">
+                    <p style="font-size: 15px; font-weight: 700; color: #F2B134">출시 전에 먼저</p>
+                    <h2 id="rp-h-demo" style="font-size: clamp(30px, 4.3vw, 60px); font-weight: 800; line-height: 1.14; letter-spacing: -0.03em">10초 만에<br>한 코스 달려 보기</h2>
+                    <p style="font-size: clamp(16px, 1.4vw, 19px); line-height: 1.65; color: #D9DDD3; max-width: 25em">시작을 누르면 코스를 따라 달리기 시작해요. 선을 끝까지 따라가면 그 모양 그대로 뱃지가 나와요.</p>
+                    <p style="display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 8px; border-radius: 999px; background: #F1F1EA; color: #22382C; font-size: 15px; font-weight: 700"><svg viewBox="-8 -8 116 116" width="24" height="24" aria-hidden="true"><use href="#rp-c-dog" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg>댕댕런<span style="font-weight: 500">8.3 km</span></p>
+                    <button type="button" class="rp-btn rp-run" id="rp-run-btn"><svg width="22" height="22" aria-hidden="true"><use id="rp-run-icon" href="#rp-i-play" /></svg><span id="rp-run-label">달리기 시작</span></button>
                 </div>
-                <ul class="grid grid-cols-4 gap-3.5" aria-label="수집한 뱃지">
-                    <li class="flex aspect-square items-center justify-center rounded-full bg-paper">
-                        <svg class="w-[56%]" viewBox="0 0 48 48" role="img" aria-label="연필 뱃지">
-                            <path d="M6 18 L32 18 L42 24 L32 30 L6 30 Z M13 18 L13 30" fill="none" stroke="#FF5A1F"
-                                stroke-width="3.5" stroke-linejoin="round" />
+                <div style="display: flex; flex-direction: column; gap: clamp(14px, 1.8vw, 22px)">
+                    <div class="rp-demo-map">
+                        <svg viewBox="-30 -10 160 120" preserveAspectRatio="xMidYMid meet" role="img" aria-label="댕댕런 코스를 가상으로 달려 보는 지도" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible">
+                            <use href="#rp-map-seoul" x="-50" y="-50" width="200" height="200" />
+                            <use href="#rp-c-dog" fill="none" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" />
+                            <use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            <use id="rp-demo-prog" href="#rp-c-dog" fill="none" stroke="#E53935" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1000" stroke-dashoffset="1000" />
+                            <g style="transform: translate(74px, 45.2px)"><circle r="3.8" fill="#2E7D32" stroke="#FFFFFF" stroke-width="1.1" /><text y="1.35" font-size="3.8" font-weight="700" fill="#FFFFFF" text-anchor="middle">S</text></g>
+                            <g id="rp-demo-dot" style="transform: translate(74px, 45.2px)"><circle class="rp-pulse" r="4.2" fill="#F2B134" /><circle r="3.4" fill="#F2B134" stroke="#2B2B2B" stroke-width="1.3" /></g>
                         </svg>
-                    </li>
-                    <li class="flex aspect-square items-center justify-center rounded-full bg-paper">
-                        <svg class="w-[56%]" viewBox="0 0 48 48" role="img" aria-label="하트 뱃지">
-                            <path d="M24 40 C10 30 6 22 6 16 C6 10 11 6 16 6 C20 6 23 9 24 12 C25 9 28 6 32 6 C37 6 42 10 42 16 C42 22 38 30 24 40 Z"
-                                fill="none" stroke="#FF5A1F" stroke-width="3.5" stroke-linejoin="round" />
-                        </svg>
-                    </li>
-                    <li class="flex aspect-square items-center justify-center rounded-full bg-paper">
-                        <svg class="w-[56%]" viewBox="0 0 48 48" role="img" aria-label="별 뱃지">
-                            <path d="M24 5 L29 18 L43 18 L32 27 L36 41 L24 33 L12 41 L16 27 L5 18 L19 18 Z" fill="none"
-                                stroke="#FF5A1F" stroke-width="3.5" stroke-linejoin="round" />
-                        </svg>
-                    </li>
-                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
-                        aria-label="미수집 뱃지">?</li>
-                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
-                        aria-label="미수집 뱃지">?</li>
-                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
-                        aria-label="미수집 뱃지">?</li>
-                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
-                        aria-label="미수집 뱃지">?</li>
-                    <li class="flex aspect-square items-center justify-center rounded-full border-2 border-dashed border-muted-2 font-mono text-[22px] text-ink-muted-2"
-                        aria-label="미수집 뱃지">?</li>
-                </ul>
-                <div class="h-2 overflow-hidden rounded-full bg-ink-line" role="progressbar" aria-valuemin="0"
-                    aria-valuemax="8" aria-valuenow="3" aria-label="코스북 진행률">
-                    <div class="h-2 w-[37.5%] bg-accent"></div>
+                        <div class="rp-done" id="rp-demo-done" style="position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(31, 27, 19, 0.5)">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 300px; padding: 24px; border-radius: 28px; background: #FFF8F3; color: #201B13; text-align: center">
+                                <span class="rp-badge t-yellow" style="width: 148px; height: 148px"><svg viewBox="-15.8 -15.8 131.6 131.6" aria-hidden="true"><use href="#rp-c-dog" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+                                <p style="font-size: 19px; font-weight: 700; letter-spacing: -0.01em">댕댕런 뱃지를 받았어요!</p>
+                                <p style="font-size: 14px; line-height: 1.5; color: #4E4539">진짜 길에서 완주하면 보관함에 차곡차곡 쌓여요.</p>
+                                <a href="#get" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 15px; font-weight: 700; color: #7C580D; text-decoration: underline; text-underline-offset: 4px">출시 안내 보기<svg width="18" height="18" aria-hidden="true"><use href="#rp-i-down" /></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-end; gap: clamp(20px, 3.2vw, 48px); padding: 0 clamp(4px, 1vw, 12px)">
+                        <div><div style="font-size: 13px; font-weight: 600; color: #B9C7BC">진행률</div><div id="rp-demo-pct" style="font-size: clamp(30px, 3.2vw, 44px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; min-width: 3em">0 %</div></div>
+                        <div><div style="font-size: 13px; font-weight: 600; color: #B9C7BC">거리</div><div id="rp-demo-dist" style="font-size: clamp(18px, 1.8vw, 24px); font-weight: 700; line-height: 1.35; min-width: 4.4em">0.00 km</div></div>
+                        <div><div style="font-size: 13px; font-weight: 600; color: #B9C7BC">시간</div><div id="rp-demo-time" style="font-size: clamp(18px, 1.8vw, 24px); font-weight: 700; line-height: 1.35; min-width: 3.4em">00:00</div></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Launch notice -->
-    <section id="launch" class="rp-grid border-b border-line">
-        <div class="mx-auto flex max-w-[760px] flex-col items-center gap-5 px-6 py-[clamp(72px,8vw,112px)] text-center">
-            <span
-                class="inline-flex items-center gap-2 rounded-full border-[1.5px] border-ink bg-white px-3.5 py-2 text-sm font-bold">
-                <span class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></span>곧 출시됩니다</span>
-            <h2 class="text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">첫 번째 코스를<br />함께 그려요</h2>
-            <p class="text-lg leading-[1.7] text-muted">iOS · Android 앱으로 준비하고 있어요. <br class="hidden sm:block" />출시 소식은 이곳
-                runningpencil.com에서 가장 먼저 전해드릴게요.</p>
-        </div>
-    </section>
+        <!-- Launch notice -->
+        <section id="get" class="rp-get" aria-label="출시 준비 안내">
+            <div class="rp-wrap rp-2col" style="width: 100%; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 80px); align-items: center">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; gap: clamp(18px, 2.4vw, 28px)">
+                    <p style="font-size: 15px; font-weight: 800; padding: 8px 14px; border-radius: 999px; background: #FAFAF7">출시 준비 중</p>
+                    <h2 style="font-size: clamp(34px, 5vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -0.035em">지금은 연필을<br>깎고 있어요</h2>
+                    <p style="font-size: clamp(16px, 1.5vw, 21px); font-weight: 500; line-height: 1.6; color: #33302B; max-width: 26em">러닝펜슬은 iPhone과 Android 앱으로 출시를 준비하고 있어요. <br class="rp-only-d">첫 코스를 그릴 수 있게 되면 여기서 가장 먼저 알려 드릴게요.</p>
+                    <a class="rp-btn rp-cta" href="#demo"><svg width="22" height="22" aria-hidden="true"><use href="#rp-i-play" /></svg>10초 만에 달려 보기</a>
+                </div>
+                <div style="justify-self: center">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: clamp(20px, 2.2vw, 28px); border-radius: 36px; background: #FAFAF7; box-shadow: 0 24px 48px rgba(43, 43, 43, 0.2); transform: rotate(2deg)">
+                        <svg id="rp-sketch" viewBox="-14 -14 128 128" role="img" aria-label="러닝펜슬 로고가 댕댕런 코스를 그리고 있는 그림" style="display: block; width: clamp(220px, 24vw, 320px); height: auto; overflow: visible; border-radius: 16px; background-color: #F5F9FC; background-image: linear-gradient(#D3E2EF 1px, transparent 1px), linear-gradient(90deg, #D3E2EF 1px, transparent 1px); background-size: 12.5% 12.5%">
+                            <use href="#rp-c-dog" fill="none" stroke="#9FB6CC" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="0.1 9" />
+                            <use href="#rp-c-dog" fill="none" stroke="#3A3A3A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1000" stroke-dashoffset="1000"><animate attributeName="stroke-dashoffset" values="1000;0;0" keyTimes="0;0.78;1" dur="14s" repeatCount="indefinite" /><animate attributeName="opacity" values="1;1;0" keyTimes="0;0.94;1" dur="14s" repeatCount="indefinite" /></use>
+                            <circle cx="74" cy="45.2" r="2.8" fill="#2E7D32" stroke="#FFFFFF" stroke-width="1" />
+                            <g><use href="#rp-logo" x="-7.94" y="-30" width="15.88" height="30" /><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;0.78;1" path="M74 45.2L73.5 32.8L85.8 33.4L86 44.7L88.2 45L90.3 46.7L99.3 84.5L100 93.7L91.3 93L78.7 94.7L78.6 87.5L56.4 87.7L56.2 88.4L62.2 88.4L52.6 88.5L54.6 88.5L54.7 87.6L38.1 87.5L37.9 93.6L29.1 93L27.9 91.7L27.9 89L26.4 88.7L27.5 80.1L25.9 56.9L20.6 54L14.7 52.7L11.7 53.6L6.8 52.9L0 32.1L11.6 33L10.9 10.7L12.3 7.3L24.6 5.9L38.7 8L39.1 5.4L50.4 5.8L49.9 14.5L46.6 19.8L42.5 22.7L39.5 33.7L38.7 40.9L39.2 53L39.2 52.2L51.6 54.6L57.9 54.7L74.3 46.1L74 45.2" /></g>
+                        </svg>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+                            <p style="font-size: 17px; font-weight: 800">첫 코스를 그려 보는 중</p>
+                            <p style="font-size: 14px; font-weight: 500; color: #57534C">iPhone · Android 출시 준비 중</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer
-        class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-10 text-sm text-muted-2">
-        <span class="font-mono font-bold text-ink">runningpencil.com</span>
-        <nav aria-label="약관 및 정책" class="flex flex-wrap gap-x-5 gap-y-2">
-            <a href="/privacy-policy/" class="transition-colors hover:text-ink">개인정보처리방침</a>
-            <a href="/terms/" class="transition-colors hover:text-ink">이용약관</a>
-            <a href="/data-deletion/" class="transition-colors hover:text-ink">데이터 삭제 안내</a>
-        </nav>
-        <span>© 2026 RunningPencil. All rights reserved.</span>
+    <footer class="rp-foot">
+        <div class="rp-wrap rp-foot-in">
+            <div class="rp-foot-top">
+                <div class="rp-foot-brand">
+                    <div class="rp-foot-logo">
+                        <span class="rp-brand-tile"><svg viewBox="33 12 54 102" width="14.3" height="27" aria-hidden="true"><path fill="#2B2B2B" fill-rule="evenodd" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#FFF3C4" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></svg></span>
+                        <span class="rp-brand-name">러닝펜슬</span>
+                    </div>
+                    <p>달린 길이 그림이 되는 앱</p>
+                </div>
+                <nav class="rp-foot-nav" aria-label="약관 및 정책">
+                    <a href="/privacy-policy/">개인정보처리방침</a>
+                    <a href="/terms/">이용약관</a>
+                    <a href="/data-deletion/">데이터 삭제 안내</a>
+                </nav>
+            </div>
+            <div class="rp-foot-legal">
+                <p>러닝펜슬은 슬림펌킨이 운영하는 서비스입니다.</p>
+                <p>© 2026 슬림펌킨. All rights reserved.</p>
+                <p>경로 데이터 © OpenStreetMap contributors</p>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        // 「세 가지 이유」의 스크롤 연동과 「달려 보기」 체험. 라이브러리 없이 이 파일 안에서만 돈다.
+        (function () {
+            'use strict';
+            var doc = document.documentElement;
+            var byId = function (id) { return document.getElementById(id); };
+
+            var story = byId('story'), panel = byId('rp-panel');
+            var stepEls = story.querySelectorAll('[data-step]');   // 단계 글 3개 + 폰 화면 3개
+            var pills = story.querySelectorAll('[data-go]');       // 단계 버튼 3개
+            var runDot = byId('rp-run-dot'), runPct = byId('rp-run-pct'), runTime = byId('rp-run-time'), runDist = byId('rp-run-dist');
+            var demoProg = byId('rp-demo-prog'), demoDot = byId('rp-demo-dot');
+            var demoPct = byId('rp-demo-pct'), demoDist = byId('rp-demo-dist'), demoTime = byId('rp-demo-time');
+            var runBtn = byId('rp-run-btn'), runIcon = byId('rp-run-icon'), runLabel = byId('rp-run-label'), demoDone = byId('rp-demo-done');
+            var course = byId('rp-c-dog');   // 댕댕런 코스 선
+            var KM = 8.3;                    // 댕댕런 거리
+
+            // step: 보이는 단계(0~2) · live: 구간을 화면에 고정하고 스크롤로 넘기는 중인지 · run: 체험 상태(idle → running → done)
+            var state = { step: 0, live: doc.classList.contains('rp-pin'), run: 'idle' };
+            var storyFrame = 0, runFrame = 0;
+
+            function reduced() { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+            function clamp01(v) { return Math.min(1, Math.max(0, v)); }
+            function twoDigits(n) { return (n < 10 ? '0' : '') + n; }
+            function clock(sec) {
+                sec = Math.round(sec);
+                var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+                return h ? h + ':' + twoDigits(m) + ':' + twoDigits(s) : twoDigits(m) + ':' + twoDigits(s);
+            }
+            function setText(el, value) { if (el.textContent !== value) el.textContent = value; }
+            // 코스 선의 q(0~1) 지점으로 점을 옮긴다
+            function moveTo(el, q) {
+                try {
+                    var p = course.getPointAtLength(course.getTotalLength() * q);
+                    el.style.transform = 'translate(' + p.x.toFixed(2) + 'px, ' + p.y.toFixed(2) + 'px)';
+                } catch (e) { /* 경로 길이를 못 읽는 브라우저에서는 점을 출발점에 둔다 */ }
+            }
+
+            // ── 세 가지 이유 ──
+            function setStep(i) {
+                var k;
+                state.step = i;
+                for (k = 0; k < stepEls.length; k++) stepEls[k].classList.toggle('is-on', +stepEls[k].getAttribute('data-step') === i);
+                for (k = 0; k < pills.length; k++) {
+                    pills[k].classList.toggle('is-on', +pills[k].getAttribute('data-go') === i);
+                    pills[k].setAttribute('aria-pressed', String(+pills[k].getAttribute('data-go') === i));
+                }
+                panel.className = 'rp-panel is-s' + i;
+            }
+
+            // 움직임 줄이기 설정이거나 창이 아주 길면 고정하지 않고 단계 버튼으로만 넘긴다
+            function syncLive() {
+                var live = !reduced() && window.innerHeight <= 2400 && doc.scrollHeight > window.innerHeight + 200;
+                if (live !== state.live) { state.live = live; doc.classList.toggle('rp-pin', live); }
+            }
+
+            // 스크롤 위치를 단계(step)와 단계별 진행도(--q0 · --q1 · --q2, 0~1)로 바꿔 그림에 반영한다
+            function paintStory() {
+                var step = state.step, q = [1, 0.62, 1];
+                if (state.live) {
+                    var rect = story.getBoundingClientRect(), vh = window.innerHeight;
+                    var span = Math.max(1, rect.height - vh);
+                    var f = Math.min(2.9999, clamp01(-rect.top / span) * 3);
+                    step = Math.floor(f);
+                    var local = clamp01((f - step - 0.05) / 0.75);
+                    var entry = clamp01((vh * 0.8 - rect.top) / (vh * 0.8));
+                    q = [step > 0 ? 1 : Math.min(1, entry * 0.3 + local * 0.7), step > 1 ? 1 : (step === 1 ? local : 0), step === 2 ? local : 0];
+                }
+                story.style.setProperty('--q0', q[0].toFixed(4));
+                story.style.setProperty('--q1', q[1].toFixed(4));
+                story.style.setProperty('--q2', q[2].toFixed(4));
+                moveTo(runDot, q[1]);
+                var km = KM * q[1];
+                setText(runPct, Math.round(q[1] * 100) + ' %');
+                setText(runDist, km.toFixed(2) + ' km');
+                setText(runTime, clock(km * 460));
+                if (step !== state.step) setStep(step);
+            }
+
+            function goStep(i) {
+                if (state.live) {
+                    var top = window.scrollY + story.getBoundingClientRect().top;
+                    var span = story.offsetHeight - window.innerHeight;
+                    window.scrollTo({ top: top + span * ((i + 0.55) / 3), behavior: 'smooth' });
+                } else {
+                    setStep(i);
+                }
+            }
+
+            // ── 달려 보기: 7초 동안 코스를 따라 달리고, 끝나면 뱃지를 보여 준다 ──
+            function paintDemo(q) {
+                demoProg.setAttribute('stroke-dashoffset', (1000 * (1 - q)).toFixed(1));
+                moveTo(demoDot, q);
+                setText(demoPct, Math.round(q * 100) + ' %');
+                setText(demoDist, (KM * q).toFixed(2) + ' km');
+                setText(demoTime, clock(KM * q * 390));
+            }
+
+            function setRun(run) {
+                state.run = run;
+                setText(runLabel, run === 'running' ? '달리는 중…' : (run === 'done' ? '다시 달리기' : '달리기 시작'));
+                runIcon.setAttribute('href', run === 'done' ? '#rp-i-replay' : '#rp-i-play');
+                demoDone.classList.toggle('is-on', run === 'done');
+            }
+
+            function startRun() {
+                if (runFrame) cancelAnimationFrame(runFrame);
+                setRun('running');
+                paintDemo(0);
+                var t0 = performance.now();
+                var tick = function (now) {
+                    var t = Math.min(1, (now - t0) / 7000);
+                    paintDemo(t);
+                    if (t < 1) { runFrame = requestAnimationFrame(tick); } else { runFrame = 0; setRun('done'); }
+                };
+                runFrame = requestAnimationFrame(tick);
+            }
+
+            // ── 연결 ──
+            for (var i = 0; i < pills.length; i++) {
+                (function (n) { pills[n].addEventListener('click', function () { goStep(n); }); })(i);
+            }
+            runBtn.addEventListener('click', startRun);
+            window.addEventListener('scroll', function () {
+                if (!state.live || storyFrame) return;
+                storyFrame = requestAnimationFrame(function () { storyFrame = 0; paintStory(); });
+            }, { passive: true });
+            window.addEventListener('resize', function () { syncLive(); paintStory(); });
+            // 주소에 #demo 처럼 구간이 붙어 열렸으면 그 구간 머리에 맞춰 선다. 글꼴이 늦게 와서 위쪽 높이가 달라져도 다시 맞춘다
+            // (사용자가 손대기 전까지만. 새로 고침·뒤로 가기는 브라우저가 되돌려 주는 자리를 그대로 둔다)
+            var target = null, touched = false;
+            var nav = performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+            try { if (location.hash.length > 1 && (!nav || nav.type === 'navigate')) target = byId(decodeURIComponent(location.hash.slice(1))); } catch (e) { /* 깨진 주소는 무시 */ }
+            function settle() {
+                if (target && !touched) { try { target.scrollIntoView({ behavior: 'instant', block: 'start' }); } catch (e) { target.scrollIntoView(true); } }
+                syncLive();
+                paintStory();
+            }
+            ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (type) {
+                window.addEventListener(type, function () { touched = true; }, { passive: true, once: true });
+            });
+            window.addEventListener('load', function () { settle(); doc.classList.add('rp-ready'); });
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(settle);
+
+            syncLive();
+            paintStory();
+            paintDemo(0);
+
+            // 움직임 줄이기 설정이면 히어로 그림은 멈추고, '그리는 중' 카드는 반쯤 그린 장면에서 세워 둔다
+            if (reduced()) {
+                var hero = byId('rp-hero-art'), sketch = byId('rp-sketch');
+                if (hero && hero.pauseAnimations) hero.pauseAnimations();
+                if (sketch && sketch.pauseAnimations) { sketch.setCurrentTime(6.6); sketch.pauseAnimations(); }
+            }
+        })();
+    </script>
 </body>
 
 </html>

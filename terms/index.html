@@ -5,117 +5,97 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>서비스 이용약관 - RunningPencil</title>
-    <meta name="description" content="RunningPencil 서비스 이용약관. 서비스 이용 조건, 코스·뱃지·포인트에 관한 규정, 이용자의 의무와 안전 책임을 안내합니다." />
+    <title>서비스 이용약관 - 러닝펜슬</title>
+    <meta name="description" content="러닝펜슬 서비스 이용약관. 서비스 이용 조건, 코스·뱃지·포인트에 관한 규정, 이용자의 의무와 안전 책임을 안내합니다." />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#F7F6F2" />
+    <meta name="theme-color" content="#F2B134" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap"
-        rel="stylesheet" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin />
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="RunningPencil" />
+    <meta name="apple-mobile-web-app-title" content="러닝펜슬" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <script id="tailwind-config">
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        "paper": "#F7F6F2",
-                        "ink": "#16181D",
-                        "ink-2": "#23262D",
-                        "ink-line": "#3A3E47",
-                        "ink-muted": "#C9CCD3",
-                        "ink-muted-2": "#9EA3AD",
-                        "accent": "#FF5A1F",
-                        "muted": "#4A4F59",
-                        "muted-2": "#5A5F6A",
-                        "line": "#E6E3DA",
-                        "map": "#F2F0EA",
-                    },
-                    fontFamily: {
-                        "sans": ["Noto Sans KR", "system-ui", "sans-serif"],
-                        "mono": ["Space Mono", "monospace"],
-                    },
-                    boxShadow: {
-                        "hard": "8px 8px 0 #16181D",
+                        "ink": "#2B2B2B",
+                        "accent": "#7C580D",
+                        "muted": "#4A463F",
+                        "muted-2": "#57534C",
+                        "line": "#E4E0D6",
                     },
                 },
             },
         }
     </script>
     <style>
-        /* 32px 격자 배경 — Tailwind config 밖의 유일한 커스텀 CSS */
-        .rp-grid {
-            background-color: #F7F6F2;
-            background-image: linear-gradient(#E6E3DA 1px, transparent 1px),
-                linear-gradient(90deg, #E6E3DA 1px, transparent 1px);
-            background-size: 32px 32px;
-        }
+        /* ── 공통: 바탕 · 머리말 · 바닥글 ──
+           네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+        html { background: #F2B134; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { margin: 0; overflow-x: clip; font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; color: #2B2B2B; background: #FAFAF7; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        *, *::before, *::after { box-sizing: border-box; }
+        :focus-visible { outline: 3px solid #1E5AA8; outline-offset: 3px; }
+        .rp-wrap { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: clamp(20px, 5vw, 64px); padding-right: clamp(20px, 5vw, 64px); }
+        .rp-head { background: #F2B134; line-height: normal; }
+        .rp-head-in { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 20px; padding-bottom: 20px; }
+        .rp-brand { display: flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; color: #2B2B2B; }
+        .rp-brand-tile { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: #FAFAF7; }
+        .rp-brand-name { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
+        .rp-nav { display: flex; align-items: center; gap: 28px; font-size: 16px; font-weight: 600; }
+        .rp-nav a { text-decoration: none; color: #2B2B2B; }
+        .rp-nav a:hover { text-decoration: underline; }
+        .rp-foot { background: #2B2B2B; color: #D8D4CB; padding: clamp(40px, 5vw, 64px) 0; line-height: normal; }
+        .rp-foot p { margin: 0; }
+        .rp-foot-in { display: flex; flex-direction: column; gap: 28px; }
+        .rp-foot-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+        .rp-foot-brand { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
+        .rp-foot-logo { display: flex; align-items: center; gap: 10px; }
+        .rp-foot-logo .rp-brand-tile { background: #F2B134; }
+        .rp-foot-logo .rp-brand-name { color: #FAFAF7; }
+        .rp-foot-nav { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 15px; font-weight: 600; }
+        .rp-foot-nav a { display: inline-flex; align-items: center; min-height: 44px; color: #FAFAF7; text-decoration: none; }
+        .rp-foot-nav a:hover { text-decoration: underline; }
+        .rp-foot-legal { display: flex; flex-direction: column; gap: 6px; padding-top: 20px; border-top: 1px solid #4A4844; font-size: 13px; line-height: 1.6; color: #B5B0A7; }
+        @media (max-width: 860px) { .rp-nav { display: none; } }
+
+        /* ── 법적 페이지 전용 ── 모눈종이 바탕. 글이 짧아도 바닥글이 화면 아래에 붙는다 */
+        body { min-height: 100vh; display: flex; flex-direction: column; }
+        main { flex: 1 0 auto; }
+        .rp-grid { background-color: #F5F9FC; background-image: linear-gradient(#D3E2EF 1px, transparent 1px), linear-gradient(90deg, #D3E2EF 1px, transparent 1px); background-size: 32px 32px; }
     </style>
 </head>
 
-<body class="bg-paper font-sans text-ink antialiased">
+<body>
     <!-- Header -->
-    <header class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-6">
-        <a href="/" class="flex items-center gap-2.5 text-ink" aria-label="RunningPencil 홈">
-            <svg viewBox="0 0 512 512" width="36" height="36" aria-hidden="true" class="block">
-                <defs>
-                    <clipPath id="rp-clip-nav">
-                        <rect width="512" height="512" rx="116" />
-                    </clipPath>
-                </defs>
-                <g clip-path="url(#rp-clip-nav)">
-                    <rect width="512" height="512" fill="#E9E4D8" />
-                    <rect width="200" height="118" fill="#CDDDBE" />
-                    <path d="M512 330 C452 342 408 404 428 512 L512 512 Z" fill="#BFD5DE" />
-                    <g fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round">
-                        <path d="M0 130 L212 130" />
-                        <path d="M212 0 L212 130" />
-                        <path d="M212 84 L512 84" />
-                        <path d="M330 240 L512 240" />
-                        <path d="M330 240 L330 512" />
-                        <path d="M0 440 L400 440" />
-                    </g>
-                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330 L330 240" fill="none"
-                        stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M116 180 C116 262 60 326 124 380 C180 426 216 368 240 330" fill="none"
-                        stroke="#FF5A1F" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="116" cy="180" r="30" fill="#FF5A1F" />
-                    <circle cx="116" cy="180" r="12" fill="#FFFFFF" />
-                    <g transform="translate(240 330) rotate(45) scale(0.76)">
-                        <path d="M0 0 L-16 -44 L16 -44 Z" fill="#FF5A1F" />
-                        <path d="M-16 -44 L-42 -116 L42 -116 L16 -44 Z" fill="#EAC89A" />
-                        <rect x="-42" y="-312" width="84" height="196" fill="#16181D" />
-                        <rect x="-42" y="-334" width="84" height="22" fill="#8E939B" />
-                        <path d="M-42 -334 L-42 -356 Q-42 -376 -22 -376 L22 -376 Q42 -376 42 -356 L42 -334 Z"
-                            fill="#F29BAA" />
-                    </g>
-                </g>
-            </svg>
-            <span class="font-mono text-xl font-bold tracking-[-0.5px]">runningpencil</span>
-        </a>
-        <nav aria-label="주요 메뉴" class="flex flex-wrap items-center gap-2">
-            <a href="/#features" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">기능
-                소개</a>
-            <a href="/#coursebook" class="px-3.5 py-3 text-[15px] font-medium transition-colors hover:text-muted-2">코스북</a>
-        </nav>
+    <header class="rp-head">
+        <div class="rp-wrap rp-head-in">
+            <a class="rp-brand" href="/" aria-label="러닝펜슬 홈">
+                <span class="rp-brand-tile"><svg viewBox="33 12 54 102" width="14.3" height="27" aria-hidden="true"><path fill="#2B2B2B" fill-rule="evenodd" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#F2B134" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></svg></span>
+                <span class="rp-brand-name">러닝펜슬</span>
+            </a>
+            <nav class="rp-nav" aria-label="주요 메뉴">
+                <a href="/#story">즐기는 법</a>
+                <a href="/#demo">달려 보기</a>
+                <a href="/#get">출시 안내</a>
+            </nav>
+        </div>
     </header>
 
-    <main class="rp-grid border-y border-line">
+    <main class="rp-grid">
         <div class="mx-auto max-w-[800px] px-6 py-[clamp(48px,6vw,80px)]">
-            <article class="rounded-[28px] border-[1.5px] border-ink bg-white p-7 shadow-hard md:p-12">
-                <span class="font-mono text-sm font-bold">TERMS OF SERVICE</span>
+            <article class="rounded-[28px] border-[1.5px] border-line bg-white p-7 md:p-12">
+                <span class="text-sm font-bold tracking-[0.04em] text-accent">TERMS OF SERVICE</span>
                 <h1 class="mt-3.5 text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">서비스 이용약관</h1>
-                <p class="mt-3 font-mono text-[13px] text-muted-2">최종 업데이트: 2026년 10월 31일</p>
+                <p class="mt-3 text-[13px] text-muted-2">최종 업데이트: 2026년 10월 31일</p>
                 <div class="mt-10 space-y-8 leading-[1.7] text-muted">
                     <section class="space-y-3">
                         <h2 class="text-xl font-bold text-ink">제1조 (목적)</h2>
-                        <p>본 약관은 RunningPencil(이하 "회사")이 제공하는 모바일 애플리케이션 및 관련 서비스(이하 "서비스")의 이용 조건과 절차, 회사와 이용자의 권리·의무 및 책임 사항을 규정함을 목적으로 합니다.</p>
+                        <p>본 약관은 슬림펌킨(이하 "회사")이 제공하는 러닝펜슬 모바일 애플리케이션 및 관련 서비스(이하 "서비스")의 이용 조건과 절차, 회사와 이용자의 권리·의무 및 책임 사항을 규정함을 목적으로 합니다.</p>
                     </section>
 
                     <section class="space-y-3">
@@ -192,15 +172,28 @@
     </main>
 
     <!-- Footer -->
-    <footer
-        class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-10 text-sm text-muted-2">
-        <span class="font-mono font-bold text-ink">runningpencil.com</span>
-        <nav aria-label="약관 및 정책" class="flex flex-wrap gap-x-5 gap-y-2">
-            <a href="/privacy-policy/" class="transition-colors hover:text-ink">개인정보처리방침</a>
-            <a href="/terms/" class="transition-colors hover:text-ink">이용약관</a>
-            <a href="/data-deletion/" class="transition-colors hover:text-ink">데이터 삭제 안내</a>
-        </nav>
-        <span>© 2026 RunningPencil. All rights reserved.</span>
+    <footer class="rp-foot">
+        <div class="rp-wrap rp-foot-in">
+            <div class="rp-foot-top">
+                <div class="rp-foot-brand">
+                    <div class="rp-foot-logo">
+                        <span class="rp-brand-tile"><svg viewBox="33 12 54 102" width="14.3" height="27" aria-hidden="true"><path fill="#2B2B2B" fill-rule="evenodd" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#FFF3C4" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></svg></span>
+                        <span class="rp-brand-name">러닝펜슬</span>
+                    </div>
+                    <p>달린 길이 그림이 되는 앱</p>
+                </div>
+                <nav class="rp-foot-nav" aria-label="약관 및 정책">
+                    <a href="/privacy-policy/">개인정보처리방침</a>
+                    <a href="/terms/">이용약관</a>
+                    <a href="/data-deletion/">데이터 삭제 안내</a>
+                </nav>
+            </div>
+            <div class="rp-foot-legal">
+                <p>러닝펜슬은 슬림펌킨이 운영하는 서비스입니다.</p>
+                <p>© 2026 슬림펌킨. All rights reserved.</p>
+                <p>경로 데이터 © OpenStreetMap contributors</p>
+            </div>
+        </div>
     </footer>
 </body>
 

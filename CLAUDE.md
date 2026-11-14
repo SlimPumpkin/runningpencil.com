@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-`runningpencil.com` 도메인으로 서비스되는 GitHub Pages 정적 사이트입니다. 모바일 앱 RunningPencil(지도 위 GPS 아트 코스를 걷거나 달려 완주하면 코스 모양의 뱃지와 포인트를 모으고, 지역 코스북을 완성하고, 직접 그린 코스를 올리고, 포인트로 굿즈를 교환하는 앱)의 출시 전 티저 랜딩과 앱 스토어 심사용 법적 페이지로 구성되어 있습니다.
+`runningpencil.com` 도메인으로 서비스되는 GitHub Pages 정적 사이트입니다. 모바일 앱 러닝펜슬(지도 위 GPS 아트 코스를 걷거나 달려 완주하면 코스 모양의 뱃지와 포인트를 모으고, 지역 코스북을 완성하고, 직접 그린 코스를 올리고, 포인트로 굿즈를 교환하는 앱)의 출시 전 티저 랜딩과 앱 스토어 심사용 법적 페이지로 구성되어 있습니다.
 
 - 빌드 시스템 없음 (no `package.json`, no bundler, no linter, no tests).
 - HTML 파일을 직접 편집하면 GitHub Pages가 그대로 서빙합니다.
+- `_config.yml`은 GitHub Pages가 배포할 때 한 번 거치는 Jekyll의 설정입니다. `CLAUDE.md`·`README.md` 같은 저장소 문서가 사이트에 공개되지 않게 빼는 일만 합니다 (HTML은 그대로 복사됩니다). 마크다운 문서를 새로 추가하면 `_config.yml`의 `exclude`에도 적어야 합니다.
 - `CNAME` 파일이 GitHub Pages의 사용자 지정 도메인(`runningpencil.com`) 매핑을 담당합니다 — 도메인 변경 시 이 파일을 수정해야 합니다.
 - 이 저장소는 GitHub 조직 `SlimPumpkin` 아래의 **프로젝트 사이트**입니다 (조직 사이트 슬롯은 `slimpumpkin.github.io`가 이미 사용). 커스텀 도메인이 연결되지 않으면 `slimpumpkin.github.io/<repo>/` 하위 경로로 서빙되므로, 모든 절대 경로(`/favicon/...`, `/terms/`)는 커스텀 도메인 연결을 전제로 합니다.
 
@@ -15,16 +16,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 경로 | 용도 |
 |---|---|
-| `index.html` | 티저 랜딩 — 헤더, 히어로(코스 지도 카드), HOW IT WORKS 4카드, 코스북(다크), 출시 안내, 푸터 |
+| `index.html` | 티저 랜딩 — 헤더, 히어로(쿼터뷰 지도 그림), 세 가지 이유(`#story`), 달려 보기(`#demo`), 출시 안내(`#get`), 푸터 |
 | `privacy-policy/index.html` | 개인정보처리방침 (임시 게시본, `noindex`) |
 | `terms/index.html` | 서비스 이용약관 (임시 게시본, `noindex`) |
 | `data-deletion/index.html` | 계정·데이터 삭제 안내 (앱 스토어 심사용, `noindex`) |
 
-네 페이지는 `<head>`(Tailwind config, 폰트, 파비콘, `.rp-grid` 스타일)와 헤더·푸터 마크업을 **복사해서 공유**합니다. 빌드 단계가 없어 공통 템플릿을 뽑을 수 없으니, 디자인 토큰·헤더·푸터를 바꿀 때는 네 파일을 모두 수정해야 합니다. 법적 페이지 3종은 같은 레이아웃(흰 카드 + 하드 섀도)에 본문 `<section>`만 다릅니다.
+네 페이지는 아래 세 가지를 **복사해서 공유**합니다. 빌드 단계가 없어 공통 템플릿을 뽑을 수 없으니, 이 부분을 바꿀 때는 네 파일을 모두 똑같이 수정해야 합니다.
+
+- `<head>`의 글꼴 링크와 파비콘·매니페스트 링크
+- `<style>` 맨 위의 「공통」 묶음 — 바탕색, 글꼴, `.rp-wrap`, 헤더(`.rp-head`, `.rp-brand`, `.rp-nav`)와 푸터(`.rp-foot-*`) 스타일
+- 헤더·푸터 마크업 — 링크 주소만 다릅니다 (랜딩은 `#top`·`#story`·`#demo`·`#get`, 법적 페이지는 `/`·`/#story`·`/#demo`·`/#get`)
+
+법적 페이지 3종은 같은 레이아웃(모눈종이 바탕 + 흰 카드)에 본문 `<section>`만 다릅니다.
 
 ## Local preview
 
-별도 빌드 단계가 없으므로 정적 서버로 띄워서 확인합니다 (Tailwind CDN과 Google Fonts가 `http(s)://`를 요구하므로 `file://`로 직접 열면 스타일이 깨집니다. 또한 `/favicon/...`, `/terms/` 같은 절대 경로는 저장소 루트를 서버 루트로 띄워야 동작합니다):
+별도 빌드 단계가 없으므로 정적 서버로 띄워서 확인합니다. `/favicon/...`, `/terms/`, `/#story` 같은 절대 경로를 쓰므로 저장소 루트를 서버 루트로 띄워야 링크와 파비콘이 동작합니다 (`file://`로 직접 열면 깨집니다). 글꼴과 법적 페이지의 Tailwind는 CDN에서 받으므로 인터넷 연결도 필요합니다:
 
 ```bash
 python3 -m http.server 8000
@@ -33,27 +40,35 @@ python3 -m http.server 8000
 
 ## Architecture / styling notes
 
-- **Tailwind는 CDN 런타임 모드**로 로드됩니다 (`https://cdn.tailwindcss.com`). 브라우저에서 JIT 컴파일하므로 빌드가 필요 없는 대신 프로덕션 권장 방식은 아닙니다. 클래스 추가는 즉시 반영되지만 `@apply`나 커스텀 디렉티브는 사용 불가입니다. 반응형 수치는 `pt-[clamp(56px,7vw,88px)]`처럼 arbitrary value로 씁니다.
-- **디자인 토큰**은 각 HTML의 `<script id="tailwind-config">` 인라인 블록에 정의됩니다. 원본은 `prepare/desgin/teaser html/Main.dc.html` 목업(git 제외)입니다.
-  - `paper #F7F6F2` 페이지 배경 · `ink #16181D` 텍스트/버튼/테두리 · `accent #FF5A1F` 포인트 컬러
-  - `muted #4A4F59`, `muted-2 #5A5F6A` 보조 텍스트 · `line #E6E3DA` 구분선·격자 · `map #F2F0EA` 지도 카드 배경
-  - 다크 섹션(`#coursebook`) 전용: `ink-2 #23262D`, `ink-line #3A3E47`, `ink-muted #C9CCD3`, `ink-muted-2 #9EA3AD`
-  - `fontFamily.sans`: Noto Sans KR (본문) · `fontFamily.mono`: Space Mono (라벨, 숫자, 로고 워드마크)
-  - `boxShadow.hard`: `8px 8px 0 #16181D` — 카드의 오프셋 하드 섀도
-- **`.rp-grid` 커스텀 클래스**는 32px 격자 배경입니다. Tailwind config 밖에 있는 유일한 CSS이므로 새 커스텀 스타일은 같은 `<style>` 블록에 추가합니다.
-- **다크 모드 없음.** 목업이 라이트 전용이고 `#coursebook` 섹션만 의도적으로 어두운 배경입니다.
-- **로고·아이콘·지도 일러스트는 모두 인라인 SVG**입니다. 외부 이미지 의존이 없습니다. 헤더 로고 SVG는 `favicon/favicon.svg`와 동일한 도형이며 `clipPath` id만 `rp-clip-nav`로 다릅니다.
+- **랜딩(`index.html`)은 Tailwind를 쓰지 않습니다.** 스타일은 `<head>`의 `<style>` 한 블록(「공통」 묶음 + 「랜딩 전용」)과 각 요소의 인라인 `style`에 있습니다. 반응형 수치는 `clamp(28px, 4vw, 56px)`처럼 `vw`로 쓰고, 좁은 화면(860px 이하) 규칙은 `<style>` 끝의 `@media (max-width: 860px)` 블록에 모여 있습니다. 새 스타일은 「랜딩 전용」에 추가합니다.
+- **법적 페이지 3종은 Tailwind CDN 런타임 모드**로 본문을 꾸밉니다 (`https://cdn.tailwindcss.com`). 브라우저에서 JIT 컴파일하므로 빌드가 필요 없는 대신 프로덕션 권장 방식은 아닙니다. 클래스 추가는 즉시 반영되지만 `@apply`나 커스텀 디렉티브는 사용 불가입니다. 반응형 수치는 `py-[clamp(48px,6vw,80px)]`처럼 arbitrary value로 씁니다. 헤더·푸터는 Tailwind 클래스가 아니라 「공통」 묶음의 `.rp-*` 클래스로 그립니다.
+  - 토큰은 각 법적 페이지의 `<script id="tailwind-config">` 인라인 블록에 정의됩니다: `ink #2B2B2B` 글자·제목 · `accent #7C580D` 작은 제목·링크 밑줄 · `muted #4A463F`, `muted-2 #57534C` 보조 글자 · `line #E4E0D6` 카드 테두리·구분선
+  - `.rp-grid`는 32px 모눈종이 바탕입니다. `<style>`의 「법적 페이지 전용」에 있고, 법적 페이지에만 쓰는 스타일은 여기에 추가합니다.
+- **색**: 연필 노랑 `#F2B134`(헤더·히어로·출시 안내 바탕, `theme-color`) · 흑연 `#2B2B2B`(글자, 푸터 바탕) · 바탕 `#FAFAF7` · 진한 금색 `#7C580D`(작은 제목) · 칠판 초록 `#2E4A3B`(달려 보기 구간) · 모눈종이 `#F5F9FC`에 선 `#D3E2EF`. 노랑은 밝은 바탕 위 글자색으로 쓰기에는 대비가 낮으니 글자·밑줄에는 `#7C580D`를 씁니다.
+- **글꼴은 Pretendard**(가변 글꼴)입니다. jsDelivr CDN의 다이나믹 서브셋 CSS(`orioncactus/pretendard@v1.3.9`)를 네 페이지가 같은 `<link>`로 불러옵니다.
+- **랜딩의 동작**은 `</body>` 앞의 인라인 스크립트 하나로 돌아갑니다 (라이브러리 없음).
+  - 세 가지 이유(`#story`): `<head>`의 짧은 스크립트가 첫 그리기 전에 `<html>`에 `rp-pin`을 붙이면 구간이 화면에 고정되고(높이 340vh, `position: sticky`) 스크롤에 따라 1·2·3단계가 넘어갑니다. 움직임 줄이기 설정이거나 창 높이가 2400px을 넘으면 `rp-pin`을 붙이지 않고 단계 버튼으로만 넘깁니다. 진행도는 `#story`의 CSS 변수 `--q0`·`--q1`·`--q2`(0~1)로 그림에 전달됩니다.
+  - 달려 보기(`#demo`): 버튼을 누르면 7초 동안 댕댕런 코스 선을 따라 달리고, 끝나면 뱃지를 보여 줍니다.
+  - 다 열린 뒤에 `<html>`에 `rp-ready`가 붙으면서 페이지 안 이동이 부드러워집니다. `/#demo`처럼 구간이 붙은 주소로 처음 열 때는 바로 그 자리에 서야 해서 그 뒤부터 켭니다.
+  - 스크립트는 `id`(`story`, `rp-panel`, `rp-run-*`, `rp-demo-*`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`)와 `data-step`·`data-go` 속성으로 요소를 찾고, 상태는 클래스(`is-on`, `is-s0`~`is-s2`)로 바꿉니다. 이름을 바꾸면 스크립트도 함께 고쳐야 합니다.
+- **디자인 원본**은 Claude 디자인 캔버스 「러닝펜슬 랜딩 페이지」입니다 (저장소 밖). 캔버스는 컨테이너 쿼리 단위(`cqw`)로 쓰여 있고, `index.html`은 그 티저 상태를 `vw`와 미디어 쿼리로 옮긴 것입니다. 출시 후 구간(평점, 인기 코스, 명예의 전당, 리뷰, 스토어 뱃지·QR)은 캔버스에만 있고 사이트에는 넣지 않았습니다. 캔버스 메모대로 히어로의 쿼터뷰 지도 그림은 애니메이션으로 바꿀 자리에 둔 임시 그림입니다. `prepare/desgin/teaser html/`의 목업은 이전 디자인입니다.
+- **다크 모드 없음.** 달려 보기 구간과 푸터만 의도적으로 어두운 바탕입니다.
+- **로고·아이콘·지도 그림은 모두 인라인 SVG**입니다. 외부 이미지 의존이 없습니다. 랜딩에서 여러 번 쓰는 도형(코스 선, 지도, 아이콘, 히어로 캐릭터)은 `<body>` 맨 위의 숨은 `<svg><defs>`에 모아 두고 `<use href="#…">`로 씁니다. 헤더·푸터의 로고는 법적 페이지에 `<defs>`가 없으므로 `<use>` 없이 그 자리에 그대로 넣습니다.
+- **푸터**에는 약관 링크 3개, 운영 안내 문장, 저작권, 경로 데이터 출처 표기가 있습니다. 「경로 데이터 © OpenStreetMap contributors」는 랜딩에 그린 댕댕런 코스 선이 OpenStreetMap 기반 경로 데이터에서 나온 것이라 넣었습니다. 웹페이지에 실제 지도를 쓰게 되면 그 지도의 출처 표기를 더합니다.
 - **이메일 수집 폼 없음.** 정적 호스팅이라 서버 처리가 불가능해 의도적으로 뺐습니다. 연락처 이메일도 표시하지 않습니다 (법적 페이지 포함).
 
 ## Assets
 
-- `favicon/`: `favicon.svg`(로고 SVG, 라운드 클립), `favicon.ico`(16/32/48), `favicon-96x96.png`, `apple-touch-icon.png`(180, 전면 불투명), `web-app-manifest-192x192.png`·`512x512.png`(전면 불투명, `purpose: maskable`), `site.webmanifest`.
-- 원본은 `prepare/desgin/icon_favicon.png`(1024px, 라운드·투명)입니다. 전면 사각형 버전은 `favicon.svg`에서 `clipPath`를 제거해 렌더링했습니다. 재생성 시 PIL로 LANCZOS 리사이즈하면 됩니다.
-- `prepare/`는 `.gitignore`로 제외된 로컬 전용 폴더입니다 (디자인 목업, 아이콘 원본).
+- `favicon/`: `favicon.svg`(둥근 노랑 타일 + 로고), `favicon.ico`(16/32/48), `favicon-96x96.png`(둥근 타일, 모서리 투명), `apple-touch-icon.png`(180, 전면 불투명), `web-app-manifest-192x192.png`·`512x512.png`(전면 불투명, `purpose: maskable`), `site.webmanifest`(`theme_color`·`background_color`는 `#F2B134`).
+- 로고는 앱 아이콘과 같은 그림(핀 모양 연필)이고, 원본 SVG는 앱 저장소의 `docs/brand/icon-1024.svg`입니다. `apple-touch-icon`과 매니페스트 아이콘은 앱 아이콘(전면 노랑, 로고 높이 66%)을 그대로 줄인 것이고, `favicon.svg`·`favicon.ico`·`favicon-96x96.png`는 둥근 타일(512 기준 모서리 반경 116)에 로고를 높이 400으로 얹은 것입니다. 작게 보이는 `favicon.svg`·`favicon.ico`와 헤더·푸터의 로고는 깎은 면의 선 두 개를 뺀 작은 판입니다.
+- 재생성 시에는 SVG를 목표 크기의 8배로 그린 뒤(`rsvg-convert` 등) 8×8 평균으로 줄이면 가장자리가 깔끔합니다.
+- `prepare/`는 `.gitignore`로 제외된 로컬 전용 폴더입니다 (이전 디자인의 목업, 옛 아이콘 원본 등).
 
 ## Content language
 
 본문·`<html lang>` 모두 `ko`입니다.
+
+서비스(앱) 이름은 한글 "러닝펜슬"로 표기합니다 (제목·메타·매니페스트·워드마크·본문). 운영 회사 이름은 "슬림펌킨"이며, 저작권 표기, 푸터의 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체에 씁니다. 영문 `RunningPencil`은 쓰지 않고, `runningpencil.com`은 도메인 표기로만 남깁니다.
 
 ## Deploy
 

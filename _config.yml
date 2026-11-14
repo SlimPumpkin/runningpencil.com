@@ -1,0 +1,12 @@
+# GitHub Pages 설정 — 사이트에 올리지 않을 파일.
+#
+# 이 저장소에는 빌드가 없지만, GitHub Pages 는 브랜치를 배포할 때 Jekyll 을 한 번 거친다.
+# 그때 마크다운 파일이 원문 그대로(/CLAUDE.md, /README.md), 또 페이지로 바뀌어(/CLAUDE.html) 사이트에 공개된다.
+# 저장소 안내 문서가 사이트에 올라가지 않도록 여기서 뺀다. 마크다운 문서를 새로 추가하면 이 목록에도 적는다.
+#
+# CNAME 은 GitHub Pages 가 원래부터 사이트에 올리지 않던 파일이다. exclude 를 직접 적으면 그 기본값이
+# 사라지므로 함께 적어 둔다. 도메인 연결은 저장소의 CNAME 파일이 맡으며, 이 목록과는 상관없다.
+exclude:
+  - CNAME
+  - CLAUDE.md
+  - README.md

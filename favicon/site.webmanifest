@@ -1,6 +1,6 @@
 {
-  "name": "RunningPencil",
-  "short_name": "RunningPencil",
+  "name": "러닝펜슬",
+  "short_name": "러닝펜슬",
   "description": "달리고 걷는 길이 아트가 됩니다. GPS 아트 코스를 완주하고 뱃지를 모으세요.",
   "lang": "ko",
   "start_url": "/",
@@ -18,7 +18,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#F7F6F2",
-  "background_color": "#F7F6F2",
+  "theme_color": "#F2B134",
+  "background_color": "#F2B134",
   "display": "standalone"
 }
