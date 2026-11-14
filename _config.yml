@@ -10,3 +10,4 @@ exclude:
   - CNAME
   - CLAUDE.md
   - README.md
+  - .planning/
