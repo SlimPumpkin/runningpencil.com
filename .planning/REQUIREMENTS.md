@@ -154,13 +154,67 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (로드맵 작성 시 채움) | | |
+| BASE-01 | Phase 1 | Pending |
+| BASE-02 | Phase 1 | Pending |
+| BASE-03 | Phase 1 | Pending |
+| BASE-04 | Phase 1 | Pending |
+| BASE-05 | Phase 1 | Pending |
+| SHELL-01 | Phase 2 | Pending |
+| SHELL-02 | Phase 2 | Pending |
+| SHELL-03 | Phase 2 | Pending |
+| SHELL-04 | Phase 3 | Pending |
+| SITE-01 | Phase 4 | Pending |
+| SITE-02 | Phase 8 | Pending |
+| SITE-03 | Phase 5 | Pending |
+| SITE-04 | Phase 10 | Pending |
+| SITE-05 | Phase 8 | Pending |
+| SITE-06 | Phase 4 | Pending |
+| BIZ-01 | Phase 5 | Pending |
+| BIZ-02 | Phase 5 | Pending |
+| BIZ-03 | Phase 5 | Pending |
+| SUP-01 | Phase 5 | Pending |
+| SUP-02 | Phase 5 | Pending |
+| SUP-03 | Phase 5 | Pending |
+| SUP-04 | Phase 5 | Pending |
+| SUP-05 | Phase 10 | Pending |
+| DEL-01 | Phase 6 | Pending |
+| DEL-02 | Phase 6 | Pending |
+| DEL-03 | Phase 6 | Pending |
+| DEL-04 | Phase 6 | Pending |
+| DEL-05 | Phase 6 | Pending |
+| DEL-06 | Phase 6 | Pending |
+| DEL-07 | Phase 6 | Pending |
+| PRIV-01 | Phase 7 | Pending |
+| PRIV-02 | Phase 7 | Pending |
+| PRIV-03 | Phase 7 | Pending |
+| PRIV-04 | Phase 7 | Pending |
+| PRIV-05 | Phase 7 | Pending |
+| PRIV-06 | Phase 7 | Pending |
+| PRIV-07 | Phase 7 | Pending |
+| PRIV-08 | Phase 7 | Pending |
+| PRIV-09 | Phase 7 | Pending |
+| PRIV-10 | Phase 7 | Pending |
+| PRIV-11 | Phase 7 | Pending |
+| TERM-01 | Phase 8 | Pending |
+| TERM-02 | Phase 8 | Pending |
+| TERM-03 | Phase 8 | Pending |
+| LOC-01 | Phase 8 | Pending |
+| LOC-02 | Phase 8 | Pending |
+| LOC-03 | Phase 8 | Pending |
+| LOC-04 | Phase 8 | Pending |
+| I18N-01 | Phase 9 | Pending |
+| I18N-02 | Phase 9 | Pending |
+| I18N-03 | Phase 9 | Pending |
+| I18N-04 | Phase 9 | Pending |
+| SUBMIT-01 | Phase 10 | Pending |
+| SUBMIT-02 | Phase 10 | Pending |
+| SUBMIT-03 | Phase 10 | Pending |
 
 **Coverage:**
 - v1 requirements: 55 total
-- Mapped to phases: 0
-- Unmapped: 55 ⚠️
+- Mapped to phases: 55
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-11-14*
-*Last updated: 2026-11-14 after initial definition*
+*Last updated: 2026-11-14 after roadmap creation*
