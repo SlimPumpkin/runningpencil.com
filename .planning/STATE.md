@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
 status: executing
-stopped_at: Completed 01-04-PLAN.md
-last_updated: "2026-11-15T06:25:57.822Z"
+stopped_at: Completed 01-06-PLAN.md
+last_updated: "2026-11-15T06:39:33.010Z"
 last_activity: 2026-11-14
 last_activity_desc: Phase 01 execution started
-state_head: 1aac6a5f68ca440581e1b4a2905c5822686e768a
+state_head: e7fafd30541d7e5820109b9b568dfef8828b1f26
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 4
+  completed_plans: 5
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-14)
 ## Current Position
 
 Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — EXECUTING
-Plan: 5 of 8
+Plan: 6 of 8
 Status: Ready to execute
 Last activity: 2026-11-14 — Phase 01 execution started
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P02 | 6 min | 2 tasks | 1 files |
 | Phase 01 P03 | 13 min | 2 tasks | 1 files |
 | Phase 01 P04 | 8 min | 2 tasks | 1 files |
+| Phase 01 P06 | 4 min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,8 @@ Recent decisions affecting current work:
 - [Phase 01]: P1(prod 리전)은 ROADMAP External Gates 표에 행이 없어 막는 단계·마감 단계를 D-08(Phase 7 처리방침 커밋 전)에서 가져왔다 (01-04)
 - [Phase 01]: 결정 목록 N 표의 「다루는 곳」은 데이터 목록 구간 글자로 적었다. N1·N5는 E, N6은 F와 P1, N2는 H — 01-05가 더할 구간 (01-04)
 - [Phase 01]: U12 기록에는 업무 메일 도메인 이름과 채택하지 않은 메일 전달 서비스 이름을 적지 않았다 (01-04)
+- [Phase 01]: CONVENTIONS.md의 이메일 항목을 폼 금지 규칙(유지)과 지원 이메일 상태 문장(이메일 게이트 Phase 5)으로 나눠 Content & Naming Rules를 일곱 항목으로 만듦 (01-06)
+- [Phase 01]: .claude/CLAUDE.md는 생성기 사본 시험에서 conventions 블록의 Content & Naming Rules 목록 줄만 바뀜을 확인한 뒤 --auto 없이 재생성함. 블록 안 손 수정 없음 (01-06)
 
 ### Pending Todos
 
@@ -114,6 +117,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T06:25:57.809Z
-Stopped at: Completed 01-04-PLAN.md
+Last session: 2026-11-15T06:39:32.997Z
+Stopped at: Completed 01-06-PLAN.md
 Resume file: None
