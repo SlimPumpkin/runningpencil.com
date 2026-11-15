@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
 status: executing
-stopped_at: Completed 01-05-PLAN.md
-last_updated: "2026-11-15T07:09:44.602Z"
+stopped_at: Completed 01-07-PLAN.md
+last_updated: "2026-11-15T07:15:22.735Z"
 last_activity: 2026-11-14
 last_activity_desc: Phase 01 execution started
-state_head: 003f0a612e4d4568de0e4918126d749615274707
+state_head: 0a564b3bcbe7ea08d01d96120163d6ce0807c106
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-14)
 ## Current Position
 
 Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — EXECUTING
-Plan: 6 of 8
+Plan: 7 of 8
 Status: Ready to execute
 Last activity: 2026-11-14 — Phase 01 execution started
 
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P04 | 8 min | 2 tasks | 1 files |
 | Phase 01 P06 | 4 min | 3 tasks | 5 files |
 | Phase 01 P05 | 10 min | 2 tasks | 1 files |
+| Phase 01 P07 | 3 min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 01]: 기기 안 설정 행에 SharedPreferences 키를 모두 적음. 익명 사용자의 약관 동의 사본(terms.accepted_value)이 기기 안에 있음 (01-05)
 - [Phase 01]: mail 컬렉션에는 인증 메일과 비밀번호 재설정 메일이 함께 쓰임 (send_password_reset_mail.ts:310) (01-05)
 - [Phase 1]: U12 결정. 지원 메일은 Google Workspace 사용자 별칭 도메인으로 받고 지원 주소에서 답장함. 가비아 DNS는 두 번 방문(1차 도메인 인증·MX·SPF·Search Console, 2차 DKIM). 위치약관 경로는 `/location-terms/`로 확정
+- [Phase 01]: ROADMAP·STATE·PROJECT 본문 문장은 핸들러 없이 Edit로 고치고 roadmap validate·state validate로 구조를 확인함 (01-07)
+- [Phase 01]: 연구 문서(research/STACK.md·SUMMARY.md)는 본문을 고치지 않고 구간 머리에 U12 결정 메모 한 줄만 더함. 연구 캐시는 .gitignore로 뺌 (01-07)
 
 ### Pending Todos
 
@@ -123,6 +126,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T07:09:44.588Z
-Stopped at: Completed 01-05-PLAN.md
+Last session: 2026-11-15T07:15:22.722Z
+Stopped at: Completed 01-07-PLAN.md
 Resume file: None

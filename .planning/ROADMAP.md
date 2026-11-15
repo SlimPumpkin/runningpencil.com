@@ -47,7 +47,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. 운영자는 데이터 목록에서 개인정보 항목마다 출처·목적·저장 위치(리전)·수탁자·국외 이전·보유 기간·삭제 방식을 앱 저장소의 파일 근거와 함께 확인하고, 확인하지 못한 칸은 「미확인」으로 표시돼 있다
   4. 운영자는 결정 목록(U2·U3·U5~U9·U11~U13)과 사용자가 할 외부 작업 목록(가비아 DNS 레코드 표, 메일 수신 시험 절차, 사업자 값, 앱 화면 캡처)을 받아, 항목마다 어느 단계를 막는지 안다
   5. `CLAUDE.md`가 지원 이메일 공개, 사업자 정보 표시, 영문명 RunningPencil, 한국어+영어, Jekyll 빌드 전환, 포인트·굿즈·코스북 제거를 현재 방침으로 설명하고, 「연락처 미표시」「RunningPencil 쓰지 않음」「ko 전용」 같은 옛 규칙 문장이 남아 있지 않다
-**Plans**: 6/8 plans executed
+**Plans**: 7/8 plans executed
 
 Plans:
 **Wave 1**
@@ -61,7 +61,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [x] 01-05-PLAN.md — 데이터 목록 2부 (SDK·서버 보조, 탈퇴 처리, 리전·보존 기간, 확인할 것)
-- [ ] 01-07-PLAN.md — 계획 문서 정합 (ROADMAP·STATE·PROJECT에 메일 결정·DNS 두 번 방문·위치약관 경로 반영, 연구 문서 메모)
+- [x] 01-07-PLAN.md — 계획 문서 정합 (ROADMAP·STATE·PROJECT에 메일 결정·DNS 두 번 방문·위치약관 경로 반영, 연구 문서 메모)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [ ] 01-08-PLAN.md — dev 프로젝트 읽기 전용 CLI 조회 (사용자 재로그인 뒤, 건너뛸 수 있음)
@@ -252,7 +252,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 6/8 | In Progress | - |
+| 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 7/8 | In Progress | - |
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 0/TBD | Not started | - |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 0/TBD | Not started | - |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |
