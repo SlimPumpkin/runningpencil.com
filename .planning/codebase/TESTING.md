@@ -120,11 +120,18 @@ done
 
 **`CLAUDE.md` 방침 구간 일치 확인 (점검 목록 9):**
 ```bash
-# 두 사본의 「이번 마일스톤 방침」 구간이 같은지 확인. 출력이 없으면 통과
-diff <(sed -n '/^## 이번 마일스톤 방침/,/^## Repository purpose/p' CLAUDE.md | sed '$d') \
-     <(sed -n '/^## 이번 마일스톤 방침/,/^<!-- GSD:/p' .claude/CLAUDE.md | sed '$d')
+# 두 사본의 「이번 마일스톤 방침」 구간이 같은지 확인. 출력이 없으면 통과, FAIL이 나오면 머리 문구·마커부터 확인
+# 서브셸 ( ) 안에서 돌리므로 터미널에 붙여 넣어도 exit가 창을 닫지 않는다
+(
+  a=$(sed -n '/^## 이번 마일스톤 방침/,/^## Repository purpose/p' CLAUDE.md | sed '$d')
+  b=$(sed -n '/^## 이번 마일스톤 방침/,/^<!-- GSD:/p' .claude/CLAUDE.md | sed '$d')
+  case "$a" in *'### 작업 규칙'*) ;; *) echo 'FAIL: 루트 CLAUDE.md에서 방침 구간을 찾지 못함'; exit 1 ;; esac
+  case "$b" in *'### 작업 규칙'*) ;; *) echo 'FAIL: .claude/CLAUDE.md에서 방침 구간을 찾지 못함'; exit 1 ;; esac
+  diff <(printf '%s\n' "$a") <(printf '%s\n' "$b")
+)
 ```
-- 범위는 루트 `CLAUDE.md`의 `## 이번 마일스톤 방침`부터 `## Repository purpose` 바로 앞까지, `.claude/CLAUDE.md`의 같은 머리부터 첫 `<!-- GSD:` 마커 바로 앞까지다. 머리 문구나 마커가 바뀌면 이 명령도 고친다.
+- 범위는 루트 `CLAUDE.md`의 `## 이번 마일스톤 방침`부터 `## Repository purpose` 바로 앞까지, `.claude/CLAUDE.md`의 같은 머리부터 첫 `<!-- GSD:` 마커 바로 앞까지다.
+- 두 구간이 비어 있거나 「### 작업 규칙」이 없으면 `FAIL`을 찍고 종료 코드 1로 끝난다. 그래서 두 파일의 머리 문구를 함께 바꿔도 점검이 빈 구간끼리 비교하고 조용히 통과하지 않는다. 머리 문구, 「### 작업 규칙」 소제목, 마커를 바꾸면 이 명령도 함께 고친다.
 - `generate-claude-md`는 GSD 마커 밖을 건드리지 않으므로 두 사본을 맞춰 주지 않는다. 손으로 같이 고친 뒤 이 명령으로 확인한다.
 
 **이메일 주소 미노출 확인 (이메일 게이트 전, Phase 5까지 유효):**
