@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
 status: executing
-stopped_at: Completed 01-06-PLAN.md
-last_updated: "2026-11-15T06:39:33.010Z"
+stopped_at: Completed 01-05-PLAN.md
+last_updated: "2026-11-15T07:09:44.602Z"
 last_activity: 2026-11-14
 last_activity_desc: Phase 01 execution started
-state_head: e7fafd30541d7e5820109b9b568dfef8828b1f26
+state_head: 003f0a612e4d4568de0e4918126d749615274707
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 6
   percent: 0
 ---
 
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P03 | 13 min | 2 tasks | 1 files |
 | Phase 01 P04 | 8 min | 2 tasks | 1 files |
 | Phase 01 P06 | 4 min | 3 tasks | 5 files |
+| Phase 01 P05 | 10 min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,10 @@ Recent decisions affecting current work:
 - [Phase 01]: U12 기록에는 업무 메일 도메인 이름과 채택하지 않은 메일 전달 서비스 이름을 적지 않았다 (01-04)
 - [Phase 01]: CONVENTIONS.md의 이메일 항목을 폼 금지 규칙(유지)과 지원 이메일 상태 문장(이메일 게이트 Phase 5)으로 나눠 Content & Naming Rules를 일곱 항목으로 만듦 (01-06)
 - [Phase 01]: .claude/CLAUDE.md는 생성기 사본 시험에서 conventions 블록의 Content & Naming Rules 목록 줄만 바뀜을 확인한 뒤 --auto 없이 재생성함. 블록 안 손 수정 없음 (01-06)
+- [Phase 01]: 구간 G를 13행으로 씀: mail 문서와 Cloud Functions 로그의 uid를 더해 탈퇴 뒤 남는 데이터를 빠짐없이 보임 (01-05)
+- [Phase 01]: 구간 H를 18행으로 씀: Firestore TTL과 배포된 함수 리전 행을 더해 「확인할 것」 CLI 행과 맞춤 (01-05)
+- [Phase 01]: 기기 안 설정 행에 SharedPreferences 키를 모두 적음. 익명 사용자의 약관 동의 사본(terms.accepted_value)이 기기 안에 있음 (01-05)
+- [Phase 01]: mail 컬렉션에는 인증 메일과 비밀번호 재설정 메일이 함께 쓰임 (send_password_reset_mail.ts:310) (01-05)
 
 ### Pending Todos
 
@@ -117,6 +122,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T06:39:32.997Z
-Stopped at: Completed 01-06-PLAN.md
+Last session: 2026-11-15T07:09:44.588Z
+Stopped at: Completed 01-05-PLAN.md
 Resume file: None
