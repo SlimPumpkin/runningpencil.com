@@ -24,7 +24,7 @@ WR-01~WR-03은 앞선 처리(e8114d1 보고서)에서 이미 고쳤으므로 이
 
 ## Fixed Issues
 
-### WR-04: 두 사본 비교 명령이 방침 구간을 찾지 못해도 「통과」로 끝남
+### WR-04: 두 사본 비교 명령이 방침 구간을 찾지 못해도 「통과」로 끝남 (WR-03 수정의 빈틈)
 
 **Files modified:** `.planning/codebase/TESTING.md`
 **Commit:** d127c7c
@@ -33,7 +33,7 @@ WR-01~WR-03은 앞선 처리(e8114d1 보고서)에서 이미 고쳤으므로 이
 - 머리 패턴을 없는 머리로 바꾸면 bash와 zsh 모두 `FAIL` 한 줄과 함께 종료 코드 1이 나왔습니다.
 - 한 사본의 한 줄만 바꾼 복사본에서는 diff가 차이를 찍고 종료 코드 1이 나왔습니다.
 
-### WR-05: 「`CLAUDE.md`도 함께 고친다」 규칙이 생성 구간은 원본에서 고쳐야 한다는 점을 말하지 않음
+### WR-05: 「`CLAUDE.md`도 함께 고친다」 규칙이 `.claude/CLAUDE.md` 생성 구간은 원본에서 고쳐야 한다는 점을 말하지 않음
 
 **Files modified:** `CLAUDE.md`, `.claude/CLAUDE.md`
 **Commit:** 141ec20
@@ -62,7 +62,7 @@ WR-01~WR-03은 앞선 처리(e8114d1 보고서)에서 이미 고쳤으므로 이
 
 새 기능을 지어내지 않았습니다. 이제 세 문서(`CLAUDE.md`, `.claude/CLAUDE.md`, `PROJECT.md`)의 설명이 같습니다.
 
-### IN-04: 생성 구간의 줄 번호 하나와 명명 예시 파일이 실제와 다름
+### IN-04: 생성 구간의 줄 번호 하나와 명명 예시 파일이 실제와 다름 (이번 diff 밖, 원래 있던 문제)
 
 **Files modified:** `.planning/codebase/CONVENTIONS.md`, `.planning/codebase/STRUCTURE.md`, `.planning/codebase/CONCERNS.md`, `.planning/codebase/ARCHITECTURE.md`, `.claude/CLAUDE.md` (다시 생성)
 **Commit:** 270dcb6
@@ -84,7 +84,7 @@ WR-01~WR-03은 앞선 처리(e8114d1 보고서)에서 이미 고쳤으므로 이
 - 생성 구간은 `CONVENTIONS.md:146`을 같은 뜻으로 고친 뒤 다시 만들었습니다. 「HTML·`_data`에 넣지 않는 규칙은 사이트 노출만 막는다」는 문장도 더했습니다.
 - 주소 자체는 어디에도 쓰지 않았습니다. `.planning/baseline/NAMES.md`는 건드리지 않았습니다.
 
-### IN-06: 「Deploy」 구간의 「Phase 2까지 유효」가 「`main` 푸시가 곧 배포」와 다르게 읽힘
+### IN-06: 「Deploy」 구간의 「Phase 2까지 유효」가 새 작업 규칙 「`main` 푸시가 곧 배포」와 다르게 읽힘
 
 **Files modified:** `CLAUDE.md`
 **Commit:** f4861dd

@@ -3,6 +3,38 @@ phase: 01
 review: 01-REVIEW.md
 titles: json
 findings:
+  - id: WR-04
+    severity: warning
+    disposition: fixed
+    title: "두 사본 비교 명령이 방침 구간을 찾지 못해도 「통과」로 끝남 (WR-03 수정의 빈틈)"
+  - id: WR-05
+    severity: warning
+    disposition: fixed
+    title: "「`CLAUDE.md`도 함께 고친다」 규칙이 `.claude/CLAUDE.md` 생성 구간은 원본에서 고쳐야 한다는 점을 말하지 않음"
+  - id: IN-01
+    severity: info
+    disposition: fixed
+    title: "`.claude/CLAUDE.md`의 `.gitignore` 요약이 이번 단계 변경을 반영하지 않음"
+  - id: IN-02
+    severity: info
+    disposition: fixed
+    title: "「연락은 공개 지원 이메일로만 받는다」가 현재 상태와 맞지 않음"
+  - id: IN-03
+    severity: info
+    disposition: fixed
+    title: "두 문서의 앱 설명이 서로 다름"
+  - id: IN-04
+    severity: info
+    disposition: fixed
+    title: "생성 구간의 줄 번호 하나와 명명 예시 파일이 실제와 다름 (이번 diff 밖, 원래 있던 문제)"
+  - id: IN-05
+    severity: info
+    disposition: fixed
+    title: "「주소는 `.planning/` 문서에만 있다」 문장은 사이트 기준으로만 맞음"
+  - id: IN-06
+    severity: info
+    disposition: fixed
+    title: "「Deploy」 구간의 「Phase 2까지 유효」가 새 작업 규칙 「`main` 푸시가 곧 배포」와 다르게 읽힘"
   - id: WR-01
     severity: warning
     disposition: fixed
@@ -15,43 +47,26 @@ findings:
     severity: warning
     disposition: fixed
     title: "두 파일에 복사한 방침 구간의 일치를 이번 단계에서 한 번만 확인했고 반복 확인 절차가 없음"
-  - id: IN-01
-    severity: info
-    disposition: open
-    title: "`.claude/CLAUDE.md`의 `.gitignore` 요약이 이번 단계 변경을 반영하지 않음"
-  - id: IN-02
-    severity: info
-    disposition: open
-    title: "「연락은 공개 지원 이메일로만 받는다」가 현재 상태와 맞지 않음"
-  - id: IN-03
-    severity: info
-    disposition: open
-    title: "두 문서의 앱 설명이 서로 다름"
-  - id: IN-04
-    severity: info
-    disposition: open
-    title: "생성 구간의 줄 번호 하나와 명명 예시 파일이 실제와 다름 (이번 diff 밖, 원래 있던 문제)"
-  - id: IN-05
-    severity: info
-    disposition: open
-    title: "「주소는 `.planning/` 문서에만 있다」 문장은 사이트 기준으로만 맞음"
-open: 5
-total: 8
-recorded: 2026-11-15T09:29:36.617Z
+open: 0
+total: 11
+recorded: 2026-11-15T10:37:30.455Z
 ---
 
 # Phase 01: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-01 | warning | fixed | 01-REVIEW-FIX.md |
-| WR-02 | warning | fixed | 01-REVIEW-FIX.md |
-| WR-03 | warning | fixed | 01-REVIEW-FIX.md |
-| IN-01 | info | open | - |
-| IN-02 | info | open | - |
-| IN-03 | info | open | - |
-| IN-04 | info | open | - |
-| IN-05 | info | open | - |
+| WR-04 | warning | fixed | 01-REVIEW-FIX.md |
+| WR-05 | warning | fixed | 01-REVIEW-FIX.md |
+| IN-01 | info | fixed | 01-REVIEW-FIX.md |
+| IN-02 | info | fixed | 01-REVIEW-FIX.md |
+| IN-03 | info | fixed | 01-REVIEW-FIX.md |
+| IN-04 | info | fixed | 01-REVIEW-FIX.md |
+| IN-05 | info | fixed | 01-REVIEW-FIX.md |
+| IN-06 | info | fixed | 01-REVIEW-FIX.md |
+| WR-01 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
+| WR-02 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
+| WR-03 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
 
 Dispositions: `open` (recorded, not yet triaged), `fixed`, `skipped`, `deferred`.
 Set `deferred` by hand and put the reason in the Source cell; both are preserved. A `|` in the reason is kept as prose and escaped on the next run.
