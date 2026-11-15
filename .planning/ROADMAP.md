@@ -128,11 +128,11 @@ Plans:
 **UI hint**: yes
 **External gates**:
 - 이메일 게이트: 외부 주소 4곳(Gmail·네이버·iCloud·Outlook)의 수신 시험이 통과하기 전에는 지원 이메일을 `_data`에 넣지 않습니다. 그 전에 배포하는 `/support/`는 연락처 구간 전체를 조건부로 감쌉니다(빈 「문의:」 문장 금지). App Store Support URL 같은 콘솔 등록도 게이트가 열린 뒤에 합니다.
-- 사용자 DNS 작업(가비아): Search Console TXT와 ImprovMX MX 2개 + SPF 1개를 한 번에 추가합니다. 같은 작업에서 `_github-pages-challenge-SlimPumpkin` TXT(도메인 탈취 방지, 요구사항 밖 권장 항목)도 넣고, U12 결과 `support@` 주소로 답장을 보내기로 하면 그 발신 서비스의 DKIM 레코드도 함께 넣습니다. 기존 A 레코드와 `www` CNAME은 그대로 두고, SPF는 하나로 합칩니다. 변경 전후 `dig` 결과를 기록합니다. Phase 1이 끝나면 바로 시작할 수 있습니다.
-- 사용자 작업: ImprovMX 설정, Search Console 소유권 확인.
-- 사용자 결정: U11(사업자등록증 그대로의 사업자 값, 자택 주소 공개 부담), U12(지원 주소와 업무 메일 서비스 종류, `support@`로 답장할지).
+- 사용자 DNS 작업(가비아): 두 번 방문합니다. 1차 방문에서 Google Workspace 도메인 인증 TXT, MX 1개, SPF 1개, Search Console TXT를 추가하고, Gmail을 켠 뒤 24~72시간이 지나면 2차 방문에서 `runningpencil.com`의 DKIM 레코드를 추가합니다(D-11). 기존 A 레코드 4개, `www` CNAME, 앱 경로 라우터용 A 레코드, `_github-pages-challenge-SlimPumpkin` TXT는 그대로 두고 지우는 레코드는 없습니다. GitHub Pages 인증 TXT는 이미 있으므로 조직 설정에서 인증 상태만 확인합니다. SPF는 하나만 둡니다. 변경 전후 `dig` 결과를 기록합니다. 절차는 `.planning/baseline/USER-TASKS.md`에 있고, Phase 1이 끝나면 바로 시작할 수 있습니다.
+- 사용자 작업: Google Workspace에 `runningpencil.com`을 사용자 별칭 도메인(user alias domain)으로 추가하고 지원 주소를 만드는 일, 지원 주소로 보내기 설정, Search Console 소유권 확인.
+- 사용자 결정: U11(사업자등록증 그대로의 사업자 값, 자택 주소 공개 부담). U12는 결정됐습니다(Google Workspace, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`).
 - 슬롯·푸터 행·지원 페이지 골격 같은 구조는 값 없이도 먼저 배포할 수 있습니다. 단계 완료는 게이트가 열리고 값이 들어간 뒤입니다.
-**Research flag**: 아니요. 사실값 슬롯과 이메일 게이트 패턴은 ARCHITECTURE 연구에 구체적으로 나와 있습니다. 다만 U12 결과 업무 메일이 Google Workspace이면 보조 도메인 방식을 확인합니다.
+**Research flag**: 아니요. 사실값 슬롯과 이메일 게이트 패턴은 ARCHITECTURE 연구에 구체적으로 나와 있고, Google Workspace 사용자 별칭 도메인 절차는 Phase 1 연구에서 확인해 `.planning/baseline/USER-TASKS.md`에 적었습니다.
 
 ### Phase 6: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 **Goal**: 앱이 없는 사용자도 `/data-deletion/`에서 계정·데이터 삭제를 요청하는 방법과 무엇이 지워지고 무엇이 남는지 알 수 있고, Google Play 계정 삭제와 Facebook 데이터 삭제 안내 요건을 이 문서 하나로 충족한다
@@ -179,7 +179,7 @@ Plans:
 **UI hint**: no
 **External gates**: 사업자 값(U11)이 들어와야 합니다. U2(위치정보법 분류)는 위치약관의 범위만 정합니다. 위치기반서비스사업 신고 기준으로 쓰고, 위치정보사업 등록 대상으로 나오면 v2의 LOC-05로 보강합니다. 그 밖에 U6(탈퇴 후 코스), U7(14세 미만), U8(네이버 지도 고지 의무) 결정이 필요합니다. 신고·등록을 실제로 할지는 사이트가 정하지 않고 마일스톤 인수 항목 ACPT-02로 둡니다.
 **Research flag**: 예. 위치약관은 위치정보사업(등록)과 위치기반서비스사업(신고)의 분류, 확인자료 보존 기간, 국내 러닝 앱 위치약관 목차를 비교해야 하고 법률 확인이 필수입니다. 이용약관은 네이버 지도 이용약관 §7⑤ 원문을 확인합니다.
-**Notes**: 위치약관 경로는 Phase 1 URL 대장을 따릅니다(후보 `/location-terms/`). 이용약관 재작성과 위치약관 신설은 문서별로 따로 커밋합니다. 이 단계에서 이용약관의 「임시 게시본」·`noindex`를 지우면 기존 법적 문서 3종이 모두 정식 게시본이 됩니다.
+**Notes**: 위치약관 경로는 `/location-terms/`로 확정했습니다(Phase 1 URL 대장 `.planning/baseline/URLS.md`, D-15). 이용약관 재작성과 위치약관 신설은 문서별로 따로 커밋합니다. 이 단계에서 이용약관의 「임시 게시본」·`noindex`를 지우면 기존 법적 문서 3종이 모두 정식 게시본이 됩니다.
 
 ### Phase 9: 영문판 (English Versions)
 **Goal**: 영어 사용자와 해외 제공자 심사자가 `/en/` 아래에서 RunningPencil이 무엇인지와 처리방침·약관·삭제 안내·지원 내용을 국문과 같은 내용으로 읽고, 언어판 사이를 링크로 오간다
@@ -208,7 +208,7 @@ Plans:
   5. Apple로 로그인한 사용자의 릴레이(Private Email Relay) 주소로 보낸 지원 답장이 반송되지 않았다는 시험 기록이 있다. 답장을 보내는 도메인의 SPF·DKIM이 `dig`로 확인되고, 그 도메인과 주소가 Apple Developer에 발신처로 등록돼 있다
 **Plans**: TBD
 **UI hint**: no
-**External gates**: U9(Meta Advanced Access에 비즈니스 인증이 필요한지)와 U13(Google 브랜드 검증 신청 여부) 결정이 체크리스트 내용을 정합니다. 릴레이 답장 시험에는 사용자 작업이 필요합니다. Apple Developer에 발신 도메인·주소를 등록하고, 필요하면 답장 발신 도메인의 DKIM을 추가하고(U12), Apple 계정으로 「이메일 가리기」 로그인을 해서 릴레이 주소를 만듭니다. 실제 제출과 심사 통과는 이 단계의 성공 기준이 아닙니다(아래 Milestone Acceptance).
+**External gates**: U9(Meta Advanced Access에 비즈니스 인증이 필요한지)와 U13(Google 브랜드 검증 신청 여부) 결정이 체크리스트 내용을 정합니다. 릴레이 답장 시험에는 사용자 작업이 필요합니다. Apple Developer에 발신 도메인과 지원 주소를 등록하고, Apple 계정으로 「이메일 가리기」 로그인을 해서 릴레이 주소를 만듭니다. 답장 발신 도메인 `runningpencil.com`의 DKIM은 Phase 5의 가비아 DNS 2차 방문에서 이미 추가합니다(D-11). 실제 제출과 심사 통과는 이 단계의 성공 기준이 아닙니다(아래 Milestone Acceptance).
 **Research flag**: 예. 콘솔별 실제 필드명과 언어 요건(카카오·네이버·LINE·Meta·App Store), Meta Data Deletion Instructions 기준, Meta Advanced Access와 비즈니스 인증의 관계, Google 브랜드 검증을 생략할 때 동의 화면이 어떻게 보이는지 확인합니다.
 **Notes**: `CLAUDE.md` 최종 갱신(공통 블록 방식, `{% raw %}` 규칙, 언어판 규칙, 로컬 미리보기, 운영 규칙)을 이 단계에서 마무리합니다. SUP-05(Apple 릴레이 답장)는 Apple 콘솔 설정과 함께 확인하는 항목이라 Phase 5가 아니라 이 단계에 둡니다. 연구 SUMMARY도 이 확인을 마지막 단계에 두었습니다.
 
@@ -218,12 +218,11 @@ Claude가 하지 않고 사용자나 법률 확인이 주는 값·작업입니�
 
 | 게이트 | 누가 | 막는 단계 |
 |--------|------|-----------|
-| 가비아 DNS 레코드(Search Console TXT, ImprovMX MX·SPF. 권장: GitHub Pages 인증 TXT, 필요하면 DKIM) | 사용자 | Phase 5 |
+| 가비아 DNS 레코드(1차 방문: Google Workspace 도메인 인증 TXT·MX·SPF, Search Console TXT. 2차 방문: DKIM. 기존 레코드는 보존) | 사용자 | Phase 5 |
 | 이메일 게이트(외부 주소 4곳 수신 시험 통과) | 사용자 시험 → Claude가 기록 확인 후 `_data`에 기입 | Phase 5 완료, Phase 6·7 커밋, 콘솔 등록 |
 | Apple 발신 도메인·주소 등록, 릴레이 답장 시험 | 사용자 | Phase 10 |
 | 앱 화면 캡처(출시 범위 기능만) | 사용자 | Phase 4 |
 | U11 사업자 값(상호·대표자·사업자등록번호·주소, 영문 법인명) | 사용자 | Phase 5, 8, 9 |
-| U12 지원 주소와 업무 메일 서비스 | 사용자 | Phase 5 |
 | U2 위치정보법 분류(신고 vs 등록) | 법률 확인 | Phase 8 위치약관 범위, ACPT-02 |
 | U3 소상공인·1인 창조기업 해당 여부 | 법률 확인 | Phase 7 보호책임자 |
 | U5 Email/Password 가입 노출 여부 | 사용자(앱) | Phase 7 |
@@ -233,7 +232,7 @@ Claude가 하지 않고 사용자나 법률 확인이 주는 값·작업입니�
 | U9 Meta 비즈니스 인증 필요 여부 | 사용자(콘솔 확인) | Phase 10 |
 | U13 Google 브랜드 검증 신청 여부 | 사용자 | Phase 10 |
 
-이미 결정된 항목: U1(전화번호는 이번에 공개하지 않고 칸만 마련), U4(영문 서비스명 RunningPencil), U10(포인트·굿즈·코스북 제거), U14(법적 문서 `noindex` 해제, `/en/` 홈페이지 포함).
+이미 결정된 항목: U1(전화번호는 이번에 공개하지 않고 칸만 마련), U4(영문 서비스명 RunningPencil), U10(포인트·굿즈·코스북 제거), U12(Google Workspace 사용자 별칭 도메인으로 지원 주소를 받고 그 주소에서 답장), U14(법적 문서 `noindex` 해제, `/en/` 홈페이지 포함).
 
 ## Milestone Acceptance
 
