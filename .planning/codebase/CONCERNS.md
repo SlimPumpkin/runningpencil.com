@@ -28,12 +28,6 @@ last_mapped_at: 2026-11-14
 - Impact: 교체 시 `id="rp-hero-art"`를 스크립트가 참조하므로 함께 수정 필요.
 - Fix approach: 교체 작업 시 `id` 유지 또는 `index.html:495~` 스크립트 동시 수정.
 
-**미추적·미참조 아이콘 파일:**
-- Issue: `favicon/app-icon-1024x1024.png`, `app-icon-128x128.png`, `app-icon-140x140.png`, `app-icon-512x512.png`가 git 미추적 상태이고, HTML·`favicon/site.webmanifest` 어디에서도 참조되지 않음 (grep 확인). 수정일(11월 1일)이 현재 파비콘 세트(11월 14일)보다 이전이라 옛 디자인 산출물일 가능성.
-- Files: `favicon/app-icon-*.png`
-- Impact: 실수로 `git add .` 하면 쓰지 않는 파일이 공개 배포됨.
-- Fix approach: 필요하면 `prepare/`로 옮기고, 아니면 삭제.
-
 ## Known Bugs
 
 검증 가능한 기능 버그는 발견되지 않음. 관련 리스크:

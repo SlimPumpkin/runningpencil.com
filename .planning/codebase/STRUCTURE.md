@@ -40,7 +40,6 @@ runningpencil.com/
 **`favicon/`:**
 - Purpose: 브라우저/홈 화면 아이콘
 - Key files: `favicon.svg`, `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`, `site.webmanifest`
-- 미추적 파일 존재: `app-icon-{128,140,512,1024}` PNG (git untracked)
 
 ## Key File Locations
 

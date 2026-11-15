@@ -90,7 +90,7 @@ last_mapped_at: 2026-11-14
 
 ### 초기 정착 & `rp-ready`
 
-1. 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:628-629`)
+1. 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:625-627`)
 2. `load`와 `document.fonts.ready`에서 `settle()` → 사용자 입력(wheel/touch/key/mouse) 전까지 대상으로 `scrollIntoView({behavior:'instant'})` (`index.html:630-637`)
 3. `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (`index.html:62`, `:636`)
 4. reduced-motion이면 `#rp-hero-art` SMIL 정지, `#rp-sketch`는 6.6s 지점에서 정지 (`index.html:643-647`)
@@ -152,8 +152,8 @@ last_mapped_at: 2026-11-14
 **Strategy:** 방어적 try/catch로 조용히 폴백 (기능 저하 허용)
 
 **Patterns:**
-- `moveTo()`의 `getPointAtLength` 실패 시 점을 출발점에 둠 (`index.html:530-535`)
-- 깨진 해시 `decodeURIComponent` 실패 무시 (`index.html:629`)
+- `moveTo()`의 `getPointAtLength` 실패 시 점을 출발점에 둠 (`index.html:526-531`)
+- 깨진 해시 `decodeURIComponent` 실패 무시 (`index.html:627`)
 - `scrollIntoView({behavior:'instant'})` 미지원 시 `scrollIntoView(true)` 폴백
 - `window.matchMedia`, `document.fonts`, `performance.getEntriesByType`, `pauseAnimations` 존재 여부 확인 후 사용
 
