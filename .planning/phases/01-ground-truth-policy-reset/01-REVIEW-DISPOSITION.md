@@ -5,7 +5,7 @@ titles: json
 findings:
   - id: WR-06
     severity: warning
-    disposition: open
+    disposition: fixed
     title: "생성기가 원본의 소제목 줄·코드 블록·번호 목록·하위 목록을 버려서 `.claude/CLAUDE.md`의 여러 구간이 뜻을 잃음 (이번 diff 밖, 원래 있던 문제)"
   - id: IN-07
     severity: info
@@ -59,7 +59,7 @@ findings:
     severity: warning
     disposition: fixed
     title: "두 파일에 복사한 방침 구간의 일치를 이번 단계에서 한 번만 확인했고 반복 확인 절차가 없음"
-open: 1
+open: 0
 total: 14
 recorded: 2026-11-15T15:22:36.149Z
 ---
@@ -68,7 +68,7 @@ recorded: 2026-11-15T15:22:36.149Z
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-06 | warning | open | - |
+| WR-06 | warning | fixed | 1dc2f1a — 01-REVIEW-FIX.md가 제목 끝 「(이번 diff 밖, 원래 있던 문제)」를 빼고 적어 자동 대조에서 빠짐. 재생성 사본 cmp 동일, `.claude/CLAUDE.md`에 JSDoc/TSDoc 예외 줄이 돌아온 것으로 수정 확인 |
 | IN-07 | info | fixed | 01-REVIEW-FIX.md |
 | IN-08 | info | fixed | 01-REVIEW-FIX.md |
 | WR-04 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
