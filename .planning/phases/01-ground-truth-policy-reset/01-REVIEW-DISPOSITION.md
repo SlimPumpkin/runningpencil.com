@@ -93,7 +93,7 @@ recorded: 2026-11-15T18:49:07.514Z
 | IN-09 | info | open | - |
 | IN-10 | info | open | - |
 | IN-11 | info | open | - |
-| WR-06 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
+| WR-06 | warning | fixed | 1dc2f1a — 01-REVIEW-FIX.md가 제목 끝 「(이번 diff 밖, 원래 있던 문제)」를 빼고 적어 자동 대조에서 빠짐. 재생성 사본 cmp 동일, `.claude/CLAUDE.md`에 JSDoc/TSDoc 예외 줄이 돌아온 것으로 수정 확인. 2026-11-15 재리뷰(01-REVIEW.md)도 고쳐진 것을 확인 (not in the current review) |
 | IN-07 | info | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | IN-08 | info | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | WR-04 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
