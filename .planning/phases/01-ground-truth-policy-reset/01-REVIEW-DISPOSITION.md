@@ -3,10 +3,30 @@ phase: 01
 review: 01-REVIEW.md
 titles: json
 findings:
+  - id: WR-07
+    severity: warning
+    disposition: open
+    title: "`STACK.md`의 굵은 소제목과 하위 목록이 버려져 Technology Stack 구간에 주어 없는 줄이 남음"
+  - id: WR-08
+    severity: warning
+    disposition: open
+    title: "Conventions의 `<head>` 순서가 실제 네 페이지와 다름"
+  - id: IN-09
+    severity: info
+    disposition: open
+    title: "Data Flow의 `index.html` 줄 번호 다섯 개가 실제와 1~4줄 어긋남"
+  - id: IN-10
+    severity: info
+    disposition: open
+    title: "생성기는 본문에 들어간 마커 문자열도 구간의 시작으로 아는데, 이 위험이 어느 문서에도 없음"
+  - id: IN-11
+    severity: info
+    disposition: open
+    title: "Linting 줄의 「CLAUDE.md의 \"커밋 전 린터 실행\" 규칙」과 「`TESTING.md` 참고」가 저장소 안에서 찾을 수 없는 곳을 가리킴"
   - id: WR-06
     severity: warning
     disposition: fixed
-    title: "생성기가 원본의 소제목 줄·코드 블록·번호 목록·하위 목록을 버려서 `.claude/CLAUDE.md`의 여러 구간이 뜻을 잃음 (이번 diff 밖, 원래 있던 문제)"
+    title: "생성기가 원본의 소제목 줄·코드 블록·번호 목록·하위 목록을 버려서 `.claude/CLAUDE.md`의 여러 구간이 뜻을 잃음"
   - id: IN-07
     severity: info
     disposition: fixed
@@ -59,18 +79,23 @@ findings:
     severity: warning
     disposition: fixed
     title: "두 파일에 복사한 방침 구간의 일치를 이번 단계에서 한 번만 확인했고 반복 확인 절차가 없음"
-open: 0
-total: 14
-recorded: 2026-11-15T15:22:36.149Z
+open: 5
+total: 19
+recorded: 2026-11-15T18:49:07.514Z
 ---
 
 # Phase 01: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-06 | warning | fixed | 1dc2f1a — 01-REVIEW-FIX.md가 제목 끝 「(이번 diff 밖, 원래 있던 문제)」를 빼고 적어 자동 대조에서 빠짐. 재생성 사본 cmp 동일, `.claude/CLAUDE.md`에 JSDoc/TSDoc 예외 줄이 돌아온 것으로 수정 확인 |
-| IN-07 | info | fixed | 01-REVIEW-FIX.md |
-| IN-08 | info | fixed | 01-REVIEW-FIX.md |
+| WR-07 | warning | open | - |
+| WR-08 | warning | open | - |
+| IN-09 | info | open | - |
+| IN-10 | info | open | - |
+| IN-11 | info | open | - |
+| WR-06 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
+| IN-07 | info | fixed | 01-REVIEW-FIX.md (not in the current review) |
+| IN-08 | info | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | WR-04 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | WR-05 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | IN-01 | info | fixed | 01-REVIEW-FIX.md (not in the current review) |
