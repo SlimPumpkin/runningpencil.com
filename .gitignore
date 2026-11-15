@@ -6,3 +6,6 @@ prepare/
 
 # 로컬 브라우저 검증 산출물
 .playwright-mcp/
+
+# GSD 연구 캐시 (도구가 만드는 로컬 산출물)
+.planning/research/.cache/

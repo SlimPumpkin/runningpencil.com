@@ -10,6 +10,8 @@
 
 ## 한눈에 보는 결정
 
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간의 ImprovMX 기본안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 | # | 질문 | 결정 | 신뢰도 |
 |---|------|------|--------|
 | (a) | Tailwind Play CDN 대체 | **손으로 쓴 일반 CSS**로 옮긴다 (Tailwind CLI 쓰지 않음) | HIGH |
@@ -196,6 +198,8 @@ en/privacy-policy/index.html, en/terms/…, en/data-deletion/…, en/support/…
 
 ## (e) 도메인 메일 전달 (`support@runningpencil.com` → 슬림펌킨 업무 메일)
 
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간의 ImprovMX 기본안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 **현재 DNS (2026-11-14 `dig` 결과, HIGH):** NS = 가비아. 루트 A = GitHub Pages 4개(`185.199.108–111.153`). AAAA 없음. **MX 없음. TXT 없음.** CAA 없음. `www` CNAME = `slimpumpkin.github.io`. 즉 메일·인증 레코드와 부딪칠 기존 값이 하나도 없습니다.
 
 **결정 트리:**
@@ -230,6 +234,8 @@ en/privacy-policy/index.html, en/terms/…, en/data-deletion/…, en/support/…
 
 ## Alternatives Considered
 
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간의 ImprovMX 기본안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 | Recommended | Alternative | When to Use Alternative |
 |-------------|-------------|-------------------------|
 | 손으로 쓴 CSS | Tailwind CLI 독립 실행 바이너리 **v4.3.5** (GitHub 최신 릴리스) | 법적 페이지 디자인을 자주 바꾸고 유틸리티 클래스가 수백 개로 늘 때. 단, 현재 마크업은 v3 설정 형식이라 v4로는 **똑같이 재현되지 않으며**(설정이 CSS `@theme`으로 바뀜), 생성 CSS를 커밋하고 다시 돌리는 단계가 생깁니다 |
@@ -256,6 +262,8 @@ en/privacy-policy/index.html, en/terms/…, en/data-deletion/…, en/support/…
 | 와일드카드 DNS (`*.runningpencil.com`) | GitHub Pages 하위 도메인 탈취 위험 (GitHub Docs 경고) | 필요한 호스트만 명시 |
 
 ## Stack Patterns by Variant
+
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간의 ImprovMX 기본안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
 
 **기본 (업무 메일 서비스와 무관):**
 - ImprovMX 무료 + 가비아 DNS

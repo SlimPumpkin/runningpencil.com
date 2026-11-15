@@ -9,6 +9,8 @@
 
 ## Executive Summary
 
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 이 프로젝트는 새 제품이 아니라 **심사 증빙용 정적 사이트**입니다. 심사자가 보는 것은 다섯 가지로 좁혀집니다. ① 앱을 설명하는 홈페이지(로그인 페이지만 있으면 안 됨) ② 같은 도메인의 공개 HTML 개인정보처리방침 ③ 앱 없이 웹에서 시작할 수 있는 삭제 요청 경로 ④ 실제로 연락되는 연락처 ⑤ 사이트·처리방침 내용과 앱 실제 동작의 일치. 나머지는 대부분 콘솔에 입력하는 값입니다. 여기에 한국 법령(개인정보 보호법 제30조의 처리방침 기재사항, 위치정보법 제12·19조의 위치기반서비스 이용약관 공개)이 웹사이트에 직접 의무를 더합니다.
 
 권장 접근은 다음과 같습니다. **GitHub Pages에 이미 들어 있는 Jekyll(3.10.0)의 `_layouts`/`_includes`/`_data`로 공통 블록과 사업자 정보를 한 곳에 모으고**(운영 쪽 새 의존성 0, `main` 푸시 = 배포 유지), 법적 페이지의 Tailwind Play CDN은 **손으로 쓴 일반 CSS**로 바꿉니다(쓰는 유틸리티가 약 45개뿐). 한국어 URL(`/privacy-policy/`·`/terms/`·`/data-deletion/`)은 고정하고 `/support/`를 새로 두며, 영문은 `/en/` 아래에 병렬로 추가합니다. DNS는 가비아에 그대로 두고 Search Console은 **도메인 속성 + DNS TXT**, 지원 메일은 **ImprovMX 무료**(MX 2개 + SPF 1개)로 전달합니다. 순서는 "구조 리팩터(출력 동일) → 정적 CSS → 사실값 슬롯 → 지원 페이지 → 한국어 본문 재작성 → 위치약관 → 영문판 → 제출 체크리스트"입니다.
@@ -18,6 +20,8 @@
 ## Key Findings
 
 ### Recommended Stack
+
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
 
 운영 배포 경로는 바꾸지 않습니다. 저장소는 이미 배포 때 Jekyll을 거치므로(`_config.yml`), 레이아웃·include는 플러그인 허용 목록과 무관한 코어 기능으로 바로 쓸 수 있습니다. 현재 HTML 4개에 `{{`·`{%`가 없고, 빈 front matter를 붙여 빌드한 결과가 원본과 바이트 단위로 같음을 직접 확인했습니다(HIGH). 대가는 로컬 미리보기가 `python3 -m http.server`에서 `bundle exec jekyll serve --livereload`로 바뀌는 것 하나입니다.
 
@@ -102,6 +106,8 @@
 
 ### 연구 파일끼리 다른 곳 (이 문서의 판정)
 
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 | 쟁점 | 파일별 입장 | 판정 |
 |---|---|---|
 | Google 동의 화면에 등록할 처리방침 언어판 | ARCHITECTURE: 홈페이지 푸터가 KO를 가리키므로 **KO URL 고정**. PITFALLS: Google·Meta·LINE·Apple은 **EN 권장**, 단 홈페이지에서도 그 URL 링크가 보여야 하므로 랜딩 푸터에 KO·EN 링크를 모두 둠 | **Google은 KO URL 등록이 기본**(링크 일치 요건이 확실한 쪽). EN을 쓰려면 랜딩 푸터에 EN 링크를 추가하는 것이 전제. Meta·LINE·Apple은 콘솔별로 확인한 뒤 제출 체크리스트에서 확정 |
@@ -151,6 +157,9 @@
 **Note:** 사실값이 이미 모였다면 문서별로 Phase 5와 합쳐도 됩니다(ARCHITECTURE 권고).
 
 ### Phase 4: 사실값 슬롯 · 푸터 사업자 정보 · `/support/` (KO)
+
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 **Rationale:** 값이 없어도 배포할 수 있는 구조를 먼저 두고, 값은 데이터 파일만 고치는 작은 커밋으로 채웁니다. 지원 페이지는 Apple·Play·Meta 요건의 공통 전제입니다.
 **Delivers:**
 - `_data/company.yml`(빈 값 허용, `!= blank` 렌더), `_data/legal.yml`(현재 날짜 2026-10-31 이관)
@@ -231,6 +240,8 @@ Phases with standard patterns (skip research-phase):
 
 ## Consolidated Open Decisions (사용자·법률 결정 목록)
 
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 | # | 결정 | 근거·충돌 | 막는 것 |
 |---|---|---|---|
 | U1 | **전화번호 공개 여부** (이메일만으로 충분한가) | ASC Support URL 원문 예시, PIPA 제30조①6, 위치정보법 제19조①1. 「이메일만 공개」 결정과 충돌할 수 있음 | SUP-01, PRIV-10, LOC-02 |
@@ -249,6 +260,8 @@ Phases with standard patterns (skip research-phase):
 | U14 | 법적 페이지 `noindex` 해제 여부, 영문 랜딩(`/en/`) 필요 여부 | 심사 영향 미확인. Google 영어 심사자에게 한국어 랜딩으로 충분한지 | SITE-09, Phase 7 범위 |
 
 ## Confidence Assessment
+
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
 
 | Area | Confidence | Notes |
 |------|------------|-------|
@@ -278,6 +291,9 @@ Phases with standard patterns (skip research-phase):
 - 앱 저장소 읽기: `delete_user_account.ts`, `cleanup_user_data.ts`, `provider_id.dart`, `auth_repository.dart`, `line_sdk_client.dart`, `app_ko.arb`, `.planning/REQUIREMENTS.md` (FEATURES)
 
 ### Secondary (MEDIUM confidence — 공식 문서·법령 원문 단일 확인)
+
+> **U12 결정 (2026-11-14):** 슬림펌킨 업무 메일은 Google Workspace로 확정됐고, 이 구간에 나오는 ImprovMX 안은 채택하지 않았습니다. 현재 절차는 `.planning/baseline/USER-TASKS.md`를 따릅니다. 아래 본문은 조사 당시의 기록입니다.
+
 - Google: support.google.com/cloud/answer/13464321 · 15549049 · 13463073 · 13804963, brand-verification, Search Console 9008080, hreflang 문서
 - Google Play: answer/13327111(계정 삭제) · 10144311(User Data)
 - Apple: App Review Guidelines 1.2·1.5·2.1(a)·5.1.1(i)(v), ASC Platform version information(Support URL 원문), Offering account deletion
