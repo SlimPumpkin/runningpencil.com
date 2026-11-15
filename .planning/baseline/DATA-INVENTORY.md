@@ -47,6 +47,21 @@
 - `lib/l10n/app_ko.arb`
 - `docs/kit-fork.md`
 - `config/dev.json`
+- `functions/src/running_pencil/cleanup_user_data.ts`
+- `functions/src/running_pencil/snap_route.ts`
+- `functions/src/running_pencil/search_places.ts`
+- `functions/src/running_pencil/region/resolve_region.ts`
+- `functions/src/running_pencil/region/on_course_written.ts`
+- `functions/src/shared/ncp_maps_params.ts`
+- `functions/src/shared/naver_api_hub_params.ts`
+- `lib/core/location/location_platform.dart`
+- `lib/features/runs/application/run_log_store.dart`
+- `lib/features/courses/data/course_repository.dart`
+- `android/app/src/main/AndroidManifest.xml`
+- `ios/Runner/Info.plist`
+- `infra/router/Caddyfile`
+- `infra/router/deploy.sh`
+- `pubspec.yaml`
 
 ## 읽는 법
 
@@ -124,3 +139,40 @@
 - dev에서 켜진 로그인 제공자는 소셜 여섯 개(Google, Apple, Facebook, 카카오, 네이버, LINE)입니다. 설정 키 `enabledAuthProviders`의 값이 `google,apple,facebook,kakao,naver,line`입니다 (`config/dev.json:18`, 근거: dev). 익명과 Email/Password는 이 키에 없습니다.
 - 소셜 제공자의 필수/선택 구분은 앱 코드가 아니라 각 제공자 콘솔의 동의항목 설정이 정합니다. Phase 7·10에서 콘솔 화면으로 확인합니다.
 - 이 표는 Phase 7 처리방침의 PRIV-10(로그인 제공자별 수신 항목)의 원본입니다.
+
+## C. 위치·기록·코스·뱃지
+
+| 항목 | 범주 | 출처 | 목적 | 저장 위치(리전) | 수탁자 | 국외 이전 | 보유 기간 | 삭제 방식 | 근거 |
+|---|---|---|---|---|---|---|---|---|---|
+| `runs/{runId}.path` (GPS 궤적, 인코딩 문자열 100,000자 이하) | 위치 기록 | 기기 GPS (기록 중) | 달린 기록의 경로 보관과 표시 | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지 | 탈퇴 시 `cleanupUserData`가 삭제. 본인이 기록을 지울 수 있음 | `firestore.rules:236`, `firestore.rules:347-353`, `functions/src/running_pencil/cleanup_user_data.ts:42-56` |
+| `runs/{runId}`의 나머지 필드 (`userId`, `courseId`, `courseTitle`, `policyVersion`, `startedAt`, `endedAt`, `durationSeconds`, `distanceMeters`, `startCheckpointIndex`, `direction`, `movingSeconds`, `isCompleted`, `checkpointHitRatio`) | 위치 기록 | 기록 중 기기가 계산한 값 (시각은 기기 시각) | 달린 기록(시간, 거리, 완주 여부) 보관과 표시 | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지 | 탈퇴 시 `cleanupUserData`가 삭제. 본인이 기록을 지울 수 있음 | `firestore.rules:231-257`, `firestore.rules:347-353`, `functions/src/running_pencil/cleanup_user_data.ts:42-56` |
+| `courses/{courseId}` (`creatorId`, `title`, `polyline`, `waypoints`, `sketchPolyline`, `distanceMeters`, `startPoint`, `bounds`, `badgeTemplateId`, `createdAt`, `updatedAt`, `visibility`, `badgeRotationDegrees`, 공개 전환 때 `publishedAt`) | 코스 | 사용자가 지도에 그린 코스 (찍은 웨이포인트와 맞춘 경로) | 코스 저장. 공개로 바꾸면 다른 사용자에게 보임 (공개 전환은 한 방향) | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 기한 없음. 탈퇴 뒤에도 남음 (공개·비공개 모두) | 탈퇴 시 삭제하지 않음 (공개·비공개 모두). 본인이 탈퇴 전에 코스를 하나씩 지울 수 있음. 결정 목록 U6 | `firestore.rules:192-200`, `firestore.rules:319-333`, `functions/src/running_pencil/cleanup_user_data.ts:17-21`, `lib/features/courses/data/course_repository.dart:327` |
+| `users/{uid}/badges/{courseId}` (`runId`, `earnedAt`, `title`, 코스 모양 사본 `polyline`, `badgeTemplateId`, `badgeRotationDegrees`) | 뱃지 | 코스를 완주했을 때 앱이 기록 | 완주 뱃지 보관과 표시 (코스가 지워져도 뱃지를 그림) | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지 | 탈퇴 시 `cleanupUserData`가 삭제. 규칙상 본인 삭제 허용 (앱 화면의 삭제 메뉴는 미확인) | `firestore.rules:269-281`, `firestore.rules:426-434`, `functions/src/running_pencil/cleanup_user_data.ts:64-69` |
+| `region` (courses·runs·badges 공통 선택 필드, 법정동 단위 지역: `kind`, `emdCode`, `sido`, `sigungu`, `emd`, `sidoLabel`, `sigunguLabel`, `dataVersion`) | 위치 기록 | 코스 출발점 좌표로 서버가 판정한 법정동 (`resolveRegion`, `onCourseWritten`) | 코스·기록·뱃지를 지역으로 묶어 보여 줌 | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 담긴 문서를 따름 (코스는 기한 없음, 기록·뱃지는 탈퇴 또는 본인 삭제까지) | 담긴 문서를 따름 (코스의 `region`은 탈퇴 시 삭제하지 않음, 기록·뱃지의 `region`은 탈퇴 시 `cleanupUserData`가 삭제) | `firestore.rules:138-152`, `functions/src/running_pencil/region/resolve_region.ts:1-28`, `functions/src/running_pencil/region/on_course_written.ts:1-17` |
+| 기기 안 원시 GPS 로그 `active_run.jsonl` (앱 전용 폴더의 `runs/` 아래 파일 하나) | 위치 기록 | 기기 GPS (기록 중) | 기록 중인 세션의 원시 위치를 기록 저장 전까지 보관 | 기기 안에만 저장 (서버로 보내지 않음) | 없음 (기기 안) | 해당 없음 (기기 안) | 정상 종료면 저장 직후 삭제. 비정상 종료 때 남는 기간은 미확인 | 정상 종료면 기록 저장 직후 앱이 지움 | `lib/features/runs/application/run_log_store.dart:20`, `lib/features/runs/application/run_log_store.dart:56-57` |
+
+### 위치를 읽는 세 시점
+
+| 시점 | 용도 | 저장 여부 | 근거 |
+|---|---|---|---|
+| 에디터 (editor) | 코스를 그릴 때 지도 카메라와 내 위치 점. 10m 간격 | 저장하지 않음 | `lib/core/location/location_platform.dart:107-190` |
+| 시작 전 (preStart) | 기록을 시작하기 전 위치 워밍업 | 저장하지 않음 | `lib/core/location/location_platform.dart:107-190` |
+| 기록 중 (recording) | Android는 포그라운드 서비스 알림을 띄우고 받음. iOS는 화면이 꺼져도 받음 | 이 궤적만 `runs/{runId}.path`로 저장 | `lib/core/location/location_platform.dart:107-190` |
+
+- 위치 권한은 「앱 사용 중」뿐입니다. Android는 정밀·대략 위치와 위치용 포그라운드 서비스 권한만 선언하고 (`android/app/src/main/AndroidManifest.xml:4-8`), iOS는 「앱 사용 중」 위치 문구와 백그라운드 모드 `location`만 둡니다 (`ios/Runner/Info.plist:104-105`, `ios/Runner/Info.plist:137-142`). 「항상 허용」 권한은 요청하지 않습니다.
+- 서버에 저장되는 위치는 기록 중의 궤적(`runs/{runId}.path`)뿐입니다. 코스를 그리거나 시작 전 화면에서는 기기가 현재 위치를 읽지만 저장하지 않습니다. Phase 5 SUP-04의 FAQ 문장이 이 사실을 따릅니다.
+- 코스 행은 공개 여부로 나누지 않습니다. 탈퇴 정리 함수는 기록과 뱃지만 지우고 코스는 공개·비공개 모두 건드리지 않습니다 (`functions/src/running_pencil/cleanup_user_data.ts:17-21`). 비공개 코스는 만든 사람만 읽을 수 있어 (`firestore.rules:320-321`) 탈퇴 뒤에는 관리자 권한으로만 보이는 데이터로 남습니다. 처리 방침은 결정 목록 U6에서 정합니다.
+
+## D. 외부로 나가는 요청
+
+| 항목 | 범주 | 출처 | 목적 | 저장 위치(리전) | 수탁자 | 국외 이전 | 보유 기간 | 삭제 방식 | 근거 |
+|---|---|---|---|---|---|---|---|---|---|
+| 경로 스냅 `snapRoute` (웨이포인트 좌표, 반경) | 외부 요청 | 지도에서 찍은 웨이포인트 좌표 2~50개 (GPS 위치가 아님) | 그린 코스를 걷는 길에 맞춤. Functions 로그에는 uid, 점 개수, 반경, 결과 코드, 소요 시간만 남음 (좌표 없음) | 저장하지 않음. 처리 위치 라우터 VM `asia-northeast3-a` (근거: dev 배포 스크립트 기본값, CLI 미확인). 요청은 Cloud Functions `asia-northeast3` (근거: 코드)를 거침 | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 요청 내용은 저장하지 않음. 라우터 접속 기록은 좌표를 가리고 접속 IP는 앞부분만 남김 (접속 IP는 사용자 기기가 아니라 Functions의 것). 접속 기록은 파일 크기 기준으로 돌려 지우며 기간은 미확인 | 해당 없음 (요청 내용을 저장하지 않음) | `functions/src/running_pencil/snap_route.ts:1-22`, `functions/src/running_pencil/snap_route.ts:535-542`, `infra/router/Caddyfile:24-41`, `infra/router/deploy.sh:43`, `functions/src/shared/region.ts:2` |
+| 장소 검색 `searchPlaces` (검색어, 지도 중심 좌표) | 외부 요청 | 검색어(50자 이하)와 지도 중심 좌표 | 코스 에디터의 장소·주소 검색. Functions 로그에는 uid, 검색어 길이, 결과 건수와 코드만 남음 (검색어·좌표 없음). 결과를 저장하지 않음 | 저장하지 않음. 처리 위치 Cloud Functions `asia-northeast3` (근거: 코드). 네이버클라우드 쪽 저장 여부 미확인 | 네이버클라우드 (NCP Geocoding·Reverse Geocoding, NAVER API HUB 지역검색) | 미확인 (Functions는 prod 리전에 따름, 결정 목록 「prod 리전」. 네이버클라우드 처리 위치 미확인) | Functions는 저장하지 않음. 네이버클라우드 쪽 보유 기간 미확인 | 해당 없음 (Functions는 저장하지 않음). 네이버클라우드 쪽 삭제 방식 미확인 | `functions/src/running_pencil/search_places.ts:1-33`, `functions/src/running_pencil/search_places.ts:790-798`, `functions/src/shared/ncp_maps_params.ts`, `functions/src/shared/naver_api_hub_params.ts`, `functions/src/shared/region.ts:2` |
+| 지역 판정 `resolveRegion` (좌표 1개) | 외부 요청 | 코스 출발점 좌표 1개 | 코스의 지역(법정동) 판정. 외부 호출 없음 (Functions 안의 경계 데이터로 판정). 로그에는 uid, 판정 성공 여부, 소요 시간만 남음 (좌표 없음) | 저장하지 않음. 처리 위치 Cloud Functions `asia-northeast3` (근거: 코드) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 저장하지 않음. 판정 결과는 코스의 `region`으로 저장 (구간 C) | 해당 없음 (저장하지 않음) | `functions/src/running_pencil/region/resolve_region.ts:1-28`, `functions/src/shared/region.ts:2` |
+| 네이버 지도 SDK (`flutter_naver_map`) | 외부 요청 | 지도 타일 요청과 클라이언트 ID. 그 밖에 SDK가 보내는 항목은 미확인 | 지도 표시. 앱 임시 문구가 「네이버 지도 SDK 이용 정보가 네이버클라우드에 제공」된다고 적음. 고지 의무는 결정 목록 U8 | 미확인 (네이버클라우드 쪽 처리·저장 위치) | 네이버클라우드 | 미확인 | 미확인 | 미확인 | `pubspec.yaml:78-79`, `lib/l10n/app_ko.arb:197` |
+| 소셜 연결 끊기 (카카오·네이버·Facebook·LINE) | 외부 요청 | 제공자별 토큰·회원번호 | 탈퇴하기 전에 서비스별로 제공자 쪽 앱 연결(권한) 해제. 건너뛸 수 있음 | 저장하지 않음. 처리 위치 Cloud Functions `asia-northeast3` (근거: 코드) | 해당 없음. 카카오·네이버·Facebook·LINE API에 직접 보내는 요청 | 미확인 (각 제공자 API 서버 위치 미확인) | 저장하지 않음. 제공자 쪽 처리는 각 제공자 정책에 따름 (미확인) | 해당 없음 (저장하지 않음) | `functions/src/index.ts:67-76`, `lib/l10n/app_ko.arb:364`, `lib/l10n/app_ko.arb:377`, `functions/src/shared/region.ts:2` |
+| Cloud Functions 로그의 uid (Cloud Logging) | 외부 요청 | Functions가 호출마다 남기는 로그 | 오류 추적과 운영 확인. 로그에 uid, 결과 코드, 소요 시간이 남음. 이 목록이 확인한 함수(`snapRoute`, `searchPlaces`, `resolveRegion`, `deleteUserAccount`)의 로그에는 좌표·검색어가 없음. 그 밖의 함수 로그 항목은 미확인 | Cloud Logging, 위치와 보존 기간 미확인 (CLI 미확인) | Google (Firebase·GCP) | 미확인 (Cloud Logging 버킷 위치 미확인, CLI 미확인) | 미확인 (CLI 미확인) | 앱이 지우지 않음. 로그 보존 기간이 지나면 지워짐 (기간 미확인) | `functions/src/running_pencil/snap_route.ts:535-542`, `functions/src/running_pencil/search_places.ts:790-798`, `functions/src/running_pencil/region/resolve_region.ts:190`, `functions/src/auth/delete_user_account.ts:372-379` |
+
+- 라우터 접속 기록의 가림 처리: 요청 경로의 좌표 구간을 가리고, 라우터 열쇠 헤더를 지우고, 접속 IP는 앞부분만 남깁니다 (`infra/router/Caddyfile:24-41`). 라우터의 호스트 이름과 고정 IP는 이 목록에 적지 않습니다.
+- 소셜 연결 끊기의 요청은 Google이 아니라 각 제공자 API로 갑니다. 이 요청이 제3자 제공인지 같은 법적 구분은 Phase 7에서 합니다.
