@@ -2,17 +2,17 @@
 gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
-status: executing
-stopped_at: Completed 01-07-PLAN.md
-last_updated: "2026-11-15T07:15:22.735Z"
+status: verifying
+stopped_at: Completed 01-08-PLAN.md
+last_updated: "2026-11-15T07:48:15.255Z"
 last_activity: 2026-11-14
 last_activity_desc: Phase 01 execution started
-state_head: 0a564b3bcbe7ea08d01d96120163d6ce0807c106
+state_head: d700b1f7c83b6e1295bcef8f21a6ac998c626680
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
   percent: 0
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-14)
 ## Current Position
 
 Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — EXECUTING
-Plan: 7 of 8
-Status: Ready to execute
+Plan: 8 of 8
+Status: Phase complete — ready for verification
 Last activity: 2026-11-14 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -63,6 +63,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P06 | 4 min | 3 tasks | 5 files |
 | Phase 01 P05 | 10 min | 2 tasks | 1 files |
 | Phase 01 P07 | 3 min | 3 tasks | 6 files |
+| Phase 01 P08 | 9min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,7 @@ Recent decisions affecting current work:
 - [Phase 1]: U12 결정. 지원 메일은 Google Workspace 사용자 별칭 도메인으로 받고 지원 주소에서 답장함. 가비아 DNS는 두 번 방문(1차 도메인 인증·MX·SPF·Search Console, 2차 DKIM). 위치약관 경로는 `/location-terms/`로 확정
 - [Phase 01]: ROADMAP·STATE·PROJECT 본문 문장은 핸들러 없이 Edit로 고치고 roadmap validate·state validate로 구조를 확인함 (01-07)
 - [Phase 01]: 연구 문서(research/STACK.md·SUMMARY.md)는 본문을 고치지 않고 구간 머리에 U12 결정 메모 한 줄만 더함. 연구 캐시는 .gitignore로 뺌 (01-07)
+- [Phase 01]: 01-08: dev CLI 읽기 전용 조회 여덟 건이 모두 조회함이라 데이터 목록의 「CLI 미확인」 칸을 「근거: dev CLI, 2026-11-15 조회」로 채웠다. dev 값이므로 결정 목록 「prod 리전」(P1)은 열어 둔다
 
 ### Pending Todos
 
@@ -126,6 +128,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T07:15:22.722Z
-Stopped at: Completed 01-07-PLAN.md
+Last session: 2026-11-15T07:48:15.241Z
+Stopped at: Completed 01-08-PLAN.md
 Resume file: None
