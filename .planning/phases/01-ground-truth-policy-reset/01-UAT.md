@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 01-ground-truth-policy-reset
 source: [01-VERIFICATION.md]
 started: 2026-11-15T08:27:17Z
-updated: 2026-11-15T16:45:26.603Z
+updated: 2026-11-15T16:51:38Z
 ---
 
 ## Current Test
@@ -48,7 +48,7 @@ note: "사용자 위임으로 Claude가 독립 확인. ① 발급 값 세 종류
 ### 8. 01-03 판단 등급 금지 사항 3개(미확인 값을 확인된 것처럼 적지 않음, 법적 성격 단정 금지, 실제 사용자 데이터 값 옮기지 않음)를 본문 「금지 사항 (judgment-tier)」 표의 검증자 판정과 근거로 읽는다
 expected: 각 항목이 지켜졌다는 검증자 판정에 동의한다. 동의하지 않는 항목은 gap으로 되돌린다
 result: issue
-reported: "issue(열 이름 바꾸기로 기록) — Claude 확인: ①·③은 지켜짐. ②는 단정 문장 0건이고 머리 문단 단서가 있으나, DATA-INVENTORY.md 구간 A·C~F 본표의 열 이름이 법률 용어(「수탁자」, 「국외 이전」)라서 Meta(Facebook SDK)·네이버클라우드 등이 「수탁자」로 분류된 것처럼 읽힘. Phase 7이 이 표를 정본으로 읽을 때 위탁/제3자 제공 구분이 그대로 옮겨질 위험. 열 이름을 중립어(예: 「받는 곳(처리 주체)」, 「국외 저장·전송」)로 바꾼다"
+reported: "issue(열 이름 바꾸기로 기록) — Claude 확인: ①·③은 지켜짐. ②는 단정 문장 0건이고 머리 문단 단서가 있으나, DATA-INVENTORY.md 구간 A·C~F 본표의 열 이름이 법률 용어(「수탁자」, 「국외 이전」)라서 Meta(Facebook SDK)·네이버클라우드 등이 「수탁자」로 분류된 것처럼 읽힘. Phase 7이 이 표를 정본으로 읽을 때 위탁/제3자 제공 구분이 그대로 옮겨질 위험. 열 이름을 중립어(예: 「받는 곳(처리 주체)」, 「국외 저장·전송」)로 바꾼다 [범위 조정 2026-11-15, 사용자 선택 「Meta 행만 고침」: 열 이름은 REQUIREMENTS BASE-03·ROADMAP Phase 1 성공 기준 3의 문구이고, Google Firebase·GCP·네이버클라우드의 수탁자 분류는 PRIV-03·Phase 7 성공 기준 2가 이미 정함. 열 이름은 유지하고 PRIV-03에 없는 Meta(Facebook SDK) 행에 단서를 넣고 열 기준 주석을 더한다]"
 severity: minor
 
 ### 9. 01-04 판단 등급 금지 사항 3개(법률 항목 기본 동작을 결론처럼 적지 않음, U12 말고 「결정됨」 금지, U11 기본값 금지)를 본문 「금지 사항 (judgment-tier)」 표의 검증자 판정과 근거로 읽는다
@@ -94,14 +94,38 @@ blocked: 0
   severity: minor
   test: 2
   origin_hint: "Test 12 확인 중 발견: 01-07 커밋 8aef43c가 ROADMAP External Gates 가비아 행에 「2차 방문: DKIM」을 넣고 Phase 10 External gates에 「DKIM은 Phase 5의 가비아 DNS 2차 방문에서 이미 추가」를 적음"
-  artifacts: []  # Filled by diagnosis
-  missing: []    # Filled by diagnosis
+  root_cause: "01-07(8aef43c)이 D-21에 따라 ROADMAP을 U12 결정에 맞추면서 가비아 DNS 1차·2차 방문을 한 행·한 항목으로 묶어 Phase 5 게이트에 넣었다. ROADMAP.md:134 「단계 완료는 게이트가 열리고 값이 들어간 뒤」 때문에 2차 방문(DKIM)까지 Phase 5 완료 조건으로 읽힌다. 01-02가 쓴 절차서(USER-TASKS.md:23·31)는 DKIM을 Phase 10 Apple 릴레이의 전제로 두어 두 문서가 어긋난다. Phase 5 성공 기준 1~5에는 DKIM이 없고 Phase 10 성공 기준 5에만 SPF·DKIM 확인이 있다. STATE.md Blockers도 같은 묶음을 옮겨 적었다. DECISIONS.md:9가 막는 단계의 정본을 ROADMAP으로 두므로 ROADMAP 쪽을 고친다"
+  artifacts:
+    - path: ".planning/ROADMAP.md"
+      issue: "External Gates 표의 가비아 DNS 행(221행)이 2차 방문 DKIM까지 Phase 5를 막는다고 적음"
+    - path: ".planning/ROADMAP.md"
+      issue: "Phase 5 External gates의 가비아 DNS 항목(131행)이 2차 방문 DKIM을 Phase 5 게이트 안에 둠"
+    - path: ".planning/ROADMAP.md"
+      issue: "Phase 10 External gates(211행)가 DKIM을 「Phase 5의 2차 방문에서 이미 추가」로 적어 Phase 10의 게이트에서 빠짐"
+    - path: ".planning/STATE.md"
+      issue: "Blockers/Concerns의 가비아 DNS 항목(109행)이 2차 방문 DKIM을 Phase 5를 막는 작업으로 묶음"
+  missing:
+    - "External Gates 표의 가비아 행을 1차 방문(→ Phase 5)과 2차 방문 DKIM(→ Phase 10)으로 나눈다"
+    - "Phase 5 External gates의 가비아 항목에 2차 방문(DKIM)은 Phase 5 완료를 막지 않고 Phase 10 릴레이 답장의 전제라고 적는다 (작업 시점은 지금처럼 Phase 5 무렵)"
+    - "Phase 10 External gates에 DKIM(USER-TASKS 작업 6)을 이 단계의 게이트로 적는다"
+    - "STATE.md Blockers의 가비아 항목을 1차(→ Phase 5)와 2차 DKIM(→ Phase 10)으로 나눈다"
+    - "USER-TASKS.md와 DECISIONS.md는 고치지 않는다 (이미 Phase 10으로 적혀 있음). 단계 목표·성공 기준·요구사항 배정·단계 순서도 바꾸지 않는다"
+  debug_session: ""  # UAT 중 오케스트레이터가 직접 진단 (원인 커밋·행 확인), 별도 debug 세션 없음
 
 - gap_id: G-01-8
   truth: "01-03 금지 사항: 데이터 목록이 수탁·제3자 제공·국외 이전의 법적 성격을 단정하지 않는다"
   status: failed
-  reason: "User reported: issue(열 이름 바꾸기로 기록) — Claude 확인: ①·③은 지켜짐. ②는 단정 문장 0건이고 머리 문단 단서가 있으나, DATA-INVENTORY.md 구간 A·C~F 본표의 열 이름이 법률 용어(「수탁자」, 「국외 이전」)라서 Meta(Facebook SDK)·네이버클라우드 등이 「수탁자」로 분류된 것처럼 읽힘. Phase 7이 이 표를 정본으로 읽을 때 위탁/제3자 제공 구분이 그대로 옮겨질 위험. 열 이름을 중립어(예: 「받는 곳(처리 주체)」, 「국외 저장·전송」)로 바꾼다"
+  reason: "User reported: issue(열 이름 바꾸기로 기록) — Claude 확인: ①·③은 지켜짐. ②는 단정 문장 0건이고 머리 문단 단서가 있으나, DATA-INVENTORY.md 구간 A·C~F 본표의 열 이름이 법률 용어(「수탁자」, 「국외 이전」)라서 Meta(Facebook SDK)·네이버클라우드 등이 「수탁자」로 분류된 것처럼 읽힘. Phase 7이 이 표를 정본으로 읽을 때 위탁/제3자 제공 구분이 그대로 옮겨질 위험. 열 이름을 중립어(예: 「받는 곳(처리 주체)」, 「국외 저장·전송」)로 바꾼다 [범위 조정 2026-11-15, 사용자 선택 「Meta 행만 고침」: 열 이름은 REQUIREMENTS BASE-03·ROADMAP Phase 1 성공 기준 3의 문구이고, Google Firebase·GCP·네이버클라우드의 수탁자 분류는 PRIV-03·Phase 7 성공 기준 2가 이미 정함. 열 이름은 유지하고 PRIV-03에 없는 Meta(Facebook SDK) 행에 단서를 넣고 열 기준 주석을 더한다]"
   severity: minor
   test: 8
-  artifacts: []  # Filled by diagnosis
-  missing: []    # Filled by diagnosis
+  root_cause: "열 이름 「수탁자」·「국외 이전」은 BASE-03·ROADMAP Phase 1 성공 기준 3이 정한 것이고, Google Firebase·GCP와 네이버클라우드를 수탁자로, 로그인 제공자를 수탁자 아님으로 보는 기준도 PRIV-03·Phase 7 성공 기준 2가 이미 정했다. 그런데 01-03이 PRIV-03에 이름이 없는 Meta(Facebook SDK 자동 이벤트)를 같은 「수탁자」 칸에 단서 없이 넣었다. 머리 문단(12행)에 「법적 구분은 Phase 7」 단서는 있지만 「수탁자」 열이 어떤 기준을 따르는지는 문서에 없어, Meta가 수탁자로 정해진 것처럼 읽힌다"
+  artifacts:
+    - path: ".planning/baseline/DATA-INVENTORY.md"
+      issue: "구간 E Facebook SDK 자동 이벤트 행(222행)의 수탁자 칸이 「Meta (Facebook SDK). 실제 전송 여부 미확인」으로, 수탁/제3자 제공 미정 단서가 없음"
+    - path: ".planning/baseline/DATA-INVENTORY.md"
+      issue: "머리 문단(12행 부근)에 「수탁자」 열의 기준(PRIV-03) 설명이 없음"
+  missing:
+    - "Meta 행의 수탁자 칸에 「수탁·제3자 제공 구분은 Phase 7에서 정함」 단서를 넣는다 (「실제 전송 여부 미확인」 표기는 유지)"
+    - "머리 문단에 「수탁자」 열은 PRIV-03 기준(Google Firebase·GCP, 네이버클라우드는 수탁자, 로그인 제공자는 아님)이고 그 밖의 받는 곳의 구분은 Phase 7에서 한다는 한 줄을 더한다"
+    - "열 이름과 REQUIREMENTS BASE-03·ROADMAP Phase 1 성공 기준 3의 문구는 바꾸지 않는다 (사용자 결정 2026-11-15)"
+  debug_session: ""  # UAT 중 오케스트레이터가 직접 진단, 별도 debug 세션 없음
