@@ -5,15 +5,15 @@ titles: json
 findings:
   - id: WR-01
     severity: warning
-    disposition: open
+    disposition: fixed
     title: "「작업 규칙」에서 「빠지면 안 되는 조항은 값이 올 때까지 커밋 보류」 단서가 빠짐"
   - id: WR-02
     severity: warning
-    disposition: open
+    disposition: fixed
     title: "「원본은 Ground Rules」라고 밝혔지만 규칙 목록이 원본과 다름"
   - id: WR-03
     severity: warning
-    disposition: open
+    disposition: fixed
     title: "두 파일에 복사한 방침 구간의 일치를 이번 단계에서 한 번만 확인했고 반복 확인 절차가 없음"
   - id: IN-01
     severity: info
@@ -35,18 +35,18 @@ findings:
     severity: info
     disposition: open
     title: "「주소는 `.planning/` 문서에만 있다」 문장은 사이트 기준으로만 맞음"
-open: 8
+open: 5
 total: 8
-recorded: 2026-11-15T08:14:39.296Z
+recorded: 2026-11-15T09:29:36.617Z
 ---
 
 # Phase 01: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-01 | warning | open | - |
-| WR-02 | warning | open | - |
-| WR-03 | warning | open | - |
+| WR-01 | warning | fixed | 01-REVIEW-FIX.md |
+| WR-02 | warning | fixed | 01-REVIEW-FIX.md |
+| WR-03 | warning | fixed | 01-REVIEW-FIX.md |
 | IN-01 | info | open | - |
 | IN-02 | info | open | - |
 | IN-03 | info | open | - |
