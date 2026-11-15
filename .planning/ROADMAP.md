@@ -266,3 +266,20 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 8. 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms) | 0/TBD | Not started | - |
 | 9. 영문판 (English Versions) | 0/TBD | Not started | - |
 | 10. 제출 준비와 최종 점검 (Submission Readiness) | 0/TBD | Not started | - |
+
+## Backlog
+
+### Phase 999.1: 웹 호스팅을 GitHub Pages에서 Firebase Hosting으로 이전 (BACKLOG)
+
+**Goal:** [Captured for future planning] 다음 마일스톤(실데이터 웹사이트)을 시작할 때 `runningpencil.com`의 호스팅을 Firebase Hosting으로 옮긴다
+**Requirements:** TBD
+**Plans:** 0 plans
+**Notes (2026-11-15 논의):**
+- 이유: 앱이 Flutter + Firebase라 같은 콘솔·결제에서 관리할 수 있다. 배포할 때 CDN 캐시를 비우고, preview channel·콘솔 롤백·헤더·리디렉션·rewrite를 쓸 수 있다. GitHub Pages는 이것들을 할 수 없다(Phase 2 연구에서 CDN 캐시를 통제할 수 없음을 확인)
+- 다음 마일스톤에 필요한 것: 실데이터 페이지(rewrite로 Functions/Cloud Run 연결), 코스 공유 링크와 Universal Links/App Links 파일(`/.well-known/`). Firebase Dynamic Links는 2025년에 종료됨
+- 위험: 도메인이 같아 심사 콘솔에 등록한 URL은 그대로 유효하다. DNS 전환 때 SSL 인증서 발급을 기다리는 동안 오류가 날 수 있어 TTL을 미리 낮춘다. 메일(MX)은 영향 없음
+- 같이 정할 것: Firebase/GCP 프로젝트를 슬림펌킨 Google Workspace 조직 아래에 둘지, 앱 prod 프로젝트에 둘지 별도 프로젝트로 둘지, 빌드·배포 경로(GitHub Actions에서 Jekyll 빌드 뒤 `firebase deploy`)
+- 이번 마일스톤에서는 하지 않는다 (Constraints: GitHub Pages 정적 호스팅)
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
