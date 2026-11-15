@@ -11,7 +11,7 @@ created: "2026-11-15"
 # Phase 01 — Security
 
 > Per-phase security contract: threat register, accepted risks, and audit trail.
-> 근거: 계획 01-01~01-08의 `<threat_model>`(계획 단계에 작성). 이 단계의 산출물은 문서뿐이고 라이브 사이트 파일은 바뀌지 않았다. 검증은 ASVS L1(grep 수준)으로 했다.
+> 근거: 계획 01-01~01-10의 `<threat_model>`(계획 단계에 작성. 01-09·01-10은 UAT gap G-01-2·G-01-8을 닫는 계획). 이 단계의 산출물은 문서뿐이고 라이브 사이트 파일은 바뀌지 않았다. 검증은 ASVS L1(grep 수준)으로 했다.
 
 ---
 
@@ -26,6 +26,8 @@ created: "2026-11-15"
 | 사용자의 자격 증명 → 작업 세션 | 재로그인은 사용자만 한다. 다른 자격 증명으로 돌아가지 않는다 | CLI 로그인 상태 |
 | 생성기 `generate-claude-md` → `.claude/CLAUDE.md` | 생성 원본(CONVENTIONS.md, PROJECT.md)에서 블록을 다시 만든다 | 방침 문장 |
 | 절차서 → 사용자의 외부 콘솔 작업 (가비아 DNS, Workspace) | 절차서는 안내만 하고 실제 변경은 사용자가 한다 | MX·SPF·DKIM 값, 보존할 기존 레코드 |
+| executor의 task 커밋 ↔ 다른 쓰는 이의 STATE·ROADMAP 쓰기 (01-09) | 단계 시작 처리(`state.begin-phase`)가 STATE.md에 커밋하지 않은 줄을 남긴 채 executor가 같은 파일을 고친다 | task 커밋에는 G-01-2 대상 줄만, 단계 시작 줄은 추적 커밋으로 |
+| 데이터 목록 → Phase 6·7·8 법적 문서 (01-10) | 법적 문서는 이 목록의 사실만 옮긴다. 표기가 법적 분류를 단정하면 Phase 7이 그대로 옮겨 적는다 | Meta (Facebook SDK)의 수탁·제3자 제공 분류 |
 
 ---
 
@@ -63,7 +65,14 @@ created: "2026-11-15"
 | T-01-28 | Information Disclosure | CLI 출력에서 문서·SUMMARY로 옮긴 값 | high | mitigate | 데이터 목록과 01-08 SUMMARY에서 버킷 이름·프로젝트 번호·서비스 계정·IP·계정 이메일 꼴 0건. 01-08 이후 커밋된 줄 전체에도 0건 | closed |
 | T-01-29 | Elevation of Privilege | 자격 증명 (만료된 CLI 로그인) | medium | mitigate | 01-08 Task 1의 human-action checkpoint에서 사용자가 직접 재로그인함. 다른 자격 증명을 쓰지 않았다는 기록이 01-08 SUMMARY에 있음 | closed |
 | T-01-30 | Information Disclosure | Firestore 문서·Storage 객체 내용 | high | mitigate | 「CLI 조회 기록」에 문서·객체 내용을 읽는 명령 0건 (설정 메타데이터를 보는 list 명령만) | closed |
-| T-01-SC | Tampering | npm/pip/cargo installs (계획 8개 공통) | high | mitigate | 저장소에 패키지 매니페스트 0개, 단계 시작 이후 추가된 매니페스트 0개 | closed |
+| T-01-31 | Information Disclosure | ROADMAP·STATE에 더한 문장, `01-09-SUMMARY.md` | high | mitigate | 01-09 Task 1 여섯째 verify(이 task가 더한 줄), Task 2 둘째 verify(커밋한 Blockers 구간), 셋째 verify(SUMMARY)의 누출 정규식 0건. gap closure 이후(`815d620..HEAD`) 더해진 줄 전체에도 0건 | closed |
+| T-01-32 | Tampering | ROADMAP·STATE의 범위 밖 내용(단계 목표, 성공 기준, 다른 게이트의 막는 단계)과 진행 기록 | high | mitigate | 01-09 Task 1 첫째~셋째·다섯째 verify exit 0: 가비아 행·항목·External gates 줄을 뺀 구간과 모든 단계의 목표·성공 기준·Notes가 기준 커밋 `251ed7b`와 같고, task 커밋(`0232a75`)의 바뀐 줄은 G-01-2가 꼽은 곳뿐 | closed |
+| T-01-33 | Tampering | 절차서와 ROADMAP 사이의 막는 단계 불일치 | medium | mitigate | 01-09 Task 1 넷째 verify exit 0 (절차서 작업 2·6과 표의 두 가비아 행이 같은 단계를 가리킴). 절차서·결정 목록은 `251ed7b`와 같음 | closed |
+| T-01-34 | Information Disclosure | 데이터 목록에 더한 문장, `01-10-SUMMARY.md` | high | mitigate | 01-10 Task 1 넷째(더한 줄)·다섯째(SUMMARY) verify의 누출 정규식 0건 | closed |
+| T-01-35 | Tampering | Meta (Facebook SDK)의 수탁·제3자 제공 분류 (Phase 7 처리방침으로 옮겨짐) | medium | mitigate | 01-10 Task 1 첫째·둘째 verify exit 0 (Meta 칸의 「Phase 7에서 정함」 단서, 머리의 분류 출처 줄). 단정으로 읽히지 않는지는 UAT 시험 8 재확인으로 남음 | closed |
+| T-01-36 | Tampering | 열 이름, 「읽는 법」의 열 정의, 다른 행, REQUIREMENTS BASE-03·ROADMAP Phase 1 성공 기준 3 | medium | mitigate | 01-10 Task 1 셋째·넷째 verify exit 0 (열 이름 5줄·열 정의 2줄·표 행 수·REQUIREMENTS·성공 기준 3이 `251ed7b`와 같고, 지운 줄은 Meta 행 하나) | closed |
+| T-01-37 | Tampering | task 커밋과 `state.begin-phase`가 남긴 커밋하지 않은 STATE 줄 | high | mitigate | 순차 실행. task 커밋 `31f3b52`는 STATE.md +2/-1(Blockers 두 줄)뿐이고, 단계 시작 줄은 추적 커밋 `8f02671`이 가져감. stash·되돌리기 없음. 01-09 Task 2 둘째 verify exit 0 | closed |
+| T-01-SC | Tampering | npm/pip/cargo installs (계획 10개 공통) | high | mitigate | 저장소에 패키지 매니페스트 0개, 단계 시작 이후 추가된 매니페스트 0개 (gap closure 커밋에도 0개) | closed |
 
 *Status: open · closed · open — below high threshold (non-blocking)*
 *Severity: critical > high > medium > low — only open threats at or above workflow.security_block_on count toward threats_open*
@@ -84,6 +93,7 @@ No accepted risks.
 | Audit Date | Threats Total | Closed | Open | Run By |
 |------------|---------------|--------|------|--------|
 | 2026-11-15 | 31 | 31 | 0 | secure-phase (L1 grep 수준, 계획 단계 register. threats_open 0 + ASVS L1이라 auditor 생략) |
+| 2026-11-15 | 38 | 38 | 0 | secure-phase gap closure 재검증 (01-09·01-10의 T-01-31~37 추가. L1 grep 수준, 계획 단계 register. threats_open 0 + ASVS L1이라 auditor 생략) |
 
 ---
 
@@ -102,4 +112,12 @@ No accepted risks.
 |---|---|
 | Threats found | 31 |
 | Closed | 31 |
+| Open | 0 |
+
+## Security Audit 2026-11-15
+
+| Metric | Count |
+|---|---|
+| Threats found | 38 |
+| Closed | 38 |
 | Open | 0 |
