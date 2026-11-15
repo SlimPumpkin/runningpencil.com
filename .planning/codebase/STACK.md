@@ -61,7 +61,7 @@ last_mapped_at: 2026-11-14
 **Build:**
 - `_config.yml` - `exclude: [CNAME, CLAUDE.md, README.md, .planning/]`. 새 마크다운 문서 추가 시 여기에도 등록
 - `CNAME` - `runningpencil.com`
-- `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`
+- `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시)
 - `favicon/site.webmanifest` - name/short_name `러닝펜슬`, `display: standalone`, `theme_color`/`background_color` `#F2B134`, maskable 192/512 아이콘
 
 ## Platform Requirements
