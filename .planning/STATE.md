@@ -106,7 +106,8 @@ None yet.
 ### Blockers/Concerns
 
 사용자 외부 작업(단계를 막음):
-- 가비아 DNS 레코드 추가(1차 방문: Google Workspace 도메인 인증 TXT·MX·SPF 1개, Search Console TXT. 2차 방문: DKIM. 기존 레코드는 보존, 절차는 `.planning/baseline/USER-TASKS.md`)와 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
+- 가비아 DNS 1차 방문(Google Workspace 도메인 인증 TXT·MX·SPF 1개, Search Console TXT. 기존 레코드는 보존, 절차는 `.planning/baseline/USER-TASKS.md`)과 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
+- 가비아 DNS 2차 방문(DKIM, 절차는 `.planning/baseline/USER-TASKS.md` 작업 6. 작업 시점은 Phase 5 무렵) → Phase 10 (Apple 릴레이 답장의 전제. 이메일 게이트는 DKIM을 기다리지 않음)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
 - 실제 앱 화면 캡처(출시 범위 기능만) → Phase 4
 
