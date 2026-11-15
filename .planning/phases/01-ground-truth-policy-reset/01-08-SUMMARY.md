@@ -109,7 +109,7 @@ completed: 2026-11-15
 
 ## Files Created/Modified
 
-- `.planning/baseline/DATA-INVENTORY.md` — 구간 A·C·E·F 본표의 Firestore 저장 위치 열여섯 칸, 구간 A Storage 행, 구간 D `snapRoute`·Cloud Logging 행, 구간 E `fcmTokens` 행, 구간 F `rate_limits`·`mail` 행, 구간 G 여섯 행과 맺음 문장, 구간 H 열한 행(PITR·백업 행 분리 포함)과 맺음 문장, 「읽는 법」의 근거 표기, 「확인할 것」 CLI 행 여섯 개를 고치고 「CLI 조회 기록」 구간을 더함
+- `.planning/baseline/DATA-INVENTORY.md` — 구간 A·C·E·F 본표의 Firestore 저장 위치 열여섯 칸, 구간 A Storage 행, 구간 D `snapRoute`·Cloud Logging 행, 구간 E `fcmTokens` 행, 구간 F `rate_limits`·`mail` 행, 구간 G 다섯 행과 맺음 문장, 구간 H 열한 행(PITR·백업 행 분리 포함)과 맺음 문장, 「읽는 법」의 근거 표기, 「확인할 것」 CLI 행 여섯 개를 고치고 「CLI 조회 기록」 구간을 더함
 
 ## Decisions Made
 
@@ -124,8 +124,8 @@ completed: 2026-11-15
 
 **1. [Rule 3 - Blocking] TTL 조회의 출력 형식 재시도 한 번 초과**
 - **Found during:** Task 2 (조회 2)
-- **Issue:** RESEARCH의 `--format`으로 돌린 `gcloud firestore fields ttls list`가 아무 줄도 내지 않았다. 계획은 필드 이름을 한 번 고쳐 다시 조회하라고 했는데, 고친 형식도 빈 출력이었다. table 형식은 결과가 0건이면 머리글도 찍지 않으므로, 필드 이름 문제인지 0건인지 구분할 수 없었다.
-- **Fix:** 같은 허용 명령을 `--format` 없이 한 번 더 돌려 기본 출력의 「0건」 줄을 확인했다. 그래서 「실패 (출력 필드 확인 못 함)」이 아니라 「조회함」(TTL 정책 없음)으로 적었다. 데이터 목록의 「CLI 조회 기록」 아래 메모에도 적었다.
+- **Issue:** RESEARCH의 `--format`으로 돌린 `gcloud firestore fields ttls list`가 아무 줄도 내지 않았다. 계획은 필드 이름을 한 번 고쳐 다시 조회하라고 했는데, 고친 형식도 빈 출력이었다. table 형식의 빈 출력만으로는 필드 이름 문제인지 구분할 수 없었다.
+- **Fix:** 같은 허용 명령을 `--format` 없이 한 번 더 돌렸다. 기본 출력으로 빈 출력이 필드 이름 문제가 아니라는 것을 확인했으므로 「실패 (출력 필드 확인 못 함)」이 아니라 「조회함」으로 적었다. 결과는 데이터 목록의 「CLI 조회 기록」 아래 메모에 있다.
 - **Files modified:** `.planning/baseline/DATA-INVENTORY.md`
 - **Verification:** 같은 명령의 기본 출력. 허용 목록 밖의 명령은 쓰지 않았다.
 - **Committed in:** `dee0d4bf`
@@ -138,9 +138,17 @@ completed: 2026-11-15
 - **Verification:** 구간 A~H에서 `CLI 미확인` 0줄 (verify 2의 unresolved=0). verify 1~7 exit 0
 - **Committed in:** `dee0d4bf`
 
+**3. [Rule 1 - Bug] SUMMARY frontmatter의 전체 커밋 해시가 누출 검사에 걸림**
+- **Found during:** SUMMARY 커밋 전 누출 검사 (verify 7)
+- **Issue:** 첫 실행에서 `plan_head_before`의 40자 해시 안에 숫자가 12개 넘게 이어지는 구간이 있어 12자리 숫자 정규식에 걸렸다. 계획의 output 지시(커밋 해시는 앞 7~8자)와도 어긋났다.
+- **Fix:** `plan_head_before`·`plan_head_after`를 앞 8자로 줄였다. 01-07의 `7754b08`과 같은 수정이다.
+- **Files modified:** `.planning/phases/01-ground-truth-policy-reset/01-08-SUMMARY.md`
+- **Verification:** 다시 돌린 verify 7과 추가 grep이 exit 0
+- **Committed in:** `d700b1f` (SUMMARY 커밋 전에 고침)
+
 ---
 
-**Total deviations:** 2 auto-fixed (1 blocking, 1 missing critical)
+**Total deviations:** 3 auto-fixed (1 bug, 1 blocking, 1 missing critical)
 **Impact on plan:** 둘 다 같은 허용 명령과 같은 파일 안에서 끝났다. 범위가 늘지 않았다.
 
 ## Issues Encountered
@@ -153,7 +161,8 @@ completed: 2026-11-15
 - Task 2 verify 1~7: 모두 exit 0 (rows=8, queried=8, unresolved=0, paths=62 miss 없음).
 - 추가 누출 검사: 데이터 목록에서 dev 프로젝트 ID, VM 이름, 프로젝트 번호 일부, 버킷 이름 조각을 grep해 0줄.
 - 앱 저장소와 라이브 사이트 파일을 바꾸지 않았다 (verify 6). 푸시하지 않았다.
-- SUMMARY 누출 검사(verify 7)는 이 파일을 쓴 뒤 커밋 전에 다시 돌린다.
+- SUMMARY 누출 검사(verify 7): 첫 실행은 frontmatter의 40자 커밋 해시 때문에 exit 1이었다 (편차 3). 해시를 8자로 줄인 뒤 다시 돌려 exit 0을 확인하고 커밋했다. 이 기록을 고친 뒤에도 다시 돌렸다.
+- 01-05의 구간 H 구조 검사(행 14개 이상, 근거 종류 어휘)를 PITR·백업 행을 나눈 뒤 다시 돌려 exit 0을 확인했다.
 
 ## User Setup Required
 
