@@ -61,6 +61,7 @@ head 링크·「공통」 CSS·헤더·푸터를 GitHub Pages 내장 Jekyll의 `
   - 새 문구 예: 「`_includes/…` 한 곳에서 고친다」
   - 이 커밋은 HTML·CSS 주석을 지운 뒤 diff 0인지로 확인합니다.
   - 사실과 어긋나지 않는 다른 출력 주석(`<!-- Header -->`, `/* ── 랜딩 전용 ── */` 등)은 그대로 둡니다.
+  - **성공 기준 1과의 관계:** 성공 기준 1(공백 정규화 diff 0)은 전환 커밋 시점에 판정합니다. 법적 3종 전환 커밋과 랜딩 전환 커밋의 해시와 diff 결과를 검증 문서에 적습니다. 단계를 마친 뒤의 최종 출력은 전환 전과 이 「공통」 CSS 머리 주석 한 곳만 다릅니다. 이 차이는 사용자가 승인한 예외입니다(2026-11-15 논의). 검증자는 최종 상태를 「주석을 지운 뒤 diff 0」으로 확인합니다. ROADMAP 성공 기준 1의 문구는 아직 예외 없이 「차이가 0」이라고 적혀 있습니다. 문구를 고칠지는 사용자가 정합니다.
 - **D-07:** 공백 정규화는 각 줄의 앞뒤 공백과 빈 줄만 지웁니다. 줄 안의 공백 차이는 차이로 셉니다. 인라인 요소 사이 공백처럼 화면에 보이는 차이를 놓치지 않기 위해서입니다.
 - **D-08:** 비교 범위는 두 가지입니다.
   - 네 문서의 내용 diff
@@ -68,6 +69,9 @@ head 링크·「공통」 CSS·헤더·푸터를 GitHub Pages 내장 Jekyll의 `
 - **D-09:** 비교 기준(baseline)은 Phase 2 실행을 시작할 때의 커밋입니다.
   - 그 커밋의 원본 HTML 4개를 기준으로 씁니다. 지금은 빌드 없이 그대로 서빙되므로 라이브와 같습니다.
   - 그 커밋을 로컬 Jekyll로 빌드한 `_site/` 파일 목록도 기준으로 씁니다.
+  - 기준 파일 목록은 작업 트리에서 빌드하지 않습니다. 기준 커밋의 추적 파일만 깨끗하게 내보낸 사본(`git archive` 등)에서 빌드합니다. 그래야 GitHub Pages가 보는 것과 같아집니다.
+    - 이유 1: 작업 트리에는 gitignore된 `prepare/`가 있는데, 현재 `exclude`에 없어서 함께 빌드됩니다. 그러면 ① 푸시 뒤 이 파일들이 「사라진 파일」로 잡혀 거짓 실패가 납니다.
+    - 이유 2: 기준 커밋에는 Gemfile이 없습니다. 빌드할 때 Gemfile은 사본 밖에서 넣습니다(예: `BUNDLE_GEMFILE` 지정). 같은 방법으로 빌드 결과에 Gemfile이 섞이지 않게 합니다.
   - 기준 커밋 해시를 검증 문서에 적습니다.
 - **D-10:** 성공 기준 2는 커밋하지 않는 임시 시험으로 확인합니다. include 하나를 임시로 바꿔 빌드하고, 네 문서의 결과가 모두 바뀌는지 본 뒤 되돌립니다.
 
@@ -83,6 +87,8 @@ head 링크·「공통」 CSS·헤더·푸터를 GitHub Pages 내장 Jekyll의 `
   1. `bundle exec jekyll build`가 성공하는지
   2. `_site/`에 내부 파일이 없는지: `CLAUDE.md`, `README.md`, `Gemfile`, `Gemfile.lock`, `vendor/`, `.planning/`, `prepare/`, 스크립트 자신, `.githooks/`, `_includes`·`_layouts` 원본 조각
   3. 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)가 있고 `<title>`이 기대값과 같은지
+     - 기대값은 스크립트 맨 위 한 곳에 모읍니다. 이 스크립트는 이후 단계에서도 계속 돌기 때문입니다.
+     - Ground Rule이 제목을 고정하는 대상은 법적 URL 3개뿐입니다. 랜딩 제목은 Phase 4에서 바뀔 수 있으므로, 바뀌면 그 단계가 기대값을 고친다고 주석에 적습니다.
   4. 출력에 Liquid가 처리되지 않은 문자열(`{%`, `{{`)이 남지 않았는지
 
   diff 0 비교(D-05~D-09)는 Phase 2에서만 쓰는 일회용입니다. 스크래치에서 돌리고, 결과만 검증 문서에 남깁니다.
@@ -101,6 +107,7 @@ head 링크·「공통」 CSS·헤더·푸터를 GitHub Pages 내장 Jekyll의 `
 - **D-16:** 푸시는 Claude가 하되 매번 승인을 받습니다.
   - 계획에는 푸시 직전마다 사람 확인 단계(checkpoint)를 넣습니다. 그 단계에서 로컬 검증 결과(빌드, diff, 파일 목록, 점검 스크립트)를 보여 주고, 승인을 받으면 푸시한 뒤 라이브를 확인합니다.
   - 승인은 푸시마다 따로 받습니다. 앞 푸시의 승인이 다음 푸시로 이어지지 않습니다.
+  - **checkpoint 종류는 `checkpoint:decision`으로 합니다.** 이 프로젝트의 `.planning/config.json`은 `workflow.human_verify_mode: "end-of-phase"`입니다. 이 모드에서는 계획자가 만든 `checkpoint:human-verify`가 단계 끝으로 미뤄집니다. `checkpoint:decision`과 `checkpoint:human-action`은 미뤄지지 않습니다(`~/.claude/gsd-core/references/checkpoints.md`, `planner-human-verify-mode.md`). 푸시는 작업 자체를 막는 결정이므로 `checkpoint:decision`으로 단계 중간에 멈춰야 합니다.
 - **D-17:** 라이브 확인은 GitHub Pages 배포가 끝났는지 먼저 확인한 뒤 합니다. 배포 완료는 커밋 체크나 Actions의 「pages build and deployment」로 봅니다(`gh` 사용 가능). 확인 항목은 셋입니다.
   - curl로 네 URL이 200이고 `<title>`이 전환 전과 같은지
   - 내부 파일이 404인지: `/CLAUDE.md`, `/README.md`, `/Gemfile`, `/Gemfile.lock`, `.planning/` 아래 실제 파일 경로(예: `/.planning/ROADMAP.md`), 점검 스크립트 경로, `/_config.yml`
@@ -196,6 +203,9 @@ head 링크·「공통」 CSS·헤더·푸터를 GitHub Pages 내장 Jekyll의 `
 - `<body>` 태그도 다릅니다. 랜딩은 `<body id="top">`, 법적 페이지는 `<body>`입니다.
 - front matter가 없는 HTML은 Jekyll이 그대로 복사합니다. 그래서 한 커밋에서 일부 페이지만 전환해도 나머지는 깨지지 않습니다.
 - 운영은 Ruby 3.3.4와 GitHub Pages 기본 플러그인(`jekyll-default-layout`, `jekyll-optional-front-matter` 등)으로 빌드하고, 로컬은 Ruby 4.0.9입니다. 차이는 D-17의 라이브 비교로 잡습니다.
+- **worktree 주의:** `.planning/config.json`은 `workflow.use_worktrees: true`입니다. `vendor/bundle`과 `.bundle/config`는 gitignore 대상이라 새 worktree에는 없습니다.
+  - Jekyll 빌드, 점검 스크립트, 라이브 비교, 푸시 작업은 메인 체크아웃에서 돌립니다. 아니면 그 worktree에서 Bundler가 gem을 찾을 수 있게 설정합니다.
+  - pre-push 훅은 푸시가 실행되는 체크아웃에서 돌므로, 거기에 gem이 있어야 합니다.
 - `.claude/`, `.gsd/` 같은 점 폴더는 Jekyll이 기본으로 출력하지 않습니다. 다만 사용자 지정 `exclude`가 기본 목록을 덮어쓰는 동작이 점 파일 규칙에도 미치는지는 파일 목록 비교(D-08)로 확인합니다.
 
 ### Established Patterns
