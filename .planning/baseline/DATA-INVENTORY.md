@@ -62,10 +62,37 @@
 - `infra/router/Caddyfile`
 - `infra/router/deploy.sh`
 - `pubspec.yaml`
+- `lib/features/notifications/domain/fcm_token.dart`
+- `lib/features/notifications/application/notification_settings_notifier.dart`
+- `lib/core/router/auth_guard.dart`
+- `lib/core/analytics/analytics_service.dart`
+- `lib/core/analytics/analytics_observer.dart`
+- `lib/features/onboarding/presentation/onboarding_screen.dart`
+- `lib/features/demo/presentation/demo_screen.dart`
+- `lib/core/bootstrap.dart`
+- `lib/core/auth/provider_id.dart`
+- `lib/core/auth/auth_strategies_registry.dart`
+- `lib/core/providers/locale_provider.dart`
+- `lib/core/providers/theme_provider.dart`
+- `lib/features/onboarding/presentation/onboarding_notifier.dart`
+- `functions/src/shared/rate_limit.ts`
+- `functions/src/shared/client_ip_hash.ts`
+- `functions/src/email/email_hash.ts`
+- `functions/src/email/send_verification_mail.ts`
+- `functions/src/email/send_password_reset_mail.ts`
+- `extensions/firestore-send-email.env`
+- `lib/core/config/app_config.dart`
+- `lib/features/terms/presentation/terms_notifier.dart`
+- `lib/core/location/location_service.dart`
+- `lib/features/runs/application/run_notification_permission.dart`
+- `lib/features/runs/application/tracking_mode_preference.dart`
+- `lib/features/courses/application/directions_app_preference.dart`
+- `lib/features/home/application/dismissed_announcement.dart`
+- `functions/src/auth/lookup_sign_in_methods.ts`
 
 ## 읽는 법
 
-**본표의 열 열 개** (구간 A, C, D)
+**본표의 열 열 개** (구간 A, C, D, E, F)
 
 - 항목: 필드 하나, 또는 한 덩어리로 다루는 필드 묶음입니다. Firestore 필드는 `컬렉션/{문서}.필드` 꼴로 적습니다.
 - 범주: 아래 범주 태그 가운데 하나입니다. 처리방침은 범주로 묶어 쓰고, 이 열로 어느 필드에서 나왔는지 거슬러 올라갑니다.
@@ -176,3 +203,29 @@
 
 - 라우터 접속 기록의 가림 처리: 요청 경로의 좌표 구간을 가리고, 라우터 열쇠 헤더를 지우고, 접속 IP는 앞부분만 남깁니다 (`infra/router/Caddyfile:24-41`). 라우터의 호스트 이름과 고정 IP는 이 목록에 적지 않습니다.
 - 소셜 연결 끊기의 요청은 Google이 아니라 각 제공자 API로 갑니다. 이 요청이 제3자 제공인지 같은 법적 구분은 Phase 7에서 합니다.
+
+## E. 기기·알림·분석·크래시
+
+| 항목 | 범주 | 출처 | 목적 | 저장 위치(리전) | 수탁자 | 국외 이전 | 보유 기간 | 삭제 방식 | 근거 |
+|---|---|---|---|---|---|---|---|---|---|
+| `users/{uid}/fcmTokens/{token}` (`token`, `platform`, `locale`, `updatedAt`, `expireAt`. `platform`은 android 또는 ios, `locale`은 ko·en·ja) | 알림 | 기기의 FCM 등록 토큰 (앱이 기록. 익명 사용자는 쓸 수 없음) | 푸시 알림을 보낼 기기 주소 | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인). 알림 발송을 맡는 FCM은 Google 시설 (위치 선택 불가, 공식 문서) | Google (Firebase·GCP) | 토큰 문서는 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」). FCM 발송은 있을 수 있음. Google이 시설을 둔 곳 어디서나 처리 (공식 문서) | 앱이 `expireAt`을 30일 뒤로 씀 (규칙 상한 60일). TTL 정책 적용 여부 CLI 미확인. FCM의 installation ID는 삭제 API 호출까지. 이후 180일 안에 제거 (공식 문서) | 탈퇴 시 삭제. 실패하면 TTL에 맡김. 알림 끄기·로그아웃 때 앱이 이 기기의 토큰 문서를 지움 | `firestore.rules:405-416`, `lib/features/notifications/domain/fcm_token.dart:17`, `functions/src/auth/delete_user_account.ts:369-380`, `lib/features/notifications/application/notification_settings_notifier.dart:29-33`, 공식 문서: firebase.google.com/support/privacy |
+| Firebase Analytics (사용자 ID로 붙이는 uid, 사용자 속성 `guest_mode`(익명 여부), 앱이 직접 보내는 이벤트 `onboarding_completed`와 화면 조회, 개발용 화면의 시험 이벤트 `dev_tools_test_event`. SDK가 스스로 모으는 기본 이벤트와 기기 정보는 미확인) | 분석·크래시 | 앱 사용 중 SDK가 기록 | 앱 사용 분석. 수집을 끄는 스위치가 앱에 없음 (결정 목록 N5) | Google 시설 (위치 선택 불가, 공식 문서) | Google (Firebase·GCP) | 있을 수 있음. Google이 시설을 둔 곳 어디서나 처리 (공식 문서) | 미확인 (콘솔 설정값. 선택지는 2개월 또는 14개월, 공식 문서) | 앱이 삭제 API를 부르지 않음. 서비스의 보존 기간에 따름 | `lib/core/router/auth_guard.dart:592-593`, `lib/core/analytics/analytics_service.dart:53-56`, `lib/features/onboarding/presentation/onboarding_screen.dart:166`, `lib/features/demo/presentation/demo_screen.dart:978`, `lib/core/analytics/analytics_observer.dart:56-60`, 공식 문서: support.google.com/analytics/answer/7667196, 공식 문서: firebase.google.com/support/privacy |
+| Firebase Crashlytics (사용자 식별자로 붙이는 uid, 사용자 정의 키 `flavor`, 오류와 스택) | 분석·크래시 | 앱에서 오류가 날 때 SDK가 기록 | 오류 추적. 수집을 끄는 스위치가 앱에 없음 (결정 목록 N5) | Google 시설 (위치 선택 불가, 공식 문서) | Google (Firebase·GCP) | 있을 수 있음. Google이 시설을 둔 곳 어디서나 처리 (공식 문서) | 90일 (공식 문서) | 앱이 삭제 API를 부르지 않음. 서비스의 보존 기간에 따름 | `lib/core/router/auth_guard.dart:594`, `lib/core/bootstrap.dart:134-155`, 공식 문서: firebase.google.com/support/privacy |
+| App Check 기기 증명 토큰 (출시 빌드는 Android Play Integrity, iOS DeviceCheck) | 기기 | 기기의 증명 서비스가 발급하고 SDK가 붙여 보냄 | Cloud Functions 호출이 정식 앱에서 왔는지 확인 (남용 방지) | Google 시설 (위치 선택 불가, 공식 문서) | Google (Firebase·GCP) | 있을 수 있음. Google이 시설을 둔 곳 어디서나 처리 (공식 문서) | 토큰 최대 7일, 재전송 방지 토큰 최대 30일 (공식 문서) | 해당 없음 (앱이 저장하지 않음). 토큰은 유효 기간에 따름 (공식 문서) | `lib/core/bootstrap.dart:109-120`, `functions/src/index.ts:36`, `functions/src/auth/delete_user_account.ts:159`, 공식 문서: firebase.google.com/support/privacy |
+| Remote Config 가져오기 (로그인 수단을 켜고 끄는 키 `auth_provider_{id}_enabled`, SDK가 쓰는 Firebase installation ID) | 기기 | 앱이 Remote Config 서버에서 값을 받음 | 로그인 수단을 켜고 끄기 (긴급 차단 스위치) | Google 시설 (위치 선택 불가, 공식 문서) | Google (Firebase·GCP) | 있을 수 있음. Google이 시설을 둔 곳 어디서나 처리 (공식 문서) | 삭제 API 호출까지. 이후 180일 안에 제거 (공식 문서) | 앱이 삭제 API를 부르지 않음. 서비스의 보존 기간에 따름 | `lib/core/auth/provider_id.dart:64-65`, `lib/core/auth/auth_strategies_registry.dart:138-141`, 공식 문서: firebase.google.com/support/privacy |
+| 기기 안 설정 (`SharedPreferences`의 언어, 테마, 온보딩 본 버전, 알림 수신 설정, 이 기기에 등록한 FCM 토큰 키, 약관 동의 기록 사본, 권한을 물었는지 여부, 따라가기 모드, 길찾기 앱 선택, 닫은 공지 문구) | 기기 | 사용자 선택과 앱 상태 | 다음 실행 때 설정을 되살림. 약관 동의 사본은 익명 사용자의 동의 추적과 오프라인 대비 | 기기 안에만 저장 (서버로 보내지 않음) | 없음 (기기 안) | 해당 없음 (기기 안) | 기기 안에 남음. 등록 토큰 키는 로그아웃 때 앱이 지움. 그 밖의 키가 지워지는 시점은 미확인 | 탈퇴 때 서버에서 지우는 대상이 아님 (기기 안). 등록 토큰 키는 로그아웃 때 앱이 지움 | `lib/core/providers/locale_provider.dart:33`, `lib/core/providers/theme_provider.dart:22`, `lib/features/onboarding/presentation/onboarding_notifier.dart:45`, `lib/features/notifications/application/notification_settings_notifier.dart:27`, `lib/features/notifications/application/notification_settings_notifier.dart:29-37`, `lib/features/terms/presentation/terms_notifier.dart:19-27`, `lib/features/terms/presentation/terms_notifier.dart:39`, `lib/core/location/location_service.dart:21`, `lib/features/runs/application/run_notification_permission.dart:11`, `lib/features/runs/application/tracking_mode_preference.dart:13`, `lib/features/courses/application/directions_app_preference.dart:22`, `lib/features/home/application/dismissed_announcement.dart:19` |
+| Facebook SDK 자동 이벤트 (자동 이벤트 전송 가능성 있음. 앱에서 끄는 설정 없음(확인), 실제 전송 여부 미확인) | 분석·크래시 | Facebook 로그인용 SDK가 앱 설치·실행 같은 이벤트를 자동으로 기록할 수 있음 (공식 문서) | 앱이 쓰는 곳 없음. Facebook 로그인 SDK의 기본 동작. 결정 목록 N1 | 미확인 (Meta 쪽 처리·저장 위치) | Meta (Facebook SDK). 실제 전송 여부 미확인 | 미확인 | 미확인 | 미확인 | `android/app/src/main/AndroidManifest.xml:50-57`, `ios/Runner/Info.plist:79-84`, 공식 문서: developers.facebook.com/docs/app-events/getting-started-app-events-android |
+
+- Analytics와 Crashlytics에는 로그인할 때마다 uid를 붙입니다 (`lib/core/router/auth_guard.dart:592-594`). 수집을 끄거나 동의를 받는 호출(`setAnalyticsCollectionEnabled`, `setCrashlyticsCollectionEnabled`, `setConsent`)은 기준 커밋의 `lib`, `android/app/src`, `ios/Runner` 어디에도 없습니다. 처리방침의 거부 방법 문장은 결정 목록 N5에서 정합니다.
+- 탈퇴 함수는 Analytics·Crashlytics의 데이터를 지우는 API를 부르지 않습니다. 탈퇴 뒤에도 이 두 서비스에 붙은 uid는 각 서비스의 보존 기간(Analytics는 미확인, Crashlytics는 90일)에 따라 남습니다.
+- Facebook 관련 매니페스트 설정은 앱 ID와 클라이언트 토큰 둘뿐이고 자동 이벤트나 광고 ID 수집을 끄는 설정은 없습니다 (`android/app/src/main/AndroidManifest.xml:50-57`). Meta 문서는 Android SDK가 통합되면 자동 이벤트 기록이 기본으로 켜진다고 적습니다 (공식 문서: developers.facebook.com/docs/app-events/getting-started-app-events-android). `flutter_facebook_auth` 플러그인이 병합하는 매니페스트, iOS 기본 동작, 실제 전송 여부는 미확인입니다.
+- 개발용 화면의 시험 이벤트 `dev_tools_test_event`가 출시 빌드에서 보이는지는 확인하지 못했습니다 (「미확인」).
+
+## F. 서버 보조 컬렉션
+
+| 항목 | 범주 | 출처 | 목적 | 저장 위치(리전) | 수탁자 | 국외 이전 | 보유 기간 | 삭제 방식 | 근거 |
+|---|---|---|---|---|---|---|---|---|---|
+| `rate_limits/{docId}` (`count`, `windowStart`. 문서 ID에 uid 또는 해시가 들어가고 IP와 이메일은 원문이 아니라 SHA-256 앞 32자) | 서버 보조 | Functions가 요청 횟수를 셈 (규칙에 허용 항목이 없어 클라이언트는 접근할 수 없음) | 요청 횟수 제한 (가입 수단 조회, 시험 푸시 같은 호출의 남용 방지) | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 미확인 (TTL 정책 CLI 미확인) | 탈퇴 시 삭제하지 않음. TTL 정책 미확인 | `functions/src/shared/rate_limit.ts:4-6`, `functions/src/shared/client_ip_hash.ts:11-28`, `functions/src/email/email_hash.ts:22-27`, `functions/src/auth/lookup_sign_in_methods.ts:117-127` |
+| `mail/{id}` (`to` 수신 주소, `message` 인증·비밀번호 재설정 링크가 든 메일 본문) | 서버 보조 | Functions가 인증 메일·비밀번호 재설정 메일을 보낼 때 기록 (클라이언트 접근 차단) | 메일 발송 대기열 (Trigger Email 확장이 읽어 보냄). 현재 미사용 (dev 기준). prod 설정에 따름 | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP). 메일 발송 모드가 `kit`이면 SMTP 발송 서비스가 더해짐 (결정 목록 N6, P1) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」). SMTP 발송 서비스 쪽은 미확인 | 확장 TTL 설정 1일 (근거: 설정 파일). TTL 적용 여부 CLI 미확인 | 탈퇴 단계에 없음. 확장 TTL에 맡김 (적용 여부 CLI 미확인) | `functions/src/email/send_verification_mail.ts:190`, `functions/src/email/send_password_reset_mail.ts:310`, `firestore.rules:299-301`, `extensions/firestore-send-email.env:6-8`, `lib/core/config/app_config.dart:232-239` |
+
+- dev의 `emailDelivery`는 빈 값이고, 빈 값이면 Firebase Authentication 기본 메일로 동작합니다. 그래서 dev에서는 `mail` 컬렉션과 SMTP 발송 서비스를 쓰지 않습니다 (`config/dev.json:19`, `lib/core/config/app_config.dart:232-239`, 근거: dev). prod에서 `kit`을 쓰면 SMTP 발송 서비스가 수탁자로 더해집니다 (결정 목록 N6, P1).
