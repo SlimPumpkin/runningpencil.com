@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-11-15T06:15:24.262Z"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-11-15T06:25:57.822Z"
 last_activity: 2026-11-14
 last_activity_desc: Phase 01 execution started
-state_head: c9cac01208c7c8d4e971bc106913fb0b44493160
+state_head: 1aac6a5f68ca440581e1b4a2905c5822686e768a
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-14)
 ## Current Position
 
 Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — EXECUTING
-Plan: 4 of 8
+Plan: 5 of 8
 Status: Ready to execute
 Last activity: 2026-11-14 — Phase 01 execution started
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P01 | 5 min | 2 tasks | 5 files |
 | Phase 01 P02 | 6 min | 2 tasks | 1 files |
 | Phase 01 P03 | 13 min | 2 tasks | 1 files |
+| Phase 01 P04 | 8 min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,9 @@ Recent decisions affecting current work:
 - [Phase 01]: 익명 계정 행의 삭제 방식은 「미확인」 (익명 사용자에게 탈퇴 메뉴가 보이는지 확인하지 못함, 결정 목록 N3) (01-03)
 - [Phase 01]: users/{uid} 문서 필드의 보유 기간은 「탈퇴까지」 (클라이언트 삭제 금지, firestore.rules:395), 사진 URL·Storage 사진만 「탈퇴 또는 본인 삭제까지」 (01-03)
 - [Phase 01]: 네이버 프로필 근거는 RESEARCH의 249-264행 대신 기준 커밋에서 다시 찾은 37행(API 주소)과 260-265행(반환 필드) (01-03)
+- [Phase 01]: P1(prod 리전)은 ROADMAP External Gates 표에 행이 없어 막는 단계·마감 단계를 D-08(Phase 7 처리방침 커밋 전)에서 가져왔다 (01-04)
+- [Phase 01]: 결정 목록 N 표의 「다루는 곳」은 데이터 목록 구간 글자로 적었다. N1·N5는 E, N6은 F와 P1, N2는 H — 01-05가 더할 구간 (01-04)
+- [Phase 01]: U12 기록에는 업무 메일 도메인 이름과 채택하지 않은 메일 전달 서비스 이름을 적지 않았다 (01-04)
 
 ### Pending Todos
 
@@ -110,6 +114,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T06:15:24.229Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-11-15T06:25:57.809Z
+Stopped at: Completed 01-04-PLAN.md
 Resume file: None
