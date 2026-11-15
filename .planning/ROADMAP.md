@@ -24,7 +24,7 @@
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: 기준표와 방침 정비 (Ground Truth & Policy Reset)** - 이름 표·URL 대장·데이터 목록·결정 목록을 만들고 `CLAUDE.md` 방침을 바꾼다
+- [x] **Phase 1: 기준표와 방침 정비 (Ground Truth & Policy Reset)** - 이름 표·URL 대장·데이터 목록·결정 목록을 만들고 `CLAUDE.md` 방침을 바꾼다 (completed 2026-11-15)
 - [ ] **Phase 2: Jekyll 공유 셸 도입 (Shared Shell Refactor)** - 공통 블록을 한 곳으로 모으되 사이트 출력은 그대로 둔다
 - [ ] **Phase 3: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)** - Tailwind Play CDN을 정적 CSS로 바꾸되 모양은 그대로 둔다
 - [ ] **Phase 4: 홈페이지 서비스 소개 정정 (Landing Content Fix)** - 앱에 없는 기능 설명을 빼고 실제 앱 화면을 보여 준다
@@ -47,7 +47,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. 운영자는 데이터 목록에서 개인정보 항목마다 출처·목적·저장 위치(리전)·수탁자·국외 이전·보유 기간·삭제 방식을 앱 저장소의 파일 근거와 함께 확인하고, 확인하지 못한 칸은 「미확인」으로 표시돼 있다
   4. 운영자는 결정 목록(U2·U3·U5~U9·U11~U13)과 사용자가 할 외부 작업 목록(가비아 DNS 레코드 표, 메일 수신 시험 절차, 사업자 값, 앱 화면 캡처)을 받아, 항목마다 어느 단계를 막는지 안다
   5. `CLAUDE.md`가 지원 이메일 공개, 사업자 정보 표시, 영문명 RunningPencil, 한국어+영어, Jekyll 빌드 전환, 포인트·굿즈·코스북 제거를 현재 방침으로 설명하고, 「연락처 미표시」「RunningPencil 쓰지 않음」「ko 전용」 같은 옛 규칙 문장이 남아 있지 않다
-**Plans**: 10/10 plans executed
+**Plans**: 10/10 plans complete
 
 Plans:
 - [x] 01-09-PLAN.md
@@ -256,7 +256,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | In Progress | - |
+| 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 0/TBD | Not started | - |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 0/TBD | Not started | - |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |

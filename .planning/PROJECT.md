@@ -20,6 +20,8 @@
 - ✓ 파비콘 세트, `site.webmanifest`, 랜딩 Open Graph 메타 — existing
 - ✓ 접근성 기본: `prefers-reduced-motion` 존중, `:focus-visible`, `aria-pressed` 동기화, 장식 SVG `aria-hidden` — existing
 - ✓ 홈 푸터에서 법적 페이지 3종으로 링크되고 OSM 출처를 표기 — existing
+- ✓ 기준 문서: 이름 표·URL 대장·데이터 목록·결정 목록·사용자 작업 절차서(`.planning/baseline/`) — Phase 1 (BASE-01~04)
+- ✓ 바뀐 방침(연락처 공개·사업자 정보·영문판·빌드 방식)을 `CLAUDE.md`에 반영 — Phase 1 (BASE-05)
 
 ### Active
 
@@ -51,7 +53,6 @@
 **사이트 정비**
 - [ ] 법적 페이지의 Tailwind Play CDN 런타임을 걷어 내고 정적 CSS로 바꾼다
 - [ ] 여러 페이지에 복사된 공통 블록(head 링크·「공통」 CSS·헤더·푸터)을 한 곳에서 관리한다
-- [ ] 바뀐 방침(연락처 공개·사업자 정보·영문판·빌드 방식)을 `CLAUDE.md`에 반영한다
 
 **외부 인수 (사용자 확인)**
 - [ ] 6개 제공자의 프로덕션 심사·비즈앱 전환이 통과됐음을 사용자가 확인한다. 사이트만으로는 검증할 수 없으므로 단계별 성공 기준에는 넣지 않고 마일스톤 인수 항목으로만 둔다
@@ -113,6 +114,7 @@
 | 위치기반서비스 이용약관 페이지를 기본으로 포함, 범위만 법률 확인으로 조정. 경로는 `/location-terms/`로 확정 (D-15) | 조사 결과 위치정보법 제12조①이 이용약관 공개 의무를 둠. 신고(제9조)인지 등록(제5조)인지는 법률 확인 필요 (U2) | — Pending |
 | Tailwind Play CDN 제거와 공통 블록 단일화 — 「빌드 없음」 방침이 바뀔 수 있음 | 심사 대상 페이지의 안정성, 페이지가 늘수록(영문판·지원) 복사 드리프트 위험이 커짐. 방식(Jekyll include 등)은 단계에서 결정 | — Pending |
 | 완료 = 6개 제공자 프로덕션 심사 통과를 사용자가 확인. 스토어는 웹사이트 요건까지 | 심사 통과는 외부 이벤트라 단계별 성공 기준에서 빼고 인수 항목으로 둠 | — Pending |
+| 데이터 목록의 「수탁자」 열은 PRIV-03 분류(Google Firebase·GCP, 네이버클라우드는 수탁자, 로그인 제공자는 아님)만 옮기고, 그 밖의 받는 곳(Meta (Facebook SDK) 등)의 수탁·제3자 제공 구분은 Phase 7에서 정함 (G-01-8, 2026-11-15) | 데이터 목록은 사실만 적고 법적 구분은 처리방침 단계에서 함. 열 이름은 BASE-03 문구라 유지 | ✓ Phase 1 데이터 목록에 반영 |
 
 ## Evolution
 
@@ -132,4 +134,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-11-14 after Phase 1 decisions (U12 Workspace, /location-terms/)*
+*Last updated: 2026-11-15 after Phase 1 (기준 문서 5종·`CLAUDE.md` 방침 완료, UAT 통과)*
