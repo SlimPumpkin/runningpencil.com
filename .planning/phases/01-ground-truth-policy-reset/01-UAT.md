@@ -1,9 +1,9 @@
 ---
-status: diagnosed
+status: complete
 phase: 01-ground-truth-policy-reset
 source: [01-VERIFICATION.md]
 started: 2026-11-15T08:27:17Z
-updated: 2026-11-15T19:10:38Z
+updated: 2026-11-15T19:53:05.207Z
 ---
 
 ## Current Test
@@ -78,26 +78,30 @@ note: "사용자 위임으로 Claude가 독립 확인. 조회 8건 모두 성공
 
 ### 14. 절차서(`.planning/baseline/USER-TASKS.md`) 「한눈에 보기」의 작업 0~12 막는 단계를 ROADMAP External Gates 표, Phase 5·Phase 10 External gates, STATE Blockers와 견주어 어긋나는 곳이 없는지 본다. 특히 작업 6(DKIM)이 세 문서 모두에서 Phase 10만 막고, 2차 방문의 작업 시점은 Phase 5 무렵으로 남았는지 본다 (01-09 human-check, UAT Test 2 재확인)
 expected: 절차서 작업 0~12의 막는 단계가 ROADMAP 표, Phase 5·10 External gates, STATE Blockers와 어긋나지 않는다. 작업 6(DKIM)은 세 문서 모두에서 Phase 10만 막고, 2차 방문의 작업 시점은 Phase 5 무렵이다
-result: [pending]
+result: pass
+note: "사용자 위임으로 Claude가 독립 확인 (2026-11-15). 작업 6(DKIM): ROADMAP External Gates 표 2차 방문 행 → Phase 10(SUP-05), Phase 5 External gates(ROADMAP.md:133) 「2차 방문(DKIM)은 Phase 5 완료를 막지 않습니다」, Phase 10 External gates(ROADMAP.md:214) DKIM을 이 단계 게이트로 적음, STATE Blockers 2차 DKIM → Phase 10. 작업 시점 「Phase 5 무렵」은 표·Phase 5·Phase 10·STATE 네 곳 모두 같음. 작업 0~3·7 → Phase 5, 작업 4 → Phase 5 이메일 게이트·Phase 6·7 커밋 전제, 작업 9 → Phase 5·8·9(U11), 작업 10 → Phase 4로 표·STATE와 일치. 작업 8(권장)·11(건너뛸 수 있는 01-08만, Phase 1 gates 「없음」과 모순 아님)·12(Phase 6·7 준비)는 표에 행이 없으나 어긋나는 서술 없음"
 
 ### 15. 데이터 목록 머리의 새 줄과 구간 E Meta (Facebook SDK) 행을 읽는다 (01-10 human-check, UAT Test 8 재확인, VALIDATION Manual-Only 5행)
 expected: Meta가 수탁자로 정해진 것처럼 읽히지 않고, 머리의 새 줄이 「읽는 법」의 수탁자 정의(법적 성격은 여기서 정하지 않음)와 함께 읽어도 어긋나지 않는다
-result: [pending]
+result: pass
+note: "사용자 위임으로 Claude가 독립 확인 (2026-11-15). Meta 행(DATA-INVENTORY.md:224) 수탁자 칸에 「실제 전송 여부 미확인. 수탁·제3자 제공 구분은 Phase 7에서 정함 (PRIV-03에 없는 받는 곳)」. 머리 새 줄(14행)은 Google Firebase·GCP·네이버클라우드=수탁자, 로그인 제공자=수탁자 아님을 「이 목록의 판단이 아니라」 PRIV-03(REQUIREMENTS.md:64)·Phase 7 성공 기준 2를 옮긴 것으로 적어 「읽는 법」의 「법적 성격은 여기서 정하지 않습니다」와 같은 뜻. 옮긴 내용이 두 원문과 일치. Facebook이 로그인 제공자이면서 SDK 이벤트 받는 곳인 점은 새 줄이 「예: 구간 E의 Meta (Facebook SDK)」로 따로 짚어 섞이지 않음. 01-10 커밋 24ba63b는 머리 1줄 추가와 Meta 행 1줄 변경뿐"
 
 ### 16. 01-09 판단 등급 금지 사항 1개(G-01-2의 네 곳 밖을 고치지 않음, task 커밋에 진행 기록·begin-phase 줄을 섞거나 그 줄을 지우거나 숨기지 않음)를 본문 「금지 사항」 표의 검증자 판정과 근거로 읽는다
 expected: 검증자 판정(지켜짐)에 동의한다. 동의하지 않으면 gap으로 되돌린다
-result: [pending]
+result: pass
+note: "사용자 위임으로 Claude가 독립 확인 (2026-11-15). task 커밋 0232a75는 ROADMAP 131(Phase 5 가비아)·211(Phase 10 External gates)·221(표 가비아 행)만, 31f3b52는 STATE 109(Blockers 가비아)만 바꿈. word-diff상 131은 문장 추가만, 211은 고칠 대상(「Phase 5의 2차 방문에서 이미 추가」) 교체, 221은 행 분리. 251ed7b..HEAD에서 USER-TASKS·DECISIONS·REQUIREMENTS·사이트 파일 변경 0, ROADMAP의 나머지 변경(50·52·255행)은 추적 커밋의 진행 기록. begin-phase 줄(front matter status·last_updated·state_head·total_plans, Current Position Plan·Status·Last activity)은 추적 커밋 8f02671에 있음, git stash list 비어 있음, 작업 트리의 STATE·ROADMAP 깨끗함"
 
 ### 17. 01-10 판단 등급 금지 사항 2개(열 이름·열 정의·BASE-03·Phase 1 성공 기준 3·다른 행을 바꾸지 않음, 새 문장이 Meta나 다른 받는 곳을 수탁자·제3자 제공으로 단정하지 않음)를 본문 「금지 사항」 표의 검증자 판정과 근거로 읽는다
 expected: 검증자 판정(지켜짐)에 동의한다. 동의하지 않으면 gap으로 되돌린다
-result: [pending]
+result: pass
+note: "사용자 위임으로 Claude가 독립 확인 (2026-11-15). ① 24ba63b는 DATA-INVENTORY.md만 +3/-1: 머리 인용 블록 새 줄(+빈 > 줄)과 Meta 행(「미확인」 뒤 단서 덧붙임)뿐. 열 이름 줄·「읽는 법」·구간 F SMTP 행 불변. 251ed7b..HEAD에서 REQUIREMENTS.md 변경 0, ROADMAP Phase 1 성공 기준 3 문구 동일(ROADMAP 변경은 진행 기록과 G-01-2 범위뿐). ② 새 머리 줄은 Google·네이버클라우드·로그인 제공자 분류를 「이 목록의 판단이 아니라」 PRIV-03·Phase 7 성공 기준 2에서 옮겼다고 출처를 대고, 그 밖의 받는 곳은 「정하지 않았고 Phase 7에서 정합니다」. Meta 행도 「Phase 7에서 정함」. Info: 구간 F SMTP 발송 서비스 행은 행 단위 단서 없음(사용자 결정 「Meta 행만 고침」 범위, 머리 줄의 「그 밖의 받는 곳」이 함께 걸림)"
 
 ## Summary
 
 total: 17
-passed: 11
+passed: 15
 issues: 2
-pending: 4
+pending: 0
 skipped: 0
 blocked: 0
 
@@ -105,7 +109,9 @@ blocked: 0
 
 - gap_id: G-01-2
   truth: "작업 0~12의 막는 단계가 ROADMAP의 게이트와 어긋나지 않는다 (DNS·메일은 Phase 5, 화면 캡처는 Phase 4, DKIM은 Phase 10의 릴레이 답장 전제)"
-  status: failed
+  status: resolved
+  resolved_by: 01-09-PLAN.md
+  resolved_at: 2026-11-15
   reason: "User reported: 이건 봐도 내가 잘 모르겠다 → 대조 설명 뒤 선택: 「Phase 10만 막음」. 절차서(USER-TASKS.md:23 작업 6 = Phase 10 Apple 릴레이)가 맞고, ROADMAP External Gates 표(ROADMAP.md:221)의 가비아 DNS 행이 1차·2차(DKIM) 방문을 묶어 Phase 5를 막는다고 적은 것이 어긋남. 표의 행을 1차(Phase 5)와 2차 DKIM(Phase 10)으로 나눈다"
   severity: minor
   test: 2
@@ -130,7 +136,9 @@ blocked: 0
 
 - gap_id: G-01-8
   truth: "01-03 금지 사항: 데이터 목록이 수탁·제3자 제공·국외 이전의 법적 성격을 단정하지 않는다"
-  status: failed
+  status: resolved
+  resolved_by: 01-10-PLAN.md
+  resolved_at: 2026-11-15
   reason: "User reported: issue(열 이름 바꾸기로 기록) — Claude 확인: ①·③은 지켜짐. ②는 단정 문장 0건이고 머리 문단 단서가 있으나, DATA-INVENTORY.md 구간 A·C~F 본표의 열 이름이 법률 용어(「수탁자」, 「국외 이전」)라서 Meta(Facebook SDK)·네이버클라우드 등이 「수탁자」로 분류된 것처럼 읽힘. Phase 7이 이 표를 정본으로 읽을 때 위탁/제3자 제공 구분이 그대로 옮겨질 위험. 열 이름을 중립어(예: 「받는 곳(처리 주체)」, 「국외 저장·전송」)로 바꾼다 [범위 조정 2026-11-15, 사용자 선택 「Meta 행만 고침」: 열 이름은 REQUIREMENTS BASE-03·ROADMAP Phase 1 성공 기준 3의 문구이고, Google Firebase·GCP·네이버클라우드의 수탁자 분류는 PRIV-03·Phase 7 성공 기준 2가 이미 정함. 열 이름은 유지하고 PRIV-03에 없는 Meta(Facebook SDK) 행에 단서를 넣고 열 기준 주석을 더한다]"
   severity: minor
   test: 8
