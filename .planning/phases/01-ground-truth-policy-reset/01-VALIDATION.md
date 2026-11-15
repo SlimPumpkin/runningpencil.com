@@ -40,6 +40,8 @@ created: "2026-11-14"
 ## Per-Task Verification Map
 
 > 요구사항 단위의 검사 원형(`01-RESEARCH.md` 「Phase Requirements → Test Map」)에 Task ID를 채웠다. 2026-11-15 validate-phase에서 16개 명령을 모두 실행해 통과를 확인했다. BASE-03의 근거 칸 검사(5·6행)는 01-08 Task 2 verify와 같은 꼴(근거 종류 「dev CLI」·「dev 설정 기록」 포함, 경로는 기준 커밋 `3afb2085`에서 확인)로 돌렸다.
+>
+> 2026-11-15 gap closure 뒤 재검증: UAT gap G-01-2·G-01-8을 닫은 01-09·01-10의 계획 verify 명령 14개를 모든 커밋 뒤에 다시 돌려 모두 exit 0이었다. 단계 전체 범위 검사 3개(라이브 사이트 불변, 앱 저장소 읽기 전용, 누출 0건)도 01-10까지 다시 통과했다. 01-07 Task 1 verify의 External Gates 표 행 수 검사(`rows=13`)는 01-09가 가비아 행을 둘로 나눠 14줄이 되면서 대체됐다. 이 표의 01-07 행(ImprovMX 0건)은 영향이 없다.
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
@@ -53,12 +55,15 @@ created: "2026-11-14"
 | 01-04-T1·T2 | 01-04 | 2 | BASE-04 | — | N/A | 문서 검사 | `for u in U2 U3 U5 U6 U7 U8 U9 U11 U12 U13 'prod'; do grep -q "$u" .planning/baseline/DECISIONS.md \|\| echo "없음: $u"; done` (출력 없음) | ✅ | ✅ green |
 | 01-02-T1·T2 | 01-02 | 2 | BASE-04 | — | N/A | 문서 검사 | `for k in MX SPF DKIM 'Search Console' dig Gmail 네이버 iCloud Outlook 사업자 캡처; do grep -q "$k" .planning/baseline/USER-TASKS.md \|\| echo "없음: $k"; done` (출력 없음) | ✅ | ✅ green |
 | 01-07-T1·T2 | 01-07 | 3 | BASE-04 | — | N/A | 문서 검사 | `grep -n 'ImprovMX' .planning/ROADMAP.md .planning/STATE.md` (0건, 또는 「채택하지 않음」 문맥만) | ✅ | ✅ green |
+| 01-09-T1 | 01-09 | 4 | BASE-04 | — | N/A | 문서 검사 | 01-09 Task 1 verify 6개: External Gates 표 14줄·가비아 행 2줄(1차 → Phase 5, 2차 DKIM → Phase 10), Phase 5 가비아 항목·Phase 10 External gates 문장, 절차서 작업 2·6과 표 행의 막는 단계 일치, 범위 밖 줄 불변(기준 커밋 `251ed7b`) | ✅ | ✅ green |
+| 01-09-T2 | 01-09 | 4 | BASE-04 | T-01-31 (누출) | STATE Blockers에 식별자 없음 | 문서 검사 | 01-09 Task 2 verify 3개: STATE Blockers 가비아 줄 2개, task 커밋이 Blockers 밖을 바꾸지 않음, SUMMARY 누출 0건 | ✅ | ✅ green |
+| 01-10-T1 | 01-10 | 5 | BASE-03 | T-01-* (누출) | 더한 줄에 식별자 없음 | 문서 검사 | 01-10 Task 1 verify 5개: Meta 행 수탁자 칸 단서(Phase 7에서 정함), 머리 인용 블록의 분류 출처 한 줄(PRIV-03, Phase 7 성공 기준 2), 열 이름·「읽는 법」 불변, 바뀐 줄은 Meta 행 하나, SUMMARY 누출 0건 | ✅ | ✅ green |
 | 01-06-T1~T3 | 01-01, 01-06 | 1·2 | BASE-05 | — | N/A | 문서 검사 | 「성공 기준 5 검사 (옛 문장 0건)」 (출력 없음) | ✅ | ✅ green |
 | 01-06-T2·T3 | 01-06 | 2 | BASE-05 | — | N/A | 문서 검사 | 「성공 기준 5 검사 (새 방침이 적혀 있음)」 (7항목 모두 두 파일에 있음) | ✅ | ✅ green |
 | 01-06-T2 | 01-06 | 2 | BASE-05 | — | N/A | 문서 검사 | `generate-claude-md` 실행 뒤 `git diff --exit-code .claude/CLAUDE.md` (차이 없음) | ✅ | ✅ green |
-| 전체 | 01-01~01-08 | 1~4 | 단계 전체 | — | 라이브 사이트 불변 | 범위 검사 | `git diff --quiet dcc2002431960d7d51ddbc2acc102e8375125b91 -- '*.html' _config.yml favicon/ CNAME ':(exclude)favicon/app-icon-*.png'` (exit 0. 단계 시작 때 추적되지 않던 사용자 파일 `favicon/app-icon-*.png`는 뺀다 — 계획 gate와 같은 기준) | ✅ | ✅ green |
-| 전체 | 01-01~01-08 | 1~4 | 단계 전체 | — | 앱 저장소 읽기 전용 | 범위 검사 | `git -C "$HOME/dv/woody/running_pencil" merge-base --is-ancestor 3afb20858257f024bf9a06d857198f593a1d351d HEAD` (exit 0. 사용자가 실행 도중 앱을 커밋해 HEAD가 앞으로 나아간 경우는 통과 — 계획 gate와 같은 기준) | ✅ | ✅ green |
-| 전체 | 01-01~01-08 | 1~4 | 단계 전체 | T-01-* (누출) | 공개 저장소에 비밀·식별자 없음 | 보안 검사 | `01-RESEARCH.md` 「공개 저장소 누출 검사」 (0건) | ✅ | ✅ green |
+| 전체 | 01-01~01-10 | 1~5 | 단계 전체 | — | 라이브 사이트 불변 | 범위 검사 | `git diff --quiet dcc2002431960d7d51ddbc2acc102e8375125b91 -- '*.html' _config.yml favicon/ CNAME ':(exclude)favicon/app-icon-*.png'` (exit 0. 단계 시작 때 추적되지 않던 사용자 파일 `favicon/app-icon-*.png`는 뺀다 — 계획 gate와 같은 기준) | ✅ | ✅ green |
+| 전체 | 01-01~01-10 | 1~5 | 단계 전체 | — | 앱 저장소 읽기 전용 | 범위 검사 | `git -C "$HOME/dv/woody/running_pencil" merge-base --is-ancestor 3afb20858257f024bf9a06d857198f593a1d351d HEAD` (exit 0. 사용자가 실행 도중 앱을 커밋해 HEAD가 앞으로 나아간 경우는 통과 — 계획 gate와 같은 기준) | ✅ | ✅ green |
+| 전체 | 01-01~01-10 | 1~5 | 단계 전체 | T-01-* (누출) | 공개 저장소에 비밀·식별자 없음 | 보안 검사 | `01-RESEARCH.md` 「공개 저장소 누출 검사」 (0건) | ✅ | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -81,6 +86,7 @@ created: "2026-11-14"
 | URL마다 등록할 콘솔 필드가 적혀 있다 | BASE-02 | 콘솔 필드 이름의 정확성은 사람 판단 | 표의 콘솔 필드 열을 제공자별로 대조 |
 | 결정·작업 항목마다 막는 단계가 맞다 | BASE-04 | 단계 의존 관계는 ROADMAP 해석이 필요 | 항목의 「막는 단계」를 ROADMAP 단계 목록과 대조 |
 | dev 프로젝트 리전·보존 칸(CLI 조회 값) | BASE-03 | dev 프로젝트의 실제 설정은 사용자의 자격 증명으로만 볼 수 있다 | 01-08에서 사용자 재로그인 뒤 읽기 전용 조회 8건을 마쳤다(「CLI 조회 기록」). 남은 일은 데이터 목록의 「근거: dev CLI」 값을 Firebase·GCP 콘솔에서 아는 값과 견주는 것 (01-08 human-check) |
+| 데이터 목록의 Meta (Facebook SDK) 행과 머리의 분류 출처 줄이 Meta를 수탁자로 정한 것처럼 읽히지 않는다 | BASE-03 | 「정한 것처럼 읽히는가」는 문장 해석이라 패턴으로 잡을 수 없다 | 01-10이 고친 두 줄을 읽고 Phase 7이 Meta의 수탁·제3자 제공 구분을 새로 정해야 한다고 읽히는지 확인 (UAT 시험 8 재확인, 01-10 human-check) |
 
 ---
 
@@ -93,7 +99,7 @@ created: "2026-11-14"
 - [x] Feedback latency < 30s
 - [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** validated 2026-11-15 (validate-phase: 16/16 자동 검사 통과, gap 0. Manual-Only 4행은 사람 확인으로 남음)
+**Approval:** validated 2026-11-15 (validate-phase: 16/16 자동 검사 통과, gap 0. Manual-Only 4행은 사람 확인으로 남음). gap closure 뒤 재검증 2026-11-15: 01-09·01-10의 계획 verify 14/14와 단계 전체 범위 검사 3/3 통과, gap 0. Manual-Only는 5행이 되었다 (01-10의 Meta 행 읽기 확인 추가)
 
 ## Validation Audit 2026-11-15
 
