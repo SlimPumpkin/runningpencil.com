@@ -89,6 +89,10 @@
 - `lib/features/courses/application/directions_app_preference.dart`
 - `lib/features/home/application/dismissed_announcement.dart`
 - `functions/src/auth/lookup_sign_in_methods.ts`
+- `infra/router/RUNBOOK.md`
+- `docs/guide.md`
+- `lib/core/firebase/firebase_options_prod.dart`
+- `lib/core/firebase/firebase_options_stg.dart`
 
 ## 읽는 법
 
@@ -229,3 +233,77 @@
 | `mail/{id}` (`to` 수신 주소, `message` 인증·비밀번호 재설정 링크가 든 메일 본문) | 서버 보조 | Functions가 인증 메일·비밀번호 재설정 메일을 보낼 때 기록 (클라이언트 접근 차단) | 메일 발송 대기열 (Trigger Email 확장이 읽어 보냄). 현재 미사용 (dev 기준). prod 설정에 따름 | Firestore `asia-northeast3` (근거: dev 설정 기록(문서), CLI 미확인) | Google (Firebase·GCP). 메일 발송 모드가 `kit`이면 SMTP 발송 서비스가 더해짐 (결정 목록 N6, P1) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」). SMTP 발송 서비스 쪽은 미확인 | 확장 TTL 설정 1일 (근거: 설정 파일). TTL 적용 여부 CLI 미확인 | 탈퇴 단계에 없음. 확장 TTL에 맡김 (적용 여부 CLI 미확인) | `functions/src/email/send_verification_mail.ts:190`, `functions/src/email/send_password_reset_mail.ts:310`, `firestore.rules:299-301`, `extensions/firestore-send-email.env:6-8`, `lib/core/config/app_config.dart:232-239` |
 
 - dev의 `emailDelivery`는 빈 값이고, 빈 값이면 Firebase Authentication 기본 메일로 동작합니다. 그래서 dev에서는 `mail` 컬렉션과 SMTP 발송 서비스를 쓰지 않습니다 (`config/dev.json:19`, `lib/core/config/app_config.dart:232-239`, 근거: dev). prod에서 `kit`을 쓰면 SMTP 발송 서비스가 수탁자로 더해집니다 (결정 목록 N6, P1).
+
+## G. 탈퇴 때 지워지는 것과 남는 것
+
+| 데이터 | 탈퇴 시 처리 | 근거 |
+|---|---|---|
+| Storage `users/{uid}/` 아래 객체 전부 | 삭제. 실패하면 탈퇴를 멈추고 다시 시도할 수 있음 | `functions/src/auth/delete_user_account.ts:211-215`, `functions/src/auth/delete_user_account.ts:134-141` |
+| Firebase Auth 계정 | 삭제. 삭제 요청 뒤 180일 안에 라이브·백업 시스템에서 제거 (공식 문서) | `functions/src/auth/delete_user_account.ts:279`, 공식 문서: firebase.google.com/support/privacy |
+| `identity_index` 중 `firebaseUid == uid` | 삭제 | `functions/src/auth/delete_user_account.ts:313-334` |
+| `users/{uid}` 문서 (`termsAccepted`, 연결된 제공자, 이메일 사본 등) | 삭제 | `functions/src/auth/delete_user_account.ts:313-334` |
+| `users/{uid}/fcmTokens/*` | 삭제. 실패하면 TTL에 맡김 (TTL 정책 적용 여부 CLI 미확인) | `functions/src/auth/delete_user_account.ts:369-380`, `lib/features/notifications/domain/fcm_token.dart:17` |
+| `runs` 중 `userId == uid` | 삭제 (Auth 삭제 트리거 `cleanupUserData`) | `functions/src/running_pencil/cleanup_user_data.ts:17-21`, `functions/src/running_pencil/cleanup_user_data.ts:42-56` |
+| `users/{uid}/badges/*` | 삭제 (Auth 삭제 트리거 `cleanupUserData`) | `functions/src/running_pencil/cleanup_user_data.ts:64-69` |
+| `courses` 중 `creatorId == uid` | 삭제하지 않음 (공개·비공개 모두). 결정 목록 U6 | `functions/src/running_pencil/cleanup_user_data.ts:17-21`, `functions/src/running_pencil/cleanup_user_data.ts:42-56` |
+| `rate_limits` 중 uid가 들어간 문서 | 삭제하지 않음. TTL 정책 미확인 | `functions/src/auth/delete_user_account.ts`, `functions/src/running_pencil/cleanup_user_data.ts` (해당 단계 없음. TTL 정책 미확인) |
+| `mail` 중 그 사용자 주소가 든 문서 (dev에서는 쓰지 않음) | 삭제하지 않음. 확장 TTL 설정 1일에 맡김 (적용 여부 CLI 미확인) | `functions/src/auth/delete_user_account.ts`, `extensions/firestore-send-email.env:6-8` (탈퇴 함수에 해당 단계 없음) |
+| Analytics·Crashlytics에 붙은 uid | 앱이 삭제 API를 부르지 않음. 서비스의 보존 기간에 따름 (Analytics 미확인, Crashlytics 90일) | `functions/src/auth/delete_user_account.ts`, `functions/src/running_pencil/cleanup_user_data.ts` (해당 호출 없음) |
+| Cloud Functions 로그의 uid | 앱이 지우지 않음. 로그 보존 기간에 따름 (미확인, CLI 미확인) | `functions/src/auth/delete_user_account.ts:372-379` |
+| 제공자 쪽 앱 연결 (카카오·네이버·Facebook·LINE) | 탈퇴 전에 서비스별로 연결을 끊는 단계가 있음. 건너뛸 수 있음 | `lib/l10n/app_ko.arb:364`, `lib/l10n/app_ko.arb:377` |
+
+- 앱 안 메뉴 이름은 「회원탈퇴」입니다 (`lib/l10n/app_ko.arb:349`).
+- 탈퇴는 5분 안에 다시 로그인한 토큰을 요구합니다 (`functions/src/auth/delete_user_account.ts:171-191`).
+- 탈퇴는 호출 즉시 실행됩니다. 다만 Firebase Authentication 데이터는 삭제 요청 뒤 180일 안에 라이브·백업 시스템에서 제거되므로 (공식 문서: firebase.google.com/support/privacy), 삭제 안내의 상한 표현은 「서비스에서의 삭제」와 「백업에서의 제거」를 나눠 써야 합니다 (Phase 6 연구에서 확정). Firestore 백업·PITR과 Storage 소프트 삭제 기간은 아직 미확인입니다 (구간 H).
+- 코스는 공개 여부와 관계없이 탈퇴 뒤에도 남습니다. 사용자는 탈퇴 전에 코스를 하나씩 지울 수 있습니다 (`lib/features/courses/data/course_repository.dart:327`). 처리 방침은 결정 목록 U6에서 정합니다.
+
+## H. 리전·보존 기간
+
+| 대상 | 값 | 근거 종류 | 근거 |
+|---|---|---|---|
+| Cloud Functions 리전 (코드 상수) | `asia-northeast3` | 코드 | `functions/src/shared/region.ts:2` |
+| 배포된 함수의 실제 리전 | 미확인 (CLI 미확인) | 미확인 | 미확인. CLI 조회 필요 |
+| Firestore 위치 | `asia-northeast3`. CLI 미확인 | dev 설정 기록(문서) | `docs/kit-fork.md:411`, `functions/src/running_pencil/region/on_course_written.ts:23` |
+| Firestore TTL 정책 (`fcmTokens.expireAt`, `mail`, `rate_limits`) | 미확인 (CLI 미확인) | 미확인 | 미확인. CLI 조회 필요 |
+| Storage 기본 버킷 위치 | 미확인 (CLI 미확인) | 미확인 | 미확인. 앱 저장소에 위치 기록 없음 |
+| 라우터 VM zone | `asia-northeast3-a`. CLI 미확인 | dev 설정 기록(문서) | `infra/router/deploy.sh:43`, `infra/router/RUNBOOK.md:68` |
+| Trigger Email 확장 설치 여부 | 미확인 (CLI 미확인). 킷 안내 문서는 확장의 처리 함수 리전을 `us-central1`로 적음 | 미확인 | `docs/guide.md:2188` |
+| Firebase Authentication 처리 위치 | 미국 데이터센터에서만 운영 | 공식 문서 | 공식 문서: firebase.google.com/support/privacy |
+| Firebase Authentication 보존 | 로그의 IP는 몇 주, 그 밖은 삭제 요청까지. 삭제 뒤 180일 안에 라이브·백업에서 제거 | 공식 문서 | 공식 문서: firebase.google.com/support/privacy |
+| Analytics·Crashlytics·FCM·Remote Config·App Check 처리 위치 | Google 시설 (위치 선택 불가). Google이 시설을 둔 곳 어디서나 처리될 수 있음 | 공식 문서 | 공식 문서: firebase.google.com/support/privacy |
+| Crashlytics 보존 기간 | 크래시 트레이스와 식별자 90일 | 공식 문서 | 공식 문서: firebase.google.com/support/privacy |
+| FCM·Remote Config의 installation ID | 삭제 API 호출까지. 이후 180일 안에 제거 | 공식 문서 | 공식 문서: firebase.google.com/support/privacy |
+| App Check 토큰 | 토큰 최대 7일, 재전송 방지 토큰 최대 30일 | 공식 문서 | 공식 문서: firebase.google.com/support/privacy |
+| Google Analytics 보존 기간 | 미확인. 선택지는 2개월 또는 14개월이고 콘솔 설정값 | 공식 문서 | 공식 문서: support.google.com/analytics/answer/7667196 |
+| Firestore 백업·PITR | 미확인 (CLI 미확인) | 미확인 | 미확인. CLI 조회 필요 |
+| Storage 소프트 삭제 기간 | 미확인 (CLI 미확인) | 미확인 | 미확인. CLI 조회 필요 |
+| Cloud Logging 보존 기간 | 미확인 (CLI 미확인) | 미확인 | 미확인. CLI 조회 필요 |
+| 익명 계정 자동 정리 | dev에서 꺼져 있음 (MVP 내내 끔) | dev 설정 기록(문서) | `docs/kit-fork.md:445`, `docs/kit-fork.md:460` |
+
+- prod와 stg 프로젝트는 아직 없고 두 설정 파일은 placeholder이므로, 이 표의 값은 모두 dev 기준입니다 (`lib/core/firebase/firebase_options_prod.dart:2`, `lib/core/firebase/firebase_options_stg.dart:2`, 결정 목록 P1).
+- 익명 계정 자동 정리가 dev에서 꺼져 있어 익명 계정과 그 계정의 약관 동의 기록은 기한 없이 남습니다 (`docs/kit-fork.md:445`, 결정 목록 N3).
+- Google Analytics 보존 기간은 공식 문서에 선택지만 있어 기본값을 적지 않았습니다. Cloud Logging 보존 기간도 CLI로 확인하기 전에는 값을 적지 않습니다.
+- Firebase Authentication이 미국에서만 운영된다는 사실은 prod 리전과 상관없이 처리방침의 국외 이전 항목에 들어갑니다 (결정 목록 N2).
+
+## 확인할 것
+
+이 표는 이 문서의 「미확인」과 「CLI 미확인」 칸을 누가 어떻게 채우는지 짝지은 것입니다. CLI 행은 사용자가 `.planning/baseline/USER-TASKS.md`의 작업 11(CLI 재로그인)을 마치면 01-08 계획이 읽기 전용 명령으로 채웁니다. 작업 11을 하지 않으면 그 칸은 「CLI 미확인」으로 남습니다. 사용자 행은 같은 절차서의 작업 12(콘솔에서만 보이는 값 확인)에서 확인합니다.
+
+| 미확인 칸 | 확인하는 사람 | 확인 방법 | 막는 단계 |
+|---|---|---|---|
+| Firestore 위치, PITR, 백업 일정 | Claude (사용자 재로그인 뒤, 01-08 계획) | `gcloud firestore databases list`, `gcloud firestore backups schedules list` | Phase 6, Phase 7 |
+| Firestore TTL 정책 (`fcmTokens.expireAt`, `mail`, `rate_limits`) | Claude (사용자 재로그인 뒤, 01-08 계획) | `gcloud firestore fields ttls list` | Phase 7 |
+| Storage 버킷 위치, 소프트 삭제 기간 | Claude (사용자 재로그인 뒤, 01-08 계획) | `gcloud storage buckets list` | Phase 6, Phase 7 |
+| 라우터 VM zone | Claude (사용자 재로그인 뒤, 01-08 계획) | `gcloud compute instances list` | Phase 7 |
+| 배포된 함수 리전, Trigger Email 확장 설치 여부 | Claude (사용자 재로그인 뒤, 01-08 계획) | `gcloud functions list`, `firebase ext:list` | Phase 7 |
+| Cloud Logging 보존 기간 | Claude (사용자 재로그인 뒤, 01-08 계획) | `gcloud logging buckets list` | Phase 7 |
+| Analytics 데이터 보관 설정 | 사용자 (절차서 작업 12) | Google Analytics > 관리 > 데이터 설정 > 데이터 보관 | Phase 6, Phase 7 |
+| 제공자별 동의항목 필수/선택 | 사용자 (절차서 작업 12) | 카카오·네이버·LINE·Meta·Google 콘솔의 로그인 동의항목 화면 | Phase 7, Phase 10 |
+| 네이버 지도 SDK가 보내는 항목 | 사용자·약관 확인 (결정 목록 U8) | 네이버 지도 이용약관, SDK 문서 | Phase 7, Phase 8 |
+| Facebook SDK 실제 전송 | 사용자 (절차서 작업 12, 결정 목록 N1) | Meta Events Manager, 병합된 매니페스트 | Phase 7 |
+| 마케팅 푸시 발송 여부 | 사용자 (절차서 작업 12, 결정 목록 N4) | 앱 계획 | Phase 7 |
+| 익명 사용자의 탈퇴 경로 | 사용자 (절차서 작업 12, 결정 목록 N3) | 앱 화면 | Phase 6, Phase 7 |
+
+---
+*Data inventory baseline for: 러닝펜슬 웹사이트 심사 대응 (BASE-03)*
+*Written: 2026-11-15*
