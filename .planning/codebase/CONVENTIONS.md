@@ -133,17 +133,18 @@ try { target.scrollIntoView({ behavior: 'instant', block: 'start' }); } catch (e
 
 **Exports:** 없음. 페이지마다 스크립트·스타일은 그 HTML 안에만 있다 (외부 `.js`/`.css` 파일 없음).
 
-**Shared code:** 빌드가 없어 공통 템플릿을 쓸 수 없다. 공통 `<head>` 링크, 「공통」 CSS, 헤더·푸터 마크업은 네 파일에 **복사**한다. 다른 점은 링크 주소뿐이다 (랜딩 `#top`·`#story`·`#demo`·`#get`, 법적 페이지 `/`·`/#story`·`/#demo`·`/#get`).
+**Shared code:** 현재는 빌드가 없어 공통 템플릿을 쓸 수 없다 (2026-11 기준, Phase 2까지 유효). Phase 2에서 Jekyll 공유 셸(`_includes`·`_layouts`)로 한 곳에 모은다. 공통 `<head>` 링크, 「공통」 CSS, 헤더·푸터 마크업은 네 파일에 **복사**한다. 다른 점은 링크 주소뿐이다 (랜딩 `#top`·`#story`·`#demo`·`#get`, 법적 페이지 `/`·`/#story`·`/#demo`·`/#get`).
 
 **SVG:** 모든 그림은 인라인 SVG다. 랜딩에서 두 번 이상 쓰는 도형은 `<body>` 맨 위 숨은 `<svg><defs>`에 두고 `<use href="#rp-...">`로 쓴다. 법적 페이지에는 `<defs>`가 없으므로 로고를 그 자리에 그대로 넣는다. 외부 이미지 파일을 쓰지 않는다.
 
 ## Content & Naming Rules
 
-- `<html lang="ko">`, 본문은 한국어.
+- 현재 페이지는 모두 `<html lang="ko">`이고 본문은 한국어다 (2026-11 기준). Phase 9에서 `/en/` 아래에 영문판(`lang="en"`)이 생기고, 그 뒤로는 한국어와 영어를 함께 제공한다.
 - 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
-- 연락처 이메일·이메일 수집 폼을 넣지 않는다.
-- 법적 페이지 3종은 `<meta name="robots" content="noindex">`를 유지한다.
+- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락은 공개 지원 이메일로만 받는다.
+- 현재 사이트에는 지원 이메일이 없다 (2026-11 기준). 이메일 게이트(Phase 5: 외부 4곳 수신 시험 통과)가 열리면 지원 이메일을 푸터, 지원 페이지, 법적 문서에 넣는다. 그전에는 주소를 HTML·`_data`에 넣지 않는다. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)이고, 주소는 `.planning/` 문서에만 있다.
+- 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
 - 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다.
 
 ## Commit Messages

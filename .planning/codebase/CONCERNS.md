@@ -53,7 +53,7 @@ last_mapped_at: 2026-11-14
 - Recommendations: Pretendard에 `integrity` 추가 또는 self-host, Tailwind 런타임은 정적 CSS로 대체 (위 Tech Debt). CSP `<meta>` 도입 검토.
 
 **개인정보처리방침 필수 항목 누락 가능성:**
-- Risk: `privacy-policy/index.html`의 항목은 1~6(수집 항목·이용 목적·위치정보·보유 기간·제3자 제공/위탁·사용자 권리)뿐이며 "개인정보 보호책임자"나 문의처가 없음 (`grep -c 책임자` = 0). 프로젝트 방침상 연락처 이메일을 의도적으로 표시하지 않음 (`CLAUDE.md`). 개인정보 보호법상 처리방침 기재 사항(보호책임자·고충 처리 부서 등)과 앱 스토어 심사 요건에 미달할 수 있음 — 법률 판단은 확인 필요.
+- Risk: `privacy-policy/index.html`의 항목은 1~6(수집 항목·이용 목적·위치정보·보유 기간·제3자 제공/위탁·사용자 권리)뿐이며 "개인정보 보호책임자"나 문의처가 없음 (`grep -c 책임자` = 0). 현재 사이트에는 지원 이메일이 없음 (2026-11 기준). 이메일 게이트(Phase 5) 뒤에 지원 이메일을 공개하고, 보호책임자와 연락처는 Phase 7 처리방침 재작성에서 넣기로 결정함 (`.planning/PROJECT.md` Key Decisions). 개인정보 보호법상 처리방침 기재 사항(보호책임자·고충 처리 부서 등)과 앱 스토어 심사 요건에 미달할 수 있음 — 법률 판단은 확인 필요.
 - Files: `privacy-policy/index.html:97-136`, `data-deletion/index.html:97` ("삭제 방법"이 앱 내 경로만 안내하는지 확인 필요)
 - Current mitigation: 세 페이지 모두 "임시 게시본" 명시 (`terms/index.html:167`, `privacy-policy/index.html:141`, `data-deletion/index.html:118`), `noindex` (각 파일 line 10).
 - Recommendations: 정식 출시 전 법률 검토로 본문 확정, 연락 수단(최소 문의 채널) 결정.
@@ -120,7 +120,7 @@ last_mapped_at: 2026-11-14
 - Blocks: 출시 시 `#get` 구간 개편 필요.
 
 **문의 채널:**
-- Problem: 이메일·폼 모두 없음 (정적 호스팅·의도적 결정).
+- Problem: 현재 문의 채널이 없음 (2026-11 기준). 이메일 수집 폼은 만들지 않기로 했고(정적 호스팅), 지원 이메일은 이메일 게이트(Phase 5) 뒤에 `/support/`와 푸터에 공개하기로 결정함.
 - Blocks: 법적 페이지의 권리 행사·삭제 요청 수단이 앱 밖에서는 제공되지 않음 (위 Security 참고).
 
 **법적 페이지 OG 메타 없음:**

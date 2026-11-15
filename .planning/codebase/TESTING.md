@@ -62,7 +62,7 @@ python3 -m http.server 8000     # 저장소 루트에서 실행 → http://local
 6. **네 페이지 공유 블록 일치**
    - `<head>` 글꼴·파비콘 링크, `<style>` 「공통」 묶음, 헤더·푸터 마크업이 네 파일에서 같은지 (링크 주소만 달라야 함). 아래 diff 명령으로 확인.
 7. **콘텐츠 규칙**
-   - `RunningPencil` 영문 표기·이메일 주소가 새로 들어가지 않았는지, 법적 페이지 `noindex` 유지.
+   - 서비스 이름이 이름 표(`.planning/baseline/NAMES.md`)와 같은지 (한국어 페이지는 러닝펜슬, Phase 9 영문판은 `RunningPencil`). 이메일 게이트(Phase 5) 전에는 HTML·`_data`에 이메일 주소가 없는지. 다시 쓰지 않은 법적 페이지에 `noindex`와 「임시 게시본」 표시가 그대로 있는지 (Phase 6·7·8의 재작성 커밋에서 지운다, U14).
 8. **브라우저 콘솔**에 오류가 없는지, 파비콘·`site.webmanifest`가 404 없이 뜨는지.
 
 **Patterns:**
@@ -98,7 +98,7 @@ python3 -m http.server 8000     # 저장소 루트에서 실행 → http://local
 
 **Integration Tests:** 없음.
 
-**E2E Tests:** Not used. 도입한다면 위 점검 목록 1~6을 Playwright 같은 도구로 옮기는 것이 가장 효과가 크다 (특히 reduced-motion 에뮬레이션, 860px 뷰포트, 링크 크롤링). 단, 저장소는 빌드·`package.json` 없는 구조를 의도하므로 도입 전에 확인을 받는다.
+**E2E Tests:** Not used. 도입한다면 위 점검 목록 1~6을 Playwright 같은 도구로 옮기는 것이 가장 효과가 크다 (특히 reduced-motion 에뮬레이션, 860px 뷰포트, 링크 크롤링). 단, 현재 저장소에는 빌드와 `package.json`이 없으므로 (2026-11 기준. Phase 2에서 Jekyll 빌드를 도입한다) 도입 전에 확인을 받는다.
 
 ## Common Patterns
 
@@ -116,10 +116,10 @@ done
 - 범위는 `/* ── 공통: … */` 주석부터 다음 구획 주석(`── 랜딩 전용` 또는 `── 법적 페이지 전용`) 바로 앞까지다. 구획 주석 문구를 바꾸면 이 명령도 고친다.
 - `<head>` 링크와 헤더·푸터 마크업은 이 명령이 비교하지 않는다 (링크 주소가 페이지마다 달라서). 눈으로 확인한다.
 
-**금지 표기 확인 (영문 서비스명, 이메일 주소):**
+**이메일 주소 미노출 확인 (이메일 게이트 전, Phase 5까지 유효):**
 ```bash
-grep -rnE "RunningPencil|@[a-z0-9.-]*\.(com|kr)" --include='*.html' . | grep -v prepare/
-# 출력이 없으면 통과
+grep -rnE "@[a-z0-9.-]+\.(com|kr)" --include='*.html' . | grep -v prepare/
+# 출력이 없으면 통과. 이메일 게이트(Phase 5)가 열린 뒤에는 지원 이메일 주소만 나와야 한다
 ```
 
 **내부 링크 점검 (서버 실행 중):**
