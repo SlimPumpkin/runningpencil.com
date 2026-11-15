@@ -3,7 +3,7 @@ status: diagnosed
 phase: 01-ground-truth-policy-reset
 source: [01-VERIFICATION.md]
 started: 2026-11-15T08:27:17Z
-updated: 2026-11-15T16:51:38Z
+updated: 2026-11-15T19:10:38Z
 ---
 
 ## Current Test
@@ -76,12 +76,28 @@ expected: 각 항목이 지켜졌다는 검증자 판정에 동의한다. 동의
 result: pass
 note: "사용자 위임으로 Claude가 독립 확인. 조회 8건 모두 성공해 미조회 칸 없음. 「근거: dev CLI」 37줄의 값 종류가 모두 8건 조회 범위 안이고 Test 4 재조회 값과 같음. prod 칸은 모두 「미확인 (prod 리전에 따름)」, 문서 근거 값은 「dev 설정 기록(문서)」로 구분"
 
+### 14. 절차서(`.planning/baseline/USER-TASKS.md`) 「한눈에 보기」의 작업 0~12 막는 단계를 ROADMAP External Gates 표, Phase 5·Phase 10 External gates, STATE Blockers와 견주어 어긋나는 곳이 없는지 본다. 특히 작업 6(DKIM)이 세 문서 모두에서 Phase 10만 막고, 2차 방문의 작업 시점은 Phase 5 무렵으로 남았는지 본다 (01-09 human-check, UAT Test 2 재확인)
+expected: 절차서 작업 0~12의 막는 단계가 ROADMAP 표, Phase 5·10 External gates, STATE Blockers와 어긋나지 않는다. 작업 6(DKIM)은 세 문서 모두에서 Phase 10만 막고, 2차 방문의 작업 시점은 Phase 5 무렵이다
+result: [pending]
+
+### 15. 데이터 목록 머리의 새 줄과 구간 E Meta (Facebook SDK) 행을 읽는다 (01-10 human-check, UAT Test 8 재확인, VALIDATION Manual-Only 5행)
+expected: Meta가 수탁자로 정해진 것처럼 읽히지 않고, 머리의 새 줄이 「읽는 법」의 수탁자 정의(법적 성격은 여기서 정하지 않음)와 함께 읽어도 어긋나지 않는다
+result: [pending]
+
+### 16. 01-09 판단 등급 금지 사항 1개(G-01-2의 네 곳 밖을 고치지 않음, task 커밋에 진행 기록·begin-phase 줄을 섞거나 그 줄을 지우거나 숨기지 않음)를 본문 「금지 사항」 표의 검증자 판정과 근거로 읽는다
+expected: 검증자 판정(지켜짐)에 동의한다. 동의하지 않으면 gap으로 되돌린다
+result: [pending]
+
+### 17. 01-10 판단 등급 금지 사항 2개(열 이름·열 정의·BASE-03·Phase 1 성공 기준 3·다른 행을 바꾸지 않음, 새 문장이 Meta나 다른 받는 곳을 수탁자·제3자 제공으로 단정하지 않음)를 본문 「금지 사항」 표의 검증자 판정과 근거로 읽는다
+expected: 검증자 판정(지켜짐)에 동의한다. 동의하지 않으면 gap으로 되돌린다
+result: [pending]
+
 ## Summary
 
-total: 13
+total: 17
 passed: 11
 issues: 2
-pending: 0
+pending: 4
 skipped: 0
 blocked: 0
 
