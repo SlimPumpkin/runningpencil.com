@@ -140,7 +140,7 @@ try { target.scrollIntoView({ behavior: 'instant', block: 'start' }); } catch (e
 ## Content & Naming Rules
 
 - `<html lang="ko">`, 본문은 한국어.
-- 서비스 이름은 한글 **러닝펜슬**만 쓴다 (제목, meta, 매니페스트, 워드마크, 본문). 영문 `RunningPencil`은 쓰지 않는다. `runningpencil.com`은 도메인 표기에만 쓴다.
+- 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
 - 연락처 이메일·이메일 수집 폼을 넣지 않는다.
 - 법적 페이지 3종은 `<meta name="robots" content="noindex">`를 유지한다.

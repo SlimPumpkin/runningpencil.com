@@ -1,3 +1,11 @@
+## 이번 마일스톤 방침 (2026-11 결정)
+
+이번 마일스톤(티저 유지 + 심사 대응)에서 정한 방침입니다. 표의 방침은 「적용 단계」가 오기 전에는 사이트 코드에 반영하지 않습니다. 이 구간 아래의 설명은 지금 코드의 실제 모습입니다. 이 구간은 루트 `CLAUDE.md`와 `.claude/CLAUDE.md`에 같은 내용으로 둡니다.
+
+| 방침 | 적용 단계 | 현재 상태 (2026-11 기준) | 이유 | 출처 |
+|---|---|---|---|---|
+| 영문 서비스명 RunningPencil | Phase 9 영문판(`/en/`), 콘솔·스토어의 영어 표시명 | 결정됨. 현재 사이트 본문에는 한국어 이름만 있습니다 | 영문판과 콘솔·스토어에서 같은 이름을 써야 합니다. 이전 방침을 뒤집음 | `.planning/baseline/NAMES.md`, `.planning/PROJECT.md` Key Decisions |
+
 <!-- GSD:project-start source:PROJECT.md -->
 
 ## Project
@@ -162,7 +170,7 @@
 ## Content & Naming Rules
 
 - `<html lang="ko">`, 본문은 한국어.
-- 서비스 이름은 한글 **러닝펜슬**만 쓴다 (제목, meta, 매니페스트, 워드마크, 본문). 영문 `RunningPencil`은 쓰지 않는다. `runningpencil.com`은 도메인 표기에만 쓴다.
+- 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
 - 연락처 이메일·이메일 수집 폼을 넣지 않는다.
 - 법적 페이지 3종은 `<meta name="robots" content="noindex">`를 유지한다.

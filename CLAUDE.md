@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 이번 마일스톤 방침 (2026-11 결정)
+
+이번 마일스톤(티저 유지 + 심사 대응)에서 정한 방침입니다. 표의 방침은 「적용 단계」가 오기 전에는 사이트 코드에 반영하지 않습니다. 이 구간 아래의 설명은 지금 코드의 실제 모습입니다. 이 구간은 루트 `CLAUDE.md`와 `.claude/CLAUDE.md`에 같은 내용으로 둡니다.
+
+| 방침 | 적용 단계 | 현재 상태 (2026-11 기준) | 이유 | 출처 |
+|---|---|---|---|---|
+| 영문 서비스명 RunningPencil | Phase 9 영문판(`/en/`), 콘솔·스토어의 영어 표시명 | 결정됨. 현재 사이트 본문에는 한국어 이름만 있습니다 | 영문판과 콘솔·스토어에서 같은 이름을 써야 합니다. 이전 방침을 뒤집음 | `.planning/baseline/NAMES.md`, `.planning/PROJECT.md` Key Decisions |
+
 ## Repository purpose
 
 `runningpencil.com` 도메인으로 서비스되는 GitHub Pages 정적 사이트입니다. 모바일 앱 러닝펜슬(지도 위 GPS 아트 코스를 걷거나 달려 완주하면 코스 모양의 뱃지와 포인트를 모으고, 지역 코스북을 완성하고, 직접 그린 코스를 올리고, 포인트로 굿즈를 교환하는 앱)의 출시 전 티저 랜딩과 앱 스토어 심사용 법적 페이지로 구성되어 있습니다.
@@ -68,7 +76,7 @@ python3 -m http.server 8000
 
 본문·`<html lang>` 모두 `ko`입니다.
 
-서비스(앱) 이름은 한글 "러닝펜슬"로 표기합니다 (제목·메타·매니페스트·워드마크·본문). 운영 회사 이름은 "슬림펌킨"이며, 저작권 표기, 푸터의 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체에 씁니다. 영문 `RunningPencil`은 쓰지 않고, `runningpencil.com`은 도메인 표기로만 남깁니다.
+서비스(앱) 이름은 한국어 「러닝펜슬」, 영어 `RunningPencil`입니다. 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 현재 사이트(제목·메타·매니페스트·워드마크·본문)에는 한국어 이름만 있고 (2026-11 기준), 영문 이름은 Phase 9 영문판(`/en/`)과 콘솔·스토어의 영어 표시명에 씁니다. 운영 회사 이름은 "슬림펌킨"이며, 저작권 표기, 푸터의 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체에 씁니다. `runningpencil.com`은 도메인 표기입니다.
 
 ## Deploy
 
