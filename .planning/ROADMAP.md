@@ -128,7 +128,7 @@ Plans:
 **UI hint**: yes
 **External gates**:
 - 이메일 게이트: 외부 주소 4곳(Gmail·네이버·iCloud·Outlook)의 수신 시험이 통과하기 전에는 지원 이메일을 `_data`에 넣지 않습니다. 그 전에 배포하는 `/support/`는 연락처 구간 전체를 조건부로 감쌉니다(빈 「문의:」 문장 금지). App Store Support URL 같은 콘솔 등록도 게이트가 열린 뒤에 합니다.
-- 사용자 DNS 작업(가비아): 두 번 방문합니다. 1차 방문에서 Google Workspace 도메인 인증 TXT, MX 1개, SPF 1개, Search Console TXT를 추가하고, Gmail을 켠 뒤 24~72시간이 지나면 2차 방문에서 `runningpencil.com`의 DKIM 레코드를 추가합니다(D-11). 기존 A 레코드 4개, `www` CNAME, 앱 경로 라우터용 A 레코드, `_github-pages-challenge-SlimPumpkin` TXT는 그대로 두고 지우는 레코드는 없습니다. GitHub Pages 인증 TXT는 이미 있으므로 조직 설정에서 인증 상태만 확인합니다. SPF는 하나만 둡니다. 변경 전후 `dig` 결과를 기록합니다. 절차는 `.planning/baseline/USER-TASKS.md`에 있고, Phase 1이 끝나면 바로 시작할 수 있습니다.
+- 사용자 DNS 작업(가비아): 두 번 방문합니다. 1차 방문에서 Google Workspace 도메인 인증 TXT, MX 1개, SPF 1개, Search Console TXT를 추가하고, Gmail을 켠 뒤 24~72시간이 지나면 2차 방문에서 `runningpencil.com`의 DKIM 레코드를 추가합니다(D-11). 2차 방문(DKIM)은 Phase 5 완료를 막지 않습니다. 이메일 게이트는 DKIM을 기다리지 않고, DKIM은 Phase 10 Apple 릴레이 답장(SUP-05)의 전제입니다. 작업 시점은 그대로 Phase 5 무렵입니다. 기존 A 레코드 4개, `www` CNAME, 앱 경로 라우터용 A 레코드, `_github-pages-challenge-SlimPumpkin` TXT는 그대로 두고 지우는 레코드는 없습니다. GitHub Pages 인증 TXT는 이미 있으므로 조직 설정에서 인증 상태만 확인합니다. SPF는 하나만 둡니다. 변경 전후 `dig` 결과를 기록합니다. 절차는 `.planning/baseline/USER-TASKS.md`에 있고, Phase 1이 끝나면 바로 시작할 수 있습니다.
 - 사용자 작업: Google Workspace에 `runningpencil.com`을 사용자 별칭 도메인(user alias domain)으로 추가하고 지원 주소를 만드는 일, 지원 주소로 보내기 설정, Search Console 소유권 확인.
 - 사용자 결정: U11(사업자등록증 그대로의 사업자 값, 자택 주소 공개 부담). U12는 결정됐습니다(Google Workspace, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`).
 - 슬롯·푸터 행·지원 페이지 골격 같은 구조는 값 없이도 먼저 배포할 수 있습니다. 단계 완료는 게이트가 열리고 값이 들어간 뒤입니다.
@@ -208,7 +208,7 @@ Plans:
   5. Apple로 로그인한 사용자의 릴레이(Private Email Relay) 주소로 보낸 지원 답장이 반송되지 않았다는 시험 기록이 있다. 답장을 보내는 도메인의 SPF·DKIM이 `dig`로 확인되고, 그 도메인과 주소가 Apple Developer에 발신처로 등록돼 있다
 **Plans**: TBD
 **UI hint**: no
-**External gates**: U9(Meta Advanced Access에 비즈니스 인증이 필요한지)와 U13(Google 브랜드 검증 신청 여부) 결정이 체크리스트 내용을 정합니다. 릴레이 답장 시험에는 사용자 작업이 필요합니다. Apple Developer에 발신 도메인과 지원 주소를 등록하고, Apple 계정으로 「이메일 가리기」 로그인을 해서 릴레이 주소를 만듭니다. 답장 발신 도메인 `runningpencil.com`의 DKIM은 Phase 5의 가비아 DNS 2차 방문에서 이미 추가합니다(D-11). 실제 제출과 심사 통과는 이 단계의 성공 기준이 아닙니다(아래 Milestone Acceptance).
+**External gates**: U9(Meta Advanced Access에 비즈니스 인증이 필요한지)와 U13(Google 브랜드 검증 신청 여부) 결정이 체크리스트 내용을 정합니다. 릴레이 답장 시험에는 사용자 작업이 필요합니다. Apple Developer에 발신 도메인과 지원 주소를 등록하고, Apple 계정으로 「이메일 가리기」 로그인을 해서 릴레이 주소를 만듭니다. 답장 발신 도메인 `runningpencil.com`의 DKIM(`.planning/baseline/USER-TASKS.md` 작업 6, 가비아 DNS 2차 방문)도 이 단계의 게이트입니다. 작업 시점은 Phase 5 무렵이지만, 릴레이 답장 시험 전에는 끝나 있어야 합니다(D-11). 실제 제출과 심사 통과는 이 단계의 성공 기준이 아닙니다(아래 Milestone Acceptance).
 **Research flag**: 예. 콘솔별 실제 필드명과 언어 요건(카카오·네이버·LINE·Meta·App Store), Meta Data Deletion Instructions 기준, Meta Advanced Access와 비즈니스 인증의 관계, Google 브랜드 검증을 생략할 때 동의 화면이 어떻게 보이는지 확인합니다.
 **Notes**: `CLAUDE.md` 최종 갱신(공통 블록 방식, `{% raw %}` 규칙, 언어판 규칙, 로컬 미리보기, 운영 규칙)을 이 단계에서 마무리합니다. SUP-05(Apple 릴레이 답장)는 Apple 콘솔 설정과 함께 확인하는 항목이라 Phase 5가 아니라 이 단계에 둡니다. 연구 SUMMARY도 이 확인을 마지막 단계에 두었습니다.
 
@@ -218,7 +218,8 @@ Claude가 하지 않고 사용자나 법률 확인이 주는 값·작업입니�
 
 | 게이트 | 누가 | 막는 단계 |
 |--------|------|-----------|
-| 가비아 DNS 레코드(1차 방문: Google Workspace 도메인 인증 TXT·MX·SPF, Search Console TXT. 2차 방문: DKIM. 기존 레코드는 보존) | 사용자 | Phase 5 |
+| 가비아 DNS 레코드 1차 방문(Google Workspace 도메인 인증 TXT·MX·SPF, Search Console TXT. 기존 레코드는 보존) | 사용자 | Phase 5 |
+| 가비아 DNS 레코드 2차 방문(`runningpencil.com` DKIM, 절차서 작업 6. 작업 시점은 Phase 5 무렵) | 사용자 | Phase 10 (Apple 릴레이 답장, SUP-05) |
 | 이메일 게이트(외부 주소 4곳 수신 시험 통과) | 사용자 시험 → Claude가 기록 확인 후 `_data`에 기입 | Phase 5 완료, Phase 6·7 커밋, 콘솔 등록 |
 | Apple 발신 도메인·주소 등록, 릴레이 답장 시험 | 사용자 | Phase 10 |
 | 앱 화면 캡처(출시 범위 기능만) | 사용자 | Phase 4 |
