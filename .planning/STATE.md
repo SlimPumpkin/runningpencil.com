@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-11-15T05:50:14.301Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-11-15T06:15:24.262Z"
 last_activity: 2026-11-14
 last_activity_desc: Phase 01 execution started
-state_head: 3d596797287719ec7798c9dda86342204be99cde
+state_head: c9cac01208c7c8d4e971bc106913fb0b44493160
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-14)
 ## Current Position
 
 Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — EXECUTING
-Plan: 3 of 8
+Plan: 4 of 8
 Status: Ready to execute
 Last activity: 2026-11-14 — Phase 01 execution started
 
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 01 P01 | 5 min | 2 tasks | 5 files |
 | Phase 01 P02 | 6 min | 2 tasks | 1 files |
+| Phase 01 P03 | 13 min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,10 @@ Recent decisions affecting current work:
 - [Phase 01]: 절차서의 지원 주소 1순위는 운영자 계정의 사용자 이메일 별칭 support, 외부 4곳 수신 시험이 실패하면 별칭을 지운 뒤 Google 그룹으로 넘어간다 (01-02)
 - [Phase 01]: DMARC(_dmarc TXT)는 절차서 작업 6의 선택 항목으로만 두고 정책 값은 적지 않았다 (01-02)
 - [Phase 01]: 라우터용 A 레코드는 호스트 이름 없이 적고 dig 확인은 사용자가 호스트 이름을 직접 넣는 별도 명령으로 분리했다 (01-02)
+- [Phase 01]: Storage 행의 국외 이전 칸은 값 어휘의 「dev는 서울 리전」 대신 「dev 버킷 위치도 미확인, CLI 미확인」으로 적음 (Storage 버킷 위치는 확인되지 않음) (01-03)
+- [Phase 01]: 익명 계정 행의 삭제 방식은 「미확인」 (익명 사용자에게 탈퇴 메뉴가 보이는지 확인하지 못함, 결정 목록 N3) (01-03)
+- [Phase 01]: users/{uid} 문서 필드의 보유 기간은 「탈퇴까지」 (클라이언트 삭제 금지, firestore.rules:395), 사진 URL·Storage 사진만 「탈퇴 또는 본인 삭제까지」 (01-03)
+- [Phase 01]: 네이버 프로필 근거는 RESEARCH의 249-264행 대신 기준 커밋에서 다시 찾은 37행(API 주소)과 260-265행(반환 필드) (01-03)
 
 ### Pending Todos
 
@@ -105,6 +110,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T05:50:14.289Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-11-15T06:15:24.229Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None
