@@ -56,8 +56,8 @@ created: "2026-11-14"
 | TBD | TBD | TBD | BASE-05 | — | N/A | 문서 검사 | 「성공 기준 5 검사 (옛 문장 0건)」 (출력 없음) | ✅ | ⬜ pending |
 | TBD | TBD | TBD | BASE-05 | — | N/A | 문서 검사 | 「성공 기준 5 검사 (새 방침이 적혀 있음)」 (7항목 모두 두 파일에 있음) | ✅ | ⬜ pending |
 | TBD | TBD | TBD | BASE-05 | — | N/A | 문서 검사 | `generate-claude-md` 실행 뒤 `git diff --exit-code .claude/CLAUDE.md` (차이 없음) | ✅ | ⬜ pending |
-| TBD | TBD | TBD | 단계 전체 | — | 라이브 사이트 불변 | 범위 검사 | `git diff --name-only <단계 시작 커밋>..HEAD -- '*.html' _config.yml favicon/ CNAME` (0건) | ✅ | ⬜ pending |
-| TBD | TBD | TBD | 단계 전체 | — | 앱 저장소 읽기 전용 | 범위 검사 | `git -C ~/dv/woody/running_pencil rev-parse HEAD`가 `3afb2085…` 그대로 + `status --short`가 시작 때와 같음 | ✅ | ⬜ pending |
+| TBD | TBD | TBD | 단계 전체 | — | 라이브 사이트 불변 | 범위 검사 | `git diff --quiet dcc2002431960d7d51ddbc2acc102e8375125b91 -- '*.html' _config.yml favicon/ CNAME ':(exclude)favicon/app-icon-*.png'` (exit 0. 단계 시작 때 추적되지 않던 사용자 파일 `favicon/app-icon-*.png`는 뺀다 — 계획 gate와 같은 기준) | ✅ | ⬜ pending |
+| TBD | TBD | TBD | 단계 전체 | — | 앱 저장소 읽기 전용 | 범위 검사 | `git -C "$HOME/dv/woody/running_pencil" merge-base --is-ancestor 3afb20858257f024bf9a06d857198f593a1d351d HEAD` (exit 0. 사용자가 실행 도중 앱을 커밋해 HEAD가 앞으로 나아간 경우는 통과 — 계획 gate와 같은 기준) | ✅ | ⬜ pending |
 | TBD | TBD | TBD | 단계 전체 | T-01-* (누출) | 공개 저장소에 비밀·식별자 없음 | 보안 검사 | `01-RESEARCH.md` 「공개 저장소 누출 검사」 (0건) | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
@@ -69,7 +69,7 @@ created: "2026-11-14"
 - [ ] `.planning/baseline/` 폴더와 다섯 문서(`NAMES.md`, `URLS.md`, `DATA-INVENTORY.md`, `DECISIONS.md`, `USER-TASKS.md`) — 검사 대상 자체가 아직 없다. 각 문서를 만드는 작업의 완료 조건으로 위 명령을 넣는다
 - [ ] 옛 문장 검사의 수정 전 기록 — 조사 때 17줄이 걸렸다. 수정 직전에 한 번 더 돌려 출력을 남기고, 수정 뒤 0건과 짝을 맞춘다
 - [ ] 새 방침 검사와 기준 문서 검사는 조사에서 실행해 보지 못했다(A10). 문서를 만든 작업에서 처음 돌릴 때 결과를 눈으로 대조한다
-- [ ] 단계 시작 커밋 해시 기록 — 「라이브 사이트가 바뀌지 않음」 검사의 기준점
+- [x] 단계 시작 커밋 해시 기록 — 「라이브 사이트가 바뀌지 않음」 검사의 기준점은 `dcc2002431960d7d51ddbc2acc102e8375125b91` (계획 gate에 고정됨)
 
 ---
 

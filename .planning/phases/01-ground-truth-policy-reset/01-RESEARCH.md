@@ -967,32 +967,32 @@ GitHub Pages의 공개 A 값(`185.199.108.153`~`111.153`)과 절차서가 새로
 | A14 | 별칭 도메인에만 있는 주소(`support@runningpencil.com` 단독)는 만들 수 없다 | 사용자 작업 절차서 근거 | 만들 수 있다면 `support@slimpumpkin.com`을 만들 필요가 없다. 절차가 한 단계 줄 뿐 결과는 같다 |
 | A15 | `gsd-tools state resolve-blocker`·`add-blocker`가 이 `STATE.md`의 Blockers 문장을 원하는 대로 고친다 | Don't Hand-Roll | 핸들러가 문장을 못 찾거나 구간 모양을 바꾼다. `Edit`로 고치고 `state validate`로 확인하면 된다 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **결정 목록의 대상을 넓힐지 (N1~N6)**
+1. **결정 목록의 대상을 넓힐지 (N1~N6)** — RESOLVED (2026-11-14 사용자 결정): D-12의 대상 목록은 그대로 두고, N1~N7을 `.planning/baseline/DECISIONS.md` 끝의 따로 둔 구간 「조사에서 새로 나온 항목」에 적는다 (01-04 계획 Task 2).
    - What we know: D-12는 대상을 U2·U3·U5~U9·U11·U13과 「prod 리전」으로 정했다. 조사에서 처리방침 문장을 바꾸는 사실 여섯 가지가 더 나왔다.
    - What's unclear: 사용자가 이 항목들을 결정 목록의 정식 항목으로 원하는지, 데이터 목록의 「확인할 것」 표로 충분한지.
    - Recommendation: 결정 목록 끝에 「조사에서 새로 나온 항목」 구간을 두고 N1·N3·N4·N5·N6을 넣는다. N2는 결정이 아니라 사실이므로 데이터 목록에만 적는다. 계획 확인 때 사용자에게 한 줄로 알린다.
 
-2. **CLI 재로그인을 이 단계의 전제로 둘지**
+2. **CLI 재로그인을 이 단계의 전제로 둘지** — RESOLVED: 전제로 두지 않는다. 01-08 계획이 사용자 재로그인을 기다리는 checkpoint 하나와 읽기 전용 조회 작업을 따로 두고, 사용자가 건너뛰면 해당 칸을 「CLI 미확인」으로 남긴 채 단계를 끝낸다. 재로그인 안내는 절차서 작업 11이다 (01-02 계획).
    - What we know: 두 CLI 모두 만료됐고 재로그인은 사용자만 할 수 있다. 성공 기준 3은 「미확인」 표시를 허용한다.
    - What's unclear: 사용자가 지금 로그인해 줄 수 있는지.
    - Recommendation: 계획 맨 앞에 사용자 작업 하나(`gcloud auth login`, `firebase login --reauth`)를 두고, CLI 조회는 독립된 작업으로 떼어 낸다. 로그인이 안 되면 그 작업만 건너뛰고 해당 칸을 「CLI 미확인」으로 둔 채 단계를 끝낸다.
 
-3. **데이터 목록을 공개 저장소에 필드 단위로 올려도 되는지**
+3. **데이터 목록을 공개 저장소에 필드 단위로 올려도 되는지** — RESOLVED (2026-11-14 사용자 확인): 올린다. 사용자가 이번 계획 단계에서 데이터 목록이 GitHub에서 누구나 보인다는 점을 확인하고, 필드 단위 기록(D-07)을 공개 저장소(D-18)에 계획대로 커밋하기로 했다. 비밀·식별자·호스트 이름은 빼고 커밋 전에 누출 검사를 돌린다 (01-03·01-05·01-08 계획).
    - What we know: D-07이 필드 단위를 정했고 D-18이 공개 저장소임을 알고 있다. 컬렉션·필드 이름은 비밀이 아니고(보안은 규칙이 맡는다) 처리방침이 범주 수준으로 공개할 내용이다.
    - What's unclear: 앱의 데이터 모델과 인프라 구성(리전, 프록시 구조)이 공개되는 것을 사용자가 의식하고 있는지.
    - Recommendation: 필드 단위로 쓰되 비밀·식별자·호스트 이름은 뺀다(Security Domain). 계획 확인 때 「데이터 목록이 GitHub에서 보인다」를 한 줄로 다시 알린다.
 
-4. **라우터 호스트 이름을 절차서에 적을지**
+4. **라우터 호스트 이름을 절차서에 적을지** — RESOLVED: 적지 않는다. 절차서에는 「앱 경로 라우터용 A 레코드 1개」라고만 적고, 누출 검사의 하위 도메인 허용 목록으로 이름이 들어가지 않았는지 확인한다 (01-02 계획 Task 1).
    - What we know: 공개 DNS에 있는 이름이지만 앱 인프라의 진입점이다. 절차서는 사용자가 「지우면 안 되는 레코드」를 알아볼 수 있어야 한다.
    - Recommendation: 이름을 적지 않고 「앱 경로 라우터용 A 레코드 1개(가비아 화면에서 확인, 앱 저장소 `infra/router/RUNBOOK.md` 참고)」라고 적는다.
 
-5. **`.planning/research/.cache/`의 처리**
+5. **`.planning/research/.cache/`의 처리** — RESOLVED: 커밋하지 않고 `.gitignore`에 넣는다 (01-07 계획 Task 3).
    - What we know: GSD `research-store`가 이 조사 중에 만든 폴더이고 추적되지 않는다. 내용은 공식 문서 요약 두 건이다.
    - Recommendation: 커밋하지 않는다. `.gitignore`에 넣을지는 계획자가 정한다(이 단계는 `.gitignore`를 바꾸지 않아도 된다).
 
-6. **GitHub Pages 도메인 인증 상태**
+6. **GitHub Pages 도메인 인증 상태** — RESOLVED: 절차서 작업 8(GitHub 조직 설정에서 인증 상태만 확인)로 넣는다. challenge TXT는 이미 DNS에 있으므로 새로 추가하지 않는다 (01-02 계획 Task 1).
    - What we know: challenge TXT 레코드는 DNS에 있다.
    - What's unclear: GitHub 조직 설정에서 「Verified」로 보이는지.
    - Recommendation: 사용자 작업 절차서에 확인 단계 하나로 넣는다.
