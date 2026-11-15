@@ -9,11 +9,11 @@ findings:
     title: "생성기가 원본의 소제목 줄·코드 블록·번호 목록·하위 목록을 버려서 `.claude/CLAUDE.md`의 여러 구간이 뜻을 잃음 (이번 diff 밖, 원래 있던 문제)"
   - id: IN-07
     severity: info
-    disposition: open
+    disposition: fixed
     title: "생성 구간 규칙의 「마커의 `source:`가 가리키는 파일」과 「`generate-claude-md`로 다시 만듭니다」가 일부 구간에 맞지 않음"
   - id: IN-08
     severity: info
-    disposition: open
+    disposition: fixed
     title: "Deploy 문단이 한 문단 안에서 「푸시」와 「커밋」을 배포 시점으로 번갈아 씀"
   - id: WR-04
     severity: warning
@@ -59,9 +59,9 @@ findings:
     severity: warning
     disposition: fixed
     title: "두 파일에 복사한 방침 구간의 일치를 이번 단계에서 한 번만 확인했고 반복 확인 절차가 없음"
-open: 3
+open: 1
 total: 14
-recorded: 2026-11-15T15:02:41.885Z
+recorded: 2026-11-15T15:22:36.149Z
 ---
 
 # Phase 01: Code Review Disposition
@@ -69,8 +69,8 @@ recorded: 2026-11-15T15:02:41.885Z
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
 | WR-06 | warning | open | - |
-| IN-07 | info | open | - |
-| IN-08 | info | open | - |
+| IN-07 | info | fixed | 01-REVIEW-FIX.md |
+| IN-08 | info | fixed | 01-REVIEW-FIX.md |
 | WR-04 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | WR-05 | warning | fixed | 01-REVIEW-FIX.md (not in the current review) |
 | IN-01 | info | fixed | 01-REVIEW-FIX.md (not in the current review) |
