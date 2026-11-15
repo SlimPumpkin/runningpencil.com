@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: 기준표와 방침 정비 (Ground Truth & Policy Reset)
 status: executing
-stopped_at: Phase 1 context gathered
-last_updated: "2026-11-15T04:44:26.380Z"
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-11-15T05:14:37.208Z"
 last_activity: 2026-11-14
-last_activity_desc: 로드맵 작성 (10단계, v1 요구사항 55개 전부 배정)
-state_head: dcc2002431960d7d51ddbc2acc102e8375125b91
+last_activity_desc: Phase 01 execution started
+state_head: a31b5c7316d4fbd6ebed35f131e9d761686aeebe
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 8
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-14)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 1 — 기준표와 방침 정비 (Ground Truth & Policy Reset)
+**Current focus:** Phase 01 — 기준표와 방침 정비 (Ground Truth & Policy Reset)
 
 ## Current Position
 
-Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — READY TO EXECUTE
-Plan: 0 of TBD in current phase
+Phase: 01 (기준표와 방침 정비 (Ground Truth & Policy Reset)) — EXECUTING
+Plan: 2 of 8
 Status: Ready to execute
-Last activity: 2026-11-14 — 로드맵 작성 (10단계, v1 요구사항 55개 전부 배정)
+Last activity: 2026-11-14 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,6 +52,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P01 | 5 min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -64,6 +69,8 @@ Recent decisions affecting current work:
 - [Roadmap]: 한국어 법적 문서는 문서별 단계로 나눔(삭제 안내 → 처리방침 → 약관·위치약관). 영문판은 국문 확정 뒤에 함
 - [Roadmap]: DNS·메일·Search Console은 Phase 5에 묶고, 이메일 게이트(외부 수신 시험)가 열려야 Phase 5가 끝남. 사용자 작업은 Phase 1 직후 시작 가능. Apple 릴레이 답장(SUP-05)은 Phase 10
 - [Roadmap]: ACPT-01·02(제공자 통과, 위치정보법 신고·등록)는 마일스톤 인수 항목. 어느 단계의 성공 기준에도 넣지 않음
+- [Phase 01]: 방침 구간은 .claude/CLAUDE.md의 GSD:project-start 마커 위에 둔다. 재생성 시험에서 구간이 남고 바뀐 줄은 conventions 블록 서비스 이름 줄 하나뿐임을 확인 (01-01)
+- [Phase 01]: URL 대장의 콘솔 등록 없는 행(/location-terms/, /en/location-terms/)도 콘솔 칸을 비우지 않고 사실을 글로 적는다 (01-01)
 
 ### Pending Todos
 
@@ -94,6 +101,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-14T20:23:35.258Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-ground-truth-policy-reset/01-CONTEXT.md
+Last session: 2026-11-15T05:14:37.196Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None
