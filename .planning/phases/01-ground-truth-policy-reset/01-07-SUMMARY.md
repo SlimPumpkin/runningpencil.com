@@ -140,4 +140,4 @@ None - 이 계획은 외부 서비스 설정을 요구하지 않는다. DNS·Wor
 
 - 수정 파일 여섯 개 모두 존재, 커밋 `8aef43c`·`96b1d44`·`1b10f31` 모두 HEAD의 조상.
 - Task 1 verify 6개, Task 2 verify 5개, Task 3 verify 7개가 커밋 뒤 다시 돌려도 모두 exit 0.
-- SUMMARY 누출 검사(Task 3 verify 마지막 명령)를 이 파일을 쓴 뒤 커밋 전에 다시 돌린다.
+- SUMMARY 누출 검사(Task 3 verify 마지막 명령)를 이 파일을 쓴 뒤 커밋 전에 다시 돌려 exit 0을 확인했다.
