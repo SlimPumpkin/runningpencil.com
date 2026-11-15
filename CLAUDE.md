@@ -31,9 +31,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-`runningpencil.com` 도메인으로 서비스되는 GitHub Pages 정적 사이트입니다. 모바일 앱 러닝펜슬(지도 위 GPS 아트 코스를 걷거나 달려 완주하면 코스 모양의 뱃지와 포인트를 모으고, 지역 코스북을 완성하고, 직접 그린 코스를 올리고, 포인트로 굿즈를 교환하는 앱)의 출시 전 티저 랜딩과 앱 스토어 심사용 법적 페이지로 구성되어 있습니다.
+`runningpencil.com` 도메인으로 서비스되는 GitHub Pages 정적 사이트입니다. 모바일 앱 러닝펜슬(지도 위 GPS 아트 코스를 걷거나 달려 완주하면 코스 모양 뱃지를 모으고, 직접 그린 코스를 공개할 수 있는 앱)의 출시 전 티저 랜딩과 앱 스토어 심사용 법적 페이지로 구성되어 있습니다.
 
-- 빌드 시스템 없음 (no `package.json`, no bundler, no linter, no tests).
+- 현재는 빌드 시스템이 없습니다 (no `package.json`, no bundler, no linter, no tests. 2026-11 기준, Phase 2까지 유효). Phase 2에서 GitHub Pages 내장 Jekyll의 `_layouts`·`_includes`로 공통 블록을 모으고 로컬 Jekyll 빌드를 도입합니다.
 - HTML 파일을 직접 편집하면 GitHub Pages가 그대로 서빙합니다.
 - `_config.yml`은 GitHub Pages가 배포할 때 한 번 거치는 Jekyll의 설정입니다. `CLAUDE.md`·`README.md` 같은 저장소 문서가 사이트에 공개되지 않게 빼는 일만 합니다 (HTML은 그대로 복사됩니다). 마크다운 문서를 새로 추가하면 `_config.yml`의 `exclude`에도 적어야 합니다.
 - `CNAME` 파일이 GitHub Pages의 사용자 지정 도메인(`runningpencil.com`) 매핑을 담당합니다 — 도메인 변경 시 이 파일을 수정해야 합니다.
@@ -44,11 +44,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 경로 | 용도 |
 |---|---|
 | `index.html` | 티저 랜딩 — 헤더, 히어로(쿼터뷰 지도 그림), 세 가지 이유(`#story`), 달려 보기(`#demo`), 출시 안내(`#get`), 푸터 |
-| `privacy-policy/index.html` | 개인정보처리방침 (임시 게시본, `noindex`) |
-| `terms/index.html` | 서비스 이용약관 (임시 게시본, `noindex`) |
-| `data-deletion/index.html` | 계정·데이터 삭제 안내 (앱 스토어 심사용, `noindex`) |
+| `privacy-policy/index.html` | 개인정보처리방침 (현재 임시 게시본·`noindex`, 2026-11 기준. Phase 7 재작성 커밋에서 둘 다 지움, U14) |
+| `terms/index.html` | 서비스 이용약관 (현재 임시 게시본·`noindex`, 2026-11 기준. Phase 8 재작성 커밋에서 둘 다 지움, U14) |
+| `data-deletion/index.html` | 계정·데이터 삭제 안내 (앱 스토어 심사용. 현재 임시 게시본·`noindex`, 2026-11 기준. Phase 6 재작성 커밋에서 둘 다 지움, U14) |
 
-네 페이지는 아래 세 가지를 **복사해서 공유**합니다. 빌드 단계가 없어 공통 템플릿을 뽑을 수 없으니, 이 부분을 바꿀 때는 네 파일을 모두 똑같이 수정해야 합니다.
+네 페이지는 아래 세 가지를 **복사해서 공유**합니다. 현재는 빌드 단계가 없어 공통 템플릿을 뽑을 수 없으니 (2026-11 기준, Phase 2까지 유효), 이 부분을 바꿀 때는 네 파일을 모두 똑같이 수정해야 합니다. Phase 2에서 Jekyll 공유 셸(`_includes`·`_layouts`)로 한 곳에 모읍니다.
 
 - `<head>`의 글꼴 링크와 파비콘·매니페스트 링크
 - `<style>` 맨 위의 「공통」 묶음 — 바탕색, 글꼴, `.rp-wrap`, 헤더(`.rp-head`, `.rp-brand`, `.rp-nav`)와 푸터(`.rp-foot-*`) 스타일
@@ -58,17 +58,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Local preview
 
-별도 빌드 단계가 없으므로 정적 서버로 띄워서 확인합니다. `/favicon/...`, `/terms/`, `/#story` 같은 절대 경로를 쓰므로 저장소 루트를 서버 루트로 띄워야 링크와 파비콘이 동작합니다 (`file://`로 직접 열면 깨집니다). 글꼴과 법적 페이지의 Tailwind는 CDN에서 받으므로 인터넷 연결도 필요합니다:
+**아래는 Phase 2까지 유효한 방법입니다 (2026-11 기준).** 별도 빌드 단계가 없으므로 정적 서버로 띄워서 확인합니다. `/favicon/...`, `/terms/`, `/#story` 같은 절대 경로를 쓰므로 저장소 루트를 서버 루트로 띄워야 링크와 파비콘이 동작합니다 (`file://`로 직접 열면 깨집니다). 글꼴과 법적 페이지의 Tailwind는 CDN에서 받으므로 인터넷 연결도 필요합니다:
 
 ```bash
 python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
+Phase 2에서 로컬 Jekyll 빌드로 바뀌면 이 안내를 그 명령으로 바꿉니다.
+
 ## Architecture / styling notes
 
 - **랜딩(`index.html`)은 Tailwind를 쓰지 않습니다.** 스타일은 `<head>`의 `<style>` 한 블록(「공통」 묶음 + 「랜딩 전용」)과 각 요소의 인라인 `style`에 있습니다. 반응형 수치는 `clamp(28px, 4vw, 56px)`처럼 `vw`로 쓰고, 좁은 화면(860px 이하) 규칙은 `<style>` 끝의 `@media (max-width: 860px)` 블록에 모여 있습니다. 새 스타일은 「랜딩 전용」에 추가합니다.
-- **법적 페이지 3종은 Tailwind CDN 런타임 모드**로 본문을 꾸밉니다 (`https://cdn.tailwindcss.com`). 브라우저에서 JIT 컴파일하므로 빌드가 필요 없는 대신 프로덕션 권장 방식은 아닙니다. 클래스 추가는 즉시 반영되지만 `@apply`나 커스텀 디렉티브는 사용 불가입니다. 반응형 수치는 `py-[clamp(48px,6vw,80px)]`처럼 arbitrary value로 씁니다. 헤더·푸터는 Tailwind 클래스가 아니라 「공통」 묶음의 `.rp-*` 클래스로 그립니다.
+- **법적 페이지 3종은 Tailwind CDN 런타임 모드**로 본문을 꾸밉니다 (`https://cdn.tailwindcss.com`). 브라우저에서 JIT 컴파일하므로 빌드가 필요 없는 대신 프로덕션 권장 방식은 아닙니다. 클래스 추가는 즉시 반영되지만 `@apply`나 커스텀 디렉티브는 사용 불가입니다. 반응형 수치는 `py-[clamp(48px,6vw,80px)]`처럼 arbitrary value로 씁니다. 헤더·푸터는 Tailwind 클래스가 아니라 「공통」 묶음의 `.rp-*` 클래스로 그립니다. 현재 상태이고 (2026-11 기준) Phase 3에서 정적 CSS로 바꿉니다.
   - 토큰은 각 법적 페이지의 `<script id="tailwind-config">` 인라인 블록에 정의됩니다: `ink #2B2B2B` 글자·제목 · `accent #7C580D` 작은 제목·링크 밑줄 · `muted #4A463F`, `muted-2 #57534C` 보조 글자 · `line #E4E0D6` 카드 테두리·구분선
   - `.rp-grid`는 32px 모눈종이 바탕입니다. `<style>`의 「법적 페이지 전용」에 있고, 법적 페이지에만 쓰는 스타일은 여기에 추가합니다.
 - **색**: 연필 노랑 `#F2B134`(헤더·히어로·출시 안내 바탕, `theme-color`) · 흑연 `#2B2B2B`(글자, 푸터 바탕) · 바탕 `#FAFAF7` · 진한 금색 `#7C580D`(작은 제목) · 칠판 초록 `#2E4A3B`(달려 보기 구간) · 모눈종이 `#F5F9FC`에 선 `#D3E2EF`. 노랑은 밝은 바탕 위 글자색으로 쓰기에는 대비가 낮으니 글자·밑줄에는 `#7C580D`를 씁니다.
@@ -82,7 +84,7 @@ python3 -m http.server 8000
 - **다크 모드 없음.** 달려 보기 구간과 푸터만 의도적으로 어두운 바탕입니다.
 - **로고·아이콘·지도 그림은 모두 인라인 SVG**입니다. 외부 이미지 의존이 없습니다. 랜딩에서 여러 번 쓰는 도형(코스 선, 지도, 아이콘, 히어로 캐릭터)은 `<body>` 맨 위의 숨은 `<svg><defs>`에 모아 두고 `<use href="#…">`로 씁니다. 헤더·푸터의 로고는 법적 페이지에 `<defs>`가 없으므로 `<use>` 없이 그 자리에 그대로 넣습니다.
 - **푸터**에는 약관 링크 3개, 운영 안내 문장, 저작권, 경로 데이터 출처 표기가 있습니다. 「경로 데이터 © OpenStreetMap contributors」는 랜딩에 그린 댕댕런 코스 선이 OpenStreetMap 기반 경로 데이터에서 나온 것이라 넣었습니다. 웹페이지에 실제 지도를 쓰게 되면 그 지도의 출처 표기를 더합니다.
-- **이메일 수집 폼 없음.** 정적 호스팅이라 서버 처리가 불가능해 의도적으로 뺐습니다. 연락처 이메일도 표시하지 않습니다 (법적 페이지 포함).
+- **이메일 수집 폼 없음.** 정적 호스팅이라 서버 처리가 불가능해 의도적으로 뺐고, 앞으로도 만들지 않습니다. 현재 사이트에는 지원 이메일이 없습니다 (2026-11 기준). 이메일 게이트(Phase 5)가 열리면 지원 이메일을 푸터·지원 페이지·법적 문서에 넣습니다. 그전에는 주소를 HTML·`_data`에 넣지 않습니다.
 
 ## Assets
 
@@ -93,10 +95,10 @@ python3 -m http.server 8000
 
 ## Content language
 
-본문·`<html lang>` 모두 `ko`입니다.
+현재 네 페이지는 본문이 한국어이고 `<html lang="ko">`입니다 (2026-11 기준). Phase 9에서 `/en/` 아래에 영문판(`lang="en"`)을 더해 한국어와 영어를 함께 제공합니다.
 
 서비스(앱) 이름은 한국어 「러닝펜슬」, 영어 `RunningPencil`입니다. 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 현재 사이트(제목·메타·매니페스트·워드마크·본문)에는 한국어 이름만 있고 (2026-11 기준), 영문 이름은 Phase 9 영문판(`/en/`)과 콘솔·스토어의 영어 표시명에 씁니다. 운영 회사 이름은 "슬림펌킨"이며, 저작권 표기, 푸터의 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체에 씁니다. `runningpencil.com`은 도메인 표기입니다.
 
 ## Deploy
 
-`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. 별도 CI/CD나 빌드 스텝이 없으므로 커밋이 곧 배포입니다 — 깨진 HTML이 바로 라이브에 올라가니 푸시 전 로컬 미리보기로 확인하는 것이 좋습니다.
+`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. 현재는 별도 CI/CD나 빌드 스텝이 없으므로 (2026-11 기준, Phase 2까지 유효) 커밋이 곧 배포입니다 — 깨진 HTML이 바로 라이브에 올라가니 푸시 전 로컬 미리보기로 확인하는 것이 좋습니다.
