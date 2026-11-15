@@ -27,7 +27,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 사용자가 줄 사실값(사업자 정보, 지원 이메일, 보호책임자)은 추측해서 채우지 않습니다. 값이 없으면 행·문단을 숨깁니다 (render-if-present). 단, 빠지면 안 되는 조항이 있는 페이지는 값이 올 때까지 커밋을 보류합니다 (예: 처리방침의 보호책임자, 위치기반서비스 이용약관의 사업자 상호·주소·연락처).
 - 「추후 기재」 같은 자리표시 값을 쓰지 않습니다.
 - JS 언어 자동 리디렉션, `robots.txt` 차단, `.nojekyll`, Jekyll i18n 플러그인을 쓰지 않습니다.
-- 방침이나 구조를 바꾸는 단계는 그 단계 안에서 `CLAUDE.md`도 함께 고칩니다. 이 방침 구간은 루트 `CLAUDE.md`와 `.claude/CLAUDE.md` 두 사본을 같은 커밋에서 똑같이 고칩니다.
+- 방침이나 구조를 바꾸는 단계는 그 단계 안에서 `CLAUDE.md`도 함께 고칩니다. 이 방침 구간은 루트 `CLAUDE.md`와 `.claude/CLAUDE.md` 두 사본을 같은 커밋에서 똑같이 고칩니다. `.claude/CLAUDE.md`의 `<!-- GSD:... -->` 구간은 직접 고치지 않고, 원본(`.planning/PROJECT.md`, `.planning/codebase/*.md`. 마커의 `source:`가 가리키는 파일)을 고친 뒤 `generate-claude-md`로 다시 만듭니다.
 - 법적 본문에는 데이터 목록(`.planning/baseline/DATA-INVENTORY.md`)에 있는 사실만 씁니다. 이 규칙의 출처는 `.planning/ROADMAP.md`의 Phase 6·7 성공 기준과 `.planning/PROJECT.md`의 Constraints(Legal drafts)입니다.
 
 마지막 규칙(데이터 목록)을 뺀 나머지 규칙의 원본은 `.planning/ROADMAP.md`의 Ground Rules입니다. 기준 문서는 `.planning/baseline/`에 있습니다 (이름 표 `NAMES.md`, URL 대장 `URLS.md`, 데이터 목록 `DATA-INVENTORY.md`, 결정 목록 `DECISIONS.md`, 사용자 작업 절차서 `USER-TASKS.md`).
