@@ -101,7 +101,7 @@
 | 오픈 후 웹 연동은 「로그인 없는 공개 데이터 보기」로 한정 | 웹 로그인·편집 없이 평점·인기 코스·명예의 전당·리뷰만 보여 줌 (다음 마일스톤 전제) | — Pending |
 | 소셜 로그인 6곳 모두 대응 (Facebook·LINE 포함) | 앱 코드와 앱의 결정 D-15가 6개를 켬 | — Pending |
 | 전용 지원 이메일 공개 — 기존 「연락처 미표시」 방침을 뒤집음 | Google Play 웹 삭제 요청, App Store 1.5, 처리방침의 보호책임자 연락처에 연락 수단이 필요함 | — Pending |
-| 지원 메일은 도메인 주소 → 메일 라우팅 → 슬림펌킨 업무 메일 | 별도 메일함 없이 도메인 주소를 공개 | — Pending |
+| 지원 메일은 Google Workspace 사용자 별칭 도메인으로 받고 지원 주소에서 답장 (U12 결정, 2026-11-14) | 슬림펌킨 업무 메일이 Google Workspace라 제3자 전달 서비스 없이 `runningpencil.com` 주소를 받고 그 주소로 답장할 수 있음. 답장 도메인에 DKIM을 걸어 Phase 10의 Apple 릴레이 답장에 씀 | — Pending |
 | 푸터에 사업자 정보 전부 표시 | 카카오 비즈앱 심사의 사업자-서비스 관계 확인, 국내 서비스 관행 | — Pending |
 | 한국어 + 영어 제공 — 기존 `ko` 전용 방침을 뒤집음 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 함 | — Pending |
 | 영문 서비스명은 `RunningPencil` — 기존 「RunningPencil 쓰지 않음」 방침을 뒤집음 | 영문판과 Google·Meta·LINE·스토어 콘솔에서 같은 이름을 써야 함 (요구사항 단계에서 결정) | — Pending |
@@ -110,7 +110,7 @@
 | 법적 페이지 `noindex` 해제, 「임시 게시본」 문구 삭제 | Apple 2.1(a)·네이버 4.1이 미완성 사이트로 반려할 소지 | — Pending |
 | `/support/` 지원 페이지 신설 | App Store Support URL용 전용 페이지가 심사자에게 가장 분명함 | — Pending |
 | 법적 본문은 앱 실제 동작 기준 초안, 법률 검토는 출시 전에 따로 | 현재 임시 게시본은 앱 실제 범위와 맞지 않음 | — Pending |
-| 위치기반서비스 이용약관 페이지를 기본으로 포함, 범위만 법률 확인으로 조정 | 조사 결과 위치정보법 제12조①이 이용약관 공개 의무를 둠. 신고(제9조)인지 등록(제5조)인지는 법률 확인 필요 (U2) | — Pending |
+| 위치기반서비스 이용약관 페이지를 기본으로 포함, 범위만 법률 확인으로 조정. 경로는 `/location-terms/`로 확정 (D-15) | 조사 결과 위치정보법 제12조①이 이용약관 공개 의무를 둠. 신고(제9조)인지 등록(제5조)인지는 법률 확인 필요 (U2) | — Pending |
 | Tailwind Play CDN 제거와 공통 블록 단일화 — 「빌드 없음」 방침이 바뀔 수 있음 | 심사 대상 페이지의 안정성, 페이지가 늘수록(영문판·지원) 복사 드리프트 위험이 커짐. 방식(Jekyll include 등)은 단계에서 결정 | — Pending |
 | 완료 = 6개 제공자 프로덕션 심사 통과를 사용자가 확인. 스토어는 웹사이트 요건까지 | 심사 통과는 외부 이벤트라 단계별 성공 기준에서 빼고 인수 항목으로 둠 | — Pending |
 
@@ -132,4 +132,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-11-14 after requirements definition*
+*Last updated: 2026-11-14 after Phase 1 decisions (U12 Workspace, /location-terms/)*

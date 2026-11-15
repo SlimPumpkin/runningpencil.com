@@ -92,6 +92,7 @@ Recent decisions affecting current work:
 - [Phase 01]: 구간 H를 18행으로 씀: Firestore TTL과 배포된 함수 리전 행을 더해 「확인할 것」 CLI 행과 맞춤 (01-05)
 - [Phase 01]: 기기 안 설정 행에 SharedPreferences 키를 모두 적음. 익명 사용자의 약관 동의 사본(terms.accepted_value)이 기기 안에 있음 (01-05)
 - [Phase 01]: mail 컬렉션에는 인증 메일과 비밀번호 재설정 메일이 함께 쓰임 (send_password_reset_mail.ts:310) (01-05)
+- [Phase 1]: U12 결정. 지원 메일은 Google Workspace 사용자 별칭 도메인으로 받고 지원 주소에서 답장함. 가비아 DNS는 두 번 방문(1차 도메인 인증·MX·SPF·Search Console, 2차 DKIM). 위치약관 경로는 `/location-terms/`로 확정
 
 ### Pending Todos
 
@@ -100,12 +101,12 @@ None yet.
 ### Blockers/Concerns
 
 사용자 외부 작업(단계를 막음):
-- 가비아 DNS 레코드 추가(Search Console TXT, ImprovMX MX 2개 + SPF 1개, `_github-pages-challenge-SlimPumpkin` TXT)와 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
+- 가비아 DNS 레코드 추가(1차 방문: Google Workspace 도메인 인증 TXT·MX·SPF 1개, Search Console TXT. 2차 방문: DKIM. 기존 레코드는 보존, 절차는 `.planning/baseline/USER-TASKS.md`)와 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
 - 실제 앱 화면 캡처(출시 범위 기능만) → Phase 4
 
 사용자·법률 결정(Phase 1에서 결정 목록으로 넘김):
-- U11 사업자 값과 영문 법인명 → Phase 5·8·9 / U12 지원 주소·메일 서비스 → Phase 5
+- U11 사업자 값과 영문 법인명 → Phase 5·8·9 (U12는 결정됨: Google Workspace 사용자 별칭 도메인, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`)
 - U3 소상공인 해당, U5 Email/Password 노출 → Phase 7 / U6 탈퇴 후 코스 처리 → Phase 6·8
 - U7 14세 미만 정책 → Phase 7·8 / U2 위치정보법 분류, U8 네이버 지도 고지 → Phase 8
 - U9 Meta 비즈니스 인증, U13 Google 브랜드 검증 → Phase 10
