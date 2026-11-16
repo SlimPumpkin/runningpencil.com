@@ -385,3 +385,141 @@ OK pre-push unchanged
 ```
 
 CHECK5=OK
+
+## 03-05 시험 본문
+
+- 기록 시각: 2026-11-16. 클래스 없는 시험 본문 `$W/fixtures/sample.html`을 최종 트리(HEAD `50bbda231725`)에 스크래치로만 넣어 빌드했습니다. 두 변형의 빌드 트리는 같습니다(`$W/sample/TREE` = `$W/samplenw/TREE` = HEAD 트리).
+- 시험 본문 구성(요소 목록만): front matter `layout: legal`, `title`, `description`, `eyebrow: "SAMPLE"`, `updated`, `noindex: true`. 본문은 클래스 속성 없이 D-04 허용 요소만 씁니다.
+  1. `section`: `h2` + `p` + 넓은 표(`figure tabindex="0" aria-label`, 5열, `thead` 머리 행 「수탁자·위탁 업무·처리 항목·보유 기간·국외 이전」, `tbody` 3행) + `aside`. 본문의 첫 `figure`입니다.
+  2. `section`: `h2` + 좁은 표(2열, 같은 figure 속성).
+  3. `section`: `h2` + `h3` + `ol`(3항목, 첫 항목 안 `ol` 2항목) + `h3` + `ul`(3항목, 첫 항목 안 `ul` 2항목, `strong` 한 곳, `a href="/terms/"` 한 곳).
+  4. `section`: `h2` + `dl`(`dt`·`dd` 두 쌍).
+  5. 본문 끝 `footer` 한 문장(`.rp-doc`의 바로 아래 자식).
+- 넓은 표는 앞 두 열에만 긴 어절을 두어 375px에서 넘치게 했고, 나머지 열의 칸 글은 머리 행 전체보다 짧게 두어 기본 변형에서 머리 행이 접히는 모습이 캡처에 드러나게 했습니다.
+- 빌드 방법: context의 시험 본문 빌드 방법(`git archive` HEAD → `src`, `cp "$W/fixtures/sample.html" "$W/<이름>/src/sample/index.html"`, `build`와 같은 jekyll 명령, `TREE` 기록). 줄바꿈 금지 변형은 빌드 전에 `$W/samplenw/src/_includes/css/legal.css`의 `.rp-doc th` 줄에만 `white-space: nowrap;`을 더했습니다. 두 빌드의 `legal.css` 차이는 아래 한 줄입니다.
+
+```
+38c38
+<         .rp-doc th { font-weight: 700; color: var(--rp-ink); }
+---
+>         .rp-doc th { font-weight: 700; color: var(--rp-ink); white-space: nowrap; }
+```
+
+기본 변형 (sample):
+
+```
+serve sample 4107; cd "$W/pw" && node sample.mjs http://127.0.0.1:4107/sample/ "$W/cap/sample"
+chromium 375 {"sw":375,"vw":375,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":true,"figDisplay":"table"}
+chromium 768 {"sw":768,"vw":768,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":false,"figDisplay":"table"}
+chromium 1280 {"sw":1280,"vw":1280,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 64px","figOverflow":false,"figDisplay":"table"}
+webkit 375 {"sw":375,"vw":375,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":true,"figDisplay":"table"}
+webkit 768 {"sw":768,"vw":768,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":false,"figDisplay":"table"}
+webkit 1280 {"sw":1280,"vw":1280,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 64px","figOverflow":false,"figDisplay":"table"}
+PASS
+exit=0
+```
+
+줄바꿈 금지 변형 (samplenw):
+
+```
+serve samplenw 4108; cd "$W/pw" && node sample.mjs http://127.0.0.1:4108/sample/ "$W/cap/samplenw"
+chromium 375 {"sw":375,"vw":375,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":true,"figDisplay":"table"}
+chromium 768 {"sw":768,"vw":768,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":false,"figDisplay":"table"}
+chromium 1280 {"sw":1280,"vw":1280,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 64px","figOverflow":false,"figDisplay":"table"}
+webkit 375 {"sw":375,"vw":375,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":true,"figDisplay":"table"}
+webkit 768 {"sw":768,"vw":768,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 40px","figOverflow":false,"figDisplay":"table"}
+webkit 1280 {"sw":1280,"vw":1280,"tableFont":"14px","tdBorder":"rgb(228, 224, 214) 1px solid","tableOuter":"0px","th":"700 rgb(43, 43, 43)","h3":"17px 700 rgb(43, 43, 43)","ol":"decimal","olol":"hangul","ulul":"circle","nestedPad":"20px","dd":"0px","dt":"700 rgb(43, 43, 43)","aside":"14px rgb(87, 83, 76) 0px","footer":"1px rgb(228, 224, 214) 16px 14px 20px","siteFooterBorder":"0px 64px","figOverflow":false,"figDisplay":"table"}
+PASS
+exit=0
+```
+
+- 캡처 12장(경로는 `$W/cap/sample/`, `$W/cap/samplenw/`): `chromium-375.png`, `chromium-768.png`, `chromium-1280.png`, `webkit-375.png`, `webkit-768.png`, `webkit-1280.png` (변형마다 6장).
+- 두 변형의 캡처를 `cmp`로 비교하면 375px 두 장(chromium·webkit)만 다르고 768·1280px 네 장은 바이트가 같습니다. 768px 이상에서는 머리 행이 원래 한 줄이라 줄바꿈 금지가 모양을 바꾸지 않습니다. 기본 변형 375px에서는 「처리 항목」이 두 줄로 접히고, 줄바꿈 금지 변형에서는 한 줄입니다(캡처를 눈으로 확인).
+- 캡처 눈 확인(실행자): 글꼴 적용, 375px 넓은 표 오른쪽 가장자리 옅은 그림자, 가. 나. 표지의 마침표, 링크 밑줄이 보입니다. 사용자 승인은 다음 구간에서 받습니다.
+- 저장소 밖 확인: `git status --porcelain -- sample`과 `git ls-files -- sample`이 모두 빈 출력입니다.
+
+OK sample not in repo
+
+SAMPLE=OK
+
+## 03-05 시험 본문 승인
+
+- 기록 시각: 2026-11-16. 사용자가 시험 본문 캡처(두 엔진 × 세 폭, 기본과 머리 행 줄바꿈 금지 두 변형)를 보고 `checkpoint:decision`에서 선택지 「nowrap — 승인, 머리 행은 한 줄 (th 줄바꿈 금지)」을 골랐습니다. 이 답은 새 요소 모양(성공 기준 4) 승인과 표 머리 행 줄바꿈 정책 선택이고, 사이트 푸시 승인은 아닙니다(푸시는 03-06에서 따로 승인받음).
+- 사용자 답: nowrap
+
+SC4_DECISION=approved
+TABLE_WRAP=nowrap
+
+## 03-05 표 머리 행 줄바꿈
+
+NOWRAP_SHA=fb6bdfa40b70
+
+- 기록 시각: 2026-11-16. 사용자 선택(`TABLE_WRAP=nowrap`)대로 `_includes/css/legal.css`의 `.rp-doc th` 한 줄에만 `white-space: nowrap;`을 더한 별도 사이트 커밋입니다(D-19, D-20). 다른 줄과 파일 끝 줄바꿈 없음은 그대로입니다.
+- 절차: `legal.css`만 스테이징해 브랜치에 붙지 않는 후보 커밋(`d51648b1fff0`)을 만들고, 그 후보로 아래 (a)~(e)를 모두 통과시킨 뒤 같은 인덱스를 커밋했습니다. 커밋의 트리는 `$W/nw/TREE`와 같습니다. CDN이 없는 캡처라 찍기 전 CDN 리디렉션 확인은 하지 않았습니다(scratch_contract).
+- (a) check-site(5항목 판): 후보와 커밋 모두 통과. 아래 첫 줄이 후보, 둘째 줄이 커밋 뒤 커밋을 다시 돌린 결과입니다.
+- (b) `build nw <후보>` 성공.
+- (c) 랜딩 `index.html`이 기준(`$W/base/site`)과 바이트가 같고 파일 목록도 같습니다. `diff "$W/c3/site/terms/index.html" "$W/nw/site/terms/index.html"`은 아래 CSS 한 줄만 다릅니다(`diff -r "$W/c3/site" "$W/nw/site"`도 세 법적 문서에서 같은 한 줄씩만 다름).
+- (d) `serve nw 4106`, `$W/pw`에서 `node capture.mjs http://127.0.0.1:4106 "$W/cap/nw"`(`done 18`), `stop nw`, `"$W/judge.sh" nw --no-cdn`이 아래 출력으로 `JUDGE nw OK`입니다. 세 문서에는 표가 없어 기준과 픽셀 0입니다.
+- (e) 시험 본문을 후보로 다시 빌드(`$W/samplec`, 같은 `$W/fixtures/sample.html`, 4107)해 `sample.mjs`가 여섯 조합 모두 MISMATCH 없이 `PASS`, 종료 코드 0입니다. 캡처 6장(`$W/cap/samplec/`)은 Task 1의 줄바꿈 금지 변형 캡처(`$W/cap/samplenw/`)와 `cmp`로 바이트가 모두 같습니다. 사용자가 승인한 모양이 그대로 들어갔습니다.
+
+```
+check-site: 통과 (커밋 d51648b1fff0, jekyll 3.10.0)
+check-site: 통과 (커밋 fb6bdfa40b70, jekyll 3.10.0)
+OK landing index.html same
+OK file list same
+```
+
+CSS 한 줄 diff (`$W/c3/site/terms/index.html` 대비 `$W/nw/site/terms/index.html`):
+
+```
+87c87
+<         .rp-doc th { font-weight: 700; color: var(--rp-ink); }
+---
+>         .rp-doc th { font-weight: 700; color: var(--rp-ink); white-space: nowrap; }
+```
+
+`judge.sh nw --no-cdn` (base1 대비):
+
+```
+COUNT base1 png=42 state=24 txt=18
+COUNT nw png=42 state=24 txt=18
+PASS 0 diffs
+state ok chromium-1280-privacy-policy-focus.png 846
+state ok chromium-1280-privacy-policy-hover.png 849
+state ok chromium-1280-terms-focus.png 846
+state ok chromium-1280-terms-hover.png 847
+state ok chromium-375-privacy-policy-focus.png 846
+state ok chromium-375-privacy-policy-hover.png 809
+state ok chromium-375-terms-focus.png 852
+state ok chromium-375-terms-hover.png 820
+state ok chromium-768-privacy-policy-focus.png 846
+state ok chromium-768-privacy-policy-hover.png 849
+state ok chromium-768-terms-focus.png 846
+state ok chromium-768-terms-hover.png 793
+state ok webkit-1280-privacy-policy-focus.png 846
+state ok webkit-1280-privacy-policy-hover.png 842
+state ok webkit-1280-terms-focus.png 846
+state ok webkit-1280-terms-hover.png 837
+state ok webkit-375-privacy-policy-focus.png 846
+state ok webkit-375-privacy-policy-hover.png 798
+state ok webkit-375-terms-focus.png 852
+state ok webkit-375-terms-hover.png 816
+state ok webkit-768-privacy-policy-focus.png 846
+state ok webkit-768-privacy-policy-hover.png 842
+state ok webkit-768-terms-focus.png 846
+state ok webkit-768-terms-hover.png 802
+STATES nw ok=24 vacuous=0
+PASS 18 rows
+JUDGE nw OK
+```
+
+시험 본문 (후보 빌드 samplec):
+
+```
+serve samplec 4107; cd "$W/pw" && node sample.mjs http://127.0.0.1:4107/sample/ "$W/cap/samplec"
+PASS
+exit=0
+OK samplec captures same as samplenw (6/6)
+```
+
+NOWRAP_PIXEL=OK
