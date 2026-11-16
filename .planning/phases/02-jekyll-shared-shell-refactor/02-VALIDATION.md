@@ -78,7 +78,7 @@ validated: "2026-11-16"
 - [x] `scripts/check-site.sh` (100755), `.githooks/pre-push` (100755), `git config core.hooksPath .githooks`
 - [x] 스크래치(저장소 밖)에 `compare.sh`, `norm_nocomment.py` 생성, `BASE_SHA` 기록
 - [x] `_config.yml`의 `url`과 `exclude`, `.gitignore` 4줄(`_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`)
-- [x] (설정 값은 `true`로 남아 있으나, 모든 계획의 Task 1 precondition(메인 체크아웃)이 통과했고 02-10은 worktree base-check가 순차 모드로 낮춰 메인 체크아웃에서 실행됨) **실행 전 사용자 설정:** `.planning/config.json`의 `workflow.use_worktrees`를 `false`로 바꿉니다 (지금 `true`). 모든 계획의 Task 1 precondition이 메인 체크아웃(`git rev-parse --path-format=absolute --git-dir`과 `--git-common-dir`이 같음)을 요구합니다. gem(`vendor/bundle`, `.bundle/config`)과 pre-push 훅이 메인 체크아웃에만 있기 때문입니다. `true`인 채로 실행하면 02-01 Task 1에서 멈춥니다. 계획은 설정 파일을 고치지 않습니다 (사용자 결정)
+- [x] (설정 값은 `true`로 남아 있다. 계획 10개가 모두 SUMMARY까지 끝났으므로, 메인 체크아웃을 요구하는 각 Task 1 precondition에서 멈추지 않았다고 본다. 02-10은 직접 확인했다: worktree base-check가 순차 모드로 낮춰 메인 체크아웃에서 실행됨) **실행 전 사용자 설정:** `.planning/config.json`의 `workflow.use_worktrees`를 `false`로 바꿉니다 (지금 `true`). 모든 계획의 Task 1 precondition이 메인 체크아웃(`git rev-parse --path-format=absolute --git-dir`과 `--git-common-dir`이 같음)을 요구합니다. gem(`vendor/bundle`, `.bundle/config`)과 pre-push 훅이 메인 체크아웃에만 있기 때문입니다. `true`인 채로 실행하면 02-01 Task 1에서 멈춥니다. 계획은 설정 파일을 고치지 않습니다 (사용자 결정)
 - [x] worktree 주의: `compare.sh`·라이브 확인·푸시는 메인 체크아웃에서 돌립니다. 계획이 스스로 만드는 시험용 worktree(`$RP2/inject`, `$RP2/probe-wt`, 푸시 ① 되돌리기의 `$RP2/rollback`)는 저장소 밖에만 두고, 검증과 푸시는 메인 체크아웃의 점검 도구로 합니다
 
 ---
