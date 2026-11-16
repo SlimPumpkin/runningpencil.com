@@ -649,3 +649,131 @@ DOCS_README_SHA=629c2dfad614
 OK stale tailwind=0 oldcount=0 localpath=0
 
 DOCS_STALE=OK
+
+## 03-09 문서 푸시 후보
+
+DOCS_PUSH_CANDIDATE=3f148e83d849
+DOCS_PUSH_PREV=2ebeca06ca51
+
+- 기록 시각: 2026-11-16. D-21의 두 번째 푸시(문서 푸시) 후보입니다. 사이트 푸시의 라이브 확인(`LIVE_SITE=OK`)이 끝난 뒤에 만든 문서 커밋까지를 담습니다. 메인 체크아웃에서 `git fetch -q origin main` 뒤 `PREV=origin/main`, `CAND=HEAD`로 두었습니다. 아직 푸시하지 않았고, 푸시는 사용자 승인(Task 2) 뒤에만 합니다.
+- 1. 원격 확인: `PREV`(`2ebeca06ca51`)가 `SITE_PUSH_SHA`와 같고(사이트 푸시 뒤 되돌리기 푸시 없음) `CAND`(`3f148e83d849`)의 조상입니다. 다른 곳에서 푸시된 것은 없습니다.
+- 2(a). 공개되지 않은 커밋 수 `git rev-list --count "$PREV..$CAND"`: 10. 모두 `docs(03-06)`~`docs(03-08)` 커밋입니다.
+- 2(b). `.planning/` 밖에서 바뀌는 파일은 문서 셋뿐입니다: `.claude/CLAUDE.md`, `CLAUDE.md`, `README.md`. 셋 다 `_config.yml`의 `exclude`(또는 점으로 시작하는 폴더)라 사이트 출력에서 빠집니다.
+- 2(c). 범위 안에서 `.planning/` 밖을 바꾼 커밋(새 것부터)은 `629c2dfad614`(DOCS_README_SHA), `19dbbe78627c`(DOCS_CLAUDE_SHA) 둘이고, 둘 다 `PREV`의 조상이 아니고 `CAND`의 조상입니다(사이트 라이브 확인 뒤에 만든 커밋, D-21 ②).
+- 2(d). 검토 항목(막는 검사 아님): 범위 diff(`git diff -U0 "$PREV" "$CAND"`)의 더해진 줄 824줄에서 로컬 경로 꼴 두 가지(사용자 홈 아래 절대 경로, macOS 임시 폴더의 실제 경로)와 GitHub 토큰 꼴 두 가지를 찾았습니다. 걸린 줄은 0줄입니다.
+- 3. 실제 푸시 경로: `printf 'refs/heads/main %s refs/heads/main %s\n' "$CAND" "$PREV" | .githooks/pre-push`가 아래 줄로 통과하고 0으로 끝났습니다(작업 트리의 5항목 스크립트).
+
+```
+OK docs files 3
+OK docs commits after LIVE_SITE 19dbbe78627c 629c2dfad614
+review localpath=0 token=0
+check-site: 통과 (커밋 3f148e83d849, jekyll 3.10.0)
+```
+
+## 03-09 문서 푸시 라이브 확인
+
+DOCS_PUSH_SHA=3f148e83d849
+
+- 기록 시각: 2026-11-16. Task 2에서 사용자가 「push」로 답해 `DOCS_PUSH_CANDIDATE`(`3f148e83d849`) 하나의 푸시를 승인했습니다. 푸시 직전에 `git fetch -q origin main`으로 원격 main이 `DOCS_PUSH_PREV`(`2ebeca06ca51`) 그대로인 것을 확인했습니다.
+- 푸시: `git push origin "$(git rev-parse 3f148e83d849):refs/heads/main"`. pre-push 훅이 아래 줄로 통과했고 원격 main이 `2ebeca06ca51`에서 `3f148e83d849`로 나아갔습니다. `--no-verify`와 force push는 쓰지 않았습니다.
+
+```
+check-site: 통과 (커밋 3f148e83d849, jekyll 3.10.0)
+```
+
+배포 완료 확인: `gh api "repos/$SLUG/pages/builds/latest"`를 20초 간격으로 읽어 `.commit`이 푸시한 전체 해시, `.status`가 `built`, `.error.message`가 비어 있을 때 아래 줄을 만들었습니다(세 번째 읽기에서 `building`→`built`).
+
+OK 빌드 3f148e83d849 built 2026-11-16T18:10:08Z
+
+HTTP 확인(D-22): 네 경로를 `https://runningpencil.com<경로>?cb=3f148e83d849`로 받았습니다. 법적 세 문서는 `cdn.tailwindcss.com`·`tailwind.config`가 있는 줄 수를 함께 봤습니다. 기대 제목은 `scripts/check-site.sh` 15-18행 값입니다.
+
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 tailwind=0
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 tailwind=0
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 tailwind=0
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
+
+- 위 네 줄은 첫 실행자가 받은 결과입니다. 사용자 결정 뒤 이어받은 실행자가 2026-11-16T18:24Z 무렵 같은 쿼리로 다시 받은 결과도 네 줄과 같았습니다(200, 기대 제목, 법적 세 문서 Tailwind 0줄).
+
+`/CLAUDE.md`와 `/README.md`(같은 쿼리)는 404여야 합니다. 첫 실행자의 첫 읽기에서는 CDN 가장자리의 일시 503이 나와 그때는 FAIL로 적었습니다. 그 기록과 판정, 사용자 결정은 다음 구간 「03-09 503 판정과 사용자 결정」에 옮겨 두었습니다. 사용자 결정(404로 판정, 이어 가기) 뒤 이어받은 실행자가 두 경로를 각각 2초 간격으로 6번 다시 읽었고, 12번 모두 원 서버(`server: GitHub.com`)가 만든 404 응답이었습니다. 503은 0번, 200은 0번입니다.
+
+OK 404 /CLAUDE.md
+OK 404 /README.md
+
+빌드·HTTP 확인이 사용자가 정한 판정 규칙(다음 구간)으로 모두 OK입니다.
+
+LIVE_DOCS=OK
+
+## 03-09 503 판정과 사용자 결정
+
+- 기록 시각: 2026-11-16. 문서 푸시 뒤 첫 HTTP 확인에서 `/CLAUDE.md`·`/README.md`가 404 대신 503을 돌려준 일, 첫 실행자의 판정과 로컬 되돌리기, 오케스트레이터의 재측정, 사용자 결정을 적습니다. 첫 실행자가 「03-09 문서 푸시 라이브 확인」 구간에 적었던 내용을 지우지 않고 이 구간으로 옮겼습니다.
+
+첫 실행자의 첫 읽기 결과(그때 FAIL로 적은 두 줄을 그대로 옮김):
+
+- `FAIL 404 /CLAUDE.md code=503`
+- `FAIL 404 /README.md code=503`
+
+- 503 응답의 머리는 `server: Varnish`, `retry-after: 0`이고 본문은 GitHub의 「Unicorn!」 오류 페이지였습니다(CDN 가장자리가 원 서버 응답을 받지 못함). 같은 두 경로가 원 서버에서 답한 경우(`server: GitHub.com`)는 모두 404와 GitHub Pages 「Page not found」 본문이었습니다. 두 경로에서 200은 한 번도 없었습니다(내부 문서가 공개되지 않음).
+- 대조: 어떤 커밋에도 없던 경로(`/foo.md`, `/no-such.html`, `/zz3.md` 등)도 같은 방식으로 503과 404를 오갔습니다. `/no-such-page-xyz/`는 404였습니다. GitHub 상태 페이지(`githubstatus.com` 구성 요소 API)는 Pages가 operational이었습니다.
+- 첫 실행자는 미리 정한 규칙으로 한 번만 다시 쟀습니다(빌드 완료 약 5분 뒤, 18:15Z). 규칙은 「경로마다 10번 읽어 모두 404, 원 서버(`server: GitHub.com`) MISS가 하나 이상, 200은 0」이었습니다. 결과는 `/CLAUDE.md` 10번 가운데 503 2번(처음 두 번, `server: Varnish`)·404 8번, `/README.md` 10번 모두 404(원 서버 MISS 1번 포함)였습니다. 규칙을 채우지 못해 첫 실행자는 FAIL로 판정했습니다. 쿼리 문자열을 새로 붙인 읽기도 캐시 HIT로 돌아와, 쿼리로는 원 서버 응답을 강제하지 못했습니다(관찰).
+- 그래서 첫 실행자는 그때 `LIVE_DOCS=OK`를 쓰지 않았고, 계획의 `<rollback_procedure>` 1~2번을 로컬에서만 했습니다. 되돌리기 푸시는 하지 않았고, 따로 띄운 `checkpoint:decision`(gate="blocking-human", 선택지 `rollback-push`·`other`)으로 사용자에게 물었습니다.
+
+첫 실행자의 되돌리기(로컬에서만 했고 푸시하지 않음. 뒤에 사용자 결정으로 푸시하지 않고 제거됨):
+
+- 1. 되돌릴 커밋 `git log --format=%H 2ebeca06ca51..3f148e83d849 -- . ':(exclude).planning'`(새 것부터): `629c2dfad614`(DOCS_README_SHA), `19dbbe78627c`(DOCS_CLAUDE_SHA) 둘이었습니다. 로컬 main 위에서 차례로 되돌렸고 충돌은 없었습니다. 되돌림 커밋은 `641d7bfb7718`(README)와 `0e94067c885c`(두 CLAUDE.md)였고, 둘 다 푸시하지 않고 제거됨입니다. 커밋 제목은 저장소 규칙(Conventional Commits)에 맞춰 `revert(03-09): …`로 썼고, 본문에 `This reverts commit …` 줄을 남겼습니다.
+- 2. 그때 `scripts/check-site.sh HEAD` 통과, `git diff --quiet 2ebeca06ca51 HEAD -- . ':(exclude).planning'`가 0이었습니다(`.planning/` 밖 트리가 문서 푸시 전과 같음).
+- 그때 나갈 커밋 목록 `git log --oneline origin/main..main`은 되돌림 커밋 두 개뿐이었고, 그때 로컬 main 끝은 `0e94067c885c`였습니다. 지금은 아래 사용자 결정 2번으로 두 커밋이 없습니다.
+
+```
+check-site: 통과 (커밋 0e94067c885c, jekyll 3.10.0)
+OK tree same as 2ebeca06ca51 outside .planning
+0e94067 revert(03-09): CLAUDE.md 정적 CSS 전환 갱신(19dbbe78627c)을 되돌림
+641d7bf revert(03-09): README 푸시 전 점검 항목 갱신(629c2dfad614)을 되돌림
+```
+
+오케스트레이터의 재측정(사용자에게 묻기 직전, 경로마다 6번, 캐시를 우회하는 쿼리):
+
+- `/CLAUDE.md`: 404 6번.
+- `/README.md`: 404 6번.
+- 대조로 어떤 커밋에도 없던 경로 `/no-such-path-xyz.md`: 503, 503, 404, 404, 404, 404.
+- 세 법적 URL: 200.
+
+사용자 결정(선택지 `other`. `rollback-push`가 아님):
+
+- 1. 「404로 판정, 이어 가기」: 503은 GitHub Pages CDN 가장자리의 일시 오류(운영 환경)로 기록합니다. 문서 커밋과는 관계가 없습니다(어떤 커밋에도 없던 대조 경로도 같은 503을 받음). 원 서버는 언제나 404였고, 200은 0번이며, 재측정은 404였으므로 404 확인을 통과로 받아들입니다. 되돌리기 푸시는 하지 않고 배포도 더 하지 않습니다.
+- 2. 「reset --keep로 제거」: 푸시하지 않은 로컬 되돌림 커밋 두 개(`641d7bfb7718`, `0e94067c885c`)는 오케스트레이터가 `git reset --keep 3f148e83d849`로 지웠습니다(푸시하지 않고 제거됨). 그 뒤 로컬 main = 원격 main = `3f148e83d849`입니다. 작업 트리의 커밋되지 않은 변경(이 기록 등)은 그대로 남았고, 원격 이력은 건드리지 않았습니다.
+- 이 결정은 계획의 문자 그대로의 404 규칙(받은 응답이 404여야 함)과 D-23 되돌리기 규칙(FAIL이면 문서 커밋부터 되돌려 승인받아 푸시)에서 벗어나는, 사용자가 승인한 예외입니다.
+- 사용자가 정한 판정 규칙: 404 경로는 원 서버가 404로 답하고 200이 한 번도 없으면 OK입니다. 한 번 읽기의 일시 503은 실패가 아니며, 원 서버 404가 보일 때까지 짧은 간격으로 다시 읽습니다. 두 문서 경로에서 200이 한 번이라도 나오거나, 법적 URL이 200·기대 제목·Tailwind 0이 아니면 실제 FAIL입니다.
+
+이어받은 실행자의 재확인(「03-09 문서 푸시 라이브 확인」 구간의 `OK 404` 두 줄과 `LIVE_DOCS=OK`의 근거, 2026-11-16T18:24Z 무렵, `?cb=3f148e83d849`, 2초 간격):
+
+- `/CLAUDE.md`: 6번 읽어 404 6번, 503 0번, 200 0번. 모든 응답이 `server: GitHub.com`(원 서버가 만든 404가 캐시에서 나옴).
+- `/README.md`: 6번 읽어 404 6번, 503 0번, 200 0번. 모든 응답이 `server: GitHub.com`.
+- 세 법적 URL과 `/`: 200, 기대 제목, 법적 세 문서 Tailwind 0줄.
+
+## Phase 3 성공 기준 판정
+
+- 기록 시각: 2026-11-16. 단계의 모든 변경이 라이브에 올라간 최종 상태(원격 main `3f148e83d849`)에서 판정했습니다. 기준 문구는 `.planning/ROADMAP.md` §Phase 3 성공 기준 1~4를 그대로 옮겼고, ROADMAP은 고치지 않았습니다. 근거는 이 기록의 표식 줄과 구간을 가리킵니다.
+
+| 기준 | 판정 | 근거 |
+|---|---|---|
+| 1. 세 법적 문서의 HTML 소스와 브라우저 네트워크 요청 어디에도 `cdn.tailwindcss.com`이 없다 | 충족 | 「03-04 커밋 ③」의 `OK site tailwind=0`(빌드 HTML 0개 파일, 대조로 기준은 3개 파일)과 `JUDGE c3 OK`(`--no-cdn`: 18행 모두 Tailwind 요청 0건, HTML에 CDN 없음). 「03-04 check-site 5번 항목」의 `CHECK5=OK`(푸시 때마다 출력 HTML을 점검, 음성 대조로 커밋 ②에서 실패 확인). 라이브: 「03-06 사이트 푸시 라이브 확인」의 `OK HTTP … tailwind=0` 세 줄과 `JUDGE live OK`(`--no-cdn`), 「03-09 문서 푸시 라이브 확인」의 `OK HTTP … tailwind=0` 세 줄. D-22 문서 푸시 확인의 `/CLAUDE.md`·`/README.md` 404는 첫 읽기의 일시 503을 사용자 결정(선택지 `other`, 404로 판정)으로 처리했습니다(「03-09 503 판정과 사용자 결정」). 두 경로에서 200은 0번입니다 |
+| 2. 375·768·1280px에서 전환 전·후 캡처를 비교하면 줄 간격·테두리·여백·글자색·카드 모양이 같다 | 충족 | 「03-01 도구와 기준 캡처」의 `BASE_SELFDIFF=OK`(기준 두 번 캡처의 자기 차이 0)와 `JUDGE_NEG=OK`(한 픽셀 음성 대조가 FAIL). 커밋마다 `JUDGE c1 OK`, `JUDGE c1p OK`, `JUDGE c2 OK`, `JUDGE c3 OK`, `JUDGE nw OK`, 라이브 `JUDGE live OK`. 각 판정은 Chromium·WebKit × 375·768·1280px × 세 문서의 PNG 42장이 base1과 픽셀 0이고 hover·focus 24장이 유효(`STATES … ok=24 vacuous=0`) |
+| 3. 세 문서 본문에서 뽑은 텍스트가 전환 전과 같다(문장 변경 0) | 충족 | 렌더 텍스트(`article.innerText`) txt 18건이 base1과 같음: `judge.sh` c1·c2·c3·nw·live의 `PASS 0 diffs`와 `COUNT … txt=18`. 원본 텍스트: 「03-03 커밋 ②」의 `OK source text same 3`(태그를 지운 원본 텍스트 diff가 빈 출력) |
+| 4. 클래스 없는 시험용 표·목록·주석을 본문에 넣어 보면 별도 클래스 없이 카드 디자인에 맞게 보인다(이후 처리 위탁 표·FAQ·영문판이 같은 규칙을 씀) | 충족 | 「03-05 시험 본문」의 `SAMPLE=OK`(클래스 없는 표·`ol`·`ul`·중첩 목록·`dl`·`aside`·`footer`, 두 엔진 × 세 폭 `sample.mjs` PASS). 「03-05 시험 본문 승인」의 `SC4_DECISION=approved`와 `TABLE_WRAP=nowrap`(사용자 승인). 「03-05 표 머리 행 줄바꿈」의 `NOWRAP_PIXEL=OK`(후보 빌드 시험 본문이 승인 캡처와 바이트 같음 6/6). 실제 세 문서가 규칙을 지킴: `C2_CONTRACT=OK`. 규칙 기록(D-25): `DOCS_STALE=OK`(원본 맵 CONVENTIONS와 두 CLAUDE.md) |
+
+판정 범위 밖(이 표는 아래 항목을 판정하지 않았습니다. 단계 끝 검증의 사람 확인으로 넘깁니다):
+
+- 실제 Safari와 iOS Safari. 판정은 Playwright Chromium·WebKit으로만 했습니다.
+- 375·768·1280px 밖의 폭.
+- 고배율 화면. 캡처는 deviceScaleFactor 1로만 찍었습니다.
+- 화면 낭독기 발화(표 감싸개 `aria-label`, 표 읽기).
+- D-08: 넓은 표를 끝까지 민 뒤 그림자가 사라지는 것. `sample.mjs`는 스크롤 위치 0의 넘침만 확인합니다. 근거는 RESEARCH의 두 엔진 실측과 가정 A2입니다.
+- D-07: 실제 Safari·iOS Safari에서 표 감싸개 `figure`에 Tab으로 닿는 것. 근거는 Playwright WebKit 실측과 가정 A1입니다.
+
+함께 적는 확인:
+
+- 본문 작성 규칙: `C2_CONTRACT=OK`(「03-03 본문 작성 규칙 확인」, D-01~D-04를 세 문서가 지킴).
+- 문서 갱신: `DOCS_STALE=OK`(「03-08 CLAUDE.md와 README」, 열 개 문서에 Tailwind 흔적 0줄).
+- 두 번의 푸시(D-21)는 모두 사람이 SHA를 보고 승인했습니다: 사이트 푸시 `SITE_PUSH_SHA=2ebeca06ca51`(`LIVE_SITE=OK`), 문서 푸시 `DOCS_PUSH_SHA=3f148e83d849`(`LIVE_DOCS=OK`, 503 판정은 사용자 결정).
+
+PHASE3_SC=OK
