@@ -302,3 +302,96 @@ live-check: 통과
 - 테마 파일 `/assets/css/style.css` 200.
 - 관찰: 이번에도 네 문서의 바이트가 바뀌지 않았는데 `last-modified`가 새 배포 시각으로 올라갔습니다. RESEARCH A2가 두 번째 배포에서도 성립했습니다.
 - 출력의 `OK 404` 줄 순서가 02-02 기록과 다른 것은, live-check가 첫 회차에서 판정하지 못한 경로를 다음 회차에서 다시 확인해 그 순서로 출력하기 때문입니다. 판정에는 영향이 없습니다.
+
+## 02-04 법적 3종 전환
+
+메인 체크아웃에서 실행했습니다 (`git-dir`와 `git-common-dir`가 같음, `LIVE_PUSH1=OK` 확인). 전환 커밋은 세 개이고 모두 리팩터만 담습니다. 원격으로 푸시하지 않았습니다 (푸시 ②는 02-05). 비교는 스크래치 `compare.sh <BASE_SHA> <커밋>`이고, 커밋 전에는 지정 파일만 스테이징한 `git write-tree`로 같은 비교를 먼저 돌렸습니다.
+
+### 전환 1: 이용약관 (tracer)
+
+LEGAL_CONV_SHA_1=6994b6f27976
+
+- 커밋: `refactor(02-04): 이용약관을 legal 레이아웃과 헤더·푸터 include로 전환`. 파일 4개: `_layouts/legal.html`, `_includes/header.html`, `_includes/footer.html`, `terms/index.html`
+- 레이아웃은 기준 커밋의 `terms/index.html` 줄을 스크립트로 잘라 옮겨 만들었습니다. 기준 원본과 diff를 보면 바뀐 곳은 계획 line_map의 9곳뿐입니다 (title, description, noindex 감쌈, header include, eyebrow, h1, updated 감쌈, content, footer include).
+- 헤더 include는 원본 `:74-87`과 href 네 곳만 다르고, 푸터 include는 원본 `:174-197`과 같습니다. 두 파일 모두 끝 줄바꿈이 없습니다 (`tail -c 1 | wc -l` = 0).
+- 커밋 전 `compare.sh <BASE_SHA> <write-tree>` rc=0 (OK 5줄, 네 문서 바이트 동일), `scripts/check-site.sh`(작업 트리) 통과
+- 커밋 뒤 `compare.sh <BASE_SHA> <LEGAL_CONV_SHA_1>` rc=0:
+
+```
+OK   index.html (바이트 동일)
+OK   privacy-policy/index.html (바이트 동일)
+OK   terms/index.html (바이트 동일)
+OK   data-deletion/index.html (바이트 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 6994b6f27976
+```
+
+- `scripts/check-site.sh <LEGAL_CONV_SHA_1>` → `check-site: 통과 (커밋 6994b6f27976, jekyll 3.10.0)`
+- Tracer feedback gate: 대화형·`end-of-phase`·`<automated>`만 있는 verify라 Task 1 verify 세 명령을 커밋 뒤 다시 돌렸고 모두 exit 0이어서 Task 2로 넘어갔습니다 (checkpoint 없음).
+
+### 전환 2: 개인정보처리방침과 데이터 삭제 안내
+
+LEGAL_CONV_SHA_2=c13cf8a17b84
+FALSY_LAYOUT=OK
+
+- 전환 전 확인: 두 파일의 `:1-95`를 기준 커밋의 `terms/index.html`과 diff하면 `:8` title, `:9` description, `:92` eyebrow, `:93` h1 네 줄만 다릅니다. 닫는 구간(privacy-policy `:143-174`, data-deletion `:120-151`)은 terms `:169-200`과 같습니다. 레이아웃 하나로 세 문서를 그릴 수 있습니다.
+- 커밋: `refactor(02-04): 개인정보처리방침과 데이터 삭제 안내를 legal 레이아웃으로 전환`. 파일 2개: `privacy-policy/index.html`(본문 원본 `:96-142`), `data-deletion/index.html`(본문 원본 `:96-119`, `heading` 키 있음). 두 페이지 모두 `noindex: true`와 「임시 게시본」 문단을 페이지 파일에 둡니다.
+- 커밋 전 `compare.sh <BASE_SHA> <write-tree>` rc=0 (OK 5줄, 네 문서 바이트 동일)
+- 커밋 뒤 `compare.sh <BASE_SHA> <LEGAL_CONV_SHA_2>` rc=0:
+
+```
+OK   index.html (바이트 동일)
+OK   privacy-policy/index.html (바이트 동일)
+OK   terms/index.html (바이트 동일)
+OK   data-deletion/index.html (바이트 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 c13cf8a17b84
+```
+
+- `scripts/check-site.sh <LEGAL_CONV_SHA_2>` → `check-site: 통과 (커밋 c13cf8a17b84, jekyll 3.10.0)`
+- 이 커밋에서 푸터 마크업(`<footer class="rp-foot">`)이 있는 HTML은 `_includes/footer.html`과 아직 전환하지 않은 `index.html` 두 개뿐입니다.
+
+#### 값이 없을 때의 분기 (D-02 render-if-present)
+
+- 방법: `git archive`로 HEAD(`LEGAL_CONV_SHA_2`)를 저장소 밖 임시 폴더에 풀고, front matter가 `layout: legal`과 `title: "시험 페이지"`뿐인 `zz-falsy/index.html`(본문 한 줄)을 더한 뒤 메인 체크아웃 Gemfile로 `JEKYLL_ENV=production jekyll build --safe`. 저장소에는 아무것도 더하지 않았습니다.
+- 결과: 빌드 성공. 시험 페이지 출력에 robots 메타 줄이 없고, 「최종 업데이트」 줄이 없고, h1이 「시험 페이지」입니다. 빠진 자리에 빈 줄이나 붙은 줄이 생기지 않았습니다 (description 다음 줄이 바로 theme-color, h1 다음 줄이 바로 본문 컨테이너).
+- 출력 발췌 (`grep -n`, 행 번호는 시험 페이지 출력의 것):
+
+```
+8:    <title>시험 페이지 - 러닝펜슬</title>
+9:    <meta name="description" content="" />
+10:    <meta name="theme-color" content="#F2B134" />
+91:                <span class="text-sm font-bold tracking-[0.04em] text-accent"></span>
+92:                <h1 class="mt-3.5 text-[clamp(30px,6.5vw,42px)] font-black leading-[1.25] tracking-[-1px]">시험 페이지</h1>
+93:                <div class="mt-10 space-y-8 leading-[1.7] text-muted">
+94:<p>시험</p>
+```
+
+- description과 eyebrow는 값이 없으면 빈 문자열로 나옵니다 (`content=""`, 빈 `<span>`). 이 둘은 render-if-present 대상이 아니고, 레이아웃을 쓰는 새 페이지는 두 값을 채워야 합니다.
+
+### 전환 3: head 링크와 「공통」 CSS include
+
+LEGAL_CONV_SHA_3=8cf18dd40673
+CMP_LEGAL=OK
+
+- 커밋: `refactor(02-04): 법적 레이아웃의 head 링크와 「공통」 CSS를 include로 분리`. 파일 3개: `_includes/head-links.html`(기준 terms `:13-20`, 8줄), `_includes/css/common.css`(기준 terms `:37-64`, 28줄, 머리 주석 원본 그대로), `_layouts/legal.html`. 두 include 모두 끝 줄바꿈이 없습니다.
+- 레이아웃에서 두 블록은 기준 원본과 글자가 같은 블록을 한 번씩만 찾아 0열 include 태그로 바꿨습니다. 「공통」 CSS 뒤의 빈 줄은 레이아웃에 남아 「법적 페이지 전용」 CSS와 같은 `<style>` 안에서 이어집니다. 레이아웃은 include 네 개(head-links, css/common.css, header, footer)와 `{{ content | rstrip }}`를 모두 0열에서 부릅니다.
+- 이 커밋에서 HTML 가운데 Tailwind CDN 줄은 `_layouts/legal.html`에만 있고(옮기기만 함, 제거는 Phase 3), head 링크(`rel="manifest"`)와 「공통」 머리 주석은 include와 아직 전환하지 않은 `index.html`에만 있습니다. `_layouts`에는 `legal.html`만 있고 `.editorconfig`·`.nojekyll`은 없습니다.
+- 커밋 전 `compare.sh <BASE_SHA> <write-tree>` rc=0 (OK 5줄, 네 문서 바이트 동일)
+- 커밋 뒤 `compare.sh <BASE_SHA> <LEGAL_CONV_SHA_3>` rc=0:
+
+```
+OK   index.html (바이트 동일)
+OK   privacy-policy/index.html (바이트 동일)
+OK   terms/index.html (바이트 동일)
+OK   data-deletion/index.html (바이트 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 8cf18dd40673
+```
+
+- `scripts/check-site.sh <LEGAL_CONV_SHA_3>` → `check-site: 통과 (커밋 8cf18dd40673, jekyll 3.10.0)`
+- 이 계획의 커밋은 `index.html`을 바꾸지 않았습니다 (`git diff --quiet <BASE_SHA> HEAD -- index.html` 참). 원격 main은 `PUSH1_SHA`(`d5a6679631d7`) 그대로입니다 (푸시하지 않음).
+
+### 성공 기준 1 (법적 쪽) 판정
+
+- 세 전환 커밋(`LEGAL_CONV_SHA_1`·`_2`·`_3`) 모두 기준과 네 문서 D-07 diff 0, `_site` 파일 목록 동일(11개). 세 커밋 모두 정규화 동일을 넘어 **바이트 동일**입니다 (출력 주석 포함, D-05).
