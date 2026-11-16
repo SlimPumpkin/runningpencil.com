@@ -40,7 +40,7 @@ JUDGE_NEG=OK
 - 스크립트: `capture.mjs`·`diff.mjs`·`states.mjs`·`report.mjs`는 `03-RESEARCH.md` 원문을 그대로 옮겼습니다. `sample.mjs`는 원문에 다섯 가지(실패 시 종료 코드 1, `th`·`dt` 확인, 375px 넓은 표 넘침 확인, 사이트 바닥글 테두리 0 확인)를 더했습니다.
 - 판정 도구: `$W/judge.sh <이름> [--no-cdn]`이 `$W/cap/base1`과 비교합니다. 개수(PNG 42·hover·focus 24·txt 18·`report.json`) → `diff.mjs` → `states.mjs` → `report.mjs`를 모두 돌리고 마지막 줄에 `JUDGE <이름> OK|FAIL`을 찍습니다.
 - 기준 캡처: `BASE_SHA` 빌드(`$W/base`)를 4101에 띄워 `$W/cap/base1`, `$W/cap/base2`를 차례로 찍었습니다(Chromium·WebKit × 375·768·1280 × 세 문서, deviceScaleFactor 1). 찍기 직전 CDN 리디렉션은 아래와 같았습니다.
-- hover·focus 캡처는 처리방침·이용약관 두 문서에서 나옵니다(삭제 안내 본문에는 링크가 없음). 2엔진 × 3폭 × 2문서 × 2상태 = 24장이고, 모두 기본 캡처와 793~853픽셀 달랐습니다.
+- hover·focus 캡처는 처리방침·이용약관 두 문서에서 나옵니다(삭제 안내 본문에는 링크가 없음). 2엔진 × 3폭 × 2문서 × 2상태 = 24장이고, `base2`에서 모두 기본 캡처와 793~852픽셀 달랐습니다.
 
 ```
 CDN location: /3.4.17
