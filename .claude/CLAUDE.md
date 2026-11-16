@@ -8,7 +8,7 @@
 | 지원 이메일 공개 | Phase 5 이메일 게이트(외부 4곳 수신 시험 통과) 뒤. 푸터, `/support/`, 법적 문서 | 결정됨. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 사이트(HTML·`_data`)에는 아직 없고 `.planning/` 문서에만 있습니다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있습니다 | Google Play 웹 삭제 요청, App Store Support URL, 처리방침의 보호책임자 연락처에 연락 수단이 필요합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/USER-TASKS.md` |
 | 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | 결정됨. 값은 사용자가 주기 전이라 어디에도 없습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present) | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
 | 한국어 + 영어 제공 | Phase 9 (`/en/` 아래 영문판) | 결정됨. 현재 페이지는 모두 한국어(`lang="ko"`)입니다 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/URLS.md` |
-| Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | 결정됨. 현재는 빌드 없이 공통 블록을 네 파일에 복사하고 `python3 -m http.server`로 미리 봅니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
+| Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 2 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다. Phase 3(Tailwind CDN을 정적 CSS로)은 남았습니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
 | 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 현재 랜딩과 법적 문서 본문에는 남아 있습니다 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
 | 법적 페이지 `noindex` 해제와 「임시 게시본」 문구 삭제 | Phase 6 (삭제 안내), Phase 7 (처리방침), Phase 8 (이용약관). 각 문서를 다시 쓰는 커밋에서 | 결정됨 (U14). 현재 세 문서에 `noindex`와 「임시 게시본」 표시가 있습니다 | 미완성 사이트로 보이면 심사에서 반려될 수 있습니다 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 6·7·8 Notes |
 
@@ -57,45 +57,50 @@
 ## Languages
 
 - HTML5 - 모든 페이지 (`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`), `<html lang="ko">`
-- CSS - 각 HTML의 `<head>` 내 `<style>` 한 블록(「공통」 + 「랜딩 전용」/「법적 페이지 전용」) 및 인라인 `style`
+- CSS - 각 페이지 `<head>` 내 `<style>` 한 블록(「공통」 + 「랜딩 전용」/「법적 페이지 전용」) 및 인라인 `style`. 「공통」 묶음은 include(`_includes/css/common.css`)로 `<style>` 안에 인라인되고, 「법적 페이지 전용」은 `_layouts/legal.html`의 `<style>`에 있다
 - JavaScript (vanilla, 라이브러리 없음) - `index.html`의 `<head>` 짧은 스크립트(`rp-pin` 부여)와 `</body>` 앞 인라인 스크립트(스크롤 단계, 달려 보기 데모, `rp-ready`)
 - SVG (인라인) - 로고·아이콘·지도 그림, `index.html` `<body>` 맨 위 숨은 `<svg><defs>` + `<use href="#…">`; `favicon/favicon.svg`
-- YAML - `_config.yml` (Jekyll 설정)
+- YAML - `_config.yml` (Jekyll 설정)과 페이지 front matter (랜딩 `layout: none`, 법적 3종 `layout: legal` + 제목·설명 등)
 - JSON - `favicon/site.webmanifest`
 
 ## Runtime
-
-- 브라우저만 (서버 측 런타임 없음). GitHub Pages가 정적 파일을 그대로 서빙
-- 로컬 미리보기: `python3 -m http.server 8000` (저장소 루트를 서버 루트로; `file://`는 절대 경로 때문에 깨짐)
-- 없음 (`package.json`, lockfile 없음)
-- Lockfile: missing (해당 없음)
-
+- 브라우저만 (서버 측 런타임 없음). GitHub Pages가 배포할 때 Jekyll로 한 번 빌드한 정적 파일을 서빙
+- 로컬 빌드·미리보기: `bundle exec jekyll serve --livereload` (http://localhost:4000). 운영과 같은 Jekyll 3.10.0을 `Gemfile`로 고정하고, gem은 저장소 안 `vendor/bundle`에 둔다 (`bundle config set --local path vendor/bundle`, `.bundle/config`에 기록). `file://`로 직접 열면 절대 경로 때문에 깨진다
+- 이 미리보기는 응답에 livereload 스크립트를 끼우므로 운영 출력과 같지 않다. 운영 출력과 비교하거나 푸시 전에 점검할 때는 `scripts/check-site.sh`(production·`--safe` 빌드)를 쓴다
+- Bundler (로컬 빌드 전용 Ruby gem). `package.json`은 없다
+- Lockfile: `Gemfile.lock` (커밋함, `CHECKSUMS` 포함). 운영(GitHub Pages)은 이 lock을 쓰지 않고 자체 github-pages gem 세트로 빌드한다
 ## Frameworks
 
 - 없음 - 랜딩(`index.html`)은 프레임워크·Tailwind 미사용, 순수 CSS
 - Tailwind CSS (CDN 런타임/Play CDN, 버전 고정 없음) - 법적 페이지 3종 본문 스타일. `<script src="https://cdn.tailwindcss.com">` + 인라인 `<script id="tailwind-config">`의 `tailwind.config` 토큰(`ink`, `accent`, `muted`, `muted-2`, `line`)
 - Not detected
-- 빌드 도구 없음 (no bundler, no linter, no formatter)
-- Jekyll (GitHub Pages 내장) - 배포 시 한 번 거침, `_config.yml`의 `exclude`만 사용
-
+- Jekyll (GitHub Pages 내장, 운영 3.10.0, Liquid 4.0.4) - 배포할 때 `_layouts/legal.html`과 `_includes/`로 페이지를 조립한다. 로컬도 `Gemfile`로 같은 버전을 쓴다
+- 린터·포매터·테스트 러너는 없다 (no linter, no formatter, no test runner)
+- 푸시 전 점검: `scripts/check-site.sh`. `.githooks/pre-push`가 `main`으로 가는 푸시마다 부른다
 ## Key Dependencies
 
 - Pretendard Variable `v1.3.9` (dynamic subset) - 네 페이지 공통 글꼴
 - Tailwind CSS Play CDN - `https://cdn.tailwindcss.com` (버전 미고정, 법적 페이지 3종만). 프로덕션 비권장 방식, `@apply` 불가
+- `jekyll = 3.10.0` - 운영과 같은 버전 고정. github-pages gem은 로컬 Ruby 4.x에 설치되지 않아 쓰지 않는다
+- `kramdown-parser-gfm`
+- `webrick` - `jekyll serve`용 서버
+- `csv`, `base64`, `bigdecimal`, `logger` - Ruby 4에서 기본 gem이 아니게 된 표준 라이브러리
 - GitHub Pages + 사용자 지정 도메인(`CNAME`: `runningpencil.com`)
 
 ## Configuration
 
 - 환경변수·`.env` 없음 (서버 처리 없음)
 - 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 법적 페이지는 `<meta name="robots" content="noindex">`
-- `_config.yml` - `exclude: [CNAME, CLAUDE.md, README.md, .planning/]`. 새 마크다운 문서 추가 시 여기에도 등록
+- `_config.yml` - `url: "https://runningpencil.com"`과 열 항목 `exclude`(`CNAME`, `CLAUDE.md`, `README.md`, `.planning/`, `Gemfile`, `Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 사용자 `exclude`는 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 새 마크다운 문서나 루트 파일·폴더는 여기에 모두 적는다
+- `Gemfile` / `Gemfile.lock` - 로컬 빌드용 gem 고정 (위 「로컬 빌드 전용 gem」)
+- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음)
+- `.githooks/pre-push` - `main` 푸시마다 `scripts/check-site.sh`를 부른다. 켜기: `git config core.hooksPath .githooks` (클론마다 한 번)
 - `CNAME` - `runningpencil.com`
-- `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시)
+- `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시), Jekyll 로컬 빌드 산출물과 gem 위치 `_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`
 - `favicon/site.webmanifest` - name/short_name `러닝펜슬`, `display: standalone`, `theme_color`/`background_color` `#F2B134`, maskable 192/512 아이콘
 
 ## Platform Requirements
-
-- 텍스트 에디터 + 정적 서버(`python3 -m http.server`) + 인터넷(CDN 글꼴·Tailwind)
+- Homebrew Ruby 4.x + Bundler (`bundle install`), 텍스트 에디터, 인터넷(CDN 글꼴·Tailwind). macOS 시스템 Ruby 2.6은 쓰지 않는다
 - 아이콘 재생성 시 `rsvg-convert` 등 (8배 렌더 후 8×8 평균 축소)
 - GitHub Pages (조직 `SlimPumpkin` 프로젝트 사이트), `main` 푸시 = 배포. 절대 경로(`/favicon/...`, `/terms/`)는 커스텀 도메인 연결을 전제
 
@@ -111,7 +116,7 @@
 
 - 페이지마다 디렉터리 하나에 `index.html` 하나를 둔다 (pretty URL): `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`. 디렉터리 이름은 kebab-case 영어로 쓴다.
 - 에셋은 `favicon/` 아래에 kebab-case와 크기 접미사로 둔다: `favicon-96x96.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`.
-
+- include는 `_includes/` 아래 kebab-case `.html`로 두고 (`head-links.html`, `header.html`, `footer.html`), CSS 조각은 `_includes/css/*.css`로 둔다 (`_includes/css/common.css`). 레이아웃은 `_layouts/legal.html` 하나다. 레이아웃 이름에 `default`·`page`·`home`·`post`를 쓰지 않는다 (운영 테마의 레이아웃과 충돌한다).
 ### CSS classes
 
 - 직접 만든 클래스에는 모두 `rp-` 접두사를 붙이고 kebab-case로 쓴다: `.rp-wrap`, `.rp-head-in`, `.rp-brand-tile`, `.rp-foot-legal`, `.rp-scrolly`, `.rp-phone`, `.rp-grid`.
@@ -124,8 +129,7 @@
 - 스크립트가 찾는 요소의 id는 `rp-` + 영역 + 역할로 쓴다: `rp-run-dot`, `rp-run-pct`, `rp-demo-prog`, `rp-demo-done`, `rp-run-btn`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`. 예외로 구간 앵커 id는 짧은 영어 단어로 쓴다: `story`, `demo`, `get`, `top`.
 - SVG `<defs>` 심볼 id: 아이콘은 `rp-i-*` (`#rp-i-play`, `#rp-i-replay`), 코스 선은 `rp-c-*` (`#rp-c-dog`).
 - 반복 요소에는 인덱스 data 속성을 쓴다: 내용은 `data-step="0..2"`, 버튼은 `data-go="0..2"`.
-- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 495행)의 인라인 스크립트도 반드시 같이 고친다.
-
+- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 428행)의 인라인 스크립트도 반드시 같이 고친다.
 ### JS functions / variables
 
 - 함수와 변수는 camelCase로 쓰고 함수 이름은 동사로 시작한다: `setStep`, `goStep`, `paintStory`, `paintDemo`, `setRun`, `startRun`, `syncLive`, `moveTo`, `setText`, `settle`. 작은 순수 유틸은 명사형도 쓴다: `clamp01`, `twoDigits`, `clock`, `reduced`.
@@ -143,17 +147,13 @@
 - JS 문자열은 작은따옴표, HTML 속성은 큰따옴표로 쓴다.
 
 ### Linting
-
-- 린터 없음. CLAUDE.md의 "커밋 전 린터 실행" 규칙은 이 저장소에는 적용할 도구가 없으므로, 대신 로컬 미리보기 확인으로 갈음한다 (`TESTING.md` 참고).
-
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 넷이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음. `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 ## CSS / Styling Patterns
 
 ### `<style>` 블록 구획 (주석 머리 `/* ── 이름 ── */`)
-
-- 「공통」 — 네 페이지가 **똑같이 복사**하는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 고칠 때는 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html` 네 파일을 함께 고친다.
+- 「공통」 — 네 페이지가 함께 쓰는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 이 묶음은 `_includes/css/common.css` 한 곳에 있고, 랜딩(`index.html`)과 legal 레이아웃(`_layouts/legal.html`)의 `<style>` 안에서 `{% include css/common.css %}`로 인라인된다. 고칠 때는 그 파일만 고친다.
 - 「랜딩 전용」 — `index.html`에만 있다. 새 랜딩 스타일은 여기에 넣는다.
-- 「법적 페이지 전용」 — 법적 페이지 3종에 있다 (`.rp-grid` 모눈종이 바탕 등).
-
+- 「법적 페이지 전용」 — `_layouts/legal.html`의 `<style>`에 있고 법적 페이지 3종이 함께 쓴다 (`.rp-grid` 모눈종이 바탕 등).
 ### 반응형
 
 - 고정 breakpoint 대신 유동 수치를 먼저 쓴다: `padding-left: clamp(20px, 5vw, 64px)`, `padding: clamp(40px, 5vw, 64px) 0`.
@@ -194,9 +194,8 @@
 
 - meta (charset, viewport, title, description, `theme-color`, 법적 페이지는 `robots noindex`)
 - 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
-- Pretendard 글꼴 `<link>` (jsDelivr `orioncactus/pretendard@v1.3.9`, 네 페이지 같은 줄)
-- 파비콘·매니페스트 `<link>` (`/favicon/...`)
-- (법적 페이지) Tailwind CDN + `<script id="tailwind-config">`
+- `{% include head-links.html %}` (Pretendard 글꼴 `<link>`와 파비콘·매니페스트 링크 8줄. jsDelivr `orioncactus/pretendard@v1.3.9`, `/favicon/...`)
+- (법적 페이지) Tailwind CDN + `<script id="tailwind-config">` — 두 블록 모두 `_layouts/legal.html`에 있다
 - `<style>`
 
 ### Path Aliases
@@ -240,7 +239,7 @@
 
 ## Module Design
 - **Exports:** 없음. 페이지마다 스크립트·스타일은 그 HTML 안에만 있다 (외부 `.js`/`.css` 파일 없음).
-- **Shared code:** 현재는 빌드가 없어 공통 템플릿을 쓸 수 없다 (2026-11 기준, Phase 2까지 유효). Phase 2에서 Jekyll 공유 셸(`_includes`·`_layouts`)로 한 곳에 모은다. 공통 `<head>` 링크, 「공통」 CSS, 헤더·푸터 마크업은 네 파일에 **복사**한다. 다른 점은 링크 주소뿐이다 (랜딩 `#top`·`#story`·`#demo`·`#get`, 법적 페이지 `/`·`/#story`·`/#demo`·`/#get`).
+- **Shared code:** Jekyll 공유 셸(Phase 2 적용됨). 공통 블록은 include 네 개(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`)와 레이아웃 `_layouts/legal.html`에 한 벌씩 있다. 랜딩은 front matter `layout: none`에 include 네 줄을 쓰고, 법적 3종은 `layout: legal`과 front matter로 그려진다. 법적 페이지 front matter 키는 `layout`·`title`·`description`·`eyebrow`·`heading`·`updated`·`noindex`다 (`heading`이 없으면 `title`을 쓰고, `updated`·`noindex`는 값이 있을 때만 출력한다).
 - **SVG:** 모든 그림은 인라인 SVG다. 랜딩에서 두 번 이상 쓰는 도형은 `<body>` 맨 위 숨은 `<svg><defs>`에 두고 `<use href="#rp-...">`로 쓴다. 법적 페이지에는 `<defs>`가 없으므로 로고를 그 자리에 그대로 넣는다. 외부 이미지 파일을 쓰지 않는다.
 ## Content & Naming Rules
 - 현재 페이지는 모두 `<html lang="ko">`이고 본문은 한국어다 (2026-11 기준). Phase 9에서 `/en/` 아래에 영문판(`lang="en"`)이 생기고, 그 뒤로는 한국어와 영어를 함께 제공한다.
@@ -249,14 +248,12 @@
 - 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 이메일 게이트(Phase 5) 뒤 공개하는 지원 이메일 하나로 한다. 현재는 문의 채널이 없다 (2026-11 기준).
 - 현재 사이트에는 지원 이메일이 없다 (2026-11 기준). 이메일 게이트(Phase 5: 외부 4곳 수신 시험 통과)가 열리면 지원 이메일을 푸터, 지원 페이지, 법적 문서에 넣는다. 그전에는 주소를 HTML·`_data`에 넣지 않는다. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)이고, 사이트(HTML·`_data`)에는 없고 `.planning/` 문서에만 있다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있다. HTML·`_data`에 넣지 않는 규칙은 사이트 노출만 막는다.
 - 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
-- 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다.
-
+- 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다. 마크다운 문서뿐 아니라 사이트에 올리지 않을 새 루트 파일·폴더도 `exclude`에 적는다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰기 때문이다.
 ## Commit Messages
 - Conventional Commits, prefix는 영어, 제목은 한국어 (`git log`). 예는 아래 두 줄이다.
 - 예: `feat: 티저 랜딩 새 디자인 적용, 법적 페이지·파비콘 개편`
 - 예: `feat: RunningPencil 티저 사이트 초기 구성`
-- `main` 푸시가 곧 배포이므로 커밋 전에 로컬 미리보기로 확인한다.
-
+- `main` 푸시가 곧 배포이므로 푸시 전에 `scripts/check-site.sh`가 통과해야 한다 (pre-push 훅이 자동 실행).
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
@@ -264,9 +261,10 @@
 ## Architecture
 
 ## System Overview
-- 호스팅: GitHub Pages가 Jekyll을 한 번 거쳐 정적 파일을 그대로 서빙한다 (`_config.yml`의 `exclude`만 씀). 커스텀 도메인은 `CNAME` → runningpencil.com.
+- 호스팅: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 `_layouts`·`_includes`로 페이지를 조립해 정적 파일로 서빙한다. `_config.yml`은 `url`과 `exclude`를 둔다. 커스텀 도메인은 `CNAME` → runningpencil.com.
 - 페이지 4개: 티저 랜딩 `index.html` (vanilla CSS + inline JS), 개인정보처리방침 `privacy-policy/index.html`, 이용약관 `terms/index.html`, 데이터 삭제 안내 `data-deletion/index.html`. 법적 페이지 3종은 Tailwind CDN runtime + 공통 `.rp-*` CSS.
-- 복사로 공유: 네 페이지가 `<head>` 글꼴/파비콘 링크, 「공통」 CSS, 헤더·푸터 마크업을 복사해서 같이 쓴다.
+- include로 공유: 네 페이지가 `_includes/head-links.html`(글꼴·파비콘 링크), `_includes/css/common.css`(「공통」 CSS), `_includes/header.html`(랜딩은 `home=true`), `_includes/footer.html`을 부른다. 법적 3종은 `_layouts/legal.html` + front matter로 그려지고, 랜딩은 `layout: none`에 include 네 줄을 쓴다.
+- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
 - 외부 CDN: Pretendard (jsDelivr) · Tailwind (`cdn.tailwindcss.com`, 법적 페이지만).
 - 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`).
 ## Component Responsibilities
@@ -274,21 +272,23 @@
 | Component | Responsibility | File |
 |-----------|----------------|------|
 | 랜딩 페이지 | 히어로·세 가지 이유(`#story`)·달려 보기(`#demo`)·출시 안내(`#get`) | `index.html` |
-| Pre-paint 스크립트 | 첫 그리기 전에 `<html>`에 `rp-pin` 부여 | `index.html:26-29` |
-| 「공통」 CSS 묶음 | 바탕·글꼴·`.rp-wrap`·헤더(`.rp-head`,`.rp-brand`,`.rp-nav`)·푸터(`.rp-foot-*`) | `index.html:31-58` (법적 페이지 각 `<style>` 상단에 동일 복사) |
-| 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 반응형 | `index.html:60-146` |
-| SVG 심볼 라이브러리 | 코스 path(`rp-c-*`), 지도(`rp-map-seoul`), 로고(`rp-logo`), 아이콘(`rp-i-*`), 히어로 캐릭터(`rp-t-*`) | `index.html:152-182` |
-| 랜딩 동작 스크립트 | story 단계/진행도, demo 런 애니메이션, 해시 정착, `rp-ready` | `index.html:495-650` |
-| Tailwind 토큰 | `ink`/`accent`/`muted`/`muted-2`/`line` | `terms/index.html:21-34` (`<script id="tailwind-config">`, 3개 법적 페이지 공통) |
-| 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `terms/index.html:69` (「법적 페이지 전용」) |
-| Jekyll 제외 설정 | 저장소 문서가 사이트에 공개되지 않게 함 | `_config.yml` |
-
+| Pre-paint 스크립트 | 첫 그리기 전에 `<html>`에 `rp-pin` 부여 | `index.html:22-25` |
+| head 링크 | Pretendard 글꼴 `<link>`, 파비콘·매니페스트 링크 (네 페이지 공통) | `_includes/head-links.html` (`index.html:21`, `_layouts/legal.html:15`에서 include) |
+| 「공통」 CSS 묶음 | 바탕·글꼴·`.rp-wrap`·헤더(`.rp-head`,`.rp-brand`,`.rp-nav`)·푸터(`.rp-foot-*`) | `_includes/css/common.css` (`index.html:27`, `_layouts/legal.html:32`의 `<style>` 안에서 include) |
+| 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`) | `_includes/header.html` (`index.html:153`은 `home=true`, `_layouts/legal.html:42`) |
+| 푸터 | 약관 링크 3개, 운영 안내, 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html:426`, `_layouts/legal.html:59`) |
+| 법적 레이아웃 | 법적 3종의 `<head>`·카드 머리(eyebrow·제목)·본문 틀. `noindex`·`updated`는 값이 있을 때만 출력, 제목은 `heading`이 없으면 `title` | `_layouts/legal.html` |
+| 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 반응형 | `index.html:29-115` |
+| SVG 심볼 라이브러리 | 코스 path(`rp-c-*`), 지도(`rp-map-seoul`), 로고(`rp-logo`), 아이콘(`rp-i-*`), 히어로 캐릭터(`rp-t-*`) | `index.html:121-151` |
+| 랜딩 동작 스크립트 | story 단계/진행도, demo 런 애니메이션, 해시 정착, `rp-ready` | `index.html:428-583` |
+| Tailwind 토큰 | `ink`/`accent`/`muted`/`muted-2`/`line` | `_layouts/legal.html:16-30` (`<script id="tailwind-config">`, 3개 법적 페이지 공통) |
+| 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `_layouts/legal.html:37` (「법적 페이지 전용」, 34-37행) |
+| Jekyll 설정 | 사이트 정식 주소 `url`, 저장소 문서·빌드 파일이 사이트에 공개되지 않게 하는 열 항목 `exclude` | `_config.yml` |
+| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음 | `scripts/check-site.sh` + `.githooks/pre-push` |
 ## Pattern Overview
-- **Overall:** Build-less 정적 멀티 페이지 사이트 (self-contained HTML per page)
-
+- **Overall:** 빌드 시점 조립(Jekyll include·레이아웃) 정적 멀티 페이지 사이트. 런타임 서버 없음. 페이지별 스크립트·스타일은 여전히 그 HTML 안에 인라인이다
 ### Key Characteristics
-
-- 페이지마다 HTML·CSS·JS가 한 파일 안에 완결됨. 공통 템플릿·include 없음 → 공유 부분은 수동 복사.
+- 공통 블록(head 링크, 「공통」 CSS, 헤더, 푸터)은 include 네 개에 한 벌씩 있고, 법적 3종의 틀은 `_layouts/legal.html` 하나에 있다. 페이지 파일에는 그 페이지만의 내용(랜딩 마크업·CSS·JS, 법적 문서 본문과 front matter)만 있다.
 - 랜딩은 라이브러리 없는 vanilla JS IIFE 하나, 상태는 클래스 토글과 CSS custom property로 DOM에 반영.
 - 시각 자산은 전부 인라인 SVG. 반복 도형은 숨은 `<svg><defs>` + `<use href="#…">`.
 - 진행형 애니메이션은 JS가 CSS 변수(`--q0..2`)만 쓰고, 그림은 `calc()`/`clamp()`로 스스로 반응(선언적 렌더링).
@@ -298,87 +298,90 @@
 ### Markup (구조)
 
 - Purpose: 섹션·폰 목업·SVG 그림
-- Location: `index.html:150-494`, 각 법적 페이지 `<body>`
+- Location: `index.html:119-427`, 각 법적 페이지 본문(`_layouts/legal.html`의 `content` 자리). 헤더·푸터 마크업과 그 안의 로고는 `_includes/header.html`·`_includes/footer.html`
 - Depends on: `<defs>` 심볼, CSS 클래스
 - Used by: 스크립트(id/data 속성 계약)
 
 ### Style (표현)
 
 - Purpose: 「공통」 → 「랜딩 전용」 또는 「법적 페이지 전용」 + 인라인 `style`
-- Location: 각 파일 `<head>`의 `<style>`; 법적 페이지 본문은 Tailwind 유틸리티 클래스
+- Location: 「공통」은 `_includes/css/common.css`, 「랜딩 전용」은 `index.html`의 `<style>`, 「법적 페이지 전용」은 `_layouts/legal.html`의 `<style>`; 법적 페이지 본문은 Tailwind 유틸리티 클래스
 - Depends on: `<html>` 상태 클래스(`rp-pin`, `rp-ready`), `#story`의 `--q*` 변수, `is-on`/`is-s*`
 
 ### Behavior (동작, 랜딩만)
 
 - Purpose: 스크롤 → 단계/진행도, demo 버튼 → 7초 rAF 애니메이션
-- Location: `index.html:495-650`
+- Location: `index.html:428-583`
 - Depends on: id·속성 계약 (아래 참고)
 
 ## Data Flow
 
 ### Story 스크롤 고정 (`#story`)
-- `<head>` 스크립트가 reduced-motion 아님 && `innerHeight <= 2400`이면 `rp-pin` 추가 (`index.html:28`) → CSS가 `.rp-scrolly`를 340vh, `.rp-stage`를 `position: sticky`로 바꿈 (`index.html:97-115`)
-- `scroll` 이벤트(passive) → rAF 스로틀 → `paintStory()` (`index.html:621-624`)
-- `paintStory()`가 `#story`의 `getBoundingClientRect()`로 f∈[0,3) 계산, `step = floor(f)`, 단계별 진행도 q 산출 (`index.html:552-571`)
-- `story.style.setProperty('--q0'|'--q1'|'--q2')` (`index.html:563-565`) → `stroke-dashoffset: calc(1000px * (1 - var(--q0)))`, 번호 점 `opacity: clamp(...)`, 진행 바 `width: calc(var(--q1) * 100%)` 등이 반응 (`index.html:325-391`)
+- `<head>` 스크립트가 reduced-motion 아님 && `innerHeight <= 2400`이면 `rp-pin` 추가 (`index.html:24`) → CSS가 `.rp-scrolly`를 340vh, `.rp-stage`를 `position: sticky`로 바꿈 (`index.html:66-84`)
+- `scroll` 이벤트(passive) → rAF 스로틀 → `paintStory()` (`index.html:551-554`)
+- `paintStory()`가 `#story`의 `getBoundingClientRect()`로 f∈[0,3) 계산, `step = floor(f)`, 단계별 진행도 q 산출 (`index.html:485-505`)
+- `story.style.setProperty('--q0'|'--q1'|'--q2')` (`index.html:496-498`) → `stroke-dashoffset: calc(1000px * (1 - var(--q0)))`, 번호 점 `opacity: clamp(...)`, 진행 바 `width: calc(var(--q1) * 100%)` 등이 반응 (`index.html:281-347`)
 - `--q1`로 `#rp-run-dot`을 `getPointAtLength`로 이동, `#rp-run-pct/-dist/-time` 텍스트 갱신
-- 단계 변경 시 `setStep(i)` → `[data-step]`에 `is-on`, `[data-go]`에 `is-on`+`aria-pressed`, `#rp-panel.className = 'rp-panel is-s' + i` (`index.html:535-544`)
-- 단계 버튼 클릭 → `goStep(i)`: pin 상태면 해당 위치로 smooth scroll, 아니면 바로 `setStep` (`index.html:574-582`)
-- `resize` → `syncLive()`가 `rp-pin`을 재판정·토글 (`index.html:547-549`)
+- 단계 변경 시 `setStep(i)` → `[data-step]`에 `is-on`, `[data-go]`에 `is-on`+`aria-pressed`, `#rp-panel.className = 'rp-panel is-s' + i` (`index.html:467-476`)
+- 단계 버튼 클릭 → `goStep(i)`: pin 상태면 해당 위치로 smooth scroll, 아니면 바로 `setStep` (`index.html:507-515`)
+- `resize` → `syncLive()`가 `rp-pin`을 재판정·토글 (`index.html:479-482`)
 ### Demo 런 (`#demo`)
-- `#rp-run-btn` 클릭 → `startRun()` (`index.html:604-614`)
+- `#rp-run-btn` 클릭 → `startRun()` (`index.html:533-544`)
 - 7000ms rAF 루프에서 `paintDemo(t)`: `#rp-demo-prog`의 `stroke-dashoffset`, `#rp-demo-dot` 위치, 퍼센트/거리(KM=8.3)/시간 텍스트
-- 상태 `idle → running → done`; `setRun()`이 `#rp-run-label` 문구, `#rp-run-icon`의 `href`(`#rp-i-play`↔`#rp-i-replay`), `#rp-demo-done`의 `is-on` 토글 (`index.html:597-602`)
+- 상태 `idle → running → done`; `setRun()`이 `#rp-run-label` 문구, `#rp-run-icon`의 `href`(`#rp-i-play`↔`#rp-i-replay`), `#rp-demo-done`의 `is-on` 토글 (`index.html:526-531`)
 ### 초기 정착 & `rp-ready`
-- 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:625-627`)
-- `load`와 `document.fonts.ready`에서 `settle()` → 사용자 입력(wheel/touch/key/mouse) 전까지 대상으로 `scrollIntoView({behavior:'instant'})` (`index.html:630-637`)
-- `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (`index.html:62`, `:636`)
-- reduced-motion이면 `#rp-hero-art` SMIL 정지, `#rp-sketch`는 6.6s 지점에서 정지 (`index.html:643-647`)
-
+- 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:558-560`)
+- `load`와 `document.fonts.ready`에서 `settle()` → 사용자 입력(wheel/touch/key/mouse) 전까지 대상으로 `scrollIntoView({behavior:'instant'})` (`index.html:561-570`)
+- `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (`index.html:31`, `:569`)
+- reduced-motion이면 `#rp-hero-art` SMIL 정지, `#rp-sketch`는 6.6s 지점에서 정지 (`index.html:576-581`)
 ### State Management
-
-- JS 내부 `state = { step, live, run }` (`index.html:513`) 하나. DOM 측 상태는 클래스(`rp-pin`, `rp-ready`, `is-on`, `is-s0..2`)와 CSS 변수(`--q0..2`). 영속 저장 없음.
-
+- JS 내부 `state = { step, live, run }` (`index.html:446`) 하나. DOM 측 상태는 클래스(`rp-pin`, `rp-ready`, `is-on`, `is-s0..2`)와 CSS 변수(`--q0..2`). 영속 저장 없음.
 ## Key Abstractions
 
 ### SVG 심볼 + `<use>`
 
 - Purpose: 코스 선·아이콘·지도를 한 번 정의, 여러 곳에서 다른 stroke로 재사용
-- Examples: `index.html:154` `<path id="rp-c-dog" pathLength="1000">`, 사용처 `index.html:325,326,340,356,391`
+- Examples: `index.html:123` `<path id="rp-c-dog" pathLength="1000">`, 사용처 `index.html:281,282,296,312,347`
 - Pattern: 코스 path는 `pathLength="1000"`으로 정규화 → `stroke-dasharray: 1000px`로 진행도 표현. `#rp-c-dog`는 JS의 `getPointAtLength` 기준 경로이기도 함.
 
 ### 진행도 CSS 변수
 
 - Purpose: JS→그림 단방향 데이터 전달
-- Examples: `#story` 초기값 `style="--q0: 1; --q1: 0.62; --q2: 1"` (`index.html:249`) — JS 비활성 시 정지 장면
-
+- Examples: `#story` 초기값 `style="--q0: 1; --q1: 0.62; --q2: 1"` (`index.html:205`) — JS 비활성 시 정지 장면
 ### 공유 헤더/푸터
-
-- Purpose: 4페이지 동일 브랜딩. 로고는 법적 페이지에 `<defs>`가 없어 인라인 path로 직접 삽입 (`index.html:188`)
-
+- Purpose: 4페이지 동일 브랜딩. 헤더는 `_includes/header.html`, 푸터는 `_includes/footer.html` 한 벌을 네 페이지가 부른다. 헤더 링크 변형은 include 매개변수(`{% include header.html home=true %}`)로 한다
+- 로고는 법적 페이지에 `<defs>`가 없어 `<use>` 없이 인라인 path로 직접 넣는다 (`_includes/header.html:5`, `_includes/footer.html:7`)
 ## Entry Points
-- **`index.html`:** 루트 `/`. 티저 랜딩. `<body id="top">`.
-- **`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`:** `/privacy-policy/` 등 디렉터리 인덱스 URL. `noindex`. 앱 스토어 심사용.
+- **`index.html`:** 루트 `/`. 티저 랜딩. `<body id="top">`. front matter `layout: none`.
+- **`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`:** `/privacy-policy/` 등 디렉터리 인덱스 URL. front matter `layout: legal`, `noindex`. 앱 스토어 심사용.
 - **`favicon/site.webmanifest`:** PWA 매니페스트 (theme `#F2B134`).
 ## Architectural Constraints
 
 - **Threading:** 브라우저 메인 스레드 단일. 스크롤 핸들러는 rAF 1프레임 1회로 스로틀.
-- **Global state:** 전역 오염 없음 — 스크립트 전체가 `'use strict'` IIFE (`index.html:497`). Tailwind만 `window.tailwind.config` 사용.
+- **Global state:** 전역 오염 없음 — 스크립트 전체가 `'use strict'` IIFE (`index.html:430-431`). Tailwind만 `window.tailwind.config` 사용.
 - **Circular imports:** 해당 없음 (모듈 시스템 없음).
 - **절대 경로 의존:** `/favicon/...`, `/terms/`, `/#story`는 커스텀 도메인 루트 전제. `file://` 또는 `slimpumpkin.github.io/<repo>/` 하위 경로에서는 깨짐.
 - **Markup–Script 계약:** 스크립트는 id `story`, `rp-panel`, `rp-run-dot|pct|time|dist|btn|icon|label`, `rp-demo-prog|dot|pct|dist|time|done`, `rp-c-dog`, `rp-hero-art`, `rp-sketch`와 속성 `data-step`(0~2, 글 3 + 폰 화면 3), `data-go`(버튼 3)에 의존. null 체크 없음(`rp-hero-art`/`rp-sketch` 제외) → 하나라도 빠지면 스크립트 전체가 예외로 중단.
+- **Liquid 처리:** front matter가 붙은 페이지는 전체가 Liquid를 거친다. 인라인 JS·CSS에 이중 중괄호나 중괄호-퍼센트가 생기면 `{% raw %}`로 감싼다 (`scripts/check-site.sh` 4번 항목이 출력에 남은 것을 잡는다).
 - **CDN 의존:** 글꼴·Tailwind가 런타임 로드. 오프라인 시 법적 페이지 스타일 붕괴.
 
 ## Anti-Patterns
 
-### 공통 부분을 한 파일만 수정
-- **What happens:** 「공통」 CSS/헤더/푸터/`<head>` 링크를 `index.html`에서만 바꿈
-- **Why it's wrong:** 템플릿이 없어 4페이지 간 드리프트 발생
-- **Do this instead:** `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html` 네 파일을 함께 수정. 링크만 다름(랜딩 `#story`, 법적 `/#story`).
+### 공통 블록을 페이지 파일에 다시 써 넣음
+
+- **What happens:** 「공통」 CSS/헤더/푸터/`<head>` 링크를 include로 부르지 않고 `index.html`이나 법적 페이지 파일에 마크업째 복사함
+- **Why it's wrong:** 사본이 생겨 include와 페이지 사이에 드리프트 발생
+- **Do this instead:** 해당 include(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`) 한 곳을 고침. 법적 3종의 틀은 `_layouts/legal.html` 한 곳을 고침. 헤더 링크 차이는 `home=true` 매개변수로 냄.
+
+### include 공백 규칙 어김
+
+- **What happens:** include 태그를 들여쓴 자리에 두거나, include 파일 끝에 줄바꿈을 남기거나, 내용을 내보내는 태그에 `{%-`를 씀
+- **Why it's wrong:** 출력의 들여쓰기·줄바꿈이 원본과 달라짐
+- **Do this instead:** include 태그는 0열에 혼자 두고, include 파일은 원본 들여쓰기 그대로 끝 줄바꿈 없이 씀. `{%-`는 `if`/`endif`에만 씀.
 ### 랜딩에 Tailwind 클래스 추가
 - **What happens:** `index.html`에 유틸리티 클래스 사용
 - **Why it's wrong:** 랜딩은 Tailwind CDN을 로드하지 않음 → 무효
-- **Do this instead:** 「랜딩 전용」 블록(`index.html:60` 이후)에 `.rp-*` 클래스 추가, 좁은 화면 규칙은 `@media (max-width: 860px)` (`index.html:131`)에.
+- **Do this instead:** 「랜딩 전용」 블록(`index.html:29` 이후)에 `.rp-*` 클래스 추가, 좁은 화면 규칙은 `@media (max-width: 860px)` (`index.html:100`)에.
 ### JS에서 그림 속성 직접 조작
 - **What happens:** story 그림 요소의 style을 스크립트가 개별 설정
 - **Why it's wrong:** 기존 패턴은 `--q*` 변수만 쓰고 CSS가 반응; 분산되면 무-JS 기본 장면도 깨짐
@@ -388,9 +391,8 @@
 - **Strategy:** 방어적 try/catch로 조용히 폴백 (기능 저하 허용)
 
 ### Patterns
-
-- `moveTo()`의 `getPointAtLength` 실패 시 점을 출발점에 둠 (`index.html:526-531`)
-- 깨진 해시 `decodeURIComponent` 실패 무시 (`index.html:627`)
+- `moveTo()`의 `getPointAtLength` 실패 시 점을 출발점에 둠 (`index.html:459-464`)
+- 깨진 해시 `decodeURIComponent` 실패 무시 (`index.html:560`)
 - `scrollIntoView({behavior:'instant'})` 미지원 시 `scrollIntoView(true)` 폴백
 - `window.matchMedia`, `document.fonts`, `performance.getEntriesByType`, `pauseAnimations` 존재 여부 확인 후 사용
 
