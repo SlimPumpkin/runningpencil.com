@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 03
 current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-11-16T15:36:22.593Z"
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-11-16T16:07:39.009Z"
 last_activity: 2026-11-16
 last_activity_desc: Phase 03 execution started
-state_head: 7cd2b61288841eda710ac656c12175dd4ab23fc3
+state_head: 31327b684f434537eb42e2687c2e89d467ec2140
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 29
-  completed_plans: 22
+  completed_plans: 23
   percent: 20
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-16)
 ## Current Position
 
 Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
-Plan: 3 of 9
+Plan: 4 of 9
 Status: Ready to execute
 Last activity: 2026-11-16 — Phase 03 execution started
 
@@ -79,6 +79,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 02 P10 | 28min | 3 tasks | 2 files |
 | Phase 03 P01 | 19min | 3 tasks | 1 files |
 | Phase 03 P02 | 11min | 2 tasks | 2 files |
+| Phase 03 P03 | 5 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -143,6 +144,8 @@ Recent decisions affecting current work:
 - [Phase 03]: [03-01] 검증 도구는 사용자 지시로 npm 대신 pnpm 10.33.2로 스크래치 $W/pw에 설치 (playwright 1.59.1, pngjs 7.0.0 고정, 브라우저는 캐시 재사용)
 - [Phase 03]: legal.css는 RESEARCH 원안 그대로에 그림자 색·흰 덮개 주석 한 줄만 더했고, 껍데기 클래스 교체(rp-legal-*·rp-doc)는 커밋 ①에서 했다. ①(Preflight 있음)과 ③ 미리보기(Preflight 없음) 모두 base1과 픽셀 0 (03-02)
 - [Phase 03]: ③ 미리보기에서 Preflight 대체 규칙(html line-height 1.5, .rp-doc :where() margin 초기화, 제목 margin 단축)이 맞음을 확인해 legal.css 고침 커밋(CSS_FIX_SHA) 없이 03-03(②)로 넘어간다 (03-02)
+- [Phase 03]: 커밋 ②는 세 법적 문서를 한 커밋으로 했고, 끝 안내 footer 안에는 p를 두지 않고 글을 바로 넣었다 (03-03)
+- [Phase 03]: 판정이 처음 후보에서 통과해 legal.css 고침 커밋이 없다. 03-04의 ③ 미리보기 출처는 계속 c1(C1_SHA)이다 (03-03)
 
 ### Pending Todos
 
@@ -174,6 +177,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T15:36:22.402Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-11-16T16:07:38.827Z
+Stopped at: Completed 03-03-PLAN.md
 Resume file: None

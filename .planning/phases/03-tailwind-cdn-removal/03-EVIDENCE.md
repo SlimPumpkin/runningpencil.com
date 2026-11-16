@@ -217,3 +217,78 @@ JUDGE c1p OK
 ```
 
 C1_PREVIEW3=OK
+
+## 03-03 커밋 ②
+
+C2_SHA=31327b684f43
+
+- 기록 시각: 2026-11-16. 사이트 커밋 ②(D-20): 세 법적 문서 본문에서 치환 여섯 종으로 클래스를 모두 지웠습니다(`section`·`h2`·`ul`·`a`·`strong`의 클래스 제거, 끝 안내 `p`를 `footer`로). `footer` 안에는 `<p>`를 두지 않고 원래 글·줄바꿈·들여쓰기를 그대로 두었습니다. 문장·front matter·`noindex`·「임시 게시본」·「포인트」 문장은 그대로입니다. Tailwind script·설정은 아직 레이아웃에 남아 있습니다.
+- 절차: 세 문서만 스테이징해 브랜치에 붙지 않는 후보 커밋(`a19fc87eb16e`)을 만들고, 그 후보로 check-site·CDN 확인·빌드(`$W/c2`)·출력 표식·랜딩 동일·파일 목록 동일·캡처(`$W/cap/c2`, 4104)·판정을 모두 통과시킨 뒤 같은 인덱스를 커밋했습니다. 커밋 ②의 트리는 `$W/c2/TREE`와 같습니다.
+- 문장 비교 기준은 ② 직전 HEAD(`a4858a769d42`, 마지막 사이트 커밋 ① 뒤)의 원본입니다. `OK source text same 3`은 문서마다 태그를 지운 원본 텍스트의 diff가 빈 출력이라는 뜻이고, 렌더 텍스트(`article.innerText` 18건) 동일은 아래 `judge.sh c2`의 `PASS 0 diffs`가 확인합니다(D-17).
+- check-site는 후보와 커밋 ② 모두 통과했습니다. 아래 첫 줄은 커밋 뒤 커밋 ② 시점의 스크립트로 커밋 ②를 다시 돌린 결과이고, 후보로 돌린 결과는 `check-site: 통과 (커밋 a19fc87eb16e, jekyll 3.10.0)`였습니다.
+
+```
+OK body class=0 0 0
+OK source text same 3
+OK footer 1 1 1
+OK front matter same 3
+check-site: 통과 (커밋 31327b684f43, jekyll 3.10.0)
+CDN location: /3.4.17
+OK marker c2 no-space-y-3 footer tailwind-script
+OK landing index.html same
+OK file list same
+```
+
+`judge.sh c2` (base1 대비):
+
+```
+COUNT base1 png=42 state=24 txt=18
+COUNT c2 png=42 state=24 txt=18
+PASS 0 diffs
+state ok chromium-1280-privacy-policy-focus.png 846
+state ok chromium-1280-privacy-policy-hover.png 849
+state ok chromium-1280-terms-focus.png 846
+state ok chromium-1280-terms-hover.png 847
+state ok chromium-375-privacy-policy-focus.png 846
+state ok chromium-375-privacy-policy-hover.png 809
+state ok chromium-375-terms-focus.png 852
+state ok chromium-375-terms-hover.png 820
+state ok chromium-768-privacy-policy-focus.png 846
+state ok chromium-768-privacy-policy-hover.png 849
+state ok chromium-768-terms-focus.png 846
+state ok chromium-768-terms-hover.png 793
+state ok webkit-1280-privacy-policy-focus.png 846
+state ok webkit-1280-privacy-policy-hover.png 842
+state ok webkit-1280-terms-focus.png 846
+state ok webkit-1280-terms-hover.png 837
+state ok webkit-375-privacy-policy-focus.png 846
+state ok webkit-375-privacy-policy-hover.png 798
+state ok webkit-375-terms-focus.png 852
+state ok webkit-375-terms-hover.png 816
+state ok webkit-768-privacy-policy-focus.png 846
+state ok webkit-768-privacy-policy-hover.png 842
+state ok webkit-768-terms-focus.png 846
+state ok webkit-768-terms-hover.png 802
+STATES c2 ok=24 vacuous=0
+PASS 18 rows
+JUDGE c2 OK
+```
+
+C2_PIXEL=OK
+
+## 03-03 본문 작성 규칙 확인
+
+- 기록 시각: 2026-11-16. 아래 확인은 모두 커밋 ②(`C2_SHA`)의 내용(`git show`)으로 돌렸습니다. 이 확인에서 저장소 파일은 고치지 않았습니다.
+- D-01: `git ls-tree -r --name-only <C2_SHA> -- privacy-policy terms data-deletion`이 세 `index.html`뿐입니다(Markdown 원본 없음).
+- D-02 `h2-first`: 본문에서 `<section>` 줄의 바로 다음 줄이 모두 `<h2>`로 시작합니다(어긋난 수 0).
+- D-03 `footer-last`: 본문의 마지막 비어 있지 않은 줄이 `</footer>`이고, 최상위(들여쓰기 20칸) 자식은 `section` 여러 개 다음 `footer` 하나입니다. `footer` 안에 `<p`가 없습니다.
+- D-04 `elements`: 본문 요소 이름 집합이 허용 목록(`section h2 h3 p ul ol li dl dt dd table thead tbody tr th td figure strong a aside footer`)의 부분 집합입니다(목록 밖 0개).
+- 단계 경계: front matter의 `noindex: true` 1줄, 「임시 게시본」 1줄, 「포인트」가 나오는 줄 수가 기준 커밋(`BASE_SHA`)과 같습니다(Phase 4·6·7·8 몫은 그대로).
+
+```
+OK contract privacy-policy sections=6 h2-first=ok footer-last=ok elements=a,footer,h2,li,p,section,ul noindex=1 draft=1 point=4
+OK contract terms sections=11 h2-first=ok footer-last=ok elements=a,footer,h2,li,p,section,ul noindex=1 draft=1 point=6
+OK contract data-deletion sections=3 h2-first=ok footer-last=ok elements=footer,h2,li,p,section,strong,ul noindex=1 draft=1 point=2
+```
+
+C2_CONTRACT=OK
