@@ -9,7 +9,7 @@ last_mapped_at: 2026-11-14
 ## Test Framework
 
 **Runner:**
-- 자동 점검 하나: `scripts/check-site.sh`. 운영과 같은 Jekyll 3.10.0으로 빌드해 네 가지를 본다. 빌드 성공, `_site`에 내부 파일이 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`이 기대값과 같음, 처리되지 않은 Liquid(`{%`, `{{`)가 없음.
+- 자동 점검 하나: `scripts/check-site.sh`. 운영과 같은 Jekyll 3.10.0으로 빌드해 다섯 가지를 본다. 빌드 성공, `_site`에 내부 파일이 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`이 기대값과 같음, 처리되지 않은 Liquid(`{%`, `{{`)가 없음, 출력 HTML에 Tailwind Play CDN 없음.
 - `.githooks/pre-push` 훅이 `main` 푸시마다 이 스크립트를 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번). 실패하면 푸시가 멈춘다.
 - 그 밖의 테스트 러너, CI, HTML validator는 없다 (`package.json` 없음). 전역 규칙의 「커밋 전 린터 실행」은 이 스크립트로 갈음한다.
 - Config: 기대 제목과 금지 경로는 `scripts/check-site.sh` 맨 위 한 곳에 있다
@@ -26,7 +26,7 @@ bundle exec jekyll serve --livereload     # 미리보기 → http://localhost:40
 ```
 - 미리보기 응답에는 livereload 스크립트가 끼므로 운영 출력과 같지 않다. 운영 출력과 비교할 때는 점검 스크립트의 빌드를 쓴다.
 - `/favicon/...`, `/terms/`, `/#story` 같은 절대 경로라서 `file://`로 열면 깨진다.
-- 글꼴(Pretendard, jsDelivr)과 법적 페이지의 Tailwind CDN 때문에 인터넷 연결이 필요하다.
+- 글꼴(Pretendard, jsDelivr) 때문에 인터넷 연결이 필요하다. 오프라인이면 대체 글꼴로 보인다.
 
 ## Test File Organization
 
@@ -38,7 +38,7 @@ bundle exec jekyll serve --livereload     # 미리보기 → http://localhost:40
 ```
 검증 대상
 ├── index.html                   # 랜딩: 스크롤 연동, 달려 보기, 반응형
-├── privacy-policy/index.html    # 법적 페이지 (Tailwind CDN)
+├── privacy-policy/index.html    # 법적 페이지 (정적 CSS)
 ├── terms/index.html
 ├── data-deletion/index.html
 └── favicon/ + site.webmanifest  # 아이콘 경로
@@ -80,7 +80,7 @@ bundle exec jekyll serve --livereload     # 미리보기 → http://localhost:40
 
 **Framework:** Not applicable
 
-**Patterns:** 없음. 외부 의존(CDN 글꼴, Tailwind CDN)은 실제 네트워크로 받는다.
+**Patterns:** 없음. 외부 의존(CDN 글꼴)은 실제 네트워크로 받는다.
 
 **What to Mock:** Not applicable
 

@@ -12,9 +12,6 @@ last_mapped_at: 2026-11-14
 - jsDelivr - Pretendard 글꼴 CSS/웹폰트 제공 (네 HTML 공통)
   - URL: `https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css`
   - Auth: 없음
-- Tailwind Play CDN - 법적 페이지(`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)에서 브라우저 JIT 컴파일
-  - URL: `https://cdn.tailwindcss.com` (버전 미고정, SRI 없음)
-  - Auth: 없음
 
 **데이터 출처 표기:**
 - OpenStreetMap - 랜딩 댕댕런 코스 선의 경로 데이터 출처. API 호출 없음(인라인 SVG로 고정), 푸터에 「경로 데이터 © OpenStreetMap contributors」 표기

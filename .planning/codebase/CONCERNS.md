@@ -16,11 +16,11 @@ last_mapped_at: 2026-11-14
 - Impact: 공통 블록을 고칠 곳이 한 곳뿐이다. 페이지에 복사본이 다시 생기는지는 `TESTING.md`의 「공통 블록 한 벌 확인」 명령으로 본다.
 - Fix approach: 해결: Phase 2
 
-**법적 페이지의 Tailwind CDN 런타임 모드:**
-- Issue: `<script src="https://cdn.tailwindcss.com">`로 브라우저에서 JIT 컴파일. Tailwind 공식 문서가 프로덕션 비권장으로 명시하는 방식.
-- Files: `_layouts/legal.html:14` (법적 3종 공통. 토큰은 같은 파일의 `<script id="tailwind-config">`, `_layouts/legal.html:16-30`)
-- Impact: 첫 렌더 전 스크립트 다운로드·컴파일로 FOUC/지연, 콘솔 경고, CDN 장애 시 본문 스타일 전부 상실. 토큰 정의는 레이아웃 한 곳에 있다.
-- Fix approach: Tailwind CLI로 한 번 빌드한 정적 CSS를 커밋하거나, 본문 스타일이 적으므로 「법적 페이지 전용」 일반 CSS로 옮김 (랜딩과 동일 방식).
+**법적 페이지의 Tailwind 런타임 의존 (해소됨):**
+- Issue: 해소됨. 법적 3종은 정적 CSS(`_includes/css/legal.css`)로 그리고 외부 스크립트가 없다. 예전에는 Tailwind Play CDN(Phase 3에서 제거)을 브라우저에서 JIT 컴파일했다. 전환 전후 픽셀 0(두 엔진 × 세 폭)과 라이브 확인은 Phase 3 검증 기록(`.planning/phases/03-tailwind-cdn-removal/03-EVIDENCE.md`)에 있다.
+- Files: `_includes/css/legal.css` (토큰 `:root` `--rp-*`, Preflight 대체, `.rp-legal-*` 껍데기, `.rp-doc` 본문 규칙), `_layouts/legal.html:18`에서 include
+- Impact: 첫 렌더를 막는 스크립트와 CDN 장애 시 본문 스타일 상실 위험이 없어졌다. 출력 HTML에 Tailwind가 다시 들어오면 `scripts/check-site.sh` 5번 항목이 막는다.
+- Fix approach: 해결: Phase 3
 
 **임시 히어로 그림:**
 - Issue: 히어로의 쿼터뷰 지도 SVG는 애니메이션으로 교체할 자리의 임시 그림 (`CLAUDE.md` 기재).
@@ -34,17 +34,17 @@ last_mapped_at: 2026-11-14
 
 **법적 페이지 최종 업데이트 날짜 고정:**
 - Symptoms: 세 페이지 모두 "최종 업데이트: 2026년 10월 31일" 하드코딩.
-- Files: 값은 각 페이지 front matter의 `updated` (`terms/index.html:6`, `privacy-policy/index.html:6`, `data-deletion/index.html:7`), 출력 줄은 `_layouts/legal.html:50`
+- Files: 값은 각 페이지 front matter의 `updated` (`terms/index.html:6`, `privacy-policy/index.html:6`, `data-deletion/index.html:7`), 출력 줄은 `_layouts/legal.html:31`
 - Trigger: 본문을 고치고 날짜를 갱신하지 않을 때 (자동 갱신 장치 없음).
 - Workaround: 본문 수정 시 수동 갱신.
 
 ## Security Considerations
 
 **서드파티 CDN에 SRI 없음:**
-- Risk: jsDelivr(Pretendard CSS)와 `cdn.tailwindcss.com`(실행 스크립트)을 `integrity` 속성 없이 로드. 특히 Tailwind는 버전 고정 없는 JS라 CDN 측 변경이 그대로 페이지에서 실행됨.
-- Files: Pretendard 링크 `_includes/head-links.html:2` (`index.html:21`, `_layouts/legal.html:15`에서 include), Tailwind `_layouts/legal.html:14`
+- Risk: jsDelivr(Pretendard CSS)를 `integrity` 속성 없이 로드. 외부 실행 스크립트는 없다 (Tailwind Play CDN은 Phase 3에서 제거).
+- Files: Pretendard 링크 `_includes/head-links.html:2` (`index.html:21`, `_layouts/legal.html:14`에서 include)
 - Current mitigation: Pretendard는 `@v1.3.9`로 버전 고정. 폼·쿠키·사용자 입력이 없어 영향 범위는 제한적.
-- Recommendations: Pretendard에 `integrity` 추가 또는 self-host, Tailwind 런타임은 정적 CSS로 대체 (위 Tech Debt). CSP `<meta>` 도입 검토.
+- Recommendations: Pretendard에 `integrity` 추가 또는 self-host. CSP `<meta>` 도입 검토.
 
 **개인정보처리방침 필수 항목 누락 가능성:**
 - Risk: `privacy-policy/index.html`의 항목은 1~6(수집 항목·이용 목적·위치정보·보유 기간·제3자 제공/위탁·사용자 권리)뿐이며 "개인정보 보호책임자"나 문의처가 없음 (`grep -c 책임자` = 0). 현재 사이트에는 지원 이메일이 없음 (2026-11 기준). 이메일 게이트(Phase 5) 뒤에 지원 이메일을 공개하고, 보호책임자와 연락처는 Phase 7 처리방침 재작성에서 넣기로 결정함 (`.planning/PROJECT.md` Key Decisions). 개인정보 보호법상 처리방침 기재 사항(보호책임자·고충 처리 부서 등)과 앱 스토어 심사 요건에 미달할 수 있음 — 법률 판단은 확인 필요.
@@ -60,10 +60,10 @@ last_mapped_at: 2026-11-14
 - Cause: 페이지 전용 CSS·스크립트를 외부 파일로 빼지 않고 인라인으로 둠, 외부 이미지 대신 인라인 SVG 사용.
 - Improvement path: 현재 수준은 수용 가능. GitHub Pages가 gzip 제공. 크기가 더 늘면 SVG `<defs>` 재사용 확대.
 
-**렌더 차단 외부 리소스:**
-- Problem: 법적 페이지는 `<head>`의 동기 Tailwind 스크립트가 렌더를 막음.
-- Files: `_layouts/legal.html:14` (법적 3종 공통)
-- Improvement path: 정적 CSS 전환.
+**렌더 차단 외부 리소스 (해소됨):**
+- Problem: 해소됨. 법적 페이지의 동기 Tailwind 스크립트(Tailwind Play CDN, Phase 3에서 제거)가 렌더를 막던 문제는 정적 CSS 전환으로 없어졌다. 남은 외부 리소스는 Pretendard 글꼴 CSS 하나다.
+- Files: `_includes/css/legal.css`, `_layouts/legal.html:18` (법적 3종 공통)
+- Improvement path: 해결: Phase 3 (근거 `.planning/phases/03-tailwind-cdn-removal/03-EVIDENCE.md`)
 
 ## Fragile Areas
 
@@ -96,11 +96,6 @@ last_mapped_at: 2026-11-14
 - Scaling path: Jekyll layout/include 도입은 해결: Phase 2. 새 법적·안내 페이지는 `layout: legal`과 front matter로 만든다.
 
 ## Dependencies at Risk
-
-**`cdn.tailwindcss.com` (Play CDN):**
-- Risk: 버전 미고정, 개발용 도구로 공지됨. Tailwind 메이저 업데이트 시 동작·설정 형식(`tailwind.config`) 변경 가능.
-- Impact: 법적 페이지 3종 스타일 붕괴 — 앱 스토어 심사 링크 대상 페이지.
-- Migration plan: 정적 CSS 커밋.
 
 **Pretendard via jsDelivr (`orioncactus/pretendard@v1.3.9`):**
 - Risk: CDN 장애·차단 시 시스템 글꼴 폴백.
