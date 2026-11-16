@@ -647,3 +647,56 @@ live-check: 통과
 - 내부 파일 13개(`/CLAUDE.md`, `/README.md`, `/Gemfile`, `/Gemfile.lock`, `/_config.yml`, `/.planning/ROADMAP.md`, `/.claude/CLAUDE.md`, `/scripts/check-site.sh`, `/.githooks/pre-push`, `/_includes/footer.html`, `/_layouts/legal.html`, `/prepare/`, `/vendor/`)가 모두 신선한 404(`age` 0)입니다 (SHELL-03, T-02-25).
 - 테마 파일 `/assets/css/style.css` 200.
 - 되돌리기 절차(`<rollback_procedure>`)는 쓰지 않았습니다 (FAIL·STALE 없음).
+
+## 02-08 「공통」 주석 수정 (D-06)
+
+- 주석 수정 커밋: `b11e43b49c0a` (`refactor: 「공통」 CSS 머리 주석을 include 구조에 맞게 수정`). 바꾼 파일은 `_includes/css/common.css` 한 개이고, 바꾼 줄은 머리 주석 둘째 줄 하나입니다. 파일 끝 줄바꿈이 없는 상태는 그대로입니다.
+- 새 문구: `모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */` (앞 공백 11칸).
+- 커밋 전 확인: 스테이징 뒤 `git write-tree`(`fcb4281310de`)로 같은 두 비교를 돌려 아래와 같은 결과를 얻은 뒤 커밋했습니다.
+
+COMMENT_FIX_SHA=b11e43b49c0a
+
+### 주석 제거 비교 (`compare.sh <BASE_SHA> <COMMENT_FIX_SHA> --no-comments`, 종료 코드 0)
+
+```
+OK   index.html (정규화 동일)
+OK   privacy-policy/index.html (정규화 동일)
+OK   terms/index.html (정규화 동일)
+OK   data-deletion/index.html (정규화 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 b11e43b49c0a
+```
+
+CMP_FINAL_NOCOMMENT=OK
+
+### 주석 그대로 비교 (`compare.sh <BASE_SHA> <COMMENT_FIX_SHA>`, 종료 코드 1)
+
+```
+DIFF index.html
+30c30
+< 네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+---
+> 모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */
+DIFF privacy-policy/index.html
+36c36
+< 네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+---
+> 모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */
+DIFF terms/index.html
+36c36
+< 네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+---
+> 모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */
+DIFF data-deletion/index.html
+36c36
+< 네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+---
+> 모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 b11e43b49c0a
+```
+
+CMP_COMMENT_ONLY=OK
+
+- 판정: 네 문서 모두 diff 줄이 옛 머리 주석과 새 머리 주석 두 줄뿐이고(「이 묶음을」이 들어간 줄), 다른 줄은 다르지 않습니다. `_site` 파일 목록은 11개로 같습니다. 주석 그대로 비교의 종료 코드 1은 이 한 줄 차이 때문이며 의도한 결과입니다.
+- 예외: 단계를 마친 뒤의 출력은 전환 전과 「공통」 머리 주석 한 줄만 다르고, 이것은 사용자가 승인한 예외입니다(2026-11-15 논의, D-06). ROADMAP 성공 기준 1의 문구는 고치지 않았습니다(D-06: 문구는 사용자가 정함).
