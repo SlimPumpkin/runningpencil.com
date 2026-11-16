@@ -278,7 +278,7 @@ scripts/check-site.sh  # (권장) 5번 항목 「Tailwind Play CDN 없음」
 **What:** 본문의 끝 안내는 `.rp-doc > footer`로만 잡습니다. 사이트 바닥글은 `<footer class="rp-foot">`이고 `.rp-doc` 밖에 있습니다. `a`, `p`, `aside`도 같은 방식으로 `.rp-doc` 아래로만 잡습니다.
 **Why:** 맨 `footer {}` 선택자는 사이트 바닥글(`_includes/footer.html`)까지 칠합니다. 시험 본문에서 사이트 바닥글의 `border-top-width`가 0px로 유지되는 것을 확인했습니다. [VERIFIED: sample.mjs `siteFooterBorder: "0px 40px"`]
 
-### Pattern 3: 넓은 표 감싸개 = `<figure tabindex="0" aria-label="…">`
+### Pattern 3: 표 감싸개(모든 표) = `<figure tabindex="0" aria-label="…">`
 **What:** 작성자는 아래처럼 씁니다(클래스 없음).
 ```html
 <figure tabindex="0" aria-label="개인정보 처리 위탁 현황">
@@ -441,7 +441,7 @@ img,video{max-width:100%;height:auto}
         /* ── 법적 페이지 전용 ──
            법적 문서(_layouts/legal.html)만 이 묶음을 _includes/css/legal.css 에서 불러 쓴다. 랜딩은 쓰지 않는다.
            본문(.rp-doc 안)은 클래스 없이 쓴다. 쓸 수 있는 요소: section h2 h3 p ul ol li dl dt dd table thead tbody tr th td figure strong a aside footer.
-           조항마다 section 하나, 첫 자식은 h2. 넓은 표는 figure tabindex="0" aria-label="표 이름" 으로 감싼다. 목록에 없는 요소가 필요하면 여기 CSS와 CLAUDE.md 규칙을 함께 고친다. */
+           조항마다 section 하나, 첫 자식은 h2. 표는 모두 figure tabindex="0" aria-label="표 이름" 으로 감싼다. 목록에 없는 요소가 필요하면 여기 CSS와 CLAUDE.md 규칙을 함께 고친다. */
         :root { --rp-ink: #2B2B2B; --rp-accent: #7C580D; --rp-muted: #4A463F; --rp-muted-2: #57534C; --rp-line: #E4E0D6; }
         html { line-height: 1.5; -moz-tab-size: 4; tab-size: 4; -webkit-tap-highlight-color: transparent; }
         body { min-height: 100vh; display: flex; flex-direction: column; }
