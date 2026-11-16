@@ -523,3 +523,95 @@ OK samplec captures same as samplenw (6/6)
 ```
 
 NOWRAP_PIXEL=OK
+
+## 03-06 사이트 푸시 후보
+
+SITE_PUSH_CANDIDATE=2ebeca06ca51
+SITE_PUSH_PREV=9f715c795830
+
+- 기록 시각: 2026-11-16. D-21의 첫 푸시(사이트 푸시) 후보입니다. 메인 체크아웃에서 `git fetch -q origin main` 뒤 `PREV=origin/main`, `CAND=HEAD`로 두었습니다. 아직 푸시하지 않았고, 푸시는 사용자 승인(Task 2) 뒤에만 합니다.
+- 1. 원격 확인: `PREV`(`9f715c795830`)가 `BASE_LIVE`와 같고 `CAND`(`2ebeca06ca51`)의 조상입니다. 다른 곳에서 푸시된 것은 없습니다.
+- 2(a). 공개되지 않은 커밋 수 `git rev-list --count "$PREV..$CAND"`: 35.
+- 2(b). `.planning/` 밖에서 바뀌는 파일은 정해진 여섯 개뿐입니다: `_includes/css/legal.css`, `_layouts/legal.html`, `data-deletion/index.html`, `privacy-policy/index.html`, `scripts/check-site.sh`, `terms/index.html`.
+- 2(c). 범위 안의 사이트 커밋(`.planning/` 밖을 바꾼 커밋, 새 것부터)은 `fb6bdfa40b70`(NOWRAP_SHA), `69f46942bec6`(CHECK5_SHA), `c49e12a50394`(C3_SHA), `31327b684f43`(C2_SHA), `7cd2b6128884`(C1_SHA) 다섯 개이고, EVIDENCE 표식 집합과 같습니다. `CSS_FIX_SHA` 표식은 없습니다.
+- 2(d). 마지막 판정 커밋 `LAST`는 `TABLE_WRAP=nowrap`이라 NOWRAP_SHA(`fb6bdfa40b70`)이고, `git diff --quiet "$LAST" "$CAND" -- . ':(exclude).planning'`가 0입니다(후보의 사이트 트리 = 마지막 판정 커밋).
+- 2(e). 검토 항목(막는 검사 아님): 범위 diff(`git diff -U0 "$PREV" "$CAND"`)의 더해진 줄에서 로컬 경로 꼴 두 가지(사용자 홈 아래 절대 경로, macOS 임시 폴더의 실제 경로)와 GitHub 토큰 꼴 두 가지를 찾았습니다. 걸린 줄은 21줄이고 모두 `.planning/` 문서입니다. 줄 내용은 Task 2에서 사용자에게만 보여 줍니다. 이 푸시로 이 문서들이 처음 공개됩니다.
+  - 실제 로컬 절대 경로 9줄(커밋 `2ae2410a08a5`가 더함): `.planning/phases/02-jekyll-shared-shell-refactor/02-UI-REVIEW.md:76`, `:77`, `:78`, `:79`, `:80`, `:81`, `:82`, `:83`, `:84`.
+  - 검사 패턴 이름을 적은 계획·요약 문장 12줄(실제 경로·토큰 값 없음): `.planning/phases/03-tailwind-cdn-removal/03-01-PLAN.md:250`, `03-01-SUMMARY.md:164`, `03-02-PLAN.md:214`, `03-03-PLAN.md:187`, `03-04-PLAN.md:190`, `03-05-PLAN.md:210`, `03-06-PLAN.md:118`, `03-06-PLAN.md:230`, `03-08-PLAN.md:162`, `03-08-PLAN.md:166`, `03-09-PLAN.md:105`, `03-09-PLAN.md:213`. 토큰 꼴에 걸린 줄은 `03-06-PLAN.md:118`과 `03-09-PLAN.md:105` 두 줄뿐이고, 둘 다 패턴 이름만 적은 문장입니다.
+- 3. 실제 푸시 경로: `printf 'refs/heads/main %s refs/heads/main %s\n' "$CAND" "$PREV" | .githooks/pre-push`가 아래 줄로 통과하고 0으로 끝났습니다(작업 트리의 5항목 스크립트).
+
+커밋별 판정 요약:
+
+```
+C1 JUDGE c1 OK
+C1 preview JUDGE c1p OK
+C2 JUDGE c2 OK
+C3 JUDGE c3 OK (--no-cdn)
+CHECK5 negative control FAIL on C2
+TABLE_WRAP=nowrap
+NOWRAP JUDGE nw OK
+OK site files 6
+OK site tree = LAST fb6bdfa40b70
+check-site: 통과 (커밋 2ebeca06ca51, jekyll 3.10.0)
+```
+
+## 03-06 사이트 푸시 라이브 확인
+
+SITE_PUSH_SHA=2ebeca06ca51
+
+- 기록 시각: 2026-11-16. Task 2에서 사용자가 「push」로 답해 `SITE_PUSH_CANDIDATE`(`2ebeca06ca51`) 하나의 푸시를 승인했습니다. 푸시 직전에 `git fetch -q origin main`으로 원격 main이 `SITE_PUSH_PREV`(`9f715c795830`) 그대로인 것을 확인했습니다.
+- 푸시: `git push origin "$(git rev-parse 2ebeca06ca51):refs/heads/main"`. pre-push 훅이 아래 줄로 통과했고 원격 main이 `9f715c795830`에서 `2ebeca06ca51`로 나아갔습니다. `--no-verify`와 force push는 쓰지 않았습니다.
+
+```
+check-site: 통과 (커밋 2ebeca06ca51, jekyll 3.10.0)
+```
+
+배포 완료 확인: `gh api "repos/$SLUG/pages/builds/latest"`를 20초 간격으로 읽어 `.commit`이 푸시한 전체 해시, `.status`가 `built`, `.error.message`가 비어 있을 때 아래 줄을 만들었습니다(세 번째 읽기에서 `building`→`built`).
+
+OK 빌드 2ebeca06ca51 built 2026-11-16T17:21:05Z
+
+HTTP 확인(D-22): 네 경로를 `https://runningpencil.com<경로>?cb=2ebeca06ca51`로 받았습니다. 법적 세 문서는 `cdn.tailwindcss.com`·`tailwind.config`가 있는 줄 수 0, `rp-legal-card` 있음(새 배포가 반영됨)을 함께 봤습니다. 기대 제목은 `scripts/check-site.sh` 15-18행 값입니다.
+
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 tailwind=0 new=1
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 tailwind=0 new=1
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 tailwind=0 new=1
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
+
+화면 확인(D-22): `$W/pw`에서 `node capture.mjs https://runningpencil.com "$W/cap/live" "?cb=2ebeca06ca51"`(출력 끝 줄 `done 18`, 종료 0), 이어서 `"$W/judge.sh" live --no-cdn`의 출력 전체입니다. 라이브 세 문서가 Chromium·WebKit × 375·768·1280px에서 base1과 PNG 42장 픽셀 0, txt 18건 동일이고, 네트워크 요청과 HTML에 Tailwind가 없습니다. 운영 빌드(GitHub Pages)와 로컬 빌드의 출력 차이가 화면에 드러나지 않았습니다(RESEARCH A4 확인).
+
+```
+COUNT base1 png=42 state=24 txt=18
+COUNT live png=42 state=24 txt=18
+PASS 0 diffs
+state ok chromium-1280-privacy-policy-focus.png 846
+state ok chromium-1280-privacy-policy-hover.png 849
+state ok chromium-1280-terms-focus.png 846
+state ok chromium-1280-terms-hover.png 847
+state ok chromium-375-privacy-policy-focus.png 846
+state ok chromium-375-privacy-policy-hover.png 809
+state ok chromium-375-terms-focus.png 852
+state ok chromium-375-terms-hover.png 820
+state ok chromium-768-privacy-policy-focus.png 846
+state ok chromium-768-privacy-policy-hover.png 849
+state ok chromium-768-terms-focus.png 846
+state ok chromium-768-terms-hover.png 793
+state ok webkit-1280-privacy-policy-focus.png 846
+state ok webkit-1280-privacy-policy-hover.png 842
+state ok webkit-1280-terms-focus.png 846
+state ok webkit-1280-terms-hover.png 837
+state ok webkit-375-privacy-policy-focus.png 846
+state ok webkit-375-privacy-policy-hover.png 798
+state ok webkit-375-terms-focus.png 852
+state ok webkit-375-terms-hover.png 816
+state ok webkit-768-privacy-policy-focus.png 846
+state ok webkit-768-privacy-policy-hover.png 842
+state ok webkit-768-terms-focus.png 846
+state ok webkit-768-terms-hover.png 802
+STATES live ok=24 vacuous=0
+PASS 18 rows
+JUDGE live OK
+```
+
+빌드·HTTP·화면 세 확인이 모두 OK라 되돌리기(D-23)는 하지 않았습니다.
+
+LIVE_SITE=OK
