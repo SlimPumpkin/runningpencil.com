@@ -561,3 +561,89 @@ INJECT_F=OK
 ### 성공 기준 2 판정
 
 - 공통 블록 네 가지 한 벌, include 하나 변경 시 네 문서 모두 변경 (`SC2_SINGLE=OK`, `SC2_PROBE=OK`). 원격 main은 `PUSH2_SHA`(`01f6bb8bbb13`) 그대로입니다 (푸시하지 않음).
+
+## 02-07 푸시 ③ 후보
+
+PUSH3_CANDIDATE=e7e62f3f7990
+PUSH3_PREV=01f6bb8bbb13
+
+- 기록 시각: 2026-11-16T05:15Z (푸시 전). 메인 체크아웃에서 실행했습니다 (`git-dir`와 `git-common-dir`가 같음, `CMP_LANDING=OK`·`SC2_PROBE=OK`·`LIVE_PUSH2=OK` 확인).
+- `git fetch -q origin main` 뒤 원격 main은 `01f6bb8bbb13`(02-05에서 라이브 확인을 통과한 `PUSH2_SHA`)이고, 후보는 로컬 HEAD `e7e62f3f7990`입니다. `git merge-base --is-ancestor <PUSH3_PREV> <후보>` 참 (다른 곳의 푸시 없음). 범위의 병합 커밋 0개.
+- 랜딩 전환 커밋(`LANDING_CONV_SHA` `762734f26068`)이 후보의 조상이고, `PUSH3_PREV`의 조상이 아닙니다 (이 푸시로 처음 공개됨).
+
+### 공개 범위 (`PUSH3_PREV..PUSH3_CANDIDATE`)
+
+- 아직 공개되지 않은 커밋 수: 5개 (02-05 기록 `914c69077d9a`·`55b7f6ea6a07`, 랜딩 전환 `762734f26068`, 02-06 기록 `d645c65adf1f`·`e7e62f3f7990`)
+- `.planning/` 밖에서 바뀌는 파일 1개: `index.html` (7줄 더함, 74줄 지움). 계획이 기대한 목록(`index.html` 하나)과 같습니다.
+- `--diff-filter=d`로 센 파일 수: 6개. 이 가운데 새로 더해지는 파일은 2개(`02-05-SUMMARY.md`, `02-06-SUMMARY.md`)이고, 나머지 4개(`index.html`, `.planning/ROADMAP.md`, `.planning/STATE.md`, `02-EVIDENCE.md`)는 이미 공개된 파일의 수정입니다.
+
+### 검토 항목 (막는 검사가 아님, 사람이 Task 2에서 봄)
+
+정규식과 거르기는 02-02 scratch_contract 그대로이고, 검사 도구는 이번 실행에서 scratch_contract대로 다시 만들었습니다. 같은 도구를 02-02 범위(`HISTORY_PREV..BASE_SHA`), 02-03 범위(`PUSH1_PREV..PUSH1_CANDIDATE`), 02-05 범위(`PUSH2_PREV..PUSH2_CANDIDATE`)에 다시 돌려 세 기록과 같은 수(02-02 끝 트리 1·0·27, 이력 1·0·33 / 02-03 끝 트리 0·0·1, 이력 0·0·0 / 02-05 끝 트리 0·0·1, 이력 0·0·0)가 나오는 것을 먼저 확인했습니다. 호스트 이름 검사(허용 목록 밖 하위 도메인만 걸림)와 누출 검사(허용 목록은 빠지고 커밋이 아닌 12자리 숫자와 IP 꼴은 걸림)는 합성한 줄로 따로 시험했습니다. 걸린 줄의 내용은 이 기록에 옮기지 않습니다.
+
+| 검사 | 끝 트리 (걸린 줄 수, `파일:행`) | 이력 (이 범위 5개 커밋이 더한 줄) |
+|---|---|---|
+| 누출 | 0 | 0 |
+| 호스트 이름 | 0 | 0 |
+| 로컬 경로 | 1 (`.planning/ROADMAP.md:73`) | 0 |
+
+- 끝 트리의 로컬 경로 1줄은 `PUSH3_PREV`의 같은 파일 같은 행과 글자가 같습니다 (02-02·02-03·02-05 기록의 `.planning/ROADMAP.md:73`). `ROADMAP.md`가 수정 파일이라 다시 잡혔을 뿐, 이 푸시로 처음 공개되는 줄이 아닙니다.
+
+### 훅 실제 경로 시험과 기준 비교 (원격으로 푸시하지 않음)
+
+- 표준 입력 `refs/heads/main <후보 전체> refs/heads/main <PUSH3_PREV 전체>` 한 줄을 `.githooks/pre-push`에 넣음 → rc=0, `check-site: 통과 (커밋 e7e62f3f7990, jekyll 3.10.0)`
+- `compare.sh <BASE_SHA> <후보>` → rc=0 (랜딩 전환 커밋 `762734f26068` 단독 비교도 OK 5줄)
+
+```
+OK   index.html (바이트 동일)
+OK   privacy-policy/index.html (바이트 동일)
+OK   terms/index.html (바이트 동일)
+OK   data-deletion/index.html (바이트 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 e7e62f3f7990
+```
+
+## 02-07 푸시 ③ 라이브 확인
+
+PUSH3_SHA=e7e62f3f7990
+LIVE_PUSH3=OK
+
+- 승인: 사용자가 Task 2 checkpoint(`gate="blocking-human"`)에서 `push`로 답했습니다. 승인 범위는 `PUSH3_CANDIDATE`(`e7e62f3f7990`)를 `refs/heads/main`으로 푸시하는 한 번뿐이고, 다른 SHA나 되돌리기 푸시로 이어지지 않습니다.
+- 푸시 직전 확인 (2026-11-16T05:20Z): `git fetch -q origin main` 뒤 `git rev-parse --short=12 origin/main` → `01f6bb8bbb13` (`PUSH3_PREV`와 같음). 메인 체크아웃(`git-dir`와 `git-common-dir`가 같음), `gh auth status` 0.
+- 푸시: `git push origin <PUSH3_CANDIDATE 전체>:refs/heads/main` → 성공. pre-push 훅 출력 `check-site: 통과 (커밋 e7e62f3f7990, jekyll 3.10.0)`. 원격 main `01f6bb8bbb13` → `e7e62f3f7990` (fast-forward). `--no-verify`·force는 쓰지 않았습니다.
+- 푸시 뒤 확인: `git fetch -q origin main` 뒤 원격 main은 `e7e62f3f7990`이고, `git merge-base --is-ancestor <PUSH3_SHA> origin/main` 참.
+
+### live-check 출력 (푸시 ③ 뒤)
+
+종료 코드 0. 처음 한 번 돌린 결과이고, 다시 돌리거나 스크립트를 고치지 않았습니다.
+
+```
+live-check.sh post e7e62f3f7990
+OK 빌드 e7e62f3f7990 built 2026-11-16T05:20:08Z
+OK 문서 https://runningpencil.com/ lm=2026-11-16T05:20:41Z age=0
+OK 문서 https://runningpencil.com/privacy-policy/ lm=2026-11-16T05:20:41Z age=0
+OK 문서 https://runningpencil.com/terms/ lm=2026-11-16T05:20:41Z age=0
+OK 문서 https://runningpencil.com/data-deletion/ lm=2026-11-16T05:20:41Z age=0
+OK 404 /CLAUDE.md age=0
+OK 404 /README.md age=0
+OK 404 /Gemfile age=0
+OK 404 /Gemfile.lock age=0
+OK 404 /_config.yml age=0
+OK 404 /.planning/ROADMAP.md age=0
+OK 404 /.claude/CLAUDE.md age=0
+OK 404 /scripts/check-site.sh age=0
+OK 404 /.githooks/pre-push age=0
+OK 404 /_includes/footer.html age=0
+OK 404 /_layouts/legal.html age=0
+OK 404 /prepare/ age=0
+OK 404 /vendor/ age=0
+OK 테마 /assets/css/style.css 200
+live-check: 통과
+```
+
+- 빌드 기록 (`pages/builds/latest`, 출력 뒤 한 번 더 조회): `commit` `e7e62f3f7990`(푸시한 커밋), `created_at` 2026-11-16T05:20:08Z, `status` built, `error.message` null. 운영 빌드 오류 없음.
+- 네 문서: 상태 200, `last-modified` 2026-11-16T05:20:41Z(UTC로 바꾼 값, `created_at` 이후), `age` 0. 제목과 D-07 정규화 본문이 기준 커밋(`BASE_SHA`) 원본과 같습니다.
+- 랜딩: 운영 빌드(github-pages)가 랜딩 전체(front matter `layout: none`, include 네 줄, 인라인 스크립트, 숨은 SVG `<defs>`)를 처음 Liquid로 처리한 배포입니다. 라이브 홈페이지의 정규화 본문이 기준 원본과 같으므로, 인라인 스크립트와 SVG가 운영 Liquid를 거쳐도 바뀌지 않았고 `{% include header.html home=true %}`가 랜딩 링크 변형(`#top`·`#story`·`#demo`·`#get`)을 냈습니다 (T-02-23, 성공 기준 4).
+- 내부 파일 13개(`/CLAUDE.md`, `/README.md`, `/Gemfile`, `/Gemfile.lock`, `/_config.yml`, `/.planning/ROADMAP.md`, `/.claude/CLAUDE.md`, `/scripts/check-site.sh`, `/.githooks/pre-push`, `/_includes/footer.html`, `/_layouts/legal.html`, `/prepare/`, `/vendor/`)가 모두 신선한 404(`age` 0)입니다 (SHELL-03, T-02-25).
+- 테마 파일 `/assets/css/style.css` 200.
+- 되돌리기 절차(`<rollback_procedure>`)는 쓰지 않았습니다 (FAIL·STALE 없음).
