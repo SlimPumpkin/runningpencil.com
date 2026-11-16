@@ -841,17 +841,17 @@ sys.exit(0 if lm >= th else 1)' "$lm" "$2"
 | A5 | `ghcr.io/actions/jekyll-build-pages:v1.0.13` 이미지를 로컬 Docker로 돌려 운영 빌드를 재현할 수 있다 (입력 계약 미확인) | Alternatives | 선택 사항이라 계획에 영향 없음 |
 | A6 | GUI git 클라이언트의 PATH가 `/usr/bin:/bin:…` 꼴이다 (일반 지식, 짧은 PATH 시뮬레이션만 함) | Pitfall 7 | 훅의 PATH 보강이 무해하므로 영향 작음 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **첫 푸시에 Phase 1 커밋 105개가 함께 나가는 것을 승인할지**
    - What we know: `origin/main = c4cb26d`, 로컬 105커밋 앞섬. `.planning` 밖 변경은 `.claude/CLAUDE.md`, `.gitignore`, `CLAUDE.md`, `_config.yml`이고, 모두 출력되지 않는 파일입니다(점 폴더이거나 exclude 대상).
    - What's unclear: 사용자가 Phase 1 산출물을 따로 먼저 푸시하고 싶은지.
-   - Recommendation: 푸시 ① checkpoint의 승인 문구에 이 사실을 넣습니다. 따로 원하면 Phase 2 시작 전에 Phase 1만 푸시하는 checkpoint를 하나 더 둡니다(출력 불변. 라이브 확인 절차는 같음).
+   - Recommendation: 푸시 ① checkpoint의 승인 문구에 이 사실을 넣습니다. 따로 원하면 Phase 2 시작 전에 Phase 1만 푸시하는 checkpoint를 하나 더 둡니다(출력 불변. 라이브 확인 절차는 같음). **RESOLVED (사람이 정함, 02-02):** 02-02 Task 2의 `checkpoint:decision`에서 사용자가 base-first(기준 커밋만 먼저 푸시)·together(푸시 ①과 함께)·hold 가운데 하나를 고릅니다. 공개되지 않은 커밋 수와 누출 검토 항목은 그 자리에서 다시 계산해 보여 줍니다. together면 02-03 Task 2(푸시 ① 승인)가 같은 공개 범위를 다시 보여 줍니다.
 2. **운영 primer 테마 파일 `/assets/css/style.css`를 그대로 둘지**
    - What we know: 지금도 라이브에 있고, 이 단계는 바꾸지 않습니다.
-   - Recommendation: 이번에는 손대지 않고 검증 문서에 기록만 합니다. 없애려면 `theme: null`을 넣는 별도 결정이 필요합니다(라이브 파일이 하나 사라지는 변경).
-3. **ROADMAP 성공 기준 1의 문구(예외 없는 「차이가 0」)** — CONTEXT D-06대로 사용자가 정합니다. 연구로 바뀌는 것은 없습니다.
-4. **include 파일 끝 줄바꿈을 금지할지** — 권장은 「끝 줄바꿈 없음」(바이트 동일)입니다. 에디터가 다시 붙여도 D-07에서는 0입니다. 바이트 동일을 계속 지키고 싶으면 `.editorconfig`(`insert_final_newline = false`, `[_includes/**]`)를 둘 수 있지만, 새 파일이 늘어나고 `exclude`도 고쳐야 합니다(점 파일이라 실제로는 출력되지 않음). 이번에는 넣지 않는 것을 권장합니다.
+   - Recommendation: 이번에는 손대지 않고 검증 문서에 기록만 합니다. 없애려면 `theme: null`을 넣는 별도 결정이 필요합니다(라이브 파일이 하나 사라지는 변경). **RESOLVED (손대지 않고 기록만):** `_config.yml`에 `theme`을 넣지 않습니다(02-01 Task 1 verify가 최상위 키를 `url`·`exclude` 둘로 확인). 라이브 확인 도구가 푸시 전(02-02)과 각 푸시 뒤에 `/assets/css/style.css`의 200을 확인하고, 02-10 Task 3의 성공 기준 판정 구간에 상태를 적습니다. 없앨지는 이 단계 밖의 사용자 결정입니다.
+3. **ROADMAP 성공 기준 1의 문구(예외 없는 「차이가 0」)** — CONTEXT D-06대로 사용자가 정합니다. 연구로 바뀌는 것은 없습니다. **RESOLVED (사용자에게 넘김, D-06):** 어느 계획도 ROADMAP 문구를 고치지 않습니다(모든 계획의 공통 규칙). 02-10 Task 2(푸시 ④ 승인)의 context가 문구가 아직 예외 없는 「차이가 0」이라는 점을 알리고, 02-10 Task 3의 판정표 비고에 승인된 예외(「공통」 머리 주석 한 줄)와 문구 미수정을 적습니다.
+4. **include 파일 끝 줄바꿈을 금지할지** — 권장은 「끝 줄바꿈 없음」(바이트 동일)입니다. 에디터가 다시 붙여도 D-07에서는 0입니다. 바이트 동일을 계속 지키고 싶으면 `.editorconfig`(`insert_final_newline = false`, `[_includes/**]`)를 둘 수 있지만, 새 파일이 늘어나고 `exclude`도 고쳐야 합니다(점 파일이라 실제로는 출력되지 않음). 이번에는 넣지 않는 것을 권장합니다. **RESOLVED (`.editorconfig` 없음, 끝 줄바꿈 없음):** 02-04가 include 파일을 끝 줄바꿈 없이 쓰고, verify가 `tail -c 1` 검사와 `test ! -e .editorconfig`로 확인합니다. 02-08 Task 1도 주석을 고친 `_includes/css/common.css`의 끝 줄바꿈 없음을 확인합니다.
 
 ## Environment Availability
 
