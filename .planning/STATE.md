@@ -1,18 +1,18 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 3
+current_phase: 03
 current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 status: executing
-stopped_at: Phase 3 context gathered
-last_updated: "2026-11-16T14:35:58.527Z"
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-11-16T15:12:13.751Z"
 last_activity: 2026-11-16
-last_activity_desc: Phase 02 complete, transitioned to Phase 3
-state_head: 4720fb192e2cc8d894415fb59f55f047aefa7048
+last_activity_desc: Phase 03 execution started
+state_head: 8b65fdb592325b149b3696dd1b28faa78524d772
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 29
-  completed_plans: 20
+  completed_plans: 21
   percent: 20
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-16)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 3 — 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
+**Current focus:** Phase 03 — 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 
 ## Current Position
 
-Phase: 3 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — READY TO EXECUTE
-Plan: Not started
+Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
+Plan: 2 of 9
 Status: Ready to execute
-Last activity: 2026-11-16 — Phase 02 complete, transitioned to Phase 3
+Last activity: 2026-11-16 — Phase 03 execution started
 
 Progress: [██░░░░░░░░] 20%
 
@@ -77,6 +77,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 02 P08 | 8min | 3 tasks | 5 files |
 | Phase 02 P09 | 8min | 3 tasks | 7 files |
 | Phase 02 P10 | 28min | 3 tasks | 2 files |
+| Phase 03 P01 | 19min | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -137,6 +138,8 @@ Recent decisions affecting current work:
 - [Phase 02]: PROJECT.md 72행 부근 현재 사이트 설명과 115행 부근 Key Decisions 행은 단계 전환 갱신에서 고치고 그때 .claude/CLAUDE.md를 재생성 → 2026-11-16 전환에서 고침. 재생성 결과는 바이트 동일(project 구간이 Context·Key Decisions를 담지 않음)
 - [Phase 02]: UAT 3/3 통과 (2026-11-16). ROADMAP 성공 기준 1 문구를 D-06 예외에 맞게 고침(override 대신, 5cca635). 로컬 미리보기는 Playwright로 전환 전 db505d7과 픽셀 비교해 자동 통과
 - [Phase 02]: Playwright MCP가 저장소 안 `.playwright-mcp/`에 로그를 쓰면 `jekyll serve --livereload`가 새로 고침을 끝없이 반복함. 자동 화면 확인 때는 livereload.js를 막거나 `--livereload` 없이 띄움 (도구 간섭, 사이트 결함 아님)
+- [Phase 03]: [03-01] 기준 BASE_SHA=8b65fdb59232 (라이브 9f715c795830과 같은 사이트), Tailwind CDN 3.4.17. 기준 캡처 base1·base2 자기 차이 0 (BASE_SELFDIFF=OK), 한 픽셀 음성 대조 FAIL (JUDGE_NEG=OK)
+- [Phase 03]: [03-01] 검증 도구는 사용자 지시로 npm 대신 pnpm 10.33.2로 스크래치 $W/pw에 설치 (playwright 1.59.1, pngjs 7.0.0 고정, 브라우저는 캐시 재사용)
 
 ### Pending Todos
 
@@ -168,6 +171,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T09:44:09.914Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-tailwind-cdn-removal/03-CONTEXT.md
+Last session: 2026-11-16T15:12:13.652Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None
