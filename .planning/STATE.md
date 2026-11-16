@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Jekyll 공유 셸 도입 (Shared Shell Refactor)
 status: executing
-stopped_at: Completed 02-07-PLAN.md
-last_updated: "2026-11-16T05:22:40.965Z"
+stopped_at: Completed 02-08-PLAN.md
+last_updated: "2026-11-16T05:41:44.372Z"
 last_activity: 2026-11-15
 last_activity_desc: Phase 02 execution started
-state_head: 87fbf2a4360828daf01c024e1d55525ee4ac9eac
+state_head: 6830bb616272ece57e4d82d0367c89371359a761
 progress:
   total_phases: 10
   completed_phases: 1
   total_plans: 20
-  completed_plans: 17
+  completed_plans: 18
   percent: 10
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-15)
 ## Current Position
 
 Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — EXECUTING
-Plan: 8 of 10
+Plan: 9 of 10
 Status: Ready to execute
 Last activity: 2026-11-15 — Phase 02 execution started
 
@@ -73,6 +73,7 @@ Progress: [█░░░░░░░░░] 10%
 | Phase 02 P05 | 15min | 3 tasks | 2 files |
 | Phase 02 P06 | 4min | 2 tasks | 2 files |
 | Phase 02 P07 | 10min | 3 tasks | 2 files |
+| Phase 02 P08 | 8min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -124,6 +125,8 @@ Recent decisions affecting current work:
 - [Phase 02]: 02-06: include 하나를 바꾸면 네 문서가 모두 바뀜을 시험용 worktree에서 확인 (4×4, 커밋 안 함). 레이아웃 변경은 법적 세 문서만 바꾸는 것이 의도한 동작 (D-03)
 - [Phase 02]: [02-07] 푸시 ③ 승인 (사용자 결정): e7e62f3f7990 하나만 원격 main에 푸시. 승인은 이 푸시 한 번에만 썼다
 - [Phase 02]: [02-07] 운영 빌드가 랜딩의 인라인 스크립트·SVG를 Liquid로 처리해도 출력이 기준 원본과 같았다 (live-check 통과, 네 페이지 공통 블록 한 벌이 라이브에 있음)
+- [Phase 02]: 02-08: 「공통」 CSS 머리 주석 수정 커밋 b11e43b49c0a. 주석 제거 비교에서 네 문서가 기준 db505d71d3d2와 같고, 주석 그대로 비교에서는 머리 주석 한 줄만 다름 (사용자 승인 예외, ROADMAP 성공 기준 1 문구는 고치지 않음)
+- [Phase 02]: 02-08: 원본 맵 STACK·CONVENTIONS·ARCHITECTURE를 지금 구조(include 네 개, _layouts/legal.html, bundle exec jekyll serve --livereload, scripts/check-site.sh)로 고침. .claude/CLAUDE.md 재생성은 02-09에서 함. 푸시 안 함
 
 ### Pending Todos
 
@@ -155,6 +158,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T05:22:40.890Z
-Stopped at: Completed 02-07-PLAN.md
+Last session: 2026-11-16T05:41:44.296Z
+Stopped at: Completed 02-08-PLAN.md
 Resume file: None

@@ -157,3 +157,11 @@ None - no external service configuration required.
 ---
 *Phase: 02-jekyll-shared-shell-refactor*
 *Completed: 2026-11-16*
+
+## Self-Check: PASSED
+
+- 파일: `_includes/css/common.css`, `.planning/codebase/STACK.md`·`CONVENTIONS.md`·`ARCHITECTURE.md`, 이 SUMMARY 모두 있음
+- 커밋: `b11e43b49c0a`, `f17a20e191f2`, `8c75ca92f04e`, SUMMARY 커밋 `6830bb616272` 모두 HEAD의 조상
+- verify: Task 1 세 명령, Task 2 세 명령, Task 3 세 명령 모두 exit 0. 계획 verification의 `git diff --quiet HEAD~3 HEAD -- CLAUDE.md .claude/CLAUDE.md` 통과(SUMMARY 커밋 전), 누출 검사 걸린 줄 없음
+- 푸시 안 함: 원격 main `e7e62f3f7990` 그대로
+- 참고: 세 task 커밋의 제목은 계획 action에 적힌 문구 그대로라 `(02-08)` 범위가 없다. 그래서 `check evaluation-scope --plan 02-08`은 SUMMARY 커밋만 찾는다. 이 계획의 커밋은 `plan_head_before..plan_head_after` 범위(3개)와 위 Task Commits 목록으로 확인한다
