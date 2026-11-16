@@ -82,7 +82,7 @@ status: complete
 
 - **Duration:** 약 10분 (Task 1 기록 05:15Z부터. Task 2에서 사람의 승인을 기다린 시간 포함)
 - **Started:** 2026-11-16T05:15Z (Task 1 기록 시각), 이어받은 실행은 2026-11-16T05:20Z
-- **Completed:** 2026-11-16T05:25Z
+- **Completed:** 2026-11-16T05:24Z
 - **Tasks:** 3/3 (Task 1 tracer, Task 2 checkpoint:decision, Task 3 auto)
 - **Files modified:** 저장소 파일 1개(`02-EVIDENCE.md`) + 이 SUMMARY
 
@@ -135,3 +135,16 @@ None - no external service configuration required.
 - 원격 main은 이제 `e7e62f3f7990`이다. 네 페이지 모두 공통 블록 한 벌(`_includes/`)을 쓰는 상태가 라이브에 있다. 법적 URL 세 개(`/privacy-policy/`, `/terms/`, `/data-deletion/`)는 경로가 그대로이고 200·같은 제목을 돌려준다.
 - 다음 푸시(④)는 02-10에서 새로 승인받는다.
 - 이 계획의 docs 커밋과 상태 기록 커밋은 로컬에만 있다. 다음 승인된 푸시 때 함께 나간다.
+
+## Self-Check: PASSED
+
+- `02-EVIDENCE.md`에 `PUSH3_CANDIDATE=e7e62f3f7990`, `PUSH3_PREV=01f6bb8bbb13`, `PUSH3_SHA=e7e62f3f7990`, `LIVE_PUSH3=OK`와 두 02-07 구간이 있다
+- Task 1 verify 1개, Task 3 verify 2개 모두 exit 0 (PLAN의 `<automated>` 텍스트를 그대로 뽑아 `/bin/bash -c`로 실행. Pages 빌드 기록 대조 포함)
+- `git fetch` 뒤 원격 main = `e7e62f3f7990`, `merge-base --is-ancestor e7e62f3f7990 origin/main` 참
+- docs 커밋 `87fbf2a`와 상태 기록 커밋 `30b830a`가 HEAD의 조상이다
+- 이 계획이 고친 저장소 파일은 `02-EVIDENCE.md`와 이 SUMMARY뿐 (`.planning/config.json`, `.planning/state.json`의 기존 변경은 실행 전부터 있던 것이고 스테이징하지 않았다)
+- 누출 검사(02-01 verification 정규식)를 이 SUMMARY와 `02-EVIDENCE.md`에 돌려 걸린 줄 0
+
+---
+*Phase: 02-jekyll-shared-shell-refactor*
+*Completed: 2026-11-16*
