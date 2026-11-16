@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Jekyll 공유 셸 도입 (Shared Shell Refactor)
 status: executing
-stopped_at: Completed 02-08-PLAN.md
-last_updated: "2026-11-16T05:41:44.372Z"
+stopped_at: Completed 02-09-PLAN.md
+last_updated: "2026-11-16T06:04:07.104Z"
 last_activity: 2026-11-15
 last_activity_desc: Phase 02 execution started
-state_head: 6830bb616272ece57e4d82d0367c89371359a761
+state_head: 4212845112b5ef4e86929c89bfde1a03a5853f0d
 progress:
   total_phases: 10
   completed_phases: 1
   total_plans: 20
-  completed_plans: 18
+  completed_plans: 19
   percent: 10
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-15)
 ## Current Position
 
 Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — EXECUTING
-Plan: 9 of 10
+Plan: 10 of 10
 Status: Ready to execute
 Last activity: 2026-11-15 — Phase 02 execution started
 
@@ -74,6 +74,7 @@ Progress: [█░░░░░░░░░] 10%
 | Phase 02 P06 | 4min | 2 tasks | 2 files |
 | Phase 02 P07 | 10min | 3 tasks | 2 files |
 | Phase 02 P08 | 8min | 3 tasks | 5 files |
+| Phase 02 P09 | 8min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -127,6 +128,8 @@ Recent decisions affecting current work:
 - [Phase 02]: [02-07] 운영 빌드가 랜딩의 인라인 스크립트·SVG를 Liquid로 처리해도 출력이 기준 원본과 같았다 (live-check 통과, 네 페이지 공통 블록 한 벌이 라이브에 있음)
 - [Phase 02]: 02-08: 「공통」 CSS 머리 주석 수정 커밋 b11e43b49c0a. 주석 제거 비교에서 네 문서가 기준 db505d71d3d2와 같고, 주석 그대로 비교에서는 머리 주석 한 줄만 다름 (사용자 승인 예외, ROADMAP 성공 기준 1 문구는 고치지 않음)
 - [Phase 02]: 02-08: 원본 맵 STACK·CONVENTIONS·ARCHITECTURE를 지금 구조(include 네 개, _layouts/legal.html, bundle exec jekyll serve --livereload, scripts/check-site.sh)로 고침. .claude/CLAUDE.md 재생성은 02-09에서 함. 푸시 안 함
+- [Phase 02]: 02-09: 두 CLAUDE.md 문서 커밋 8fd222b50994. 생성기 사본 시험에서 바뀐 블록은 stack·conventions·architecture뿐이고 방침 구간·project·workflow는 그대로여서 저장소에서 --auto 없이 재생성함. 푸시 안 함
+- [Phase 02]: 02-09: TESTING의 공통 블록 한 벌 확인 git grep은 경로를 '*.html'·'*.css'로 좁힘 (문자열을 인용한 .planning 문서 제외). README·TESTING·STRUCTURE 4da23cee314e, CONCERNS 2079ea4e0b25, 성공 기준 3 grep 0건
 
 ### Pending Todos
 
@@ -158,6 +161,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T05:41:44.296Z
-Stopped at: Completed 02-08-PLAN.md
+Last session: 2026-11-16T06:04:07.026Z
+Stopped at: Completed 02-09-PLAN.md
 Resume file: None

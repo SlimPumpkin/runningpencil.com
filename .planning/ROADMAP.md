@@ -83,7 +83,7 @@ Plans:
   2. 공통 블록(head 링크, 「공통」 CSS, 헤더, 푸터)이 `_includes`/`_layouts`에 한 벌만 있고, 그중 하나를 시험 삼아 바꾸면 네 문서의 빌드 결과가 모두 바뀐다
   3. 운영자는 `CLAUDE.md`에 적힌 명령(Jekyll 3.10.0을 고정한 Gemfile)으로 실제 배포와 같은 빌드의 로컬 미리보기를 띄우고, 푸시 전에 빌드 성공을 확인한다. `python3 -m http.server` 안내는 남아 있지 않다
   4. 라이브에서 `/CLAUDE.md`, `/README.md`, `/Gemfile`, `/Gemfile.lock`, `vendor/`·`.planning/`·`prepare/` 아래 파일이 404이고, 기존 네 URL은 200과 전환 전과 같은 `<title>`을 돌려준다
-**Plans**: 8/10 plans executed
+**Plans**: 9/10 plans executed
 
 Plans:
 **Wave 1**
@@ -111,7 +111,7 @@ Plans:
 - [x] 02-08-PLAN.md — 「공통」 CSS 머리 주석 별도 커밋(D-06), 원본 맵 STACK·CONVENTIONS·ARCHITECTURE 갱신
 
 **Wave 9** *(blocked on Wave 8 completion)*
-- [ ] 02-09-PLAN.md — 두 CLAUDE.md 한 커밋(방침 행 + 재생성), README·TESTING·STRUCTURE·CONCERNS 갱신
+- [x] 02-09-PLAN.md — 두 CLAUDE.md 한 커밋(방침 행 + 재생성), README·TESTING·STRUCTURE·CONCERNS 갱신
 
 **Wave 10** *(blocked on Wave 9 completion)*
 - [ ] 02-10-PLAN.md — 푸시 ④ 주석·문서, 주석 제거 라이브 비교, 성공 기준 1~4 판정표
@@ -288,7 +288,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
-| 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 8/10 | In Progress | - |
+| 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 9/10 | In Progress | - |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 0/TBD | Not started | - |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 0/TBD | Not started | - |
