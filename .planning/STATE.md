@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 03
 current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 status: executing
-stopped_at: Completed 03-07-PLAN.md
-last_updated: "2026-11-16T17:43:29.777Z"
+stopped_at: Completed 03-08-PLAN.md
+last_updated: "2026-11-16T17:56:47.478Z"
 last_activity: 2026-11-16
 last_activity_desc: Phase 03 execution started
-state_head: 655084f3a5ff44ee695386720cedd09f0cd49858
+state_head: b75ffd79518c4d2dfb612109723b1e7bbf3c0eb4
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 29
-  completed_plans: 27
+  completed_plans: 28
   percent: 20
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-16)
 ## Current Position
 
 Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
-Plan: 8 of 9
+Plan: 9 of 9
 Status: Ready to execute
 Last activity: 2026-11-16 — Phase 03 execution started
 
@@ -84,6 +84,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 03 P05 | 4min | 3 tasks | 2 files |
 | Phase 03 P06 | 6min | 3 tasks | 2 files |
 | Phase 03 P07 | 6min | 2 tasks | 8 files |
+| Phase 03 P08 | 4min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -156,6 +157,8 @@ Recent decisions affecting current work:
 - [Phase 03]: 사용자가 사이트 푸시를 승인(push, SHA 2ebeca06ca51)해 그 SHA 하나만 pre-push 훅 통과 뒤 원격 main에 푸시. 라이브 빌드·HTTP·화면(JUDGE live OK) 모두 OK라 되돌리기 없음 (03-06)
 - [Phase 03]: 03-07: 법적 본문 작성 규칙(D-01~D-12, figure tabindex="0" aria-label 감싸개, nowrap 머리 행)은 .planning/codebase/CONVENTIONS.md 「법적 본문 작성 규칙」 절에 두고, 생성기가 일반 문단을 버리므로 목록 항목으로만 쓴다
 - [Phase 03]: 03-07: 범위 없는 선택자 금지는 본문 요소 규칙에만 적용한다. legal.css의 body·main·.rp-grid 레이아웃 규칙은 법적 페이지에서만 불리므로 허용
+- [Phase 03]: 03-08: 루트 CLAUDE.md의 법적 본문 작성 규칙은 D-01~D-04·D-07과 세 곳 동시 수정 규칙만 적고, 요소별 모양(D-05~D-12)은 원본 맵 CONVENTIONS 「법적 본문 작성 규칙」 절을 가리킨다
+- [Phase 03]: 03-08: 두 CLAUDE.md 문서 커밋 19dbbe78627c(방침 행 「Phase 3까지 적용됨」, 생성기 사본 시험에서 stack·conventions·architecture만 바뀌어 --auto 없이 재생성), README 커밋 629c2dfad614. 열 개 문서 Tailwind 흔적 0줄(DOCS_STALE=OK). 푸시 안 함
 
 ### Pending Todos
 
@@ -187,6 +190,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T17:43:29.602Z
-Stopped at: Completed 03-07-PLAN.md
+Last session: 2026-11-16T17:56:47.282Z
+Stopped at: Completed 03-08-PLAN.md
 Resume file: None
