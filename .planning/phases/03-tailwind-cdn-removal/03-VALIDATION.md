@@ -103,7 +103,7 @@ validated: "2026-11-16"
 - 작업 트리 check-site(5항목)로 점검 커밋 `69f46942bec6`, nowrap `fb6bdfa40b70`, 사이트 푸시 `2ebeca06ca51`, 문서 푸시 `3f148e83d849`, HEAD 모두 통과
 - 음성 대조: 점검 커밋의 스크립트로 ②를 점검하면 `Tailwind Play CDN이 출력에 남아 있습니다`로 실패 (재유입 차단)
 - `bash -n scripts/check-site.sh` 통과, `core.hooksPath=.githooks`, `scripts/check-site.sh`·`.githooks/pre-push` 모두 100755
-- 계획 9개의 `<automated>` verify 31개를 HEAD에서 다시 돌려 모두 rc=0 (스크래치 판정 도구가 남아 있어 judge 행도 재판정됨)
+- 계획 9개의 `<automated>` verify 31개를 HEAD에서 다시 돌려 모두 rc=0. judge 행은 저장된 캡처를 다시 계산한 것이고 새 캡처는 찍지 않았다 (검증 시점에 스크래치 Playwright 패키지 파일이 지워져 있었음, 03-VERIFICATION.md 참고)
 
 일회용 행은 EVIDENCE 표식으로 뒷받침된다: `BASE_SELFDIFF=OK`, `JUDGE_NEG=OK`, `JUDGE base2/c1/c1p/c2/c3/nw/live OK`, `JUDGE neg FAIL`, `C1_PIXEL`·`C1_PREVIEW3`·`C2_PIXEL`·`C3_PIXEL`·`NOWRAP_PIXEL=OK`, `C2_CONTRACT=OK`, `CHECK5=OK`, `SAMPLE=OK`, `SC4_DECISION=approved`, `TABLE_WRAP=nowrap`, `LIVE_SITE=OK`, `DOCS_STALE=OK`, `LIVE_DOCS=OK`, `PHASE3_SC=OK`. 03-09 문서 푸시 뒤 `/CLAUDE.md`·`/README.md`의 CDN 일시 503은 사용자 결정으로 404 판정했다 (EVIDENCE `## 03-09 503 판정과 사용자 결정`).
 
