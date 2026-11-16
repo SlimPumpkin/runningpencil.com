@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: 기준표와 방침 정비 (Ground Truth & Policy Reset)** - 이름 표·URL 대장·데이터 목록·결정 목록을 만들고 `CLAUDE.md` 방침을 바꾼다 (completed 2026-11-15)
 - [x] **Phase 2: Jekyll 공유 셸 도입 (Shared Shell Refactor)** - 공통 블록을 한 곳으로 모으되 사이트 출력은 그대로 둔다 (completed 2026-11-16)
-- [ ] **Phase 3: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)** - Tailwind Play CDN을 정적 CSS로 바꾸되 모양은 그대로 둔다
+- [x] **Phase 3: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)** - Tailwind Play CDN을 정적 CSS로 바꾸되 모양은 그대로 둔다 (completed 2026-11-17)
 - [ ] **Phase 4: 홈페이지 서비스 소개 정정 (Landing Content Fix)** - 앱에 없는 기능 설명을 빼고 실제 앱 화면을 보여 준다
 - [ ] **Phase 5: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)** - 푸터 사업자 정보, `/support/`, 실제로 받히는 지원 이메일(이메일 게이트)
 - [ ] **Phase 6: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)** - 앱 없이 웹에서 삭제를 요청하는 경로와 삭제·보존 데이터 안내
@@ -129,7 +129,7 @@ Plans:
   2. 375·768·1280px에서 전환 전·후 캡처를 비교하면 줄 간격·테두리·여백·글자색·카드 모양이 같다
   3. 세 문서 본문에서 뽑은 텍스트가 전환 전과 같다(문장 변경 0)
   4. 클래스 없는 시험용 표·목록·주석을 본문에 넣어 보면 별도 클래스 없이 카드 디자인에 맞게 보인다(이후 처리 위탁 표·FAQ·영문판이 같은 규칙을 씀)
-**Plans**: 9/9 plans executed
+**Plans**: 9/9 plans complete
 
 Plans:
 **Wave 1**
@@ -317,7 +317,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
-| 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | In Progress | - |
+| 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 0/TBD | Not started | - |
 | 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 0/TBD | Not started | - |

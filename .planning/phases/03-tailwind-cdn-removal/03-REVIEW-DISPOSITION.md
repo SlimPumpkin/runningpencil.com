@@ -5,7 +5,7 @@ titles: json
 findings:
   - id: WR-01
     severity: warning
-    disposition: open
+    disposition: deferred
     title: "rem 기반 유틸리티를 px로 옮겨, 브라우저 기본 글꼴 크기를 바꾼 사용자에게서 제목·간격 위계가 무너짐"
   - id: WR-02
     severity: warning
@@ -35,7 +35,7 @@ findings:
     severity: info
     disposition: open
     title: "`legal.css` 머리 주석의 「함께 고칠 곳」이 CLAUDE.md 규칙보다 좁음"
-open: 8
+open: 7
 total: 8
 recorded: 2026-11-16T18:51:48.727Z
 ---
@@ -44,7 +44,7 @@ recorded: 2026-11-16T18:51:48.727Z
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-01 | warning | open | - |
+| WR-01 | warning | deferred | UAT Test 6(2026-11-17)에서 사용자가 px 고정을 받아들임. 고치지 않고 PROJECT.md Key Decisions에 기록 |
 | WR-02 | warning | open | - |
 | IN-01 | info | open | - |
 | IN-02 | info | open | - |

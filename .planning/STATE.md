@@ -1,43 +1,43 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 03
-current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
-status: verifying
-stopped_at: Completed 03-09-PLAN.md
-last_updated: "2026-11-16T18:29:18.830Z"
-last_activity: 2026-11-16
-last_activity_desc: Phase 03 execution started
-state_head: 97281e6101a941a83e8e3c25e79c253df3e0e55b
+current_phase: 4
+current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
+status: planning
+stopped_at: Phase 03 complete, ready to plan Phase 4
+last_updated: "2026-11-16T20:34:46.507Z"
+last_activity: 2026-11-17
+last_activity_desc: Phase 03 complete, transitioned to Phase 4
+state_head: f23c4b958f7d653bc7bfbafee35571e0eab3d9c2
 progress:
   total_phases: 10
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 29
   completed_plans: 29
-  percent: 20
+  percent: 30
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-16)
+See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 03 — 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
+**Current focus:** Phase 4 — 홈페이지 서비스 소개 정정 (Landing Content Fix)
 
 ## Current Position
 
-Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
-Plan: 9 of 9
-Status: Phase complete — ready for verification
-Last activity: 2026-11-16 — Phase 03 execution started
+Phase: 4 — 홈페이지 서비스 소개 정정 (Landing Content Fix)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-11-17 — Phase 03 complete, transitioned to Phase 4
 
-Progress: [██░░░░░░░░] 20%
+Progress: [███░░░░░░░] 30%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 20
+- Total plans completed: 29
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -47,6 +47,7 @@ Progress: [██░░░░░░░░] 20%
 |-------|-------|-------|----------|
 | 01 | 10 | - | - |
 | 02 | 10 | - | - |
+| 03 | 9 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: -
@@ -163,6 +164,9 @@ Recent decisions affecting current work:
 - [Phase 03]: 03-09: 사용자가 문서 푸시를 승인(push, SHA 3f148e83d849)해 그 SHA 하나만 pre-push 훅 통과 뒤 원격 main에 푸시. 빌드 built, 세 법적 URL과 / 200·제목·Tailwind 0 (LIVE_DOCS=OK)
 - [Phase 03]: 03-09: /CLAUDE.md·/README.md 첫 읽기의 503(CDN 가장자리 일시 오류, 대조 경로도 같음)은 사용자 결정 other로 404 판정(원 서버 늘 404, 200은 0). 되돌리기 푸시 없음. 푸시하지 않은 되돌림 커밋 641d7bfb7718·0e94067c885c는 reset --keep로 제거. 계획 404 문자 규칙·D-23의 사용자 승인 예외
 - [Phase 03]: 03-09: Phase 3 성공 기준 1~4 충족(PHASE3_SC=OK). 실제 Safari·iOS Safari, 다른 폭, 고배율, 화면 낭독기, D-08 끝까지 민 뒤 그림자 소멸, D-07 실제 Safari Tab 도달은 범위 밖으로 단계 끝 사람 확인에 넘김
+- [Phase 03]: UAT 8/8 통과 (2026-11-17). 1·6·7번은 사용자가, 2·3·4·5·8번은 사용자 요청으로 Claude가 확인: 다른 폭·DPR 90건(Playwright, DPR은 에뮬레이션), 실제 macOS Safari AX 트리와 Chromium AX 트리(VoiceOver 음성·iOS 미확인), 시험 본문 표 그림자 픽셀 측정(scrollLeft를 코드로 이동), 실제 macOS Safari Tab·화살표 키(iOS Safari 미확인), 금지 사항 표 근거 재실행(27행 OK, --no-verify는 7번으로 갈음)
+- [Phase 03]: 코드 리뷰 WR-01(rem→px)은 UAT 6번에서 사용자가 px 고정을 받아들임. REVIEW-DISPOSITION을 deferred로 바꾸고 PROJECT.md Key Decisions에 기록
+- [Phase 03]: 스크래치 `$W/pw`의 Playwright 패키지 파일이 macOS 임시 폴더 정리로 지워져 있었음. 03-01 승인 범위(같은 경로·같은 고정 버전)대로 `pnpm --dir "$W/pw" install --frozen-lockfile --force`로 재설치함 (UAT 중). 스크래치 도구는 오래 두면 사라질 수 있음
 
 ### Pending Todos
 
@@ -184,6 +188,10 @@ None yet.
 
 연구 필요(계획 단계에서 확인): Phase 7 처리방침 작성지침 원문, Phase 8 위치정보법 분류(법률 확인 필수), Phase 10 콘솔별 필드명
 
+Phase 3에서 넘어온 것:
+- [Phase 03] 코드 리뷰 WR-02 open: `scripts/check-site.sh` 5번 항목이 `@tailwindcss/browser` 스크립트와 `<style type="text/tailwindcss">`를 잡지 못함. 고칠지 사람이 정해야 함 (`03-REVIEW.md`). Info IN-01~06도 open이고, 그중 IN-01(`th` nowrap이 `tbody`의 행 머리에도 걸림)은 Phase 7 처리 위탁 표를 쓸 때 다시 봄
+- [Phase 03] Phase 7에서 실제 처리 위탁 표가 들어오면 실기기 iOS Safari와 VoiceOver 음성으로 표 읽기·Tab 도달·스크롤 그림자를 다시 확인함 (Phase 3 UAT는 시험 본문, macOS Safari, 접근성 트리까지만 확인)
+
 ## Deferred Items
 
 Items acknowledged and deferred at milestone close, most recent first:
@@ -194,6 +202,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T18:29:18.605Z
-Stopped at: Completed 03-09-PLAN.md
+Last session: 2026-11-16T20:40:00.000Z
+Stopped at: Phase 3 complete (UAT 8/8), ready to plan Phase 4
 Resume file: None
