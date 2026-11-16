@@ -1,7 +1,11 @@
 # runningpencil.com
 
-러닝펜슬 티저 사이트. GitHub Pages 정적 호스팅, 빌드 없음.
+러닝펜슬 티저 사이트. GitHub Pages 정적 호스팅. 배포할 때 GitHub Pages 내장 Jekyll(3.10.0)이 `_layouts`·`_includes`로 페이지를 조립한다.
 
 ```bash
-python3 -m http.server 8000   # http://localhost:8000
+bundle config set --local path vendor/bundle   # 처음 한 번: gem을 저장소 안에 둔다
+bundle install                                 # gem 설치 (Jekyll 3.10.0)
+bundle exec jekyll serve --livereload          # 미리보기 → http://localhost:4000
+git config core.hooksPath .githooks            # 클론마다 한 번: pre-push 점검 훅 켜기
+scripts/check-site.sh                          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여)
 ```

@@ -10,19 +10,37 @@ last_mapped_at: 2026-11-14
 
 ```
 runningpencil.com/
-├── index.html                 # 티저 랜딩 (653줄: CSS + SVG defs + 마크업 + 인라인 JS)
+├── index.html                 # 티저 랜딩 (586줄: front matter `layout: none` + include 네 줄 + 랜딩 전용 CSS + SVG defs + 마크업 + 인라인 JS)
 ├── privacy-policy/
-│   └── index.html             # 개인정보처리방침 (noindex, Tailwind CDN)
+│   └── index.html             # 개인정보처리방침 (front matter + 카드 본문, noindex)
 ├── terms/
-│   └── index.html             # 서비스 이용약관 (noindex, Tailwind CDN)
+│   └── index.html             # 서비스 이용약관 (front matter + 카드 본문, noindex)
 ├── data-deletion/
-│   └── index.html             # 계정·데이터 삭제 안내 (noindex, Tailwind CDN)
+│   └── index.html             # 계정·데이터 삭제 안내 (front matter + 카드 본문, noindex)
+├── _includes/                 # 공통 블록 한 벌 (Jekyll include)
+│   ├── head-links.html        # Pretendard 글꼴·파비콘·매니페스트 링크
+│   ├── header.html            # 헤더 마크업 (home=true면 랜딩 링크)
+│   ├── footer.html            # 푸터 마크업
+│   └── css/
+│       └── common.css         # 「공통」 CSS 묶음
+├── _layouts/
+│   └── legal.html             # 법적 3종 레이아웃 (head·Tailwind CDN·tailwind-config·「법적 페이지 전용」 CSS·카드 틀)
 ├── favicon/                   # 파비콘·앱 아이콘·웹 매니페스트
-├── _config.yml                # Jekyll exclude (CNAME, CLAUDE.md, README.md, .planning/)
+├── scripts/
+│   └── check-site.sh          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여)
+├── .githooks/
+│   └── pre-push               # main 푸시마다 check-site.sh 실행 (git config core.hooksPath .githooks)
+├── Gemfile                    # 로컬 빌드용 gem (jekyll = 3.10.0 고정)
+├── Gemfile.lock               # gem 잠금 (커밋함)
+├── _config.yml                # Jekyll 설정 (url, exclude)
 ├── CNAME                      # 커스텀 도메인 runningpencil.com
 ├── CLAUDE.md                  # 저장소 가이드 (사이트 비공개)
 ├── README.md                  # 저장소 소개 (사이트 비공개)
-├── .gitignore                 # prepare/ 등 제외
+├── .gitignore                 # prepare/, Jekyll 산출물, gem 위치 등 제외
+├── vendor/                    # 로컬 전용, gitignored (bundle 설치 위치 vendor/bundle)
+├── .bundle/                   # 로컬 전용, gitignored (bundle config --local 기록)
+├── _site/                     # 로컬 전용, gitignored (jekyll build/serve 출력)
+├── .jekyll-cache/             # 로컬 전용, gitignored (Jekyll 캐시)
 └── prepare/                   # 로컬 전용, gitignored (이전 디자인 목업 등) — 분석 제외
 ```
 
@@ -34,8 +52,12 @@ runningpencil.com/
 
 **`privacy-policy/`, `terms/`, `data-deletion/`:**
 - Purpose: 법적 페이지. 디렉터리 + `index.html`로 trailing-slash URL(`/terms/`) 제공
-- Contains: 같은 레이아웃(`main.rp-grid` 모눈종이 + 흰 카드), 본문 `<section class="space-y-3">` 반복
-- Key files: `terms/index.html` (Tailwind config `:21-34`, 「법적 페이지 전용」 `.rp-grid` `:69`)
+- Contains: front matter(`layout: legal`, `title`, `description`, `eyebrow`, `updated`, `noindex`)와 본문 `<section class="space-y-3">` 반복. 틀(`main.rp-grid` 모눈종이 + 흰 카드)은 `_layouts/legal.html`이 그린다
+- Key files: `_layouts/legal.html` (Tailwind config `:16-30`, 「법적 페이지 전용」 `.rp-grid` `:37`, 본문 자리 `:53`)
+
+**`_includes/`, `_layouts/`:**
+- Purpose: 공통 블록과 법적 레이아웃의 원본. 밑줄로 시작하므로 사이트에 출력되지 않는다
+- Key files: `_includes/head-links.html`, `_includes/header.html`, `_includes/footer.html`, `_includes/css/common.css`, `_layouts/legal.html`
 
 **`favicon/`:**
 - Purpose: 브라우저/홈 화면 아이콘
@@ -48,21 +70,23 @@ runningpencil.com/
 - `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`: 법적 페이지
 
 **Configuration:**
-- `_config.yml`: Jekyll 제외 목록 — 새 마크다운 문서 추가 시 등록 필수
+- `_config.yml`: Jekyll `url`과 `exclude`. 사용자 `exclude`가 기본 제외 목록을 덮어쓰므로 새 마크다운 문서나 루트 파일·폴더를 추가하면 등록 필수
+- `Gemfile`, `Gemfile.lock`: 로컬 Jekyll 3.10.0 고정
 - `CNAME`: 도메인 매핑
 - `favicon/site.webmanifest`: 매니페스트 (`theme_color`/`background_color` `#F2B134`)
-- 법적 페이지 `<script id="tailwind-config">`: 색 토큰
+- `_layouts/legal.html` `<script id="tailwind-config">`: 색 토큰
 
 **Core Logic (`index.html` 내부 구획):**
-- `:26-29`: pre-paint `rp-pin` 스크립트
-- `:31-58`: 「공통」 CSS (4페이지 복사본)
-- `:60-146`: 「랜딩 전용」 CSS, `:131` 좁은 화면 `@media`
-- `:152-182`: 숨은 `<svg><defs>` 심볼
-- `:185-197`: 헤더 / `:201` 히어로 / `:249` `#story` / `:406` `#demo` / `:444` `#get` / `:471` 푸터
-- `:495-650`: 동작 스크립트 (IIFE)
+- `:21`: `{% include head-links.html %}`
+- `:22-25`: pre-paint `rp-pin` 스크립트
+- `:27`: 「공통」 CSS include 한 줄 (내용은 `_includes/css/common.css`)
+- `:29-115`: 「랜딩 전용」 CSS, `:100` 좁은 화면 `@media`
+- `:121-151`: 숨은 `<svg><defs>` 심볼
+- `:153` 헤더 include(`home=true`) / `:157` 히어로 / `:205` `#story` / `:362` `#demo` / `:400` `#get` / `:426` 푸터 include
+- `:428-583`: 동작 스크립트 (IIFE)
 
 **Testing:**
-- 없음. `python3 -m http.server 8000`으로 루트를 서빙해 수동 확인.
+- 자동 점검은 `scripts/check-site.sh` 하나 (pre-push 훅이 `main` 푸시마다 실행). 화면 확인은 `bundle exec jekyll serve --livereload`(http://localhost:4000)로 띄워 수동으로 한다.
 
 ## Naming Conventions
 
@@ -84,21 +108,22 @@ runningpencil.com/
 ## Where to Add New Code
 
 **새 법적/정적 페이지:**
-- `<slug>/index.html` 생성, 기존 법적 페이지(예: `terms/index.html`)를 통째로 복사해 본문 `<section>`만 교체
-- 헤더·푸터 링크는 절대 경로(`/`, `/#story`)
-- 푸터에 링크를 추가하면 4개 파일 모두 갱신
+- `<slug>/index.html`에 front matter(`layout: legal`, `title`, `description`, `eyebrow`, 필요하면 `heading`·`updated`·`noindex`)와 본문 `<section>`만 쓴다. head·헤더·푸터·카드 틀은 `_layouts/legal.html`이 그린다
+- 마크다운 문서나 새 루트 파일을 더하면 `_config.yml`의 `exclude`를 확인한다
+- `scripts/check-site.sh`의 기대 제목 목록은 기존 URL 넷(`/`, `/privacy-policy/`, `/terms/`, `/data-deletion/`)만 다룬다. 새 페이지는 그 목록에 자동으로 들어가지 않는다
+- 푸터에 링크를 추가하면 `_includes/footer.html` 한 곳만 고친다
 
 **랜딩 새 구간:**
-- 마크업: `index.html` `<main>` 안, `#get`(`:444`) 앞 등 적절한 위치에 `<section id="…" aria-labelledby="rp-h-…">`
-- 스타일: 「랜딩 전용」 블록, 반응형은 `clamp(...vw...)` + `:131`의 `@media (max-width: 860px)`
-- 헤더 내비 추가 시 4페이지 헤더 모두 수정
+- 마크업: `index.html` `<main>` 안, `#get`(`:400`) 앞 등 적절한 위치에 `<section id="…" aria-labelledby="rp-h-…">`
+- 스타일: 「랜딩 전용」 블록, 반응형은 `clamp(...vw...)` + `:100`의 `@media (max-width: 860px)`
+- 헤더 내비 추가 시 `_includes/header.html` 한 곳만 수정 (랜딩 링크와 법적 페이지 링크 두 갈래)
 
 **새 반복 도형/아이콘:**
-- `index.html:152-182` `<defs>`에 `<symbol id="rp-i-…">` 또는 `<path id="rp-c-…" pathLength="1000">` 추가 후 `<use href="#…">`
+- `index.html:121-151` `<defs>`에 `<symbol id="rp-i-…">` 또는 `<path id="rp-c-…" pathLength="1000">` 추가 후 `<use href="#…">`
 - 법적 페이지에는 `<defs>`가 없으므로 인라인 SVG로 직접 삽입
 
 **동작 추가:**
-- `index.html:495` 이후 IIFE 안에 추가, `byId()`로 요소 획득, 상태는 클래스/CSS 변수로 반영. id 이름 변경 시 스크립트 동시 수정.
+- `index.html:428` 이후 IIFE 안에 추가, `byId()`로 요소 획득, 상태는 클래스/CSS 변수로 반영. id 이름 변경 시 스크립트 동시 수정.
 
 **Utilities:**
 - 공유 헬퍼는 IIFE 내부 함수(`clamp01`, `clock`, `setText`, `moveTo`, `reduced`) 재사용. 별도 JS 파일 없음.
