@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Jekyll 공유 셸 도입 (Shared Shell Refactor)
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-11-16T01:12:36.325Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-11-16T01:50:38.526Z"
 last_activity: 2026-11-15
-last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 242232661da538dcdd62d7748e822e2da669dc4c
+last_activity_desc: Phase 02 execution started
+state_head: 7f13a622878bf29aae057a3c8baa0773364a919f
 progress:
   total_phases: 10
   completed_phases: 1
   total_plans: 20
-  completed_plans: 10
+  completed_plans: 11
   percent: 10
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-15)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 2 — Jekyll 공유 셸 도입 (Shared Shell Refactor)
+**Current focus:** Phase 02 — Jekyll 공유 셸 도입 (Shared Shell Refactor)
 
 ## Current Position
 
-Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — READY TO EXECUTE
-Plan: Not started
+Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — EXECUTING
+Plan: 2 of 10
 Status: Ready to execute
-Last activity: 2026-11-15 — Phase 01 complete, transitioned to Phase 2
+Last activity: 2026-11-15 — Phase 02 execution started
 
 Progress: [█░░░░░░░░░] 10%
 
@@ -66,6 +66,7 @@ Progress: [█░░░░░░░░░] 10%
 | Phase 01 P08 | 9min | 2 tasks | 1 files |
 | Phase 01 P09 | 5min | 2 tasks | 2 files |
 | Phase 01 P10 | 5 min | 1 tasks | 1 files |
+| Phase 02 P01 | 8 min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 01]: 01-08: dev CLI 읽기 전용 조회 여덟 건이 모두 조회함이라 데이터 목록의 「CLI 미확인」 칸을 「근거: dev CLI, 2026-11-15 조회」로 채웠다. dev 값이므로 결정 목록 「prod 리전」(P1)은 열어 둔다
 - [Phase 01]: G-01-2: 가비아 DNS 2차 방문(DKIM, 절차서 작업 6)은 Phase 10(Apple 릴레이 답장, SUP-05)만 막고 작업 시점은 Phase 5 무렵으로 둠. ROADMAP External Gates 표를 절차서에 맞춤 (D-14) (01-09)
 - [Phase 01]: G-01-8: 데이터 목록 「수탁자」 열 이름은 유지하고, 머리에 분류 출처(PRIV-03, Phase 7 성공 기준 2)를 밝히며 Meta (Facebook SDK)의 수탁·제3자 제공 구분은 Phase 7로 넘김
+- [Phase 02]: 기준 커밋 BASE_SHA=db505d71d3d2 (Phase 2 첫 사이트 커밋 전 HEAD) (02-01)
+- [Phase 02]: check-site.sh 2번 항목에 빌드 원본의 .nojekyll 검사를 더함. 운영만 Jekyll을 건너뛰어 내부 문서가 공개되는 경우는 로컬 빌드로 못 잡기 때문 (02-01)
+- [Phase 02]: use_worktrees=true인 채로 실행했으나 precondition(메인 체크아웃)이 충족되어 진행. 설정 파일은 고치지 않음 (02-01)
 
 ### Pending Todos
 
@@ -133,6 +137,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-15T21:55:29.117Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-jekyll-shared-shell-refactor/02-CONTEXT.md
+Last session: 2026-11-16T01:50:38.453Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None
