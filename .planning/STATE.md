@@ -1,43 +1,43 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 02
-current_phase_name: Jekyll 공유 셸 도입 (Shared Shell Refactor)
-status: verifying
-stopped_at: Completed 02-10-PLAN.md
-last_updated: "2026-11-16T06:46:58.609Z"
-last_activity: 2026-11-15
-last_activity_desc: Phase 02 execution started
-state_head: 0fbd9b053305b9dc29a656c090d4be134b63c0b8
+current_phase: 3
+current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
+status: planning
+stopped_at: Phase 02 complete, ready to plan Phase 3
+last_updated: "2026-11-16T08:25:47.432Z"
+last_activity: 2026-11-16
+last_activity_desc: Phase 02 complete, transitioned to Phase 3
+state_head: 2ae2410a08a56af9d97747b4e5d03195d3b125a3
 progress:
   total_phases: 10
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 20
   completed_plans: 20
-  percent: 10
+  percent: 20
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-15)
+See: .planning/PROJECT.md (updated 2026-11-16)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 02 — Jekyll 공유 셸 도입 (Shared Shell Refactor)
+**Current focus:** Phase 3 — 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 
 ## Current Position
 
-Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — EXECUTING
-Plan: 10 of 10
-Status: Phase complete — ready for verification
-Last activity: 2026-11-15 — Phase 02 execution started
+Phase: 3 — 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-11-16 — Phase 02 complete, transitioned to Phase 3
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 20
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -46,6 +46,7 @@ Progress: [█░░░░░░░░░] 10%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 10 | - | - |
+| 02 | 10 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: -
@@ -133,7 +134,9 @@ Recent decisions affecting current work:
 - [Phase 02]: 02-09: TESTING의 공통 블록 한 벌 확인 git grep은 경로를 '*.html'·'*.css'로 좁힘 (문자열을 인용한 .planning 문서 제외). README·TESTING·STRUCTURE 4da23cee314e, CONCERNS 2079ea4e0b25, 성공 기준 3 grep 0건
 - [Phase 02]: 푸시 ④는 승인된 9f715c795830 하나만 원격 main에 푸시했고 live-check --no-comments가 통과했다 (LIVE_PUSH4=OK)
 - [Phase 02]: Phase 2 성공 기준 1~4 충족 판정. 기준 1의 「공통」 머리 주석 한 줄 차이는 D-06 승인 예외로 판정표에 명시, ROADMAP 문구는 미수정
-- [Phase 02]: PROJECT.md 72행 부근 현재 사이트 설명과 115행 부근 Key Decisions 행은 단계 전환 갱신에서 고치고 그때 .claude/CLAUDE.md를 재생성
+- [Phase 02]: PROJECT.md 72행 부근 현재 사이트 설명과 115행 부근 Key Decisions 행은 단계 전환 갱신에서 고치고 그때 .claude/CLAUDE.md를 재생성 → 2026-11-16 전환에서 고침. 재생성 결과는 바이트 동일(project 구간이 Context·Key Decisions를 담지 않음)
+- [Phase 02]: UAT 3/3 통과 (2026-11-16). ROADMAP 성공 기준 1 문구를 D-06 예외에 맞게 고침(override 대신, 5cca635). 로컬 미리보기는 Playwright로 전환 전 db505d7과 픽셀 비교해 자동 통과
+- [Phase 02]: Playwright MCP가 저장소 안 `.playwright-mcp/`에 로그를 쓰면 `jekyll serve --livereload`가 새로 고침을 끝없이 반복함. 자동 화면 확인 때는 livereload.js를 막거나 `--livereload` 없이 띄움 (도구 간섭, 사이트 결함 아님)
 
 ### Pending Todos
 
@@ -165,6 +168,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T06:46:58.530Z
-Stopped at: Completed 02-10-PLAN.md
+Last session: 2026-11-16T08:27:04Z
+Stopped at: Phase 02 complete, ready to plan Phase 3
 Resume file: None

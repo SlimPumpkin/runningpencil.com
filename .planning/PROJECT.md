@@ -22,6 +22,9 @@
 - ✓ 홈 푸터에서 법적 페이지 3종으로 링크되고 OSM 출처를 표기 — existing
 - ✓ 기준 문서: 이름 표·URL 대장·데이터 목록·결정 목록·사용자 작업 절차서(`.planning/baseline/`) — Phase 1 (BASE-01~04)
 - ✓ 바뀐 방침(연락처 공개·사업자 정보·영문판·빌드 방식)을 `CLAUDE.md`에 반영 — Phase 1 (BASE-05)
+- ✓ 공통 블록(head 링크·「공통」 CSS·헤더·푸터)을 `_includes` 네 개와 `_layouts/legal.html`에서 한 벌로 관리하고, 전환 전과 출력이 같음 — Phase 2 (SHELL-01)
+- ✓ 운영과 같은 Jekyll 3.10.0 로컬 미리보기(`Gemfile`)와 푸시 전 점검(`scripts/check-site.sh`, pre-push 훅) — Phase 2 (SHELL-02)
+- ✓ 라이브에서 내부 파일(`CLAUDE.md`·`README.md`·`Gemfile`·`.planning/` 등)이 404 — Phase 2 (SHELL-03)
 
 ### Active
 
@@ -52,7 +55,6 @@
 
 **사이트 정비**
 - [ ] 법적 페이지의 Tailwind Play CDN 런타임을 걷어 내고 정적 CSS로 바꾼다
-- [ ] 여러 페이지에 복사된 공통 블록(head 링크·「공통」 CSS·헤더·푸터)을 한 곳에서 관리한다
 
 **외부 인수 (사용자 확인)**
 - [ ] 6개 제공자의 프로덕션 심사·비즈앱 전환이 통과됐음을 사용자가 확인한다. 사이트만으로는 검증할 수 없으므로 단계별 성공 기준에는 넣지 않고 마일스톤 인수 항목으로만 둔다
@@ -69,7 +71,7 @@
 
 ## Context
 
-- **현재 사이트**: 빌드 없는 정적 HTML 4페이지(`index.html`, `privacy-policy/`, `terms/`, `data-deletion/`). 공통 블록은 네 파일에 복사해 두었습니다. 랜딩은 순수 CSS와 인라인 JS, 법적 페이지는 Tailwind Play CDN을 씁니다. 상세는 `.planning/codebase/`(ARCHITECTURE·STACK·CONCERNS 등) 참고.
+- **현재 사이트**: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 조립하는 정적 4페이지(`index.html`, `privacy-policy/`, `terms/`, `data-deletion/`). 공통 블록은 `_includes` 네 개(head 링크·「공통」 CSS·헤더·푸터)에 한 벌씩 있고, 법적 3종의 틀은 `_layouts/legal.html` 하나입니다 (Phase 2, 2026-11-16). 랜딩은 순수 CSS와 인라인 JS, 법적 페이지는 Tailwind Play CDN을 씁니다 (Phase 3에서 정적 CSS로). 상세는 `.planning/codebase/`(ARCHITECTURE·STACK·CONCERNS 등) 참고.
 - **앱 저장소**: `~/dv/woody/running_pencil` (Flutter + Firebase). 개인정보처리방침의 근거는 여기서 가져옵니다.
   - 소셜 로그인: `kakao_flutter_sdk_user`, `naver_login_flutter`, `google_sign_in`, Apple(`flutter_web_auth_2`/Firebase Auth), `flutter_facebook_auth`, `flutter_line_sdk`, 그리고 익명 로그인(둘러보기만)
   - Firebase: Auth·Firestore·Storage·Functions·Analytics·Crashlytics·Messaging·App Check·Remote Config
@@ -112,7 +114,9 @@
 | `/support/` 지원 페이지 신설 | App Store Support URL용 전용 페이지가 심사자에게 가장 분명함 | — Pending |
 | 법적 본문은 앱 실제 동작 기준 초안, 법률 검토는 출시 전에 따로 | 현재 임시 게시본은 앱 실제 범위와 맞지 않음 | — Pending |
 | 위치기반서비스 이용약관 페이지를 기본으로 포함, 범위만 법률 확인으로 조정. 경로는 `/location-terms/`로 확정 (D-15) | 조사 결과 위치정보법 제12조①이 이용약관 공개 의무를 둠. 신고(제9조)인지 등록(제5조)인지는 법률 확인 필요 (U2) | — Pending |
-| Tailwind Play CDN 제거와 공통 블록 단일화 — 「빌드 없음」 방침이 바뀔 수 있음 | 심사 대상 페이지의 안정성, 페이지가 늘수록(영문판·지원) 복사 드리프트 위험이 커짐. 방식(Jekyll include 등)은 단계에서 결정 | — Pending |
+| Tailwind Play CDN 제거와 공통 블록 단일화 — 「빌드 없음」 방침이 바뀔 수 있음 | 심사 대상 페이지의 안정성, 페이지가 늘수록(영문판·지원) 복사 드리프트 위험이 커짐. 방식(Jekyll include 등)은 단계에서 결정 | ◐ 공통 블록 단일화는 Phase 2에서 Jekyll `_includes`·`_layouts`로 완료, 출력 불변 (2026-11-16). Tailwind CDN 제거는 Phase 3 |
+| 로컬 빌드는 `Gemfile`로 Jekyll 3.10.0만 고정하고(github-pages gem은 로컬 Ruby 4.x에 설치되지 않음) `main` 푸시마다 pre-push 훅이 `scripts/check-site.sh`를 돌림 (Phase 2) | CI가 없어 푸시가 곧 배포. 운영과 같은 버전으로 빌드해 깨진 출력·내부 파일 공개를 푸시 전에 잡음 | ✓ Phase 2 |
+| 「공통」 CSS 머리 주석 한 줄은 출력 불변의 승인된 예외 (D-06). ROADMAP 성공 기준 1 문구도 이 예외에 맞게 고침 (UAT, 2026-11-16) | 「네 파일에 복사해 쓴다」는 옛 주석이 남으면 운영자가 잘못 고침. 전환 커밋 시점은 diff 0, 최종 상태는 주석을 지우면 diff 0 | ✓ Phase 2 |
 | 완료 = 6개 제공자 프로덕션 심사 통과를 사용자가 확인. 스토어는 웹사이트 요건까지 | 심사 통과는 외부 이벤트라 단계별 성공 기준에서 빼고 인수 항목으로 둠 | — Pending |
 | 데이터 목록의 「수탁자」 열은 PRIV-03 분류(Google Firebase·GCP, 네이버클라우드는 수탁자, 로그인 제공자는 아님)만 옮기고, 그 밖의 받는 곳(Meta (Facebook SDK) 등)의 수탁·제3자 제공 구분은 Phase 7에서 정함 (G-01-8, 2026-11-15) | 데이터 목록은 사실만 적고 법적 구분은 처리방침 단계에서 함. 열 이름은 BASE-03 문구라 유지 | ✓ Phase 1 데이터 목록에 반영 |
 
@@ -134,4 +138,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-11-15 after Phase 1 (기준 문서 5종·`CLAUDE.md` 방침 완료, UAT 통과)*
+*Last updated: 2026-11-16 after Phase 2 (Jekyll 공유 셸 전환 완료, 출력 불변, UAT 통과)*

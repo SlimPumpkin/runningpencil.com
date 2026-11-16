@@ -25,7 +25,7 @@
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: 기준표와 방침 정비 (Ground Truth & Policy Reset)** - 이름 표·URL 대장·데이터 목록·결정 목록을 만들고 `CLAUDE.md` 방침을 바꾼다 (completed 2026-11-15)
-- [ ] **Phase 2: Jekyll 공유 셸 도입 (Shared Shell Refactor)** - 공통 블록을 한 곳으로 모으되 사이트 출력은 그대로 둔다
+- [x] **Phase 2: Jekyll 공유 셸 도입 (Shared Shell Refactor)** - 공통 블록을 한 곳으로 모으되 사이트 출력은 그대로 둔다 (completed 2026-11-16)
 - [ ] **Phase 3: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)** - Tailwind Play CDN을 정적 CSS로 바꾸되 모양은 그대로 둔다
 - [ ] **Phase 4: 홈페이지 서비스 소개 정정 (Landing Content Fix)** - 앱에 없는 기능 설명을 빼고 실제 앱 화면을 보여 준다
 - [ ] **Phase 5: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)** - 푸터 사업자 정보, `/support/`, 실제로 받히는 지원 이메일(이메일 게이트)
@@ -83,7 +83,7 @@ Plans:
   2. 공통 블록(head 링크, 「공통」 CSS, 헤더, 푸터)이 `_includes`/`_layouts`에 한 벌만 있고, 그중 하나를 시험 삼아 바꾸면 네 문서의 빌드 결과가 모두 바뀐다
   3. 운영자는 `CLAUDE.md`에 적힌 명령(Jekyll 3.10.0을 고정한 Gemfile)으로 실제 배포와 같은 빌드의 로컬 미리보기를 띄우고, 푸시 전에 빌드 성공을 확인한다. `python3 -m http.server` 안내는 남아 있지 않다
   4. 라이브에서 `/CLAUDE.md`, `/README.md`, `/Gemfile`, `/Gemfile.lock`, `vendor/`·`.planning/`·`prepare/` 아래 파일이 404이고, 기존 네 URL은 200과 전환 전과 같은 `<title>`을 돌려준다
-**Plans**: 10/10 plans executed
+**Plans**: 10/10 plans complete
 
 Plans:
 **Wave 1**
@@ -288,7 +288,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
-| 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | In Progress | - |
+| 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 0/TBD | Not started | - |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 0/TBD | Not started | - |
