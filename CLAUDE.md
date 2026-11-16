@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 지원 이메일 공개 | Phase 5 이메일 게이트(외부 4곳 수신 시험 통과) 뒤. 푸터, `/support/`, 법적 문서 | 결정됨. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 사이트(HTML·`_data`)에는 아직 없고 `.planning/` 문서에만 있습니다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있습니다 | Google Play 웹 삭제 요청, App Store Support URL, 처리방침의 보호책임자 연락처에 연락 수단이 필요합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/USER-TASKS.md` |
 | 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | 결정됨. 값은 사용자가 주기 전이라 어디에도 없습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present) | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
 | 한국어 + 영어 제공 | Phase 9 (`/en/` 아래 영문판) | 결정됨. 현재 페이지는 모두 한국어(`lang="ko"`)입니다 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/URLS.md` |
-| Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 2 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다. Phase 3(Tailwind CDN을 정적 CSS로)은 남았습니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
+| Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 3까지 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`)로 그립니다. 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
 | 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 현재 랜딩과 법적 문서 본문에는 남아 있습니다 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
 | 법적 페이지 `noindex` 해제와 「임시 게시본」 문구 삭제 | Phase 6 (삭제 안내), Phase 7 (처리방침), Phase 8 (이용약관). 각 문서를 다시 쓰는 커밋에서 | 결정됨 (U14). 현재 세 문서에 `noindex`와 「임시 게시본」 표시가 있습니다 | 미완성 사이트로 보이면 심사에서 반려될 수 있습니다 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 6·7·8 Notes |
 
@@ -60,7 +60,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 랜딩(`index.html`)은 레이아웃 없이(`layout: none`) 이 include 네 곳을 직접 씁니다. 헤더는 `{% include header.html home=true %}`로 부릅니다.
 
-법적 페이지 3종은 `_layouts/legal.html` 하나가 전체(모눈종이 바탕 + 흰 카드)를 그립니다. 페이지 파일에는 front matter와 카드 본문 `<section>`만 있습니다. front matter 키는 `layout`, `title`, `description`, `eyebrow`, `heading`(h1이 `title`과 다를 때만), `updated`, `noindex`입니다. `noindex`와 「임시 게시본」 문단은 페이지마다 두고, 각 문서를 다시 쓰는 단계에서 지웁니다 (U14).
+법적 페이지 3종은 `_layouts/legal.html` 하나가 전체(모눈종이 바탕 + 흰 카드)를 그립니다. 레이아웃의 `<style>` 안에는 「공통」(`_includes/css/common.css`) 다음에 「법적 페이지 전용」(`_includes/css/legal.css`)이 include로 들어옵니다. 페이지 파일에는 front matter와 카드 본문(조항 `<section>`들과 끝 안내 `<footer>`)만 있습니다. front matter 키는 `layout`, `title`, `description`, `eyebrow`, `heading`(h1이 `title`과 다를 때만), `updated`, `noindex`입니다. `noindex`와 「임시 게시본」 끝 안내(`<footer>`)는 페이지마다 두고, 각 문서를 다시 쓰는 단계에서 지웁니다 (U14).
+
+**법적 본문 작성 규칙** — 법적 문서(처리방침·약관·삭제 안내, 이후 지원 페이지와 영문판)의 본문을 쓸 때 지킵니다.
+
+- 원본은 HTML입니다. Markdown(kramdown)으로 바꾸지 않습니다. kramdown은 곧은 따옴표를 굽은 따옴표로 바꾸고 제목에 자동 `id`를 붙입니다 (D-01).
+- 조항마다 `<section>` 하나를 두고 첫 자식은 `<h2>`입니다. 간격은 CSS가 주므로 본문에 간격 클래스나 `style`을 쓰지 않습니다 (D-02).
+- 문서 끝 안내는 `<footer>`, 조항 안 보충 설명(예: 표 아래 「※ …」)은 `<aside>`로 씁니다 (D-03).
+- 본문에 쓸 수 있는 요소는 `section` `h2` `h3` `p` `ul` `ol` `li` `dl` `dt` `dd` `table` `thead` `tbody` `tr` `th` `td` `figure` `strong` `a` `aside` `footer`가 전부이고, 모두 클래스 없이 씁니다 (D-04).
+- 표는 모두 `<figure tabindex="0" aria-label="표 이름">`으로 감쌉니다. 표가 본문 폭보다 넓으면 figure 안에서만 가로로 스크롤합니다. `<table>`에 `display: block`을 주지 않습니다 (D-07).
+- 목록에 없는 요소가 필요하면 `_includes/css/legal.css`(규칙과 맨 위 주석), 이 규칙, 원본 맵 `.planning/codebase/CONVENTIONS.md`를 같은 단계에서 함께 고칩니다.
+- 요소별 모양(링크·표·목록 번호·중첩 목록·`h3`·`dl`, D-05~D-12)은 `.planning/codebase/CONVENTIONS.md`의 「법적 본문 작성 규칙」 절에 있습니다.
 
 - **raw 규칙**: front matter가 붙은 파일은 전체가 Liquid를 거칩니다. 인라인 JS·CSS에 이중 중괄호나 중괄호-퍼센트가 생기면 그 부분을 `{% raw %}`…`{% endraw %}`로 감쌉니다. `scripts/check-site.sh`의 4번 항목은 출력에 남은 이런 문자열을 잡으므로, raw로 일부러 내보내는 경우가 생기면 그 항목에 예외를 더합니다.
 - **include 공백 규칙**: include 태그는 0열에 혼자 두고, include 파일은 원본 들여쓰기 그대로 끝 줄바꿈 없이 씁니다. `{%-`는 `if`/`endif`에만 씁니다.
@@ -79,14 +89,17 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
 
 - macOS 시스템 Ruby(2.6)가 아니라 Homebrew Ruby가 `PATH` 앞에 있어야 합니다 (`brew install ruby`).
 - 미리보기 응답에는 livereload 스크립트가 끼므로 운영 출력과 바이트가 같지 않습니다. 운영과 같은 출력은 `scripts/check-site.sh`가 만듭니다.
-- `/favicon/...`, `/terms/`, `/#story` 같은 절대 경로를 쓰므로 `file://`로 직접 열면 깨집니다. 글꼴과 법적 페이지의 Tailwind는 CDN에서 받으므로 인터넷 연결도 필요합니다.
+- `/favicon/...`, `/terms/`, `/#story` 같은 절대 경로를 쓰므로 `file://`로 직접 열면 깨집니다. 글꼴은 CDN에서 받으므로 인터넷 연결도 필요합니다.
 
 ## Architecture / styling notes
 
-- **랜딩(`index.html`)은 Tailwind를 쓰지 않습니다.** 스타일은 `<head>`의 `<style>` 한 블록(맨 위에 include로 들어오는 「공통」 묶음 + 「랜딩 전용」)과 각 요소의 인라인 `style`에 있습니다. 반응형 수치는 `clamp(28px, 4vw, 56px)`처럼 `vw`로 쓰고, 좁은 화면(860px 이하) 규칙은 `<style>` 끝의 `@media (max-width: 860px)` 블록에 모여 있습니다. 새 스타일은 「랜딩 전용」에 추가합니다.
-- **법적 페이지 3종은 Tailwind CDN 런타임 모드**로 본문을 꾸밉니다 (`https://cdn.tailwindcss.com`). 브라우저에서 JIT 컴파일하므로 빌드가 필요 없는 대신 프로덕션 권장 방식은 아닙니다. 클래스 추가는 즉시 반영되지만 `@apply`나 커스텀 디렉티브는 사용 불가입니다. 반응형 수치는 `py-[clamp(48px,6vw,80px)]`처럼 arbitrary value로 씁니다. 헤더·푸터는 Tailwind 클래스가 아니라 「공통」 묶음의 `.rp-*` 클래스로 그립니다. 현재 상태이고 (2026-11 기준) Phase 3에서 정적 CSS로 바꿉니다.
-  - 토큰은 `_layouts/legal.html`의 `<script id="tailwind-config">` 인라인 블록에 정의됩니다 (법적 3종 공통): `ink #2B2B2B` 글자·제목 · `accent #7C580D` 작은 제목·링크 밑줄 · `muted #4A463F`, `muted-2 #57534C` 보조 글자 · `line #E4E0D6` 카드 테두리·구분선
-  - `.rp-grid`는 32px 모눈종이 바탕입니다. `_layouts/legal.html` `<style>`의 「법적 페이지 전용」에 있고, 법적 페이지에만 쓰는 스타일은 여기에 추가합니다.
+- **랜딩(`index.html`)의 스타일**은 `<head>`의 `<style>` 한 블록(맨 위에 include로 들어오는 「공통」 묶음 + 「랜딩 전용」)과 각 요소의 인라인 `style`에 있습니다. 반응형 수치는 `clamp(28px, 4vw, 56px)`처럼 `vw`로 쓰고, 좁은 화면(860px 이하) 규칙은 `<style>` 끝의 `@media (max-width: 860px)` 블록에 모여 있습니다. 새 스타일은 「랜딩 전용」에 추가합니다.
+- **법적 페이지 3종은 정적 CSS**로 그립니다 (2026-11 기준). CSS는 `_includes/css/legal.css` 한 곳에 있고, `_layouts/legal.html`의 `<style>` 안에서 「공통」 다음에 include로 인라인됩니다. 외부 `.css` 파일, 런타임 스크립트, 빌드 도구는 없습니다. Tailwind Play CDN은 Phase 3에서 제거했습니다. 법적 페이지에만 쓰는 새 스타일은 `_includes/css/legal.css`에 더합니다.
+  - 토큰은 `:root`의 CSS 변수 다섯 개입니다 (법적 3종 공통): `--rp-ink #2B2B2B` 글자·제목 · `--rp-accent #7C580D` 작은 제목·링크 밑줄 · `--rp-muted #4A463F`, `--rp-muted-2 #57534C` 보조 글자 · `--rp-line #E4E0D6` 카드 테두리·구분선. 이 색은 `var(--rp-…)`로만 씁니다.
+  - Preflight 대체는 `html`(line-height 1.5, tab-size 4, `-webkit-tap-highlight-color: transparent`)과 `.rp-doc` 범위 규칙만 씁니다. 본문 요소(h2·p·ul·table 등) 규칙은 모두 `.rp-doc` 아래 선택자로 쓰고, 범위 없는 요소 선택자로 쓰지 않습니다 (헤더·푸터로 샙니다). 토큰과 초기화 규칙을 「공통」(`_includes/css/common.css`)에 넣지 않습니다 (랜딩 출력이 바뀝니다).
+  - 카드 껍데기는 레이아웃이 그리는 `.rp-legal-*` 클래스(`.rp-legal-wrap`·`.rp-legal-card`·`.rp-legal-eyebrow`·`.rp-legal-title`·`.rp-legal-updated`)이고, 본문은 `<div class="rp-doc">` 안에 들어갑니다. `.rp-grid`(32px 모눈종이 바탕)도 `_includes/css/legal.css`에 있습니다.
+  - 카드 안쪽 여백은 28px이고 768px 이상(`@media (min-width: 768px)`)에서 48px입니다. 랜딩의 860px(`max-width`) 규칙과는 별개입니다.
+  - 헤더·푸터는 「공통」 묶음의 `.rp-*` 클래스로 그립니다.
 - **색**: 연필 노랑 `#F2B134`(헤더·히어로·출시 안내 바탕, `theme-color`) · 흑연 `#2B2B2B`(글자, 푸터 바탕) · 바탕 `#FAFAF7` · 진한 금색 `#7C580D`(작은 제목) · 칠판 초록 `#2E4A3B`(달려 보기 구간) · 모눈종이 `#F5F9FC`에 선 `#D3E2EF`. 노랑은 밝은 바탕 위 글자색으로 쓰기에는 대비가 낮으니 글자·밑줄에는 `#7C580D`를 씁니다.
 - **글꼴은 Pretendard**(가변 글꼴)입니다. jsDelivr CDN의 다이나믹 서브셋 CSS(`orioncactus/pretendard@v1.3.9`)를 네 페이지가 `_includes/head-links.html`의 같은 `<link>`로 불러옵니다.
 - **랜딩의 동작**은 `</body>` 앞의 인라인 스크립트 하나로 돌아갑니다 (라이브러리 없음).
@@ -115,4 +128,4 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
 
 ## Deploy
 
-`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. CI가 없으므로 `main` 푸시가 곧 배포입니다. `main`으로 푸시할 때 pre-push 훅(`.githooks/pre-push`)이 `scripts/check-site.sh <푸시할 커밋>`을 돌려 빌드 성공, 빌드 결과에 내부 파일이 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid가 없음을 확인합니다. 하나라도 실패하면 푸시가 멈춥니다. 훅은 `git config core.hooksPath .githooks`로 켜야 동작하고, 급하면 `git push --no-verify`로 건너뛸 수 있습니다.
+`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. CI가 없으므로 `main` 푸시가 곧 배포입니다. `main`으로 푸시할 때 pre-push 훅(`.githooks/pre-push`)이 `scripts/check-site.sh <푸시할 커밋>`을 돌려 빌드 성공, 빌드 결과에 내부 파일이 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid가 없음, 출력 HTML에 Tailwind Play CDN이 없음을 확인합니다. 하나라도 실패하면 푸시가 멈춥니다. 훅은 `git config core.hooksPath .githooks`로 켜야 동작하고, 급하면 `git push --no-verify`로 건너뛸 수 있습니다.
