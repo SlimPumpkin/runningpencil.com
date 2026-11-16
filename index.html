@@ -1,3 +1,6 @@
+---
+layout: none
+---
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -15,47 +18,13 @@
         content="GPS 아트 코스를 완주하고 코스 모양의 뱃지를 모으세요. 동네 코스북을 완성하고, 나만의 코스를 그려 올리고, 포인트로 기념 굿즈를 만나보세요." />
     <meta property="og:url" content="https://runningpencil.com/" />
     <meta property="og:image" content="https://runningpencil.com/favicon/web-app-manifest-512x512.png" />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin />
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="러닝펜슬" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+{% include head-links.html %}
     <script>
         // 「세 가지 이유」 구간을 화면에 고정할지 첫 그리기 전에 정한다(나중에 켜면 구간 높이가 바뀌어 화면이 밀린다).
         if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && window.innerHeight <= 2400) document.documentElement.classList.add('rp-pin');
     </script>
     <style>
-        /* ── 공통: 바탕 · 머리말 · 바닥글 ──
-           네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
-        html { background: #F2B134; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-        body { margin: 0; overflow-x: clip; font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; color: #2B2B2B; background: #FAFAF7; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        *, *::before, *::after { box-sizing: border-box; }
-        :focus-visible { outline: 3px solid #1E5AA8; outline-offset: 3px; }
-        .rp-wrap { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: clamp(20px, 5vw, 64px); padding-right: clamp(20px, 5vw, 64px); }
-        .rp-head { background: #F2B134; line-height: normal; }
-        .rp-head-in { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 20px; padding-bottom: 20px; }
-        .rp-brand { display: flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; color: #2B2B2B; }
-        .rp-brand-tile { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: #FAFAF7; }
-        .rp-brand-name { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
-        .rp-nav { display: flex; align-items: center; gap: 28px; font-size: 16px; font-weight: 600; }
-        .rp-nav a { text-decoration: none; color: #2B2B2B; }
-        .rp-nav a:hover { text-decoration: underline; }
-        .rp-foot { background: #2B2B2B; color: #D8D4CB; padding: clamp(40px, 5vw, 64px) 0; line-height: normal; }
-        .rp-foot p { margin: 0; }
-        .rp-foot-in { display: flex; flex-direction: column; gap: 28px; }
-        .rp-foot-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
-        .rp-foot-brand { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
-        .rp-foot-logo { display: flex; align-items: center; gap: 10px; }
-        .rp-foot-logo .rp-brand-tile { background: #F2B134; }
-        .rp-foot-logo .rp-brand-name { color: #FAFAF7; }
-        .rp-foot-nav { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 15px; font-weight: 600; }
-        .rp-foot-nav a { display: inline-flex; align-items: center; min-height: 44px; color: #FAFAF7; text-decoration: none; }
-        .rp-foot-nav a:hover { text-decoration: underline; }
-        .rp-foot-legal { display: flex; flex-direction: column; gap: 6px; padding-top: 20px; border-top: 1px solid #4A4844; font-size: 13px; line-height: 1.6; color: #B5B0A7; }
-        @media (max-width: 860px) { .rp-nav { display: none; } }
+{% include css/common.css %}
 
         /* ── 랜딩 전용 ── */
         /* 페이지 안 이동은 부드럽게. 처음 열 때는 바로 서야 하므로(주소에 #demo 처럼 구간이 붙어 온 경우) 스크립트가 준비를 마친 뒤부터 켠다 */
@@ -181,20 +150,7 @@
         </defs>
     </svg>
 
-    <!-- Header -->
-    <header class="rp-head">
-        <div class="rp-wrap rp-head-in">
-            <a class="rp-brand" href="#top" aria-label="러닝펜슬 홈">
-                <span class="rp-brand-tile"><svg viewBox="33 12 54 102" width="14.3" height="27" aria-hidden="true"><path fill="#2B2B2B" fill-rule="evenodd" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#F2B134" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></svg></span>
-                <span class="rp-brand-name">러닝펜슬</span>
-            </a>
-            <nav class="rp-nav" aria-label="주요 메뉴">
-                <a href="#story">즐기는 법</a>
-                <a href="#demo">달려 보기</a>
-                <a href="#get">출시 안내</a>
-            </nav>
-        </div>
-    </header>
+{% include header.html home=true %}
 
     <main>
         <!-- Hero -->
@@ -467,30 +423,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="rp-foot">
-        <div class="rp-wrap rp-foot-in">
-            <div class="rp-foot-top">
-                <div class="rp-foot-brand">
-                    <div class="rp-foot-logo">
-                        <span class="rp-brand-tile"><svg viewBox="33 12 54 102" width="14.3" height="27" aria-hidden="true"><path fill="#2B2B2B" fill-rule="evenodd" d="M44.57 74L34.81 48.72A27 27 0 1 1 85.19 48.72L75.43 74Q71.11 78 66.79 74Q60 79 53.21 74Q48.89 78 44.57 74ZM70.4 39A10.4 10.4 0 1 0 49.6 39A10.4 10.4 0 1 0 70.4 39Z" /><path fill="#FFF3C4" d="M45.65 76.8Q49.66 80.8 53.68 76.8Q60 81.8 66.32 76.8Q70.34 80.8 74.35 76.8L66.48 97.2L53.52 97.2Z" /><path fill="#2B2B2B" d="M54.6 100L65.4 100L60.7 112.4Q60 114.2 59.3 112.4Z" /></svg></span>
-                        <span class="rp-brand-name">러닝펜슬</span>
-                    </div>
-                    <p>달린 길이 그림이 되는 앱</p>
-                </div>
-                <nav class="rp-foot-nav" aria-label="약관 및 정책">
-                    <a href="/privacy-policy/">개인정보처리방침</a>
-                    <a href="/terms/">이용약관</a>
-                    <a href="/data-deletion/">데이터 삭제 안내</a>
-                </nav>
-            </div>
-            <div class="rp-foot-legal">
-                <p>러닝펜슬은 슬림펌킨이 운영하는 서비스입니다.</p>
-                <p>© 2026 슬림펌킨. All rights reserved.</p>
-                <p>경로 데이터 © OpenStreetMap contributors</p>
-            </div>
-        </div>
-    </footer>
+{% include footer.html %}
 
     <script>
         // 「세 가지 이유」의 스크롤 연동과 「달려 보기」 체험. 라이브러리 없이 이 파일 안에서만 돈다.
