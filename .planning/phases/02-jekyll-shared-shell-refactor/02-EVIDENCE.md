@@ -732,3 +732,113 @@ grep -nF '복사해서 공유' …            → 0건
 ```
 
 SC3_GREP=OK
+
+## 02-10 푸시 ④ 후보
+
+PUSH4_CANDIDATE=9f715c795830
+PUSH4_PREV=e7e62f3f7990
+
+- 기록 시각: 2026-11-16T06:19Z (푸시 전). 메인 체크아웃에서 실행했습니다 (`git-dir`와 `git-common-dir`가 같음, `CMP_FINAL_NOCOMMENT=OK`·`DOCS_CLAUDE_SHA=`·`SC3_GREP=OK`·`LIVE_PUSH3=OK` 확인).
+- `git fetch -q origin main` 뒤 원격 main은 `e7e62f3f7990`(02-07에서 라이브 확인을 통과한 `PUSH3_SHA`)이고, 후보는 로컬 HEAD `9f715c795830`입니다. `git merge-base --is-ancestor <PUSH4_PREV> <후보>` 참 (다른 곳의 푸시 없음). 범위의 병합 커밋 0개.
+- 주석 수정 커밋(`COMMENT_FIX_SHA` `b11e43b49c0a`)과 문서 커밋(`DOCS_CLAUDE_SHA` `8fd222b50994`)이 후보의 조상이고, `PUSH4_PREV`의 조상이 아닙니다 (이 푸시로 처음 공개됨).
+
+### 공개 범위 (`PUSH4_PREV..PUSH4_CANDIDATE`)
+
+- 아직 공개되지 않은 커밋 수: 13개 (02-07 기록 `87fbf2a43608`·`30b830a39653`·`bfbe918d4397`, 주석 수정 `b11e43b49c0a`, 02-08 맵·기록 `f17a20e191f2`·`8c75ca92f04e`·`6830bb616272`·`781e9c4a0436`, 02-09 문서·기록 `8fd222b50994`·`4da23cee314e`·`2079ea4e0b25`·`4212845112b5`·`9f715c795830`)
+- `.planning/` 밖에서 바뀌는 파일 4개: `_includes/css/common.css` (1줄 바꿈), `CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`. 계획이 기대한 목록(넷)과 같습니다. 이 가운데 사이트 출력에 들어가는 것은 `_includes/css/common.css`의 「공통」 머리 주석 한 줄뿐입니다 (`CLAUDE.md`·`README.md`는 `_config.yml` `exclude` 대상이고, `.claude/CLAUDE.md`는 점으로 시작하는 경로라 원래 출력되지 않음).
+- `--diff-filter=d`로 센 파일 수: 16개. 이 가운데 새로 더해지는 파일은 3개(`02-07-SUMMARY.md`, `02-08-SUMMARY.md`, `02-09-SUMMARY.md`)이고, 나머지 13개는 이미 공개된 파일의 수정입니다.
+
+### 검토 항목 (막는 검사가 아님, 사람이 Task 2에서 봄)
+
+정규식과 거르기는 02-02 scratch_contract 그대로이고, 검사 도구는 이번 실행에서 scratch_contract대로 다시 만들었습니다. 같은 도구를 02-02 범위(`HISTORY_PREV..BASE_SHA`), 02-03 범위(`PUSH1_PREV..PUSH1_CANDIDATE`), 02-05 범위(`PUSH2_PREV..PUSH2_CANDIDATE`), 02-07 범위(`PUSH3_PREV..PUSH3_CANDIDATE`)에 다시 돌려 네 기록과 같은 수(02-02 끝 트리 1·0·27, 이력 1·0·33 / 02-03·02-05·02-07 끝 트리 0·0·1, 이력 0·0·0)가 나오는 것을 먼저 확인했습니다. 걸린 줄의 내용은 이 기록에 옮기지 않습니다.
+
+| 검사 | 끝 트리 (걸린 줄 수, `파일:행`) | 이력 (이 범위 13개 커밋이 더한 줄) |
+|---|---|---|
+| 누출 | 0 | 0 |
+| 호스트 이름 | 0 | 0 |
+| 로컬 경로 | 1 (`.planning/ROADMAP.md:73`) | 0 |
+
+- 끝 트리의 로컬 경로 1줄은 `PUSH4_PREV`의 같은 파일 같은 행과 글자가 같습니다 (02-02·02-03·02-05·02-07 기록의 `.planning/ROADMAP.md:73`). `ROADMAP.md`가 수정 파일이라 다시 잡혔을 뿐, 이 푸시로 처음 공개되는 줄이 아닙니다. `~/.claude` 경로(GSD 도구 경로)는 규칙대로 뺐습니다.
+
+### 훅 실제 경로 시험과 기준 비교 (원격으로 푸시하지 않음)
+
+- 표준 입력 `refs/heads/main <후보 전체> refs/heads/main <PUSH4_PREV 전체>` 한 줄을 `.githooks/pre-push`에 넣음 → rc=0, `check-site: 통과 (커밋 9f715c795830, jekyll 3.10.0)`
+- `compare.sh <BASE_SHA> <후보> --no-comments` → rc=0, OK 5줄
+
+```
+OK   index.html (정규화 동일)
+OK   privacy-policy/index.html (정규화 동일)
+OK   terms/index.html (정규화 동일)
+OK   data-deletion/index.html (정규화 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 9f715c795830
+```
+
+- `compare.sh <BASE_SHA> <후보>` (주석 그대로) → rc=1. 네 문서 모두 diff가 「공통」 머리 주석 한 줄(옛 문구 `< 네 페이지(…)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */` → 새 문구 `> 모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */`)뿐입니다. 행 위치는 `index.html` 30행, 법적 3종 36행입니다. `_site` 파일 목록은 11개로 같습니다. 02-08의 `CMP_COMMENT_ONLY` 결과와 같고, D-06에서 사용자가 승인한 예외입니다. ROADMAP 성공 기준 1의 문구는 고치지 않았습니다.
+
+### 성공 기준 2·3 다시 확인 (최종 상태)
+
+- 공통 블록 한 벌 (`git grep -lF`, 02-06 Task 1 verify 3번 명령): `<footer class="rp-foot">` → `_includes/footer.html`, `<header class="rp-head">` → `_includes/header.html`, `rel="manifest"` → `_includes/head-links.html`, `/* ── 공통` → `_includes/css/common.css`. 각각 한 파일만 나옵니다.
+- 성공 기준 3 grep (02-09 Task 3 verify 2번 명령): `grep -n 'python3 -m http.server' CLAUDE.md .claude/CLAUDE.md README.md .planning/codebase/*.md` → 0건 (종료 코드 1).
+
+## 02-10 푸시 ④ 라이브 확인
+
+PUSH4_SHA=9f715c795830
+LIVE_PUSH4=OK
+
+- 승인: 사용자가 Task 2 checkpoint(`gate="blocking-human"`)에서 `push`로 답했습니다. 승인 범위는 `PUSH4_CANDIDATE`(`9f715c795830`)를 `refs/heads/main`으로 푸시하는 한 번뿐이고, 다른 SHA나 되돌리기 푸시로 이어지지 않습니다.
+- 푸시 직전 확인 (2026-11-16T06:42Z): `git fetch -q origin main` 뒤 `git rev-parse --short=12 origin/main` → `e7e62f3f7990` (`PUSH4_PREV`와 같음). 메인 체크아웃(`git-dir`와 `git-common-dir`가 같음), `gh auth status` 0.
+- 푸시: `git push origin <PUSH4_CANDIDATE 전체>:refs/heads/main` → 성공. pre-push 훅 출력 `check-site: 통과 (커밋 9f715c795830, jekyll 3.10.0)`. 원격 main `e7e62f3f7990` → `9f715c795830` (fast-forward). `--no-verify`·force는 쓰지 않았습니다.
+- 푸시 뒤 확인: `git fetch -q origin main` 뒤 원격 main은 `9f715c795830`이고, `git merge-base --is-ancestor <PUSH4_SHA> origin/main` 참.
+
+### live-check 출력 (푸시 ④ 뒤, 주석 제거 정규화)
+
+종료 코드 0. 처음 한 번 돌린 결과이고, 다시 돌리거나 스크립트를 고치지 않았습니다.
+
+```
+live-check.sh post 9f715c795830 --no-comments
+OK 빌드 9f715c795830 built 2026-11-16T06:42:18Z
+OK 문서 https://runningpencil.com/ lm=2026-11-16T06:42:58Z age=0
+OK 문서 https://runningpencil.com/privacy-policy/ lm=2026-11-16T06:42:58Z age=0
+OK 문서 https://runningpencil.com/terms/ lm=2026-11-16T06:42:58Z age=0
+OK 문서 https://runningpencil.com/data-deletion/ lm=2026-11-16T06:42:58Z age=0
+OK 404 /CLAUDE.md age=0
+OK 404 /README.md age=0
+OK 404 /Gemfile age=0
+OK 404 /Gemfile.lock age=0
+OK 404 /_config.yml age=0
+OK 404 /.planning/ROADMAP.md age=0
+OK 404 /.claude/CLAUDE.md age=0
+OK 404 /scripts/check-site.sh age=0
+OK 404 /.githooks/pre-push age=0
+OK 404 /_includes/footer.html age=0
+OK 404 /_layouts/legal.html age=0
+OK 404 /prepare/ age=0
+OK 404 /vendor/ age=0
+OK 테마 /assets/css/style.css 200
+live-check: 통과
+```
+
+- 빌드 기록 (`pages/builds/latest`, 출력 뒤 한 번 더 조회): `commit` `9f715c795830`(푸시한 커밋), `created_at` 2026-11-16T06:42:18Z, `status` built, `error.message` null. 운영 빌드 오류 없음.
+- 네 문서: 상태 200, `last-modified` 2026-11-16T06:42:58Z(UTC로 바꾼 값, `created_at` 이후), `age` 0. 제목이 기준 커밋(`BASE_SHA`) 원본과 같고, HTML·CSS 주석을 지운 정규화 본문도 기준과 같습니다. 주석을 두면 「공통」 머리 주석 한 줄만 다르고, 이것은 D-06에서 사용자가 승인한 예외입니다 (`CMP_COMMENT_ONLY`).
+- 운영 빌드가 고친 `_includes/css/common.css`를 include로 네 문서에 인라인했습니다 (주석 제거 비교가 통과하고, 바뀐 것은 주석 한 줄뿐).
+- 내부 파일 13개가 모두 신선한 404(`age` 0)입니다 (SHELL-03).
+- 테마 파일 `/assets/css/style.css` 200.
+- 되돌리기 절차(`<rollback_procedure>`)는 쓰지 않았습니다 (FAIL·STALE 없음).
+
+## Phase 2 성공 기준 판정
+
+판정 대상 문구는 `.planning/ROADMAP.md` §Phase 2 성공 기준 1~4이고, 이 단계에서 그 문구는 고치지 않았습니다 (`git diff <BASE_SHA> HEAD -- .planning/ROADMAP.md`의 바뀐 줄은 계획 체크박스·진행도 줄뿐).
+
+| 성공 기준 | 판정 | 근거(표식·구간) | 비고 |
+|---|---|---|---|
+| 1. 로컬 Jekyll 3.10.0 빌드 성공, 네 문서 공백 정규화 diff 0 | 충족 (전환 커밋 시점, D-06) | `CMP_BUILD` (## 02-01 빌드 설정 커밋), `LEGAL_CONV_SHA_1`~`3`·`CMP_LEGAL` (## 02-04 법적 3종 전환), `LANDING_CONV_SHA`·`CMP_LANDING` (## 02-06 랜딩 전환) | 최종 상태는 `CMP_FINAL_NOCOMMENT`(## 02-08)와 `LIVE_PUSH4`(## 02-10 푸시 ④ 라이브 확인)로 「주석을 지운 뒤 diff 0」입니다. 주석을 두면 「공통」 머리 주석 한 줄이 다르고(`CMP_COMMENT_ONLY`), 이것은 사용자가 승인한 예외입니다. ROADMAP 문구(「차이가 0」)는 고치지 않았습니다 (D-06: 문구는 사용자가 정함) |
+| 2. 공통 블록 한 벌, include 하나 변경 시 네 문서 모두 변경 | 충족 | `SC2_SINGLE`, `SC2_PROBE` (## 02-06 랜딩 전환) | 최종 상태에서도 한 벌 `git grep` 네 줄을 다시 확인했습니다 (## 02-10 푸시 ④ 후보) |
+| 3. CLAUDE.md 명령으로 운영과 같은 빌드를 미리 보고 푸시 전 빌드 성공 확인, 정적 서버 안내 없음 | 충족 | `DOCS_CLAUDE_SHA`, `SC3_GREP` (## 02-09 문서), `HOOK_SHA`, `INJECT` (## 02-01 점검 스크립트와 훅), `INJECT_F` (## 02-06) | 브라우저 미리보기 확인은 end-of-phase human-check(02-09 Task 2)입니다 |
+| 4. 내부 파일 404, 네 URL 200·같은 제목 | 충족 | `LIVE_BASE_PUSH` (## 02-02 첫 공개 결정, base-first), `LIVE_PUSH1` (## 02-03), `LIVE_PUSH2` (## 02-05), `LIVE_PUSH3` (## 02-07), `LIVE_PUSH4` (## 02-10). 각 계획의 verify가 Pages 빌드 기록과 맞춰 봄 | 02-10 Task 3 verify 3이 최종 상태를 라이브에서 직접 다시 확인합니다 (네 URL 200과 기준 원본 제목, 내부 파일 13경로 404) |
+
+- 운영 테마 파일 `/assets/css/style.css`는 푸시 전(`PREPUSH_LIVE`, ## 02-02)과 각 푸시 뒤(기준 커밋 푸시, 푸시 ①~④) 모두 200이었고, 이번 단계에서 손대지 않았습니다 (RESEARCH Open Questions 2).
+- 로컬 `_site` 파일 목록 비교(11개)는 로컬 대 로컬입니다. 운영에는 테마가 만드는 `/assets/css/style.css`가 하나 더 있습니다 (RESEARCH Pitfall 12).
+- `vendor/`·`prepare/`의 라이브 404는 원격 저장소에 없는 경로라 당연한 결과입니다. 의미 있는 확인은 로컬 `check-site.sh` 2번 항목(`_site`에 내부 파일 없음)입니다.
+
+PHASE2_SC=OK
