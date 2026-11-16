@@ -629,3 +629,23 @@ OK generator blocks only
 DOCS_MAPS2_SHA=ec66a3ee9ac5
 
 - 둘째 문서 커밋은 `.planning/codebase/`의 `CONCERNS.md`·`STRUCTURE.md`·`TESTING.md`·`INTEGRATIONS.md` 네 파일만 담았습니다. CONCERNS의 Tailwind 부채·렌더 차단 항목은 이 문서를 근거로 해소 표시했고, Pretendard `integrity`·CSP 권고는 남겼습니다(CONTEXT Deferred). 네 맵에서 Tailwind 흔적 줄 수 0, TESTING의 옛 「Tailwind CDN」 표현 0입니다(Task 2 verify exit 0).
+
+## 03-08 CLAUDE.md와 README
+
+DOCS_CLAUDE_SHA=19dbbe78627c
+
+- 기록 시각: 2026-11-16. 루트 `CLAUDE.md`와 `.claude/CLAUDE.md` 두 파일만 담은 문서 커밋입니다(D-24). 두 사본의 「이번 마일스톤 방침」 구간은 글자까지 같고, 「Jekyll 빌드 전환」 행의 현재 상태만 「Phase 3까지 적용됨」으로 바꿨습니다. 다른 행은 그대로입니다.
+- 루트 `CLAUDE.md`: 법적 페이지 문단에 `legal.css` include와 끝 안내 `<footer>`를 적고, 그 뒤에 「법적 본문 작성 규칙」(D-01~D-04, D-07, 자세한 모양은 원본 맵 CONVENTIONS를 가리킴)을 더했습니다(D-25). Local preview는 글꼴만 CDN, styling notes는 정적 CSS(`--rp-*` 토큰, Preflight 대체, `.rp-legal-*`·`.rp-doc`, 768px `min-width` 예외), Deploy 점검 항목에 Tailwind Play CDN 없음을 적었습니다.
+- 생성기 시험: 방침 행을 고친 뒤 `.claude/CLAUDE.md` 사본을 임시 폴더에 두고 `generate-claude-md --output <임시 사본>`을 돌렸습니다. 방침 구간·project·skills·workflow·profile은 저장소 파일과 같고 stack·conventions·architecture 세 블록만 바뀌었습니다. 그래서 저장소에서 `--output`·`--auto` 없이 같은 명령을 돌렸고, 결과는 시험 사본과 바이트가 같습니다. 재생성 뒤 다시 돌린 사본도 저장소 파일과 같습니다(Task 1 verify 둘째 명령 exit 0). 커밋 전 `scripts/check-site.sh` 통과.
+
+OK generator blocks only
+OK regenerated
+
+DOCS_README_SHA=629c2dfad614
+
+- 둘째 문서 커밋은 `README.md` 한 파일만 담았습니다. `scripts/check-site.sh` 줄의 점검 주석을 「빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음」으로 고쳐 스크립트 머리 주석의 다섯 항목과 맞췄고, 주석 시작 열은 그대로입니다.
+- 문서 훑기: `CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`, `.planning/codebase/` 일곱 맵(STACK·CONVENTIONS·ARCHITECTURE·CONCERNS·STRUCTURE·TESTING·INTEGRATIONS), 모두 열 개 문서에서 Tailwind script 주소·설정 이름 0줄, 옛 점검 항목 수 문장 0줄, 로컬 경로 0줄입니다. 고칠 파일이 없어 추가 커밋은 없습니다.
+
+OK stale tailwind=0 oldcount=0 localpath=0
+
+DOCS_STALE=OK
