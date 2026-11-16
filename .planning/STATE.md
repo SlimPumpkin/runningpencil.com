@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Jekyll 공유 셸 도입 (Shared Shell Refactor)
 status: executing
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-11-16T04:40:16.293Z"
+stopped_at: Completed 02-06-PLAN.md
+last_updated: "2026-11-16T05:06:26.551Z"
 last_activity: 2026-11-15
 last_activity_desc: Phase 02 execution started
-state_head: 914c69077d9a27048ad15ff078ef5782fe880d8b
+state_head: d645c65adf1fe8a4025e2e201e84f70a8578ebd4
 progress:
   total_phases: 10
   completed_phases: 1
   total_plans: 20
-  completed_plans: 15
+  completed_plans: 16
   percent: 10
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-15)
 ## Current Position
 
 Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — EXECUTING
-Plan: 6 of 10
+Plan: 7 of 10
 Status: Ready to execute
 Last activity: 2026-11-15 — Phase 02 execution started
 
@@ -71,6 +71,7 @@ Progress: [█░░░░░░░░░] 10%
 | Phase 02 P03 | 21min | 3 tasks | 2 files |
 | Phase 02 P04 | 7min | 3 tasks | 9 files |
 | Phase 02 P05 | 15min | 3 tasks | 2 files |
+| Phase 02 P06 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -118,6 +119,8 @@ Recent decisions affecting current work:
 - [Phase 02]: 02-04: legal 레이아웃의 description·eyebrow는 render-if-present 대상이 아님(값이 없으면 빈 문자열). 레이아웃을 쓰는 새 페이지는 두 값을 채워야 함
 - [Phase 02]: 푸시 ② 승인 (사용자 결정, Task 2 blocking-human checkpoint): 01f6bb8bbb13 하나만 원격 main에 푸시. 승인은 이 푸시 한 번에만 썼다
 - [Phase 02]: 운영 빌드(github-pages)와 로컬 Jekyll 3.10.0의 레이아웃·include 처리 차이는 푸시 ② 배포에서 드러나지 않았다. 랜딩 전환(02-06)도 같은 절차로 진행한다
+- [Phase 02]: 02-06: 랜딩을 layout: none과 include 네 줄로 전환. 전환 커밋 762734f26068이 기준 db505d71d3d2와 네 문서 바이트 동일, _site 파일 목록 동일. 푸시 안 함 (D-15 세 번째 푸시 후보)
+- [Phase 02]: 02-06: include 하나를 바꾸면 네 문서가 모두 바뀜을 시험용 worktree에서 확인 (4×4, 커밋 안 함). 레이아웃 변경은 법적 세 문서만 바꾸는 것이 의도한 동작 (D-03)
 
 ### Pending Todos
 
@@ -149,6 +152,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T04:40:16.208Z
-Stopped at: Completed 02-05-PLAN.md
+Last session: 2026-11-16T05:06:26.476Z
+Stopped at: Completed 02-06-PLAN.md
 Resume file: None
