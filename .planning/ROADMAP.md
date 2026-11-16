@@ -129,7 +129,7 @@ Plans:
   2. 375·768·1280px에서 전환 전·후 캡처를 비교하면 줄 간격·테두리·여백·글자색·카드 모양이 같다
   3. 세 문서 본문에서 뽑은 텍스트가 전환 전과 같다(문장 변경 0)
   4. 클래스 없는 시험용 표·목록·주석을 본문에 넣어 보면 별도 클래스 없이 카드 디자인에 맞게 보인다(이후 처리 위탁 표·FAQ·영문판이 같은 규칙을 씀)
-**Plans**: 6/9 plans executed
+**Plans**: 7/9 plans executed
 
 Plans:
 **Wave 1**
@@ -151,7 +151,7 @@ Plans:
 - [x] 03-06-PLAN.md — 사이트 푸시: 후보 검증 → 승인 checkpoint → 승인된 SHA만 푸시 → 배포 확인·HTTP·라이브 픽셀 0
 
 **Wave 7** *(blocked on Wave 6 completion)*
-- [ ] 03-07-PLAN.md — 원본 맵 일곱 개 갱신 (정적 CSS, 법적 본문 작성 규칙)
+- [x] 03-07-PLAN.md — 원본 맵 일곱 개 갱신 (정적 CSS, 법적 본문 작성 규칙)
 
 **Wave 8** *(blocked on Wave 7 completion)*
 - [ ] 03-08-PLAN.md — 두 CLAUDE.md 한 커밋(방침 행 + 재생성), README, 문서 전체 Tailwind 흔적 훑기
@@ -317,7 +317,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
-| 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 6/9 | In Progress | - |
+| 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 7/9 | In Progress | - |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 0/TBD | Not started | - |
 | 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 0/TBD | Not started | - |

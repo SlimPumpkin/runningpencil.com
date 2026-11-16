@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 03
 current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 status: executing
-stopped_at: Completed 03-06-PLAN.md
-last_updated: "2026-11-16T17:27:37.984Z"
+stopped_at: Completed 03-07-PLAN.md
+last_updated: "2026-11-16T17:43:29.777Z"
 last_activity: 2026-11-16
 last_activity_desc: Phase 03 execution started
-state_head: d13655971251d01b9b9528ee5a8f1d571ce5141f
+state_head: 655084f3a5ff44ee695386720cedd09f0cd49858
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 29
-  completed_plans: 26
+  completed_plans: 27
   percent: 20
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-16)
 ## Current Position
 
 Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
-Plan: 7 of 9
+Plan: 8 of 9
 Status: Ready to execute
 Last activity: 2026-11-16 — Phase 03 execution started
 
@@ -83,6 +83,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 03 P04 | 4min | 2 tasks | 3 files |
 | Phase 03 P05 | 4min | 3 tasks | 2 files |
 | Phase 03 P06 | 6min | 3 tasks | 2 files |
+| Phase 03 P07 | 6min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -153,6 +154,8 @@ Recent decisions affecting current work:
 - [Phase 03]: check-site 5번 항목(Tailwind Play CDN 없음)은 ③ 뒤 별도 build 커밋. ①·② 점검은 그 커밋 시점 스크립트로 (03-04)
 - [Phase 03]: 사용자가 시험 본문 모양을 승인하고 표 머리 행 정책으로 nowrap을 골랐다(D-19). legal.css .rp-doc th 한 줄을 별도 사이트 커밋 fb6bdfa40b70으로 넣었고 기준과 픽셀 0, 시험 본문 PASS (03-05)
 - [Phase 03]: 사용자가 사이트 푸시를 승인(push, SHA 2ebeca06ca51)해 그 SHA 하나만 pre-push 훅 통과 뒤 원격 main에 푸시. 라이브 빌드·HTTP·화면(JUDGE live OK) 모두 OK라 되돌리기 없음 (03-06)
+- [Phase 03]: 03-07: 법적 본문 작성 규칙(D-01~D-12, figure tabindex="0" aria-label 감싸개, nowrap 머리 행)은 .planning/codebase/CONVENTIONS.md 「법적 본문 작성 규칙」 절에 두고, 생성기가 일반 문단을 버리므로 목록 항목으로만 쓴다
+- [Phase 03]: 03-07: 범위 없는 선택자 금지는 본문 요소 규칙에만 적용한다. legal.css의 body·main·.rp-grid 레이아웃 규칙은 법적 페이지에서만 불리므로 허용
 
 ### Pending Todos
 
@@ -184,6 +187,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T17:27:37.819Z
-Stopped at: Completed 03-06-PLAN.md
+Last session: 2026-11-16T17:43:29.602Z
+Stopped at: Completed 03-07-PLAN.md
 Resume file: None
