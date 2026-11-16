@@ -151,7 +151,9 @@ None - no external service configuration required.
 - FOUND: `_layouts/legal.html`, `scripts/check-site.sh`, `.planning/phases/03-tailwind-cdn-removal/03-EVIDENCE.md`
 - FOUND: `c49e12a50394` (HEAD의 조상, 트리 = `$W/c3/TREE`), `69f46942bec6` (HEAD, 트리 = `$W/ck5/TREE`)
 - Task 1 verify 2/2, Task 2 verify 2/2 exit 0 (bash). acceptance: 레이아웃 Tailwind 문자열 0, 5번 구획 1, 「네 가지」 0
-- 기록 누출 검사: `03-EVIDENCE.md`에 `/Users/`, `/private/var`, `$HOME` 0건
+- 기록 누출 검사: EVIDENCE·SUMMARY에 홈 경로와 임시 폴더 실제 경로 없음 (docs 커밋 직전 grep으로 확인)
+- verify 네 명령은 최종 HEAD에서 다시 돌려 모두 exit 0
+- 요구사항: SHELL-04는 03-05~03-09도 선언하므로 공유 ID 규칙(#2388)에 따라 `REQUIREMENTS.md`에서 아직 체크하지 않았다. 마지막 선언 계획이 끝날 때 체크한다
 
 ---
 *Phase: 03-tailwind-cdn-removal*
