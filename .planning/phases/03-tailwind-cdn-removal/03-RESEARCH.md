@@ -570,16 +570,16 @@ tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' 
 | A7 | Chromium 자동 포커스 스크롤 상자가 Chrome 130부터라는 버전 정보(검색 요약 출처) | Pattern 3 | 없음 — 권고(`tabindex="0"` 명시)는 버전과 무관 |
 | A8 | `pngjs`라는 패키지 이름은 훈련 지식에서 골랐다(seam 판정 OK, 스크래치 전용) | Standard Stack | 낮음 — 스크래치 도구 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **표 칸 접힘 정책 (D-06 Discretion)**
+1. **표 칸 접힘 정책 (D-06 Discretion)** — RESOLVED: 03-05 Task 2(`checkpoint:decision`)에서 두 변형 캡처를 보여 주고 사용자가 `plain`·`nowrap`을 고르며, 03-05 Task 3이 고른 값을 적용합니다(`TABLE_WRAP=plain|nowrap`)
    - What we know: 375px에서 `keep-all` 때문에 칸 글이 여러 줄로 접히고 머리 행도 접힙니다. 페이지는 밀리지 않습니다.
    - What's unclear: 머리 행 `nowrap`, 칸 최소 폭 같은 취향 문제가 남아 있습니다.
    - Recommendation: 원안(접힘 허용)과 `th { white-space: nowrap }` 변형을 D-19 캡처에 함께 보여 주고 사용자가 고르게 합니다.
-2. **D-20 ②를 문서별로 나눌지**
+2. **D-20 ②를 문서별로 나눌지** — RESOLVED: 나누지 않고 커밋 하나로 합니다(03-03-PLAN.md context 「이 계획에서 정한 것」)
    - What we know: 치환은 6종으로 같고 한 번에 해도 0픽셀입니다.
    - Recommendation: 커밋 하나로 합니다. 판정 실행(약 3분) 횟수를 줄입니다. 나누더라도 문서 하나만 바꾼 커밋은 나머지 두 문서가 그대로라 판정이 쉽습니다.
-3. **표 감싸개 속성 강제**
+3. **표 감싸개 속성 강제** — RESOLVED: CSS로 강제하지 않습니다. 규칙 기록과 「첫 표가 들어가는 단계의 검증에서 `<figure`마다 `tabindex="0"`과 `aria-label`을 grep으로 확인」 문장은 03-07 Task 1 action 2(d)가 CONVENTIONS.md 「법적 본문 작성 규칙」에 적고, CSS 머리 주석은 03-02 Task 1 action 2가 씁니다
    - What we know: CSS는 `figure`에 속성이 없어도 스크롤을 줍니다(D-07의 「페이지가 밀리지 않음」을 우선).
    - Recommendation: 이 단계에서는 규칙 기록(D-25)과 CSS 주석으로만 둡니다. 첫 표가 들어가는 Phase 7 검증에 「`<figure`마다 `tabindex="0"`과 `aria-label`」 grep을 넣도록 메모합니다.
 

@@ -129,7 +129,35 @@ Plans:
   2. 375·768·1280px에서 전환 전·후 캡처를 비교하면 줄 간격·테두리·여백·글자색·카드 모양이 같다
   3. 세 문서 본문에서 뽑은 텍스트가 전환 전과 같다(문장 변경 0)
   4. 클래스 없는 시험용 표·목록·주석을 본문에 넣어 보면 별도 클래스 없이 카드 디자인에 맞게 보인다(이후 처리 위탁 표·FAQ·영문판이 같은 규칙을 씀)
-**Plans**: TBD
+**Plans**: 9 plans
+
+Plans:
+**Wave 1**
+- [ ] 03-01-PLAN.md — 기준 커밋·CDN 버전 기록과 기준 빌드(tracer), Playwright 설치 승인 checkpoint, 판정 도구와 기준 캡처 두 벌(자기 차이 0)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 03-02-PLAN.md — 사이트 커밋 ① `_includes/css/legal.css`와 `rp-legal-*` 껍데기 (Tailwind 유지, 픽셀 0), ③ 미리보기
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 03-03-PLAN.md — 사이트 커밋 ② 본문 클래스 제거·끝 안내 `footer` (픽셀·텍스트 0), 본문 작성 규칙 확인
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 03-04-PLAN.md — 사이트 커밋 ③ Tailwind script·설정 제거 (픽셀 0, Tailwind 0건), check-site 5번 항목 별도 커밋
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 03-05-PLAN.md — 클래스 없는 시험 본문 자동 확인과 캡처, 승인·표 줄바꿈 선택 checkpoint, (nowrap이면) 별도 CSS 커밋
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 03-06-PLAN.md — 사이트 푸시: 후보 검증 → 승인 checkpoint → 승인된 SHA만 푸시 → 배포 확인·HTTP·라이브 픽셀 0
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 03-07-PLAN.md — 원본 맵 일곱 개 갱신 (정적 CSS, 법적 본문 작성 규칙)
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 03-08-PLAN.md — 두 CLAUDE.md 한 커밋(방침 행 + 재생성), README, 문서 전체 Tailwind 흔적 훑기
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 03-09-PLAN.md — 문서 푸시: 후보 검증 → 승인 checkpoint → 푸시·HTTP 확인, Phase 3 성공 기준 판정표
 **UI hint**: no
 **External gates**: 없음.
 **Research flag**: 아니요. 쓰고 있는 유틸리티 클래스 목록(약 45개)과 Tailwind 3.4.17 Preflight 원문을 확인했고, 변환은 기계적입니다.
@@ -289,7 +317,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
-| 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 0/TBD | Not started | - |
+| 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 0/9 | Not started | - |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 0/TBD | Not started | - |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 0/TBD | Not started | - |
 | 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 0/TBD | Not started | - |
