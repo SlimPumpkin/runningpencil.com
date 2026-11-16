@@ -482,3 +482,82 @@ live-check: 통과
 - 테마 파일 `/assets/css/style.css` 200.
 - 관찰: 랜딩(`index.html`)은 이번 푸시에서 바뀌지 않았는데 `last-modified`가 새 배포 시각으로 올라갔습니다. RESEARCH A2가 세 번째 배포에서도 성립했습니다.
 - 되돌리기 절차(`<rollback_procedure>`)는 쓰지 않았습니다 (FAIL·STALE 없음).
+
+## 02-06 랜딩 전환
+
+메인 체크아웃에서 실행했습니다 (`git-dir`와 `git-common-dir`가 같음, `LIVE_PUSH2=OK` 확인). 전환 커밋은 하나이고 리팩터만 담습니다. 원격으로 푸시하지 않았습니다. 이 커밋이 D-15의 세 번째 푸시 후보입니다.
+
+### 랜딩 전환 (tracer)
+
+LANDING_CONV_SHA=762734f26068
+CMP_LANDING=OK
+SC2_SINGLE=OK
+
+- 전환 전 확인: `index.html` 653행. `:18-25`는 `_includes/head-links.html`, `:31-58`은 `_includes/css/common.css`, `:470-493`은 `_includes/footer.html`과 같고(include 끝에 줄바꿈 하나를 붙여 비교), `:184-197`은 `_includes/header.html`의 Liquid 분기를 랜딩 값(`#top`·`#story`·`#demo`·`#get`)으로 풀어 쓴 것과 같았습니다. 전환 전 `index.html`에 이중 중괄호·중괄호-퍼센트 0건.
+- 커밋: `refactor(02-06): 랜딩을 공통 include로 전환`. 파일 1개: `index.html` (653행 → 586행). 아래 범위부터 위로 바꿨습니다: 푸터 → `{% include footer.html %}`, 헤더 → `{% include header.html home=true %}`, 「공통」 CSS → `{% include css/common.css %}`, head 링크 → `{% include head-links.html %}`, 맨 위 front matter `---`/`layout: none`/`---`. include 태그는 모두 0열에 혼자 있고 `{%-`는 쓰지 않았습니다. 「공통」 CSS include 다음 줄의 빈 줄과 「랜딩 전용」 머리 주석은 그대로여서 두 묶음이 같은 `<style>` 안에서 이어집니다. OG 메타, pre-paint 스크립트, 「랜딩 전용」 CSS, `<body id="top">`, 숨은 SVG `<defs>`, 끝 인라인 스크립트는 바꾸지 않았습니다. 바꾼 뒤 이중 중괄호·중괄호-퍼센트가 있는 줄은 include 네 줄뿐입니다.
+- 커밋 전 `compare.sh <BASE_SHA> <write-tree>` rc=0 (OK 5줄, 네 문서 바이트 동일), `scripts/check-site.sh`(작업 트리) 통과
+- 커밋 뒤 `compare.sh <BASE_SHA> <LANDING_CONV_SHA>` rc=0:
+
+```
+OK   index.html (바이트 동일)
+OK   privacy-policy/index.html (바이트 동일)
+OK   terms/index.html (바이트 동일)
+OK   data-deletion/index.html (바이트 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 762734f26068
+```
+
+- `scripts/check-site.sh HEAD` → `check-site: 통과 (커밋 762734f26068, jekyll 3.10.0)`
+- 한 벌 확인 (`git grep -lF`, 추적 파일 전체):
+
+| 찾은 글자 | 대상 | 나온 파일 |
+|---|---|---|
+| `<footer class="rp-foot">` | `*.html` | `_includes/footer.html` 하나 |
+| `<header class="rp-head">` | `*.html` | `_includes/header.html` 하나 |
+| `rel="manifest"` | `*.html` | `_includes/head-links.html` 하나 |
+| `/* ── 공통` | `*.html`, `*.css` | `_includes/css/common.css` 하나 |
+
+- Tracer feedback gate: 대화형·`end-of-phase`·`<automated>`만 있는 verify라 Task 1 verify 네 명령을 커밋 뒤 다시 돌렸고 모두 exit 0이어서 Task 2로 넘어갔습니다 (checkpoint 없음).
+
+### 성공 기준 1 판정
+
+- 랜딩 전환 커밋에서 네 문서 D-07 diff 0, 파일 목록 동일. 정규화 동일을 넘어 **바이트 동일**입니다 (출력 주석 포함, D-05). 법적 쪽 세 커밋(02-04)과 합쳐 Phase 2의 전환 커밋 네 개가 모두 기준과 바이트 동일입니다.
+
+### include 프로브 (D-10, 성공 기준 2)
+
+SC2_PROBE=OK
+
+- 방법: 스크래치 `probe.sh`. `git worktree add --detach`로 HEAD(`LANDING_CONV_SHA`)의 시험용 worktree를 저장소 밖 스크래치 폴더에 만들고 메인 체크아웃 Gemfile로 깨끗하게 빌드합니다. include 네 개마다 파일 끝에 줄 하나(HTML 조각은 HTML 주석, CSS 조각은 CSS 주석)를 덧붙여 다시 빌드하고, 네 문서를 깨끗한 빌드와 `cmp -s`로 비교해 바뀐 수를 셉니다. 매번 `git -C <worktree> checkout -- _includes/<파일>`로 되돌립니다. 끝나면 시험용 worktree와 임시 출력 폴더를 지웁니다.
+- 출력 (종료 코드 0):
+
+```
+include head-links.html: 4/4
+include css/common.css: 4/4
+include header.html: 4/4
+include footer.html: 4/4
+```
+
+- 시험 뒤 메인 작업 트리: `git status --porcelain -- _includes index.html` 빈 출력. `git worktree list`에 시험용 worktree가 남지 않았습니다. 시험은 커밋하지 않았습니다.
+- 레이아웃(`_layouts/legal.html`)을 바꾸면 법적 세 문서만 바뀝니다. 랜딩은 레이아웃을 쓰지 않으므로(D-03) 의도한 동작이고, 프로브 대상에 넣지 않았습니다.
+
+### 실패 주입 (경우 f 추가)
+
+INJECT_F=OK
+
+- `inject.sh`에 경우 f(시험용 worktree의 `index.html`에서 맨 위 front matter 세 줄 삭제, 기대 문구 `Liquid가 처리되지 않은 출력`)를 더했습니다. front matter가 없으면 파일을 바꾸지 않으므로 경우 f는 FAIL로 끝납니다. 경우 b는 고치지 않았고 front matter 분기가 돌았습니다.
+- 출력 (종료 코드 0):
+
+| 경우 | 무엇을 바꿨나 | rc | 메시지 첫 줄 |
+|---|---|---|---|
+| 주입-a | `exclude`에서 Gemfile 두 줄 삭제 | 1 | `check-site: 내부 파일이 출력에 있습니다: /Gemfile` |
+| 주입-b | terms front matter `title`을 `"이용약관"`으로 | 1 | `check-site: 제목이 다릅니다: /terms/index.html → '이용약관 - 러닝펜슬' (기대: '서비스 이용약관 - 러닝펜슬')` |
+| 주입-c | 없는 파일을 부르는 include | 1 | `check-site: 실패 — Jekyll 빌드 실패 (작업 트리)` |
+| 주입-d | front matter 없이 Liquid 출력 태그 | 1 | `check-site: Liquid가 처리되지 않은 출력: /zz-inject-raw.html` |
+| 주입-e | 빈 `.nojekyll` | 1 | `check-site: .nojekyll이 있습니다: GitHub Pages가 Jekyll을 건너뛰어 include 원문과 내부 문서(CLAUDE.md 등)가 그대로 공개됩니다. Ground Rule이 .nojekyll을 금지합니다.` |
+| 주입-f | 랜딩 front matter 세 줄 삭제 | 1 | `check-site: Liquid가 처리되지 않은 출력: /index.html` |
+
+- 시험 뒤 메인 작업 트리 상태가 시험 전과 같고 시험용 worktree가 남지 않았습니다 (T-02-21, T-02-22).
+
+### 성공 기준 2 판정
+
+- 공통 블록 네 가지 한 벌, include 하나 변경 시 네 문서 모두 변경 (`SC2_SINGLE=OK`, `SC2_PROBE=OK`). 원격 main은 `PUSH2_SHA`(`01f6bb8bbb13`) 그대로입니다 (푸시하지 않음).
