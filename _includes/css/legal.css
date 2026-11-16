@@ -1,0 +1,39 @@
+        /* ── 법적 페이지 전용 ──
+           법적 문서(_layouts/legal.html)만 이 묶음을 _includes/css/legal.css 에서 불러 쓴다. 랜딩은 쓰지 않는다.
+           본문(.rp-doc 안)은 클래스 없이 쓴다. 쓸 수 있는 요소: section h2 h3 p ul ol li dl dt dd table thead tbody tr th td figure strong a aside footer.
+           조항마다 section 하나, 첫 자식은 h2. 표는 모두 figure tabindex="0" aria-label="표 이름" 으로 감싼다. 목록에 없는 요소가 필요하면 여기 CSS와 CLAUDE.md 규칙을 함께 고친다. */
+        :root { --rp-ink: #2B2B2B; --rp-accent: #7C580D; --rp-muted: #4A463F; --rp-muted-2: #57534C; --rp-line: #E4E0D6; }
+        html { line-height: 1.5; -moz-tab-size: 4; tab-size: 4; -webkit-tap-highlight-color: transparent; }
+        body { min-height: 100vh; display: flex; flex-direction: column; }
+        main { flex: 1 0 auto; }
+        .rp-grid { background-color: #F5F9FC; background-image: linear-gradient(#D3E2EF 1px, transparent 1px), linear-gradient(90deg, #D3E2EF 1px, transparent 1px); background-size: 32px 32px; }
+        .rp-legal-wrap { max-width: 800px; margin-left: auto; margin-right: auto; padding: clamp(48px, 6vw, 80px) 24px; }
+        .rp-legal-card { border: 1.5px solid var(--rp-line); border-radius: 28px; background: #fff; padding: 28px; }
+        .rp-legal-eyebrow { font-size: 14px; line-height: 20px; font-weight: 700; letter-spacing: 0.04em; color: var(--rp-accent); }
+        .rp-legal-title { margin: 14px 0 0; font-size: clamp(30px, 6.5vw, 42px); font-weight: 900; line-height: 1.25; letter-spacing: -1px; }
+        .rp-legal-updated { margin: 12px 0 0; font-size: 13px; color: var(--rp-muted-2); }
+        .rp-doc { margin-top: 40px; line-height: 1.7; color: var(--rp-muted); }
+        .rp-doc :where(h2, h3, p, ul, ol, dl, dd, figure) { margin: 0; }
+        .rp-doc > * + * { margin-top: 32px; }
+        .rp-doc section > * + * { margin-top: 12px; }
+        .rp-doc h2 { font-size: 20px; line-height: 28px; font-weight: 700; color: var(--rp-ink); }
+        .rp-doc h3 { font-size: 17px; line-height: 24px; font-weight: 700; color: var(--rp-ink); }
+        .rp-doc :where(ul, ol) { padding-left: 20px; }
+        .rp-doc ul { list-style-type: disc; }
+        .rp-doc ol { list-style-type: decimal; }
+        .rp-doc li + li, .rp-doc li > :where(ul, ol) { margin-top: 4px; }
+        .rp-doc :where(ul, ol) ul { list-style-type: circle; }
+        .rp-doc :where(ul, ol) ol { list-style-type: hangul; }
+        .rp-doc :where(ul, ol) ol:lang(en) { list-style-type: lower-alpha; }
+        .rp-doc dt { font-weight: 700; color: var(--rp-ink); }
+        .rp-doc strong { font-weight: 600; color: var(--rp-ink); }
+        .rp-doc a { font-weight: 600; color: var(--rp-ink); text-decoration-line: underline; text-decoration-color: var(--rp-accent); text-decoration-thickness: 2px; text-underline-offset: 4px; transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .rp-doc a:hover { color: var(--rp-accent); }
+        .rp-doc aside { font-size: 14px; line-height: 20px; color: var(--rp-muted-2); }
+        .rp-doc > footer { padding-top: 16px; border-top: 1px solid var(--rp-line); font-size: 14px; line-height: 20px; color: var(--rp-muted-2); }
+        /* 표 감싸개의 스크롤 그림자: 흰 덮개 #fff는 카드 바탕(.rp-legal-card)과 같아야 한다. 그림자 색 rgb(43 43 43 / 0.16)은 ink(#2B2B2B)에 투명도만 준 값이라 새 색이 아니다. 그림자는 figure의 배경이라 표 칸에 바탕색을 주면 가려진다. */
+        .rp-doc figure { overflow-x: auto; background: linear-gradient(to right, #fff 30%, rgb(255 255 255 / 0)) left center / 40px 100% no-repeat local, linear-gradient(to left, #fff 30%, rgb(255 255 255 / 0)) right center / 40px 100% no-repeat local, radial-gradient(farthest-side at 0 50%, rgb(43 43 43 / 0.16), rgb(43 43 43 / 0)) left center / 12px 100% no-repeat scroll, radial-gradient(farthest-side at 100% 50%, rgb(43 43 43 / 0.16), rgb(43 43 43 / 0)) right center / 12px 100% no-repeat scroll; background-color: #fff; }
+        .rp-doc table { width: 100%; border-collapse: collapse; text-indent: 0; font-size: 14px; line-height: 20px; }
+        .rp-doc :where(th, td) { padding: 10px 16px 10px 0; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rp-line); }
+        .rp-doc th { font-weight: 700; color: var(--rp-ink); }
+        @media (min-width: 768px) { .rp-legal-card { padding: 48px; } }
