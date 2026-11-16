@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Jekyll 공유 셸 도입 (Shared Shell Refactor)
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-11-16T01:50:38.526Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-11-16T02:37:39.722Z"
 last_activity: 2026-11-15
 last_activity_desc: Phase 02 execution started
-state_head: 7f13a622878bf29aae057a3c8baa0773364a919f
+state_head: 02d8866a252558470493c9774e40b884e7d18cb2
 progress:
   total_phases: 10
   completed_phases: 1
   total_plans: 20
-  completed_plans: 11
+  completed_plans: 12
   percent: 10
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-15)
 ## Current Position
 
 Phase: 02 (Jekyll 공유 셸 도입 (Shared Shell Refactor)) — EXECUTING
-Plan: 2 of 10
+Plan: 3 of 10
 Status: Ready to execute
 Last activity: 2026-11-15 — Phase 02 execution started
 
@@ -67,6 +67,7 @@ Progress: [█░░░░░░░░░] 10%
 | Phase 01 P09 | 5min | 2 tasks | 2 files |
 | Phase 01 P10 | 5 min | 1 tasks | 1 files |
 | Phase 02 P01 | 8 min | 2 tasks | 7 files |
+| Phase 02 P02 | 46 min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,8 @@ Recent decisions affecting current work:
 - [Phase 02]: 기준 커밋 BASE_SHA=db505d71d3d2 (Phase 2 첫 사이트 커밋 전 HEAD) (02-01)
 - [Phase 02]: check-site.sh 2번 항목에 빌드 원본의 .nojekyll 검사를 더함. 운영만 Jekyll을 건너뛰어 내부 문서가 공개되는 경우는 로컬 빌드로 못 잡기 때문 (02-01)
 - [Phase 02]: use_worktrees=true인 채로 실행했으나 precondition(메인 체크아웃)이 충족되어 진행. 설정 파일은 고치지 않음 (02-01)
+- [Phase 02]: 02-02: 첫 공개 방식 base-first (사용자 결정). 기준 커밋 db505d71d3d2만 원격 main에 푸시, 빌드 설정 커밋 7773b163f3de·7f13a622878b와 기록 커밋은 미공개. 푸시 ①은 02-03에서 따로 승인
+- [Phase 02]: 02-02: 새 배포가 바이트가 같은 파일의 Last-Modified도 올림을 관찰(RESEARCH A2 성립, 1회). Last-Modified 기준 신선도 판정 유지
 
 ### Pending Todos
 
@@ -137,6 +140,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T01:50:38.453Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-11-16T02:37:39.658Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
