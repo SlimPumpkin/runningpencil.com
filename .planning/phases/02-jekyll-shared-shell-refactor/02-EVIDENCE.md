@@ -73,3 +73,144 @@ OK   data-deletion/index.html (바이트 동일)
 OK   _site 파일 목록 동일 (11개)
 기준 db505d71d3d2 / 후보 7f13a622878b
 ```
+
+## 02-02 라이브 확인 도구와 첫 공개 범위
+
+HISTORY_PREV=c4cb26d754e9
+PREPUSH_LIVE=OK
+
+- 기록 시각: 2026-11-16T02:06Z (푸시 전, 원격 main은 `c4cb26d754e9`)
+- 도구: 스크래치 `live-check.sh` (저장소 밖, 커밋 안 함). `/bin/bash -n` 통과, RESEARCH Pitfall 5의 `LC_ALL=C grep` 검사 0건. 안에 RESEARCH의 `fetch_fresh`를 그대로 옮겼습니다. pre 모드는 배포 대기를 하지 않고, 내부 파일 URL을 조회하지 않습니다 (Pitfall 2). post 모드는 이번 task에서 돌리지 않았습니다 (푸시가 없음).
+- 요청한 URL: 네 문서의 맨 URL과 `/assets/css/style.css`뿐입니다. 문서마다 한 번의 요청으로 헤더와 본문을 함께 받았습니다.
+
+### live-check 출력 (푸시 전 라이브)
+
+종료 코드 0.
+
+```
+live-check.sh pre
+OK 빌드 c4cb26d754e9 built 2026-11-14T16:40:54Z
+OK 문서 https://runningpencil.com/ lm=2026-11-14T16:41:25Z age=0
+OK 문서 https://runningpencil.com/privacy-policy/ lm=2026-11-14T16:41:25Z age=0
+OK 문서 https://runningpencil.com/terms/ lm=2026-11-14T16:41:25Z age=0
+OK 문서 https://runningpencil.com/data-deletion/ lm=2026-11-14T16:41:25Z age=0
+OK 테마 /assets/css/style.css 200
+live-check: 통과
+```
+
+- 빌드 기록 (`pages/builds/latest`): `commit` `c4cb26d754e9`, `created_at` 2026-11-14T16:40:54Z, `status` built, `error.message` null. 이 커밋은 `HISTORY_PREV`(원격 main)와 같습니다.
+- 응답 헤더: 네 문서 모두 상태 200, `last-modified` 2026-11-14T16:41:25Z(UTC로 바꾼 값, `created_at` 이후), `age` 0. 테마 파일 상태 200.
+- 네 문서의 제목과 D-07 정규화 본문이 기준 커밋(`BASE_SHA`) 원본과 같습니다.
+
+### 첫 공개 범위 (원격 main `c4cb26d754e9` 기준)
+
+- `git merge-base --is-ancestor <HISTORY_PREV> <BASE_SHA>` 참 (다른 곳의 푸시 없음). `HISTORY_PREV..BASE_SHA`의 병합 커밋 0개.
+- 아직 공개되지 않은 커밋 수: `HISTORY_PREV..BASE_SHA` 109개, `HISTORY_PREV..HEAD` 112개 (HEAD `1eab7132d0aa`, 이 기록 시각 기준)
+- 처음 공개되는 파일 수 (`--diff-filter=d`): `HISTORY_PREV..BASE_SHA` 74개 (참고: `HISTORY_PREV..HEAD` 80개)
+- 기준 커밋까지 바뀌는 파일 가운데 `.planning/` 밖의 것 4개: `.claude/CLAUDE.md`, `.gitignore`, `CLAUDE.md`, `_config.yml`
+- 참고: HEAD까지면 `.planning/` 밖이 8개입니다. 위 4개에 `.githooks/pre-push`, `Gemfile`, `Gemfile.lock`, `scripts/check-site.sh`가 더해집니다.
+
+### 검토 항목 (막는 검사가 아님, 사람이 Task 2에서 봄)
+
+정규식과 거르기는 이 계획의 scratch_contract 그대로입니다 (누출 `LEAK`·허용 `ALLOW`, 호스트 이름 허용 목록, 로컬 경로 검사에서 `~/.claude` 제외, 해시 꼴 거르기). 검사는 위치 머리를 뺀 줄 내용에 걸었습니다. 걸린 줄의 내용은 이 기록에 옮기지 않습니다.
+
+끝 트리 (`BASE_SHA`에서 처음 공개되는 파일 74개):
+
+| 검사 | 걸린 줄 수 | 위치 (`파일:행`) |
+|---|---|---|
+| 누출 | 1 | `.planning/research/PITFALLS.md:492` |
+| 호스트 이름 | 0 | 없음 |
+| 로컬 경로 | 27 | 아래 목록 |
+
+로컬 경로 27줄:
+- `.planning/PROJECT.md:73`
+- `.planning/ROADMAP.md:73`
+- `.planning/baseline/DECISIONS.md:11`
+- `.planning/baseline/NAMES.md:35`
+- `.planning/phases/01-ground-truth-policy-reset/01-01-PLAN.md:93`
+- `.planning/phases/01-ground-truth-policy-reset/01-CONTEXT.md:18`, `:158`, `:160`, `:161`, `:162`, `:163`, `:164`, `:165`, `:166`, `:167`, `:168`
+- `.planning/phases/01-ground-truth-policy-reset/01-PATTERNS.md:37`
+- `.planning/phases/01-ground-truth-policy-reset/01-RESEARCH.md:7`, `:341`, `:1004`, `:1038`, `:1048`, `:1096`
+- `.planning/phases/01-ground-truth-policy-reset/01-VALIDATION.md:53`
+- `.planning/phases/01-ground-truth-policy-reset/01-VERIFICATION.md:161`
+- `.planning/research/FEATURES.md:500`
+- `.planning/research/PITFALLS.md:140`
+
+이력 (`HISTORY_PREV..BASE_SHA` 109개 커밋이 더한 줄):
+
+| 검사 | 걸린 줄 수 | 위치 (`커밋:파일`, 줄 수) |
+|---|---|---|
+| 누출 | 1 | `07795f4b8dc7:.planning/research/PITFALLS.md` (1) |
+| 호스트 이름 | 0 | 없음 |
+| 로컬 경로 | 33 | 아래 목록 |
+
+로컬 경로 33줄:
+- `07795f4b8dc7:.planning/research/FEATURES.md` (1)
+- `07795f4b8dc7:.planning/research/PITFALLS.md` (1)
+- `3530c42e0e97:.planning/PROJECT.md` (1)
+- `455f53575e65:.planning/phases/01-ground-truth-policy-reset/01-VALIDATION.md` (2)
+- `4ccd4c1070d0:.planning/phases/01-ground-truth-policy-reset/01-VERIFICATION.md` (1)
+- `6dabe9be7168:.planning/phases/01-ground-truth-policy-reset/01-RESEARCH.md` (6)
+- `7ace1f92d6ac:.planning/phases/01-ground-truth-policy-reset/01-VERIFICATION.md` (1)
+- `8b8c8ead1265:.planning/phases/01-ground-truth-policy-reset/01-01-PLAN.md` (1)
+- `955d6670f60e:.planning/phases/01-ground-truth-policy-reset/01-VERIFICATION.md` (1)
+- `c25c8ab5ac30:.planning/phases/01-ground-truth-policy-reset/01-CONTEXT.md` (10)
+- `ce09726a24a9:.planning/phases/01-ground-truth-policy-reset/01-CONTEXT.md` (3)
+- `dcc200243196:.planning/phases/01-ground-truth-policy-reset/01-PATTERNS.md` (1)
+- `dcddd4c4a62c:.planning/baseline/DECISIONS.md` (1)
+- `ee6acbc54723:.planning/ROADMAP.md` (1)
+- `f07d7037f23f:.planning/baseline/NAMES.md` (1)
+- `f41e0c523a6b:.planning/phases/01-ground-truth-policy-reset/01-VALIDATION.md` (1)
+
+- 끝 트리 누출 1줄과 이력 누출 1줄은 같은 줄입니다 (공개 커뮤니티 URL 안의 숫자 ID). 이력 검사에서 해시 꼴 거르기 뒤 따로 남은 누출 줄은 없습니다.
+- 이력의 로컬 경로 33줄 가운데 끝 트리에 없는 줄(나중 커밋에서 바뀌거나 지워진 줄)도 공개 이력에 남습니다. 끝 트리와 겹치는 줄도 따로 셌습니다.
+
+### 훅 실제 경로 시험 (원격으로 푸시하지 않음)
+
+- 표준 입력 `refs/heads/main <BASE_SHA 전체> refs/heads/main <HISTORY_PREV 전체>` 한 줄을 `.githooks/pre-push`에 넣음 → rc=0, `check-site: 통과 (커밋 db505d71d3d2, jekyll 3.10.0)`
+
+## 02-02 첫 공개 결정
+
+HISTORY_DECISION=base-first
+BASE_PUSH_SHA=db505d71d3d2
+LIVE_BASE_PUSH=OK
+
+- 결정: 사용자가 Task 2 checkpoint(`gate="blocking-human"`)에서 `base-first`를 골랐습니다. 고르기 전에 공개되지 않은 커밋 수(`HISTORY_PREV..BASE_SHA` 109개, `HISTORY_PREV..HEAD` 112개), 처음 공개되는 파일 74개 목록, 검토 항목의 걸린 줄 전체(누출 1줄, 호스트 이름 0줄, 로컬 경로 끝 트리 27줄·이력 33줄)를 보았습니다.
+- 승인 범위: 기준 커밋(`BASE_SHA`)을 `refs/heads/main`으로 푸시하는 한 번뿐입니다. 빌드 설정 커밋(`7773b163f3de`, `7f13a622878b`)과 02-01 기록 커밋(`1eab7132d0aa`)은 이 승인에 들지 않으며, 푸시 ①은 02-03에서 따로 승인받습니다.
+- 푸시 직전 확인: `git fetch -q origin main` 뒤 원격 main 전체 해시가 `HISTORY_PREV`와 같았습니다. post 모드의 `gh` 쪽(배포 실행 찾기와 `gh run watch`)은 이미 배포된 `HISTORY_PREV` 커밋으로 미리 시험했습니다 (실행을 찾음, watch rc=0). 이 시험에서 사이트 URL은 요청하지 않았습니다.
+- 푸시 (2026-11-16T02:34Z 무렵): `git push origin <BASE_SHA 전체>:refs/heads/main` → rc=0. pre-push 훅 출력 `check-site: 통과 (커밋 db505d71d3d2, jekyll 3.10.0)`. 원격 main `c4cb26d754e9` → `db505d71d3d2` (fast-forward). `--no-verify`·force는 쓰지 않았습니다.
+- 푸시 뒤 확인: `git fetch -q origin main` 뒤 원격 main 전체 해시가 `BASE_SHA` 전체 해시와 같습니다. `7773b163f3de`, `7f13a622878b`, `1eab7132d0aa`는 원격 main의 조상이 아닙니다 (공개되지 않음).
+
+### live-check 출력 (기준 커밋 푸시 뒤)
+
+종료 코드 0. 처음 한 번 돌린 결과이고, 다시 돌리거나 스크립트를 고치지 않았습니다. 배포 실행을 기다린 뒤 첫 회차에서 모든 확인이 끝났습니다.
+
+```
+live-check.sh post db505d71d3d2
+OK 빌드 db505d71d3d2 built 2026-11-16T02:34:28Z
+OK 문서 https://runningpencil.com/ lm=2026-11-16T02:35:01Z age=0
+OK 문서 https://runningpencil.com/privacy-policy/ lm=2026-11-16T02:35:01Z age=0
+OK 문서 https://runningpencil.com/terms/ lm=2026-11-16T02:35:01Z age=0
+OK 문서 https://runningpencil.com/data-deletion/ lm=2026-11-16T02:35:01Z age=0
+OK 404 /CLAUDE.md age=0
+OK 404 /README.md age=0
+OK 404 /Gemfile age=0
+OK 404 /Gemfile.lock age=0
+OK 404 /_config.yml age=0
+OK 404 /.planning/ROADMAP.md age=0
+OK 404 /.claude/CLAUDE.md age=0
+OK 404 /scripts/check-site.sh age=0
+OK 404 /.githooks/pre-push age=0
+OK 404 /_includes/footer.html age=0
+OK 404 /_layouts/legal.html age=0
+OK 404 /prepare/ age=0
+OK 404 /vendor/ age=0
+OK 테마 /assets/css/style.css 200
+live-check: 통과
+```
+
+- 빌드 기록 (`pages/builds/latest`): `commit` `db505d71d3d2`(푸시한 커밋), `created_at` 2026-11-16T02:34:28Z, `status` built, `error.message` null.
+- 네 문서: 상태 200, `last-modified` 2026-11-16T02:35:01Z(UTC로 바꾼 값, `created_at` 이후), `age` 0. 제목과 D-07 정규화 본문이 기준 커밋 원본과 같습니다.
+- 내부 파일 13개: 모두 404이고 `age` 0(배포 뒤 지난 초보다 작음, 신선한 404). 이번 푸시로 처음 원격에 들어간 `/.planning/ROADMAP.md`와 `/.claude/CLAUDE.md`가 운영에서 실제로 막히는 것을 처음 확인했습니다 (RESEARCH Pitfall 3). `/prepare/`·`/vendor/`는 gitignore 대상이라 원격에 없으므로 404가 당연하고, 의미 있는 확인은 로컬 check-site 2번입니다.
+- 테마 파일 `/assets/css/style.css` 200.
+- 관찰: 이 푸시는 네 문서의 바이트를 바꾸지 않았는데도 `last-modified`가 새 배포 시각으로 올라갔습니다. RESEARCH A2(새 배포가 바뀌지 않은 파일의 `Last-Modified`도 올린다)가 이번 배포 한 번에서 성립했습니다.
