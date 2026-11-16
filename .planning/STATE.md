@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 03
 current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 status: executing
-stopped_at: Completed 03-05-PLAN.md
-last_updated: "2026-11-16T16:55:29.360Z"
+stopped_at: Completed 03-06-PLAN.md
+last_updated: "2026-11-16T17:27:37.984Z"
 last_activity: 2026-11-16
 last_activity_desc: Phase 03 execution started
-state_head: 4d7fa08082f3620c506397027c09883c46b77e67
+state_head: d13655971251d01b9b9528ee5a8f1d571ce5141f
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 29
-  completed_plans: 25
+  completed_plans: 26
   percent: 20
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-16)
 ## Current Position
 
 Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
-Plan: 6 of 9
+Plan: 7 of 9
 Status: Ready to execute
 Last activity: 2026-11-16 — Phase 03 execution started
 
@@ -82,6 +82,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 03 P03 | 5 min | 2 tasks | 4 files |
 | Phase 03 P04 | 4min | 2 tasks | 3 files |
 | Phase 03 P05 | 4min | 3 tasks | 2 files |
+| Phase 03 P06 | 6min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -151,6 +152,7 @@ Recent decisions affecting current work:
 - [Phase 03]: 커밋 ③ 판정이 첫 후보에서 통과해 CSS_FIX_SHA 없음. Preflight 없이 legal.css만으로 기준과 픽셀 0 (03-04)
 - [Phase 03]: check-site 5번 항목(Tailwind Play CDN 없음)은 ③ 뒤 별도 build 커밋. ①·② 점검은 그 커밋 시점 스크립트로 (03-04)
 - [Phase 03]: 사용자가 시험 본문 모양을 승인하고 표 머리 행 정책으로 nowrap을 골랐다(D-19). legal.css .rp-doc th 한 줄을 별도 사이트 커밋 fb6bdfa40b70으로 넣었고 기준과 픽셀 0, 시험 본문 PASS (03-05)
+- [Phase 03]: 사용자가 사이트 푸시를 승인(push, SHA 2ebeca06ca51)해 그 SHA 하나만 pre-push 훅 통과 뒤 원격 main에 푸시. 라이브 빌드·HTTP·화면(JUDGE live OK) 모두 OK라 되돌리기 없음 (03-06)
 
 ### Pending Todos
 
@@ -182,6 +184,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T16:55:29.168Z
-Stopped at: Completed 03-05-PLAN.md
+Last session: 2026-11-16T17:27:37.819Z
+Stopped at: Completed 03-06-PLAN.md
 Resume file: None
