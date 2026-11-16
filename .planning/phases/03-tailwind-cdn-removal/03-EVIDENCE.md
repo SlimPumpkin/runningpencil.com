@@ -615,3 +615,17 @@ JUDGE live OK
 빌드·HTTP·화면 세 확인이 모두 OK라 되돌리기(D-23)는 하지 않았습니다.
 
 LIVE_SITE=OK
+
+## 03-07 원본 맵
+
+DOCS_MAPS_SHA=c7b3b3471f30
+
+- 기록 시각: 2026-11-16. 사이트 라이브 확인(`LIVE_SITE=OK`) 뒤에 쓴 문서 커밋입니다(D-21 ②). `.planning/codebase/`의 `STACK.md`·`CONVENTIONS.md`·`ARCHITECTURE.md` 세 파일만 담았고, 저장소의 `CLAUDE.md`·`.claude/CLAUDE.md`·`README.md`·`.planning/PROJECT.md`는 바꾸지 않았습니다(03-08과 단계 전환 갱신 몫).
+- 세 맵에서 Tailwind 흔적(script 주소·설정 이름) 줄 수 0, legal.css·`--rp-ink`·figure 감싸개 규칙·768px 예외·「점검 항목은 다섯」·「### 법적 본문 작성 규칙」이 모두 있습니다(Task 1 verify 첫 명령 exit 0).
+- 생성기 시험: 임시 폴더에 `.claude/CLAUDE.md` 사본을 두고 `generate-claude-md --output <사본>`을 돌렸습니다. stack·conventions·architecture 세 블록 밖(방침 구간, project, skills, workflow, profile)은 저장소 파일과 같고, 사본에 `_includes/css/legal.css`와 `figure tabindex="0"`이 들어갔습니다(Task 1 verify 둘째 명령 exit 0). 수정 전 사본으로 먼저 돌렸을 때도 저장소 파일과 바이트가 같았습니다(기준 확인).
+
+OK generator blocks only
+
+DOCS_MAPS2_SHA=ec66a3ee9ac5
+
+- 둘째 문서 커밋은 `.planning/codebase/`의 `CONCERNS.md`·`STRUCTURE.md`·`TESTING.md`·`INTEGRATIONS.md` 네 파일만 담았습니다. CONCERNS의 Tailwind 부채·렌더 차단 항목은 이 문서를 근거로 해소 표시했고, Pretendard `integrity`·CSP 권고는 남겼습니다(CONTEXT Deferred). 네 맵에서 Tailwind 흔적 줄 수 0, TESTING의 옛 「Tailwind CDN」 표현 0입니다(Task 2 verify exit 0).
