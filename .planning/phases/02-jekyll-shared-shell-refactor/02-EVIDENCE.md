@@ -700,3 +700,35 @@ CMP_COMMENT_ONLY=OK
 
 - 판정: 네 문서 모두 diff 줄이 옛 머리 주석과 새 머리 주석 두 줄뿐이고(「이 묶음을」이 들어간 줄), 다른 줄은 다르지 않습니다. `_site` 파일 목록은 11개로 같습니다. 주석 그대로 비교의 종료 코드 1은 이 한 줄 차이 때문이며 의도한 결과입니다.
 - 예외: 단계를 마친 뒤의 출력은 전환 전과 「공통」 머리 주석 한 줄만 다르고, 이것은 사용자가 승인한 예외입니다(2026-11-15 논의, D-06). ROADMAP 성공 기준 1의 문구는 고치지 않았습니다(D-06: 문구는 사용자가 정함).
+
+## 02-09 문서
+
+### 두 CLAUDE.md (Task 1)
+
+- 문서 커밋: `8fd222b50994` (`docs: CLAUDE.md를 Jekyll 공유 셸·로컬 빌드 안내로 갱신하고 방침 표 반영`). 담은 파일은 `CLAUDE.md`, `.claude/CLAUDE.md` 두 개입니다.
+- 방침 구간: 「Jekyll 빌드 전환」 행의 현재 상태 셀만 두 사본에서 같은 글자로 바꿨습니다. 「작업 규칙」은 고치지 않았습니다. 두 파일에서 뽑은 구간이 글자까지 같습니다 (verify 1).
+- 생성기 시험: 방침 구간을 고친 `.claude/CLAUDE.md`를 저장소 밖 임시 폴더에 복사해 `generate-claude-md --output <사본>`으로 먼저 돌렸습니다. 바뀐 diff 묶음은 원본 60~393행 안에만 있었습니다. 블록으로는 stack(53~102행), conventions(104~260행), architecture(262~402행) 세 개입니다. project·skills·workflow·profile 블록과 마커 위 방침 구간(1~30행)은 바뀌지 않았습니다. 확인한 다음 저장소에서 `--output`·`--auto` 없이 돌렸고, 결과는 시험 사본과 바이트가 같았습니다 (`cmp`).
+- 문서 명령 실행 확인: `bundle check` → `The Gemfile's dependencies are satisfied`, `scripts/check-site.sh` → `check-site: 통과 (작업 트리, jekyll 3.10.0)`, `git config core.hooksPath` → `.githooks`.
+- verify 1~5 모두 종료 코드 0입니다. 누출 검사(verify 5)에 걸린 줄은 없습니다.
+
+DOCS_CLAUDE_SHA=8fd222b50994
+
+### README·TESTING·STRUCTURE와 CONCERNS (Task 2·3)
+
+- 문서 커밋: `4da23cee314e` (`README.md`, `.planning/codebase/TESTING.md`, `.planning/codebase/STRUCTURE.md`), `2079ea4e0b25` (`.planning/codebase/CONCERNS.md`).
+- TESTING의 「공통 블록 한 벌 확인」 `git grep -lF` 네 줄을 zsh에서 돌려 각각 `_includes/footer.html`, `_includes/header.html`, `_includes/head-links.html`, `_includes/css/common.css` 한 파일만 나옴을 확인했습니다.
+- STRUCTURE·CONCERNS의 행 참조는 지금 파일에서 `grep -n`으로 다시 찾았습니다. 표본 대조(STRUCTURE 2줄, CONCERNS 3줄)가 모두 맞습니다.
+- 이 계획의 커밋 세 개는 사이트 파일을 바꾸지 않았습니다: `git diff --quiet HEAD~3 HEAD -- '*.html' _includes _layouts _config.yml` 종료 코드 0.
+
+### 성공 기준 3 전체 grep
+
+대상: `CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`, `.planning/codebase/*.md`
+
+```
+grep -n 'python3 -m http.server' …   → 0건 (종료 코드 1)
+grep -nF 'Phase 2까지' …              → 0건 (종료 코드 1)
+grep -nF 'Phase 2에서' …              → 0건 (종료 코드 1)
+grep -nF '복사해서 공유' …            → 0건
+```
+
+SC3_GREP=OK
