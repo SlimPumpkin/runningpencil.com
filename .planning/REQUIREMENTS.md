@@ -22,7 +22,7 @@
 - [x] **SHELL-01**: 운영자는 head 링크·「공통」 CSS·헤더·푸터를 한 곳에서 고치면 모든 페이지에 반영되게 할 수 있다 (GitHub Pages 내장 Jekyll `_layouts`/`_includes`/`_data`). 전환 직후 기존 페이지의 출력은 바뀌지 않는다
 - [x] **SHELL-02**: 운영자는 로컬에서 실제 배포와 같은 Jekyll 3.10.0 빌드로 사이트를 미리 보고, 푸시 전에 빌드가 성공하는지 확인할 수 있다
 - [x] **SHELL-03**: 방문자는 라이브 사이트에서 내부 파일(`CLAUDE.md`, `README.md`, `Gemfile`·`Gemfile.lock`, `vendor/`, `.planning/`, `prepare/`)을 열 수 없다 (404)
-- [ ] **SHELL-04**: 방문자는 외부 스크립트(Tailwind Play CDN) 없이 정적 CSS만으로 법적 페이지를 보고, 모양은 전환 전과 같다 (375·768·1280px)
+- [x] **SHELL-04**: 방문자는 외부 스크립트(Tailwind Play CDN) 없이 정적 CSS만으로 법적 페이지를 보고, 모양은 전환 전과 같다 (375·768·1280px)
 
 ### 홈페이지와 도메인 (SITE)
 
@@ -162,7 +162,7 @@
 | SHELL-01 | Phase 2 | Complete |
 | SHELL-02 | Phase 2 | Complete |
 | SHELL-03 | Phase 2 | Complete |
-| SHELL-04 | Phase 3 | Pending |
+| SHELL-04 | Phase 3 | Complete |
 | SITE-01 | Phase 4 | Pending |
 | SITE-02 | Phase 8 | Pending |
 | SITE-03 | Phase 5 | Pending |
