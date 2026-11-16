@@ -292,3 +292,96 @@ OK contract data-deletion sections=3 h2-first=ok footer-last=ok elements=footer,
 ```
 
 C2_CONTRACT=OK
+
+## 03-04 커밋 ③
+
+C3_SHA=c49e12a50394
+
+- 기록 시각: 2026-11-16. 사이트 커밋 ③(D-20): `_layouts/legal.html`에서 Tailwind Play CDN `<script>` 한 줄과 `tailwind-config` 설정 블록(15줄)만 지웠습니다(16줄 삭제, 더한 줄 없음). theme-color meta 다음 줄이 0열 head-links include, 그다음 줄이 `<style>`입니다(RESEARCH 488-494행 모양). 법적 페이지는 이제 「공통」 CSS와 `legal.css`만으로 그려집니다.
+- 절차: 레이아웃만 스테이징해 브랜치에 붙지 않는 후보 커밋(`4cd7d8955092`)을 만들고, 그 후보로 check-site·빌드(`$W/c3`)·HTML 소스 Tailwind 0건·랜딩 동일·파일 목록 동일·캡처(`$W/cap/c3`, 4105)·`--no-cdn` 판정을 모두 통과시킨 뒤 같은 인덱스를 커밋했습니다. 커밋 ③의 트리는 `$W/c3/TREE`와 같습니다. CDN이 없는 캡처라 찍기 전 CDN 리디렉션 확인은 하지 않았습니다(scratch_contract).
+- `diff -r "$W/c2/site" "$W/c3/site"`는 세 법적 문서에서 지운 16줄씩(script·설정 블록)만 나왔고 더해진 줄은 0이었습니다(① 미리보기 `c1p`와 같은 변경).
+- D-18 HTML 소스: `grep -rlF -e cdn.tailwindcss.com -e tailwind.config --include=*.html`이 `$W/c3/site`에서 0개 파일, 대조로 기준 `$W/base/site`에서 3개 파일(`/privacy-policy/index.html /terms/index.html /data-deletion/index.html`)을 찾았습니다. D-18 네트워크는 아래 `report.mjs --no-cdn`의 `PASS 18 rows`(18행 모두 Tailwind 요청 0건·HTML에 CDN 없음)가 확인합니다.
+- check-site는 후보와 커밋 ③ 모두 통과했습니다(아직 4항목 판). 아래 첫 줄은 커밋 뒤 커밋 ③ 시점의 스크립트로 커밋 ③을 다시 돌린 결과이고, 후보로 돌린 결과는 `check-site: 통과 (커밋 4cd7d8955092, jekyll 3.10.0)`였습니다.
+
+```
+check-site: 통과 (커밋 c49e12a50394, jekyll 3.10.0)
+OK site tailwind=0
+OK base tailwind=3
+OK landing index.html same
+OK file list same
+```
+
+`judge.sh c3 --no-cdn` (base1 대비):
+
+```
+COUNT base1 png=42 state=24 txt=18
+COUNT c3 png=42 state=24 txt=18
+PASS 0 diffs
+state ok chromium-1280-privacy-policy-focus.png 846
+state ok chromium-1280-privacy-policy-hover.png 849
+state ok chromium-1280-terms-focus.png 846
+state ok chromium-1280-terms-hover.png 847
+state ok chromium-375-privacy-policy-focus.png 846
+state ok chromium-375-privacy-policy-hover.png 809
+state ok chromium-375-terms-focus.png 852
+state ok chromium-375-terms-hover.png 820
+state ok chromium-768-privacy-policy-focus.png 846
+state ok chromium-768-privacy-policy-hover.png 849
+state ok chromium-768-terms-focus.png 846
+state ok chromium-768-terms-hover.png 793
+state ok webkit-1280-privacy-policy-focus.png 846
+state ok webkit-1280-privacy-policy-hover.png 842
+state ok webkit-1280-terms-focus.png 846
+state ok webkit-1280-terms-hover.png 837
+state ok webkit-375-privacy-policy-focus.png 846
+state ok webkit-375-privacy-policy-hover.png 798
+state ok webkit-375-terms-focus.png 852
+state ok webkit-375-terms-hover.png 816
+state ok webkit-768-privacy-policy-focus.png 846
+state ok webkit-768-privacy-policy-hover.png 842
+state ok webkit-768-terms-focus.png 846
+state ok webkit-768-terms-hover.png 802
+STATES c3 ok=24 vacuous=0
+PASS 18 rows
+JUDGE c3 OK
+```
+
+C3_PIXEL=OK
+
+## 03-04 check-site 5번 항목
+
+CHECK5_SHA=69f46942bec6
+
+- 기록 시각: 2026-11-16. 커밋 ③ 뒤의 별도 커밋으로 `scripts/check-site.sh`에 5번 항목 「Tailwind Play CDN 없음」을 더했습니다(RESEARCH 533-538행 원안 그대로). 머리 주석은 「다섯 가지를 확인한다」와 5번 줄을 더했고, 4번 항목(Liquid)의 번호는 그대로입니다. bash 3.2 문법 확인(`/bin/bash -n`) 통과, 연관 배열·mapfile 없음.
+- 절차: 점검 스크립트만 스테이징해 후보 커밋(`96b8e62a651b`)을 만들고 아래 (a)~(e)를 통과시킨 뒤 같은 인덱스를 커밋했습니다. 점검 커밋의 트리는 `$W/ck5/TREE`와 같습니다.
+- (a) 새 스크립트로 후보 점검: 통과. 아래 첫 줄은 커밋 뒤 점검 커밋 시점의 스크립트로 점검 커밋을 다시 돌린 결과이고, 후보로 돌린 결과는 `check-site: 통과 (커밋 96b8e62a651b, jekyll 3.10.0)`였습니다.
+- (b) 음성 대조: 같은 새 스크립트로 커밋 ②(아직 CDN이 있음)를 점검하면 Tailwind 메시지와 세 법적 문서 경로를 내고 1로 끝납니다(아래 「음성 대조 (b)」 블록, 첫 줄은 실행한 명령).
+- (c) 사이트 출력 불변: `build ck5 <후보>` 뒤 `diff -r "$W/c3/site" "$W/ck5/site"`가 빈 출력입니다(`scripts/`는 exclude).
+- (d) 훅 경로: `git fetch -q origin main` 뒤 `refs/heads/main <후보> refs/heads/main <origin/main>` 한 줄을 `.githooks/pre-push`에 넣어 돌렸고 통과했습니다(훅은 작업 트리의 새 스크립트를 부름).
+- (e) `.githooks/pre-push`는 `BASE_SHA`와 같습니다(고치지 않음).
+
+```
+check-site: 통과 (커밋 69f46942bec6, jekyll 3.10.0)
+check-site: 통과 (커밋 96b8e62a651b, jekyll 3.10.0)
+```
+
+음성 대조 (b):
+
+```
+check-site.sh 31327b684f43
+check-site: Tailwind Play CDN이 출력에 남아 있습니다: /privacy-policy/index.html
+/terms/index.html
+/data-deletion/index.html
+check-site: 실패 — 1건 (커밋 31327b684f43)
+exit=1
+```
+
+훅 경로 (d):
+
+```
+check-site: 통과 (커밋 96b8e62a651b, jekyll 3.10.0)
+OK site output unchanged by check5
+OK pre-push unchanged
+```
+
+CHECK5=OK

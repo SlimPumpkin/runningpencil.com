@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 03
 current_phase_name: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)
 status: executing
-stopped_at: Completed 03-03-PLAN.md
-last_updated: "2026-11-16T16:07:39.009Z"
+stopped_at: Completed 03-04-PLAN.md
+last_updated: "2026-11-16T16:23:35.363Z"
 last_activity: 2026-11-16
 last_activity_desc: Phase 03 execution started
-state_head: 31327b684f434537eb42e2687c2e89d467ec2140
+state_head: 69f46942bec62840894cf08d7619b24105a3b99c
 progress:
   total_phases: 10
   completed_phases: 2
   total_plans: 29
-  completed_plans: 23
+  completed_plans: 24
   percent: 20
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-16)
 ## Current Position
 
 Phase: 03 (법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)) — EXECUTING
-Plan: 4 of 9
+Plan: 5 of 9
 Status: Ready to execute
 Last activity: 2026-11-16 — Phase 03 execution started
 
@@ -80,6 +80,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 03 P01 | 19min | 3 tasks | 1 files |
 | Phase 03 P02 | 11min | 2 tasks | 2 files |
 | Phase 03 P03 | 5 min | 2 tasks | 4 files |
+| Phase 03 P04 | 4min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -146,6 +147,8 @@ Recent decisions affecting current work:
 - [Phase 03]: ③ 미리보기에서 Preflight 대체 규칙(html line-height 1.5, .rp-doc :where() margin 초기화, 제목 margin 단축)이 맞음을 확인해 legal.css 고침 커밋(CSS_FIX_SHA) 없이 03-03(②)로 넘어간다 (03-02)
 - [Phase 03]: 커밋 ②는 세 법적 문서를 한 커밋으로 했고, 끝 안내 footer 안에는 p를 두지 않고 글을 바로 넣었다 (03-03)
 - [Phase 03]: 판정이 처음 후보에서 통과해 legal.css 고침 커밋이 없다. 03-04의 ③ 미리보기 출처는 계속 c1(C1_SHA)이다 (03-03)
+- [Phase 03]: 커밋 ③ 판정이 첫 후보에서 통과해 CSS_FIX_SHA 없음. Preflight 없이 legal.css만으로 기준과 픽셀 0 (03-04)
+- [Phase 03]: check-site 5번 항목(Tailwind Play CDN 없음)은 ③ 뒤 별도 build 커밋. ①·② 점검은 그 커밋 시점 스크립트로 (03-04)
 
 ### Pending Todos
 
@@ -177,6 +180,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T16:07:38.827Z
-Stopped at: Completed 03-03-PLAN.md
+Last session: 2026-11-16T16:23:35.182Z
+Stopped at: Completed 03-04-PLAN.md
 Resume file: None
