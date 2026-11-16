@@ -116,3 +116,104 @@ STATES neg ok=24 vacuous=0
 PASS 18 rows
 JUDGE neg FAIL
 ```
+
+## 03-02 커밋 ①
+
+C1_SHA=7cd2b6128884
+
+- 기록 시각: 2026-11-16. 사이트 커밋 ①(D-20): `_includes/css/legal.css`를 새로 만들고 `_layouts/legal.html`의 「법적 페이지 전용」 묶음을 그리로 옮겨 `<style>` 안에서 include했습니다. 카드 껍데기 클래스는 `rp-legal-wrap`·`rp-legal-card`·`rp-legal-eyebrow`·`rp-legal-title`·`rp-legal-updated`·`rp-doc`으로 바꿨습니다. Tailwind script·설정·본문 클래스는 그대로 남겼습니다.
+- 절차: 두 파일만 스테이징해 브랜치에 붙지 않는 후보 커밋(`51be8d327393`)을 만들고, 그 후보로 check-site·CDN 확인·빌드(`$W/c1`)·출력 표식·랜딩 동일·파일 목록 동일·캡처(`$W/cap/c1`, 4102)·판정을 모두 통과시킨 뒤 같은 인덱스를 커밋했습니다. 커밋 ①의 트리는 `$W/c1/TREE`와 같습니다.
+- check-site는 후보와 커밋 ① 모두 통과했습니다. 아래 첫 줄은 커밋 뒤 커밋 ①로 다시 돌린 결과이고, 후보로 돌린 결과는 `check-site: 통과 (커밋 51be8d327393, jekyll 3.10.0)`였습니다.
+
+```
+check-site: 통과 (커밋 7cd2b6128884, jekyll 3.10.0)
+CDN location: /3.4.17
+OK marker c1 rp-legal-card tailwind-script
+OK landing index.html same
+OK file list same
+```
+
+`judge.sh c1` (base1 대비):
+
+```
+COUNT base1 png=42 state=24 txt=18
+COUNT c1 png=42 state=24 txt=18
+PASS 0 diffs
+state ok chromium-1280-privacy-policy-focus.png 846
+state ok chromium-1280-privacy-policy-hover.png 849
+state ok chromium-1280-terms-focus.png 846
+state ok chromium-1280-terms-hover.png 847
+state ok chromium-375-privacy-policy-focus.png 846
+state ok chromium-375-privacy-policy-hover.png 809
+state ok chromium-375-terms-focus.png 852
+state ok chromium-375-terms-hover.png 820
+state ok chromium-768-privacy-policy-focus.png 846
+state ok chromium-768-privacy-policy-hover.png 849
+state ok chromium-768-terms-focus.png 846
+state ok chromium-768-terms-hover.png 793
+state ok webkit-1280-privacy-policy-focus.png 846
+state ok webkit-1280-privacy-policy-hover.png 842
+state ok webkit-1280-terms-focus.png 846
+state ok webkit-1280-terms-hover.png 837
+state ok webkit-375-privacy-policy-focus.png 846
+state ok webkit-375-privacy-policy-hover.png 798
+state ok webkit-375-terms-focus.png 852
+state ok webkit-375-terms-hover.png 816
+state ok webkit-768-privacy-policy-focus.png 846
+state ok webkit-768-privacy-policy-hover.png 842
+state ok webkit-768-terms-focus.png 846
+state ok webkit-768-terms-hover.png 802
+STATES c1 ok=24 vacuous=0
+PASS 18 rows
+JUDGE c1 OK
+```
+
+C1_PIXEL=OK
+
+## 03-02 ③ 미리보기
+
+- 기록 시각: 2026-11-16. Preflight 대체 규칙을 ②·③보다 먼저 확인했습니다(RESEARCH Pitfall 1). 출처는 마지막 사이트 커밋의 빌드입니다(`CSS_FIX_SHA`가 없어 `c1`, 커밋 ①). `$W/c1/site`를 `$W/c1p/site`로 복사하고 `$W/c1/TREE`를 `$W/c1p/TREE`로 옮겼습니다.
+- 사본의 법적 세 문서만 두 가지를 고쳤습니다. (a) Tailwind script 한 줄과 `tailwind-config` 설정 블록 삭제(앞 줄바꿈·들여쓰기 포함). (b) 끝 안내의 여는 태그 `<p class="border-t …">`를 `<footer>`로, 그 뒤 첫 `</p>`를 `</footer>`로 치환(커밋 ②와 같은 치환). 세 문서 모두 여는 태그·글·닫는 태그가 각각 다른 줄이라 더해진 줄은 `<footer>`·`</footer>` 줄뿐입니다. 인라인된 `<style>` 블록은 출처와 바이트가 같습니다.
+- 사본을 4103에 띄워 `$W/cap/c1p`를 찍고 `judge.sh c1p --no-cdn`으로 판정했습니다. `--no-cdn`은 report 행마다 Tailwind 요청 0건·HTML에 CDN 주소 없음까지 확인합니다. CDN이 없는 캡처라 찍기 전 CDN 리디렉션 확인은 하지 않았습니다(scratch_contract).
+
+```
+OK preview c1p tailwind=0 footer-swap=3 other-added=0
+OK preview source c1 7cd2b6128884
+```
+
+`judge.sh c1p --no-cdn` (base1 대비):
+
+```
+COUNT base1 png=42 state=24 txt=18
+COUNT c1p png=42 state=24 txt=18
+PASS 0 diffs
+state ok chromium-1280-privacy-policy-focus.png 846
+state ok chromium-1280-privacy-policy-hover.png 849
+state ok chromium-1280-terms-focus.png 846
+state ok chromium-1280-terms-hover.png 847
+state ok chromium-375-privacy-policy-focus.png 846
+state ok chromium-375-privacy-policy-hover.png 809
+state ok chromium-375-terms-focus.png 852
+state ok chromium-375-terms-hover.png 820
+state ok chromium-768-privacy-policy-focus.png 846
+state ok chromium-768-privacy-policy-hover.png 849
+state ok chromium-768-terms-focus.png 846
+state ok chromium-768-terms-hover.png 793
+state ok webkit-1280-privacy-policy-focus.png 846
+state ok webkit-1280-privacy-policy-hover.png 842
+state ok webkit-1280-terms-focus.png 846
+state ok webkit-1280-terms-hover.png 837
+state ok webkit-375-privacy-policy-focus.png 846
+state ok webkit-375-privacy-policy-hover.png 798
+state ok webkit-375-terms-focus.png 852
+state ok webkit-375-terms-hover.png 816
+state ok webkit-768-privacy-policy-focus.png 846
+state ok webkit-768-privacy-policy-hover.png 842
+state ok webkit-768-terms-focus.png 846
+state ok webkit-768-terms-hover.png 802
+STATES c1p ok=24 vacuous=0
+PASS 18 rows
+JUDGE c1p OK
+```
+
+C1_PREVIEW3=OK
