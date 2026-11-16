@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 네 가지를 확인한다.
+# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 다섯 가지를 확인한다.
 #   1. 빌드가 성공한다
 #   2. 빌드 결과에 내부 파일이 없다
 #   3. 기존 URL 문서 4개가 있고 <title>이 기대값과 같다
 #   4. 출력 HTML에 처리되지 않은 Liquid({%, {{)가 없다
+#   5. 출력 HTML에 Tailwind Play CDN(cdn.tailwindcss.com, tailwind.config)이 없다
 # 사용법: scripts/check-site.sh          작업 트리를 빌드해 점검한다
 #         scripts/check-site.sh <커밋>   그 커밋의 추적 파일만 내보내 빌드해 점검한다 (pre-push 훅이 이렇게 부른다)
 # macOS 기본 /bin/bash 3.2에서도 돌도록 연관 배열·mapfile을 쓰지 않는다.
@@ -81,6 +82,11 @@ TITLES
 # {% raw %}로 일부러 내보내는 {{ 가 생기면 이 검사가 걸린다. 그때는 예외 규칙을 여기에 더한다.
 raw=$(grep -rlF -e '{%' -e '{{' --include='*.html' "$DEST" 2>/dev/null)
 [ -n "$raw" ] && problem "Liquid가 처리되지 않은 출력: ${raw//$DEST/}"
+
+# ── 5. Tailwind Play CDN 없음 ──
+# 법적 페이지는 정적 CSS(_includes/css/legal.css)로 그린다. 런타임 스크립트가 다시 들어오면 막는다.
+tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' "$DEST" 2>/dev/null)
+[ -n "$tw" ] && problem "Tailwind Play CDN이 출력에 남아 있습니다: ${tw//$DEST/}"
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
 printf 'check-site: 통과 (%s, %s)\n' "$label" "$got"
