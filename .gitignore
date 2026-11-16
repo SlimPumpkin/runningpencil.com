@@ -10,6 +10,10 @@ prepare/
 # GSD 연구 캐시 (도구가 만드는 로컬 산출물)
 .planning/research/.cache/
 
+# GSD 도구가 만드는 로컬 상태 요약과 UI 감사 캡처 폴더
+.planning/state.json
+.planning/ui-reviews/
+
 # Jekyll 로컬 빌드 산출물과 gem 설치 위치 (bundle config --local path vendor/bundle)
 _site/
 .jekyll-cache/
