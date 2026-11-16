@@ -158,3 +158,9 @@ None - no external service configuration required.
 ---
 *Phase: 02-jekyll-shared-shell-refactor*
 *Completed: 2026-11-16*
+
+## Self-Check: PASSED
+
+- FOUND: `.planning/phases/02-jekyll-shared-shell-refactor/02-10-SUMMARY.md`
+- FOUND: 커밋 `0fbd9b0` (HEAD의 조상)
+- FOUND: `9f715c795830`이 `origin/main`의 조상 (푸시 ④)
