@@ -614,7 +614,7 @@ tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' 
 `build`·`serve` 두 함수는 이 세션에서 `$TMPDIR` 아래에서 실제로 돌려 봤습니다(빌드 성공, 서빙 200).
 ```bash
 W="${TMPDIR:-/tmp}/rp-p3"; mkdir -p "$W"; W=$(cd "$W" && pwd -P)   # macOS $TMPDIR는 심볼릭 링크 → 실제 경로로 (check-site.sh:42-43과 같은 이유: --safe 빌드의 include 거부)
-REPO=/Users/woody/dv/woody/runningpencil.com
+REPO=$(git rev-parse --show-toplevel)   # 저장소 안에서 실행
 build() {  # build <이름> <커밋>
   rm -rf "${W:?}/${1:?}" && mkdir -p "$W/$1/src" && git -C "$REPO" archive --format=tar "$2" | tar -x -C "$W/$1/src" \
   && ( cd "$W" && BUNDLE_GEMFILE="$REPO/Gemfile" JEKYLL_ENV=production bundle exec jekyll build --safe -s "$W/$1/src" -d "$W/$1/site" >/dev/null )
