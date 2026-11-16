@@ -214,3 +214,91 @@ live-check: 통과
 - 내부 파일 13개: 모두 404이고 `age` 0(배포 뒤 지난 초보다 작음, 신선한 404). 이번 푸시로 처음 원격에 들어간 `/.planning/ROADMAP.md`와 `/.claude/CLAUDE.md`가 운영에서 실제로 막히는 것을 처음 확인했습니다 (RESEARCH Pitfall 3). `/prepare/`·`/vendor/`는 gitignore 대상이라 원격에 없으므로 404가 당연하고, 의미 있는 확인은 로컬 check-site 2번입니다.
 - 테마 파일 `/assets/css/style.css` 200.
 - 관찰: 이 푸시는 네 문서의 바이트를 바꾸지 않았는데도 `last-modified`가 새 배포 시각으로 올라갔습니다. RESEARCH A2(새 배포가 바뀌지 않은 파일의 `Last-Modified`도 올린다)가 이번 배포 한 번에서 성립했습니다.
+
+## 02-03 푸시 ① 후보
+
+PUSH1_CANDIDATE=d5a6679631d7
+PUSH1_PREV=db505d71d3d2
+
+- 기록 시각: 2026-11-16T02:54Z (푸시 전). 메인 체크아웃에서 실행했습니다.
+- `git fetch -q origin main` 뒤 원격 main은 `db505d71d3d2`(02-02에서 라이브 확인을 통과한 기준 커밋)이고, 후보는 로컬 HEAD `d5a6679631d7`입니다. `git merge-base --is-ancestor <PUSH1_PREV> <후보>` 참 (다른 곳의 푸시 없음). 범위의 병합 커밋 0개.
+- `git log "$PREV..$CAND" -- Gemfile.lock .githooks/pre-push`에 02-01의 두 커밋이 보입니다: `7f13a622878b`(훅, `HOOK_SHA`)와 `7773b163f3de`(빌드 설정, `BUILD_CONFIG_SHA`).
+- `HISTORY_DECISION=base-first`이므로 Phase 1 이력은 이미 기준 커밋 푸시로 공개됐습니다. 이 푸시가 처음 공개하는 이력은 아래 다섯 커밋뿐입니다.
+
+### 공개 범위 (`PUSH1_PREV..PUSH1_CANDIDATE`)
+
+- 아직 공개되지 않은 커밋 수: 5개 (`7773b163f3de`, `7f13a622878b`, `1eab7132d0aa`, `02d8866a2525`, `d5a6679631d7`)
+- `.planning/` 밖에서 바뀌는 파일 6개: `.githooks/pre-push`, `.gitignore`, `Gemfile`, `Gemfile.lock`, `_config.yml`, `scripts/check-site.sh`
+- `--diff-filter=d`로 센 파일 수: 11개. 이 가운데 새로 더해지는 파일은 7개(`.githooks/pre-push`, `Gemfile`, `Gemfile.lock`, `scripts/check-site.sh`, `02-01-SUMMARY.md`, `02-02-SUMMARY.md`, `02-EVIDENCE.md`)이고, 나머지 4개(`.gitignore`, `_config.yml`, `.planning/ROADMAP.md`, `.planning/STATE.md`)는 이미 공개된 파일의 수정입니다.
+
+### 검토 항목 (막는 검사가 아님, 사람이 Task 2에서 봄)
+
+정규식과 거르기는 02-02 scratch_contract 그대로입니다. 같은 검사 도구를 02-02 범위(`HISTORY_PREV..BASE_SHA`)에 다시 돌려 02-02 기록과 같은 수(끝 트리 1·0·27, 이력 1·0·33)가 나오는 것을 먼저 확인했습니다. 호스트 이름 검사는 허용 목록 밖의 하위 도메인이 걸리는지 합성한 줄로 따로 시험했습니다. 걸린 줄의 내용은 이 기록에 옮기지 않습니다.
+
+| 검사 | 끝 트리 (걸린 줄 수, `파일:행`) | 이력 (이 범위 5개 커밋이 더한 줄) |
+|---|---|---|
+| 누출 | 0 | 0 |
+| 호스트 이름 | 0 | 0 |
+| 로컬 경로 | 1 (`.planning/ROADMAP.md:73`) | 0 |
+
+- 끝 트리의 로컬 경로 1줄은 기준 커밋(`BASE_SHA`)에 이미 있던 같은 줄입니다 (02-02 끝 트리 목록의 `.planning/ROADMAP.md:73`). `ROADMAP.md`가 수정 파일이라 다시 잡혔을 뿐, 이 푸시로 처음 공개되는 줄이 아닙니다.
+
+### 훅 실제 경로 시험과 기준 비교 (원격으로 푸시하지 않음)
+
+- 표준 입력 `refs/heads/main <후보 전체> refs/heads/main <PUSH1_PREV 전체>` 한 줄을 `.githooks/pre-push`에 넣음 → rc=0, `check-site: 통과 (커밋 d5a6679631d7, jekyll 3.10.0)`
+- `compare.sh <BASE_SHA> <후보>` → rc=0
+
+```
+OK   index.html (바이트 동일)
+OK   privacy-policy/index.html (바이트 동일)
+OK   terms/index.html (바이트 동일)
+OK   data-deletion/index.html (바이트 동일)
+OK   _site 파일 목록 동일 (11개)
+기준 db505d71d3d2 / 후보 d5a6679631d7
+```
+
+## 02-03 푸시 ① 라이브 확인
+
+PUSH1_SHA=d5a6679631d7
+LIVE_PUSH1=OK
+
+- 승인: 사용자가 Task 2 checkpoint(`gate="blocking-human"`)에서 `push`로 답했습니다. 승인 범위는 `PUSH1_CANDIDATE`(`d5a6679631d7`)를 `refs/heads/main`으로 푸시하는 한 번뿐입니다.
+- 푸시 직전 확인 (2026-11-16T03:08Z): `git fetch -q origin main` 뒤 `git rev-parse --short=12 origin/main` → `db505d71d3d2` (`PUSH1_PREV`와 같음).
+- 푸시: `git push origin <PUSH1_CANDIDATE 전체>:refs/heads/main` → 성공. pre-push 훅 출력 `check-site: 통과 (커밋 d5a6679631d7, jekyll 3.10.0)`. 원격 main `db505d71d3d2` → `d5a6679631d7` (fast-forward). `--no-verify`·force는 쓰지 않았습니다.
+- 푸시 뒤 확인: `git fetch -q origin main` 뒤 원격 main은 `d5a6679631d7`이고, `git merge-base --is-ancestor <PUSH1_SHA> origin/main` 참.
+
+### live-check 출력 (푸시 ① 뒤)
+
+종료 코드 0. 처음 한 번 돌린 결과이고, 다시 돌리거나 스크립트를 고치지 않았습니다.
+
+```
+live-check.sh post d5a6679631d7
+OK 빌드 d5a6679631d7 built 2026-11-16T03:08:27Z
+OK 문서 https://runningpencil.com/ lm=2026-11-16T03:09:04Z age=0
+OK 문서 https://runningpencil.com/privacy-policy/ lm=2026-11-16T03:09:04Z age=0
+OK 문서 https://runningpencil.com/terms/ lm=2026-11-16T03:09:04Z age=0
+OK 문서 https://runningpencil.com/data-deletion/ lm=2026-11-16T03:09:04Z age=0
+OK 404 /CLAUDE.md age=0
+OK 404 /README.md age=0
+OK 404 /Gemfile age=0
+OK 404 /Gemfile.lock age=0
+OK 404 /scripts/check-site.sh age=0
+OK 404 /.githooks/pre-push age=0
+OK 404 /_layouts/legal.html age=0
+OK 404 /.planning/ROADMAP.md age=0
+OK 404 /_includes/footer.html age=0
+OK 404 /prepare/ age=0
+OK 404 /vendor/ age=0
+OK 404 /.claude/CLAUDE.md age=0
+OK 404 /_config.yml age=0
+OK 테마 /assets/css/style.css 200
+live-check: 통과
+```
+
+- 빌드 기록 (`pages/builds/latest`): `commit` `d5a6679631d7`(푸시한 커밋), `created_at` 2026-11-16T03:08:27Z, `status` built, `error.message` null.
+- 네 문서: 상태 200, `last-modified` 2026-11-16T03:09:04Z(UTC로 바꾼 값, `created_at` 이후), `age` 0. 제목과 D-07 정규화 본문이 기준 커밋(`BASE_SHA`) 원본과 같습니다.
+- 이 푸시로 원격에 처음 들어간 파일 넷: `/Gemfile`, `/Gemfile.lock`, `/scripts/check-site.sh`, `/.githooks/pre-push` 모두 404이고 `age` 0(배포 뒤 지난 초보다 작음, 신선한 404). 보강한 `exclude`와 점·밑줄 규칙이 운영 빌드에서도 적용됨을 처음 확인했습니다.
+- 나머지 내부 파일 9개(`/CLAUDE.md`, `/README.md`, `/_config.yml`, `/.planning/ROADMAP.md`, `/.claude/CLAUDE.md`, `/_includes/footer.html`, `/_layouts/legal.html`, `/prepare/`, `/vendor/`)도 신선한 404입니다. 모두 13개.
+- 테마 파일 `/assets/css/style.css` 200.
+- 관찰: 이번에도 네 문서의 바이트가 바뀌지 않았는데 `last-modified`가 새 배포 시각으로 올라갔습니다. RESEARCH A2가 두 번째 배포에서도 성립했습니다.
+- 출력의 `OK 404` 줄 순서가 02-02 기록과 다른 것은, live-check가 첫 회차에서 판정하지 못한 경로를 다음 회차에서 다시 확인해 그 순서로 출력하기 때문입니다. 판정에는 영향이 없습니다.
