@@ -35,5 +35,5 @@
         .rp-doc figure { overflow-x: auto; background: linear-gradient(to right, #fff 30%, rgb(255 255 255 / 0)) left center / 40px 100% no-repeat local, linear-gradient(to left, #fff 30%, rgb(255 255 255 / 0)) right center / 40px 100% no-repeat local, radial-gradient(farthest-side at 0 50%, rgb(43 43 43 / 0.16), rgb(43 43 43 / 0)) left center / 12px 100% no-repeat scroll, radial-gradient(farthest-side at 100% 50%, rgb(43 43 43 / 0.16), rgb(43 43 43 / 0)) right center / 12px 100% no-repeat scroll; background-color: #fff; }
         .rp-doc table { width: 100%; border-collapse: collapse; text-indent: 0; font-size: 14px; line-height: 20px; }
         .rp-doc :where(th, td) { padding: 10px 16px 10px 0; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rp-line); }
-        .rp-doc th { font-weight: 700; color: var(--rp-ink); }
+        .rp-doc th { font-weight: 700; color: var(--rp-ink); white-space: nowrap; }
         @media (min-width: 768px) { .rp-legal-card { padding: 48px; } }
