@@ -10,7 +10,7 @@ last_mapped_at: 2026-11-14
 
 **Primary:**
 - HTML5 - 모든 페이지 (`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`), `<html lang="ko">`
-- CSS - 각 페이지 `<head>` 내 `<style>` 한 블록(「공통」 + 「랜딩 전용」/「법적 페이지 전용」) 및 인라인 `style`. 「공통」 묶음은 include(`_includes/css/common.css`)로 `<style>` 안에 인라인되고, 「법적 페이지 전용」은 `_layouts/legal.html`의 `<style>`에 있다
+- CSS - 각 페이지 `<head>` 내 `<style>` 한 블록(「공통」 + 「랜딩 전용」/「법적 페이지 전용」) 및 인라인 `style`. 「공통」 묶음은 include(`_includes/css/common.css`)로 `<style>` 안에 인라인되고, 「법적 페이지 전용」은 `_includes/css/legal.css`에 있고 `_layouts/legal.html`의 `<style>` 안에 include로 인라인된다
 
 **Secondary:**
 - JavaScript (vanilla, 라이브러리 없음) - `index.html`의 `<head>` 짧은 스크립트(`rp-pin` 부여)와 `</body>` 앞 인라인 스크립트(스크롤 단계, 달려 보기 데모, `rp-ready`)
@@ -32,8 +32,8 @@ last_mapped_at: 2026-11-14
 ## Frameworks
 
 **Core:**
-- 없음 - 랜딩(`index.html`)은 프레임워크·Tailwind 미사용, 순수 CSS
-- Tailwind CSS (CDN 런타임/Play CDN, 버전 고정 없음) - 법적 페이지 3종 본문 스타일. `<script src="https://cdn.tailwindcss.com">` + 인라인 `<script id="tailwind-config">`의 `tailwind.config` 토큰(`ink`, `accent`, `muted`, `muted-2`, `line`)
+- 없음 - 랜딩(`index.html`)과 법적 페이지 3종 모두 프레임워크 없이 직접 쓴 CSS다 (2026-11 기준)
+- 직접 쓴 정적 CSS `_includes/css/legal.css` - 법적 페이지 3종. 레이아웃 `<style>`에 include로 인라인한다 (외부 `.css` 파일 없음). 토큰은 `:root`의 `--rp-ink #2B2B2B`·`--rp-accent #7C580D`·`--rp-muted #4A463F`·`--rp-muted-2 #57534C`·`--rp-line #E4E0D6`. Tailwind Play CDN은 Phase 3에서 제거했다
 
 **Testing:**
 - Not detected
@@ -49,7 +49,6 @@ last_mapped_at: 2026-11-14
 - Pretendard Variable `v1.3.9` (dynamic subset) - 네 페이지 공통 글꼴
   - `https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css`
   - `<link rel="preconnect" href="https://cdn.jsdelivr.net">` 동반
-- Tailwind CSS Play CDN - `https://cdn.tailwindcss.com` (버전 미고정, 법적 페이지 3종만). 프로덕션 비권장 방식, `@apply` 불가
 
 **로컬 빌드 전용 gem (`Gemfile`):**
 - `jekyll = 3.10.0` - 운영과 같은 버전 고정. github-pages gem은 로컬 Ruby 4.x에 설치되지 않아 쓰지 않는다
@@ -69,7 +68,7 @@ last_mapped_at: 2026-11-14
 **Build:**
 - `_config.yml` - `url: "https://runningpencil.com"`과 열 항목 `exclude`(`CNAME`, `CLAUDE.md`, `README.md`, `.planning/`, `Gemfile`, `Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 사용자 `exclude`는 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 새 마크다운 문서나 루트 파일·폴더는 여기에 모두 적는다
 - `Gemfile` / `Gemfile.lock` - 로컬 빌드용 gem 고정 (위 「로컬 빌드 전용 gem」)
-- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음)
+- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음)
 - `.githooks/pre-push` - `main` 푸시마다 `scripts/check-site.sh`를 부른다. 켜기: `git config core.hooksPath .githooks` (클론마다 한 번)
 - `CNAME` - `runningpencil.com`
 - `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시), Jekyll 로컬 빌드 산출물과 gem 위치 `_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`
@@ -78,7 +77,7 @@ last_mapped_at: 2026-11-14
 ## Platform Requirements
 
 **Development:**
-- Homebrew Ruby 4.x + Bundler (`bundle install`), 텍스트 에디터, 인터넷(CDN 글꼴·Tailwind). macOS 시스템 Ruby 2.6은 쓰지 않는다
+- Homebrew Ruby 4.x + Bundler (`bundle install`), 텍스트 에디터, 인터넷(CDN 글꼴). macOS 시스템 Ruby 2.6은 쓰지 않는다
 - 아이콘 재생성 시 `rsvg-convert` 등 (8배 렌더 후 8×8 평균 축소)
 
 **Production:**

@@ -12,7 +12,7 @@ last_mapped_at: 2026-11-14
 
 - 페이지마다 디렉터리 하나에 `index.html` 하나를 둔다 (pretty URL): `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`. 디렉터리 이름은 kebab-case 영어로 쓴다.
 - 에셋은 `favicon/` 아래에 kebab-case와 크기 접미사로 둔다: `favicon-96x96.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`.
-- include는 `_includes/` 아래 kebab-case `.html`로 두고 (`head-links.html`, `header.html`, `footer.html`), CSS 조각은 `_includes/css/*.css`로 둔다 (`_includes/css/common.css`). 레이아웃은 `_layouts/legal.html` 하나다. 레이아웃 이름에 `default`·`page`·`home`·`post`를 쓰지 않는다 (운영 테마의 레이아웃과 충돌한다).
+- include는 `_includes/` 아래 kebab-case `.html`로 두고 (`head-links.html`, `header.html`, `footer.html`), CSS 조각은 `_includes/css/*.css`로 둔다 (`_includes/css/common.css`, `_includes/css/legal.css`). 레이아웃은 `_layouts/legal.html` 하나다. 레이아웃 이름에 `default`·`page`·`home`·`post`를 쓰지 않는다 (운영 테마의 레이아웃과 충돌한다).
 
 ### CSS classes
 
@@ -46,7 +46,7 @@ last_mapped_at: 2026-11-14
 
 ### Linting
 
-- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 넷이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음. `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 다섯이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음. `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 
 ## CSS / Styling Patterns
 
@@ -54,32 +54,52 @@ last_mapped_at: 2026-11-14
 
 - 「공통」 — 네 페이지가 함께 쓰는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 이 묶음은 `_includes/css/common.css` 한 곳에 있고, 랜딩(`index.html`)과 legal 레이아웃(`_layouts/legal.html`)의 `<style>` 안에서 `{% include css/common.css %}`로 인라인된다. 고칠 때는 그 파일만 고친다.
 - 「랜딩 전용」 — `index.html`에만 있다. 새 랜딩 스타일은 여기에 넣는다.
-- 「법적 페이지 전용」 — `_layouts/legal.html`의 `<style>`에 있고 법적 페이지 3종이 함께 쓴다 (`.rp-grid` 모눈종이 바탕 등).
+- 「법적 페이지 전용」 — `_includes/css/legal.css` 한 곳에 있고, `_layouts/legal.html`의 `<style>` 안에서 「공통」 다음에 `{% include css/legal.css %}`로 인라인된다. 법적 페이지 3종이 함께 쓴다 (토큰, Preflight 대체, `.rp-grid` 모눈종이 바탕, `.rp-legal-*` 카드 껍데기, `.rp-doc` 본문 규칙).
 
 ### 반응형
 
 - 고정 breakpoint 대신 유동 수치를 먼저 쓴다: `padding-left: clamp(20px, 5vw, 64px)`, `padding: clamp(40px, 5vw, 64px) 0`.
-- 좁은 화면 규칙은 `index.html` `<style>` 끝의 `@media (max-width: 860px) { ... }` 블록 하나에 모은다. 860px가 사이트의 유일한 폭 breakpoint다.
+- 좁은 화면 규칙은 `index.html` `<style>` 끝의 `@media (max-width: 860px) { ... }` 블록 하나에 모은다. 랜딩의 폭 breakpoint는 860px(`max-width`) 하나다. 법적 카드는 768px(`min-width`)에서 안쪽 여백만 28px에서 48px로 바뀐다 (`_includes/css/legal.css`). 둘은 별개다.
 - 창 높이에 따른 축소는 `@media (max-height: ...)`에서 `zoom`으로 한다 (`.rp-pin .rp-scrolly .rp-phone { zoom: .84; }`).
 - 움직임은 `@media (prefers-reduced-motion: reduce)` 블록과 JS의 `reduced()` 확인 둘 다로 막는다.
 
-### 법적 페이지 (Tailwind CDN)
+### 법적 페이지 (정적 CSS `_includes/css/legal.css`)
 
-- `https://cdn.tailwindcss.com` 런타임 JIT를 쓴다. `@apply`는 쓸 수 없다.
-- 유동 수치는 arbitrary value로 쓴다: `py-[clamp(48px,6vw,80px)]`, `text-[clamp(30px,6.5vw,42px)]`, `rounded-[28px]`, `border-[1.5px]`, `tracking-[0.04em]`, `leading-[1.7]`.
-- 색은 `<script id="tailwind-config">`의 토큰 이름으로만 쓴다: `text-ink`, `text-accent`, `text-muted`, `text-muted-2`, `border-line`. hex를 클래스에 직접 쓰지 않는다.
-- 헤더·푸터는 Tailwind가 아니라 「공통」 `.rp-*` 클래스로 그린다.
+- 법적 페이지 CSS는 `_includes/css/legal.css` 한 곳에 있다 (2026-11 기준). `_layouts/legal.html`의 `<style>` 안에서 「공통」(`common.css`) 다음에 include한다. 외부 `.css` 파일이나 런타임 스크립트는 없다. Tailwind Play CDN은 Phase 3에서 제거했다.
+- 토큰은 `:root`의 CSS 변수 다섯 개다: `--rp-ink #2B2B2B`, `--rp-accent #7C580D`, `--rp-muted #4A463F`, `--rp-muted-2 #57534C`, `--rp-line #E4E0D6`. 이 다섯 색은 `var(--rp-…)`로만 쓰고, 새 hex를 늘리지 않는다. 카드 바탕 `#fff`와 모눈종이 `#F5F9FC`·`#D3E2EF`는 원래 있던 값이라 hex 그대로 있다.
+- 카드 껍데기는 레이아웃이 그리는 클래스 `.rp-legal-wrap`·`.rp-legal-card`·`.rp-legal-eyebrow`·`.rp-legal-title`·`.rp-legal-updated`로 쓴다. 본문은 `<div class="rp-doc">` 안에 들어가고, 본문 규칙은 모두 `.rp-doc` 범위로 쓴다.
+- Preflight 대체는 `html`(line-height 1.5, tab-size 4, `-webkit-tap-highlight-color: transparent`)과 `.rp-doc` 범위 규칙만 쓴다. 레이아웃 규칙(`body` 세로 flex, `main` 늘리기, `.rp-grid`)은 법적 페이지에서만 불리므로 그대로 둔다. 본문 요소(h2·p·ul·table 등)의 규칙은 범위 없는 요소 선택자로 쓰지 않는다. 사이트 머리말·바닥글로 샌다.
+- 토큰과 초기화 규칙을 「공통」(`common.css`)에 넣지 않는다. 넣으면 랜딩 출력이 바뀐다.
+- 헤더·푸터는 「공통」 `.rp-*` 클래스로 그린다.
+
+### 법적 본문 작성 규칙 (Phase 6~9가 따름)
+
+- 법적 문서(처리방침·약관·삭제 안내, 이후 지원 페이지와 영문판)의 본문을 쓸 때 지킨다. `_includes/css/legal.css` 맨 위 주석에도 허용 요소 목록이 짧게 있다.
+- 원본은 HTML이다 (`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`). Markdown(kramdown)으로 바꾸지 않는다. kramdown은 곧은 따옴표를 굽은 따옴표로 바꾸고 제목에 자동 `id`를 붙인다 (D-01).
+- 조항마다 `<section>` 하나를 두고 첫 자식은 `<h2>`다. 간격은 본문 최상위 자식 사이 32px(`section`끼리, 마지막 `footer` 앞), `section` 안 자식 사이 12px, 목록 항목(`li`) 사이 4px다 (D-02).
+- 문서 끝 안내는 `<footer>`(위 1px `line` 선, 위 여백 16px, 14px, `muted-2`), 조항 안 보충 설명(예: 표 아래 「※ …」)은 `<aside>`(14px, `muted-2`, 구분선 없음)로 쓴다. 둘 다 클래스가 없다 (D-03).
+- 본문에 쓸 수 있는 요소는 `section` `h2` `h3` `p` `ul` `ol` `li` `dl` `dt` `dd` `table` `thead` `tbody` `tr` `th` `td` `figure` `strong` `a` `aside` `footer`가 전부이고, 모두 클래스 없이 쓴다 (D-04).
+- `strong`과 `a`는 클래스 없이 기본 모양을 받는다. `strong`은 600·`ink`, `a`는 600·`ink`에 2px `accent` 밑줄(offset 4px), hover 때 글자색 `accent` (D-05).
+- 표는 가로줄만 쓴다. 바깥 테두리와 바탕색이 없고 행 사이를 1px `line` 선으로 나눈다. 머리 행(`th`)은 굵은 `ink`, 표 안 글씨는 14px, 정렬은 왼쪽·위다 (D-06). 표 머리 행은 줄바꿈하지 않고 한 줄로 둔다 (`th`에 `white-space: nowrap`, Phase 3에서 사용자가 고름).
+- 표는 모두 `<figure tabindex="0" aria-label="표 이름">`으로 감싼다. 표가 본문 폭보다 넓으면 figure 안에서만 가로로 스크롤하고 페이지는 밀리지 않는다. `tabindex="0"`은 키보드 스크롤, `aria-label`은 화면 낭독기가 읽을 이름이다. 표 자체를 블록 상자로 바꾸지 않는다 (`<table>`에 `display: block` 금지, 일부 화면 낭독기가 표로 읽지 못함) (D-07).
+- 표가 넘칠 때만 더 밀 수 있는 쪽 가장자리에 옅은 그림자가 보인다. CSS만으로 만들고(JS 없음) 그림자는 figure의 배경이라, 표 칸에 바탕색을 주지 않는다 (D-08).
+- `<ol>`은 1. 2. 3.(decimal)이고 들여쓰기 20px·항목 간격 4px는 `ul`과 같다. 약관의 항 번호(①)가 필요하면 본문 글에 직접 쓴다 (D-09).
+- 중첩 목록은 바깥 목록 안에서 20px을 한 번 더 들여쓴다. 바깥이 `ul`이든 `ol`이든 안쪽 `ul`은 ○(circle), 안쪽 `ol`은 가. 나. 다.(`hangul`)이고, 영문판(`lang="en"`)의 안쪽 `ol`은 a. b. c.(`lower-alpha`)다 (D-10).
+- `<h3>`는 17px·700·`ink`다. h2(20px·700·`ink`)에서 크기만 한 단계 줄인 모양이다 (D-11).
+- `<dl>`은 `dt`를 굵은 `ink`로 한 줄에 두고 `dd`를 그 아래 본문 글씨로 쓴다. `dd`는 들여쓰지 않는다 (D-12).
+- 목록에 없는 요소가 필요하면 `_includes/css/legal.css`(규칙과 맨 위 주석)와 이 목록을 같은 단계에서 함께 고친다.
+- 표가 처음 들어가는 단계(예: Phase 7 처리 위탁 표)는 검증에서 본문의 모든 `<figure`에 `tabindex="0"`과 `aria-label`이 있는지 grep으로 확인한다. CSS는 속성이 없어도 스크롤을 주므로, 두 속성은 검증으로만 지켜진다.
 
 ### 색 토큰 (랜딩은 hex를 바로 씀)
 
 | 용도 | 값 |
 |---|---|
 | 연필 노랑 (헤더·히어로·출시 안내 바탕, `theme-color`) | `#F2B134` |
-| 흑연 (글자, 푸터 바탕) / Tailwind `ink` | `#2B2B2B` |
+| 흑연 (글자, 푸터 바탕) / 법적 페이지 `--rp-ink` | `#2B2B2B` |
 | 페이지 바탕 | `#FAFAF7` |
-| 진한 금색 (작은 제목·링크 밑줄) / `accent` | `#7C580D` |
-| 보조 글자 `muted` / `muted-2` | `#4A463F` / `#57534C` |
-| 테두리·구분선 `line` | `#E4E0D6` |
+| 진한 금색 (작은 제목·링크 밑줄) / `--rp-accent` | `#7C580D` |
+| 보조 글자 `--rp-muted` / `--rp-muted-2` | `#4A463F` / `#57534C` |
+| 테두리·구분선 `--rp-line` | `#E4E0D6` |
 | 칠판 초록 (달려 보기) | `#2E4A3B` |
 | 모눈종이 바탕 / 선 | `#F5F9FC` / `#D3E2EF` |
 | 포커스 테두리 | `#1E5AA8` |
@@ -98,8 +118,7 @@ last_mapped_at: 2026-11-14
 - meta (charset, viewport, title, description, `theme-color`, 법적 페이지는 `robots noindex`)
 - 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
 - `{% include head-links.html %}` (Pretendard 글꼴 `<link>`와 파비콘·매니페스트 링크 8줄. jsDelivr `orioncactus/pretendard@v1.3.9`, `/favicon/...`)
-- (법적 페이지) Tailwind CDN + `<script id="tailwind-config">` — 두 블록 모두 `_layouts/legal.html`에 있다
-- `<style>`
+- `<style>` — 맨 위에 「공통」(`{% include css/common.css %}`)이 들어오고, 법적 페이지는 그 다음에 `{% include css/legal.css %}`가 들어온다 (`_layouts/legal.html`). 랜딩은 「공통」 다음에 「랜딩 전용」을 바로 쓴다
 
 ### Path Aliases
 
@@ -148,7 +167,7 @@ last_mapped_at: 2026-11-14
 
 - **Exports:** 없음. 페이지마다 스크립트·스타일은 그 HTML 안에만 있다 (외부 `.js`/`.css` 파일 없음).
 
-- **Shared code:** Jekyll 공유 셸(Phase 2 적용됨). 공통 블록은 include 네 개(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`)와 레이아웃 `_layouts/legal.html`에 한 벌씩 있다. 랜딩은 front matter `layout: none`에 include 네 줄을 쓰고, 법적 3종은 `layout: legal`과 front matter로 그려진다. 법적 페이지 front matter 키는 `layout`·`title`·`description`·`eyebrow`·`heading`·`updated`·`noindex`다 (`heading`이 없으면 `title`을 쓰고, `updated`·`noindex`는 값이 있을 때만 출력한다).
+- **Shared code:** Jekyll 공유 셸(Phase 2 적용됨). 공통 블록은 include 네 개(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`)와 레이아웃 `_layouts/legal.html`에 한 벌씩 있다. 랜딩은 front matter `layout: none`에 include 네 줄을 쓰고, 법적 3종은 `layout: legal`과 front matter로 그려진다. 법적 페이지 전용 CSS는 include 하나(`_includes/css/legal.css`)에 있고 레이아웃만 부른다. 법적 페이지 front matter 키는 `layout`·`title`·`description`·`eyebrow`·`heading`·`updated`·`noindex`다 (`heading`이 없으면 `title`을 쓰고, `updated`·`noindex`는 값이 있을 때만 출력한다).
   - 헤더 링크 변형은 include 매개변수로 한다. 랜딩은 `{% include header.html home=true %}`(링크 `#top`·`#story`·`#demo`·`#get`), 법적 페이지는 `{% include header.html %}`(링크 `/`·`/#story`·`/#demo`·`/#get`)다.
   - include 공백 규칙: include 태그는 0열에 혼자 두고, include 파일은 원본 들여쓰기 그대로, 끝 줄바꿈 없이 쓴다. `{%-`는 `if`/`endif`에만 쓰고 내용을 내보내는 태그에는 쓰지 않는다.
   - raw 규칙: front matter가 붙은 파일은 전체가 Liquid를 거친다. 인라인 JS·CSS에 이중 중괄호나 중괄호-퍼센트가 생기면 그 부분을 `{% raw %}`…`{% endraw %}`로 감싼다. `scripts/check-site.sh`의 4번 항목은 출력에 남은 이런 문자열을 잡으므로, raw로 일부러 내보내는 경우가 생기면 그 항목에 예외 규칙을 더한다.
