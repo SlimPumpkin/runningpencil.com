@@ -79,7 +79,7 @@ Plans:
 **Depends on**: Phase 1
 **Requirements**: SHELL-01, SHELL-02, SHELL-03
 **Success Criteria** (what must be TRUE):
-  1. 로컬 Jekyll 3.10.0 빌드가 성공하고, `_site/`의 네 문서(`/`, `/privacy-policy/`, `/terms/`, `/data-deletion/`)를 전환 전 HTML과 공백 정규화 diff로 비교하면 차이가 0이다
+  1. 로컬 Jekyll 3.10.0 빌드가 성공하고, `_site/`의 네 문서(`/`, `/privacy-policy/`, `/terms/`, `/data-deletion/`)를 전환 전 HTML과 공백 정규화 diff로 비교하면 전환 커밋(법적 3종, 랜딩) 시점에는 차이가 0이다. 단계를 마친 뒤의 출력은 전환 전과 「공통」 CSS 머리 주석 한 줄만 다르고(D-06에서 승인한 예외), 주석을 지운 뒤 비교하면 차이가 0이다
   2. 공통 블록(head 링크, 「공통」 CSS, 헤더, 푸터)이 `_includes`/`_layouts`에 한 벌만 있고, 그중 하나를 시험 삼아 바꾸면 네 문서의 빌드 결과가 모두 바뀐다
   3. 운영자는 `CLAUDE.md`에 적힌 명령(Jekyll 3.10.0을 고정한 Gemfile)으로 실제 배포와 같은 빌드의 로컬 미리보기를 띄우고, 푸시 전에 빌드 성공을 확인한다. `python3 -m http.server` 안내는 남아 있지 않다
   4. 라이브에서 `/CLAUDE.md`, `/README.md`, `/Gemfile`, `/Gemfile.lock`, `vendor/`·`.planning/`·`prepare/` 아래 파일이 404이고, 기존 네 URL은 200과 전환 전과 같은 `<title>`을 돌려준다
