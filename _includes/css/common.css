@@ -1,5 +1,5 @@
         /* ── 공통: 바탕 · 머리말 · 바닥글 ──
-           네 페이지(index · privacy-policy · terms · data-deletion)가 이 묶음을 똑같이 복사해 쓴다. 고칠 때는 네 파일을 함께 고친다. */
+           모든 페이지가 이 묶음을 _includes/css/common.css 에서 불러 쓴다. 고칠 때는 그 파일 한 곳만 고친다. */
         html { background: #F2B134; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         body { margin: 0; overflow-x: clip; font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; color: #2B2B2B; background: #FAFAF7; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         *, *::before, *::after { box-sizing: border-box; }
