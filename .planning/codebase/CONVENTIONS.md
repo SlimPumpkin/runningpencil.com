@@ -12,6 +12,7 @@ last_mapped_at: 2026-11-14
 
 - 페이지마다 디렉터리 하나에 `index.html` 하나를 둔다 (pretty URL): `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`. 디렉터리 이름은 kebab-case 영어로 쓴다.
 - 에셋은 `favicon/` 아래에 kebab-case와 크기 접미사로 둔다: `favicon-96x96.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`.
+- include는 `_includes/` 아래 kebab-case `.html`로 두고 (`head-links.html`, `header.html`, `footer.html`), CSS 조각은 `_includes/css/*.css`로 둔다 (`_includes/css/common.css`). 레이아웃은 `_layouts/legal.html` 하나다. 레이아웃 이름에 `default`·`page`·`home`·`post`를 쓰지 않는다 (운영 테마의 레이아웃과 충돌한다).
 
 ### CSS classes
 
@@ -25,7 +26,7 @@ last_mapped_at: 2026-11-14
 - 스크립트가 찾는 요소의 id는 `rp-` + 영역 + 역할로 쓴다: `rp-run-dot`, `rp-run-pct`, `rp-demo-prog`, `rp-demo-done`, `rp-run-btn`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`. 예외로 구간 앵커 id는 짧은 영어 단어로 쓴다: `story`, `demo`, `get`, `top`.
 - SVG `<defs>` 심볼 id: 아이콘은 `rp-i-*` (`#rp-i-play`, `#rp-i-replay`), 코스 선은 `rp-c-*` (`#rp-c-dog`).
 - 반복 요소에는 인덱스 data 속성을 쓴다: 내용은 `data-step="0..2"`, 버튼은 `data-go="0..2"`.
-- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 495행)의 인라인 스크립트도 반드시 같이 고친다.
+- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 428행)의 인라인 스크립트도 반드시 같이 고친다.
 
 ### JS functions / variables
 
@@ -45,15 +46,15 @@ last_mapped_at: 2026-11-14
 
 ### Linting
 
-- 린터 없음. CLAUDE.md의 "커밋 전 린터 실행" 규칙은 이 저장소에는 적용할 도구가 없으므로, 대신 로컬 미리보기 확인으로 갈음한다 (`TESTING.md` 참고).
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 넷이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음. `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 
 ## CSS / Styling Patterns
 
 ### `<style>` 블록 구획 (주석 머리 `/* ── 이름 ── */`)
 
-- 「공통」 — 네 페이지가 **똑같이 복사**하는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 고칠 때는 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html` 네 파일을 함께 고친다.
+- 「공통」 — 네 페이지가 함께 쓰는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 이 묶음은 `_includes/css/common.css` 한 곳에 있고, 랜딩(`index.html`)과 legal 레이아웃(`_layouts/legal.html`)의 `<style>` 안에서 `{% include css/common.css %}`로 인라인된다. 고칠 때는 그 파일만 고친다.
 - 「랜딩 전용」 — `index.html`에만 있다. 새 랜딩 스타일은 여기에 넣는다.
-- 「법적 페이지 전용」 — 법적 페이지 3종에 있다 (`.rp-grid` 모눈종이 바탕 등).
+- 「법적 페이지 전용」 — `_layouts/legal.html`의 `<style>`에 있고 법적 페이지 3종이 함께 쓴다 (`.rp-grid` 모눈종이 바탕 등).
 
 ### 반응형
 
@@ -96,9 +97,8 @@ last_mapped_at: 2026-11-14
 
 - meta (charset, viewport, title, description, `theme-color`, 법적 페이지는 `robots noindex`)
 - 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
-- Pretendard 글꼴 `<link>` (jsDelivr `orioncactus/pretendard@v1.3.9`, 네 페이지 같은 줄)
-- 파비콘·매니페스트 `<link>` (`/favicon/...`)
-- (법적 페이지) Tailwind CDN + `<script id="tailwind-config">`
+- `{% include head-links.html %}` (Pretendard 글꼴 `<link>`와 파비콘·매니페스트 링크 8줄. jsDelivr `orioncactus/pretendard@v1.3.9`, `/favicon/...`)
+- (법적 페이지) Tailwind CDN + `<script id="tailwind-config">` — 두 블록 모두 `_layouts/legal.html`에 있다
 - `<style>`
 
 ### Path Aliases
@@ -148,7 +148,10 @@ last_mapped_at: 2026-11-14
 
 - **Exports:** 없음. 페이지마다 스크립트·스타일은 그 HTML 안에만 있다 (외부 `.js`/`.css` 파일 없음).
 
-- **Shared code:** 현재는 빌드가 없어 공통 템플릿을 쓸 수 없다 (2026-11 기준, Phase 2까지 유효). Phase 2에서 Jekyll 공유 셸(`_includes`·`_layouts`)로 한 곳에 모은다. 공통 `<head>` 링크, 「공통」 CSS, 헤더·푸터 마크업은 네 파일에 **복사**한다. 다른 점은 링크 주소뿐이다 (랜딩 `#top`·`#story`·`#demo`·`#get`, 법적 페이지 `/`·`/#story`·`/#demo`·`/#get`).
+- **Shared code:** Jekyll 공유 셸(Phase 2 적용됨). 공통 블록은 include 네 개(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`)와 레이아웃 `_layouts/legal.html`에 한 벌씩 있다. 랜딩은 front matter `layout: none`에 include 네 줄을 쓰고, 법적 3종은 `layout: legal`과 front matter로 그려진다. 법적 페이지 front matter 키는 `layout`·`title`·`description`·`eyebrow`·`heading`·`updated`·`noindex`다 (`heading`이 없으면 `title`을 쓰고, `updated`·`noindex`는 값이 있을 때만 출력한다).
+  - 헤더 링크 변형은 include 매개변수로 한다. 랜딩은 `{% include header.html home=true %}`(링크 `#top`·`#story`·`#demo`·`#get`), 법적 페이지는 `{% include header.html %}`(링크 `/`·`/#story`·`/#demo`·`/#get`)다.
+  - include 공백 규칙: include 태그는 0열에 혼자 두고, include 파일은 원본 들여쓰기 그대로, 끝 줄바꿈 없이 쓴다. `{%-`는 `if`/`endif`에만 쓰고 내용을 내보내는 태그에는 쓰지 않는다.
+  - raw 규칙: front matter가 붙은 파일은 전체가 Liquid를 거친다. 인라인 JS·CSS에 이중 중괄호나 중괄호-퍼센트가 생기면 그 부분을 `{% raw %}`…`{% endraw %}`로 감싼다. `scripts/check-site.sh`의 4번 항목은 출력에 남은 이런 문자열을 잡으므로, raw로 일부러 내보내는 경우가 생기면 그 항목에 예외 규칙을 더한다.
 
 - **SVG:** 모든 그림은 인라인 SVG다. 랜딩에서 두 번 이상 쓰는 도형은 `<body>` 맨 위 숨은 `<svg><defs>`에 두고 `<use href="#rp-...">`로 쓴다. 법적 페이지에는 `<defs>`가 없으므로 로고를 그 자리에 그대로 넣는다. 외부 이미지 파일을 쓰지 않는다.
 
@@ -160,14 +163,14 @@ last_mapped_at: 2026-11-14
 - 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 이메일 게이트(Phase 5) 뒤 공개하는 지원 이메일 하나로 한다. 현재는 문의 채널이 없다 (2026-11 기준).
 - 현재 사이트에는 지원 이메일이 없다 (2026-11 기준). 이메일 게이트(Phase 5: 외부 4곳 수신 시험 통과)가 열리면 지원 이메일을 푸터, 지원 페이지, 법적 문서에 넣는다. 그전에는 주소를 HTML·`_data`에 넣지 않는다. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)이고, 사이트(HTML·`_data`)에는 없고 `.planning/` 문서에만 있다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있다. HTML·`_data`에 넣지 않는 규칙은 사이트 노출만 막는다.
 - 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
-- 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다.
+- 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다. 마크다운 문서뿐 아니라 사이트에 올리지 않을 새 루트 파일·폴더도 `exclude`에 적는다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰기 때문이다.
 
 ## Commit Messages
 
 - Conventional Commits, prefix는 영어, 제목은 한국어 (`git log`). 예는 아래 두 줄이다.
 - 예: `feat: 티저 랜딩 새 디자인 적용, 법적 페이지·파비콘 개편`
 - 예: `feat: RunningPencil 티저 사이트 초기 구성`
-- `main` 푸시가 곧 배포이므로 커밋 전에 로컬 미리보기로 확인한다.
+- `main` 푸시가 곧 배포이므로 푸시 전에 `scripts/check-site.sh`가 통과해야 한다 (pre-push 훅이 자동 실행).
 
 ---
 
