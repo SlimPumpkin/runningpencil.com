@@ -16,7 +16,8 @@
     "repo_tagging": "single",
     "phase_branch_template": "gsd/phase-{phase}-{slug}",
     "milestone_branch_template": "gsd/{milestone}-{slug}",
-    "quick_branch_template": null
+    "quick_branch_template": null,
+    "allow_default_branch_commits": true
   },
   "workflow": {
     "research": true,
@@ -49,7 +50,8 @@
     "security_enforcement": true,
     "security_asvs_level": 1,
     "security_block_on": "high",
-    "use_worktrees": true
+    "use_worktrees": false,
+    "_auto_chain_active": false
   },
   "ship": {
     "pr_body_sections": []
@@ -69,18 +71,18 @@
   "granularity": "fine",
   "resolve_model_ids": "omit",
   "model_overrides": {
-    "gsd-assumptions-analyzer": "fable",
-    "gsd-advisor-researcher": "fable",
-    "gsd-planner": "fable",
-    "gsd-plan-checker": "fable",
-    "gsd-phase-researcher": "fable",
-    "gsd-pattern-mapper": "fable",
-    "gsd-debug-session-manager": "fable",
-    "gsd-debugger": "fable"
+    "gsd-assumptions-analyzer": "opus",
+    "gsd-advisor-researcher": "opus",
+    "gsd-planner": "opus",
+    "gsd-plan-checker": "opus",
+    "gsd-phase-researcher": "opus",
+    "gsd-pattern-mapper": "opus",
+    "gsd-debug-session-manager": "opus",
+    "gsd-debugger": "opus"
   },
   "effort": {
     "agent_overrides": {
-      "gsd-plan-checker": "high"
+      "gsd-plan-checker": "xhigh"
     }
   },
   "runtime": "claude"
