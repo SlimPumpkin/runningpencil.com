@@ -3,11 +3,11 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-08-PLAN.md
-last_updated: "2026-11-17T07:32:45.735Z"
+stopped_at: 04-09 보류 — 캡처 대기 (Task 1 완료, SUMMARY 없음)
+last_updated: "2026-11-17T07:39:36.330Z"
 last_activity: 2026-11-17
-last_activity_desc: Phase 04 execution started
-state_head: 060480fb017e5486fea124be7b66e51f9e9613dc
+last_activity_desc: 04-09 보류 — 캡처 대기
+state_head: ea4b1165a6639b6cea55fbb48363da92efbf61c5
 progress:
   total_phases: 10
   completed_phases: 3
@@ -29,8 +29,8 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
 Plan: 9 of 13
-Status: Ready to execute
-Last activity: 2026-11-17 — Phase 04 execution started
+Status: 04-09 보류 — 앱 화면 캡처(작업 10) 대기. 캡처를 받으면 `/gsd-execute-phase 4`로 04-09를 Task 1부터 다시 함
+Last activity: 2026-11-17 — 04-09 보류 (이미지 파이프라인 시험은 통과, 캡처 대기)
 
 Progress: [███░░░░░░░] 30%
 
@@ -185,6 +185,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-06: check-site 6번 항목은 빌드 출력 index.html 한 파일의 포인트·굿즈·코스북만 본다(법적 문서 제외). 첫 푸시 라이브 확인 뒤 별도 build 커밋 a02573fe173f로 넣어 revert 경로를 막지 않음
 - [Phase 04]: 04-07: 두 CLAUDE.md 문서 커밋 4b9288d285af(방침 행 「랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음」, 생성기 사본 시험에서 stack·conventions·architecture 네 줄만 바뀌어 --auto 없이 재생성), README·STRUCTURE 커밋 5b00b906d609. 열 개 문서 옛 나열·옛 방침 칸·로컬 경로 0줄(DOCS1_STALE=OK). 푸시 안 함
 - [Phase 04]: 04-08: 사용자가 PUSH2_CANDIDATE=6e46bdcb24e0 푸시를 승인(push). 원격이 PUSH2_PREV=073d33e0e50a 그대로인 것을 확인하고 그 SHA만 한 번 푸시(훅 6항목 통과). Pages built 2026-11-17T07:27:26Z, 네 URL 200·제목, 라이브 / = c2 빌드 바이트, 내부 파일 셋 404 → LIVE_PUSH2=OK. SITE-01 갈래 완료, 단계는 앱 화면 캡처(작업 10)를 기다림
+- [Phase 04]: 04-09 보류 1: Task 1 이미지 파이프라인 시험 통과(1170bd3, 두 엔진 × 배율 2·3 `PASS pipe`, 저장소·라이브 그대로). Task 2에서 사용자가 hold로 답해 `HOLD1_` 표시로 보류(d047ffc), SUMMARY 없음. 다음 실행은 04-09 Task 1부터 다시 함. 그때 safe-resume 게이트가 `docs(04-09):` 커밋 1170bd3을 보고 멈추면 `re-execute from scratch`를 고름(보류 커밋이 대신함, revert 안 함)
 
 ### Pending Todos
 
@@ -221,5 +222,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-11-17T07:32:45.418Z
-Stopped at: Completed 04-08-PLAN.md
+Stopped at: 04-09 보류 — 캡처 대기 (Task 1 완료, SUMMARY 없음)
 Resume file: None
