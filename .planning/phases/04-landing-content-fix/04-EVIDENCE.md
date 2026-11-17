@@ -403,3 +403,48 @@ OK 404 /scripts/check-site.sh
 ```
 
 LIVE_PUSH2=OK
+
+## 04-09 이미지 파이프라인 시험
+
+캡처 없이 합성 Display P3 이미지로 변환부터 빌드·서빙·두 엔진 표시까지 스크래치에서만 확인했습니다. 저장소와 라이브에는 아무것도 들어가지 않았습니다 (D-21).
+
+스크래치 확인: `$W/lib.sh`, `$W/pw/node_modules/playwright`, `$W/pw/p4-behave.mjs`, `$W/base/site`가 모두 있어 다시 만든 것이 없습니다. 이 계획에서 `$W/img.sh`(`make_webp`, 홈 경로 없음)와 `$W/pw/p4-pipe.mjs`를 새로 썼습니다.
+
+합성 시험 이미지 `$W/img/test/src.png`: 저장소의 `favicon/web-app-manifest-512x512.png`를 폭 1179로 키우고 `F2B134`로 2556 높이까지 채운 뒤 Display P3로 바꿨습니다 (1179×2556, 알파 없음).
+
+```
+  profile: Display P3
+```
+
+`make_webp "$W/img/test/src.png" test "$W/img/test/out"` (sRGB 변환 확인 → 564·846 축소 → q80 WebP, 둘 다 상한 안이라 q75 재시도 없음):
+
+```
+IMG test 564 5036 564x1222 q=80 sha256=6f8fff1fca6ffe5bb90d4900907d0d37829543aea1110685c533246919c942f0
+IMG test 846 8038 846x1834 q=80 sha256=ac1d72e663886f58c763934a0049b6c06d86a6ff5910f99279e23a7f79e4b840
+```
+
+두 파일 모두 `webpinfo`에서 청크가 `VP8` 하나, `No error detected.`이고 EXIF·XMP·ICCP 청크가 없습니다. 음성 대조로 폭 512인 PNG를 넣으면 `make_webp`가 「원본 폭 512 < 846」으로 1을 내고 파일을 만들지 않았습니다.
+
+OK webp chunks clean
+
+시험 빌드 `$W/pipe/`: `git archive HEAD`(ea4b1165a663)를 풀고 스크래치 원본에만 `images/app/screen-test-{564,846}.webp`와 front matter 없는 `p4-pipe-test.html`(`<img id="t">`, srcset 564w·846w, `sizes="282px"`, width·height 846×1834)을 넣어 `build_src pipe`로 빌드했습니다. 출력의 두 WebP는 `make_webp` 결과와 `cmp`로 바이트가 같고(Jekyll이 그대로 복사), 출력에서 `*.md`·`.*`·`_*` 검색은 빈 출력입니다. `_config.yml`의 exclude에 `images/`가 없어 그대로 나갑니다.
+
+OK pipe build copied
+
+`serve pipe 4205` 뒤 `node "$W/pw/p4-pipe.mjs" http://127.0.0.1:4205` (창 400×900, 콘솔 오류·pageerror 없음). `natural`은 브라우저가 srcset의 폭 설명자로 나눈 고유 크기(846/3, 564/2)라 두 파일 모두 282×611로 나옵니다. 고른 파일 이름은 기록만 합니다:
+
+```
+OK pipe chromium dpr=2 screen-test-564.webp natural=282x611
+OK pipe chromium dpr=3 screen-test-846.webp natural=282x611
+OK pipe webkit dpr=2 screen-test-564.webp natural=282x611
+OK pipe webkit dpr=3 screen-test-846.webp natural=282x611
+PASS pipe
+```
+
+`stop pipe` 뒤 포트 4205가 비었습니다.
+
+`git status --porcelain -- images p4-pipe-test.html`가 빈 출력입니다 (시험 파일은 스크래치에만 있음).
+
+OK repo untouched
+
+PIPE_TRACE=OK
