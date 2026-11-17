@@ -86,3 +86,35 @@ FAIL behave
 
 BEHAVE_BASE=OK
 BEHAVE_NEG=OK
+
+## 04-03 문구 커밋
+
+메타 설명·OG 설명에서 포인트·굿즈·코스북 부분만 지우고(D-02), 「세 가지 이유」 3단계 설명 글과 캡션에서 실루엣·「채울 뱃지」 표현을 지운(D-03~D-05) 문구 커밋입니다. `index.html` 네 줄(13·18·234·245행)만 바꾸고, 빈 뱃지 그림은 04-04 몫이라 그대로 둡니다(D-22). 후보 커밋을 `$W/c1`에 운영과 같은 production·`--safe` 빌드로 만들고 `python3 -m http.server`(포트 4203)로 띄워 판정했습니다. 기준 출력은 `$W/base`(BASE_SHA)입니다. 스크래치는 04-02가 만든 것을 그대로 썼습니다(다시 만들지 않음).
+
+CAND1=109741862593
+
+```
+check-site: 통과 (커밋 109741862593, jekyll 3.10.0)
+HUNKS 10c10 15c15 278c278 289c289
+OK words index=0
+OK legal same 3
+OK files same
+```
+
+후보 동작 판정 (`$W/c1`, 포트 4203):
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=5
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=5
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=5
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=5
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=5
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=5
+PASS behave
+```
+
+판정을 통과한 같은 인덱스를 커밋했습니다. 커밋 트리는 후보 트리(`$W/c1/TREE`)와 같습니다. 헤더·푸터 include, 레이아웃, 법적 3종, 점검 스크립트는 바뀌지 않았습니다(D-15). 푸시는 빈 뱃지 커밋과 함께 04-05에서 합니다(D-22).
+
+C1_SHA=abdeb52284d6
+OK commit files=index.html numstat=4/4
+C1_OK=OK
