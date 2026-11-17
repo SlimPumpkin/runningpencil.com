@@ -28,7 +28,7 @@ runningpencil.com/
 │   └── legal.html             # 법적 3종 레이아웃 (head·「공통」+legal.css include·카드 틀)
 ├── favicon/                   # 파비콘·앱 아이콘·웹 매니페스트
 ├── scripts/
-│   └── check-site.sh          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음)
+│   └── check-site.sh          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름)
 ├── .githooks/
 │   └── pre-push               # main 푸시마다 check-site.sh 실행 (git config core.hooksPath .githooks)
 ├── Gemfile                    # 로컬 빌드용 gem (jekyll = 3.10.0 고정)
