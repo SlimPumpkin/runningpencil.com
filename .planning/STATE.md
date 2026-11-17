@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-04-PLAN.md
-last_updated: "2026-11-17T05:19:58.402Z"
+stopped_at: Completed 04-05-PLAN.md
+last_updated: "2026-11-17T05:46:54.556Z"
 last_activity: 2026-11-17
 last_activity_desc: Phase 04 execution started
-state_head: f85076f7cef1f91d2e4c66ff5cabd745f94a4c05
+state_head: 9bc1c2078945bdd98f760fc04f195bceb481d686
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 33
+  completed_plans: 34
   percent: 30
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 5 of 13
+Plan: 6 of 13
 Status: Ready to execute
 Last activity: 2026-11-17 — Phase 04 execution started
 
@@ -91,6 +91,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P02 | 11 min | 3 tasks | 2 files |
 | Phase 04 P03 | 3 min | 2 tasks | 2 files |
 | Phase 04 P04 | 7 min | 2 tasks | 2 files |
+| Phase 04 P05 | 3 min | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -177,6 +178,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-02: 기준 BASE_SHA=0e75e8b88fd2(라이브 0bfe5b210c3c와 같은 사이트). p4-behave.mjs가 기준 PASS, rp-run-btn 깬 사본 FAIL+pageerror — 이후 사이트 커밋 후보마다 이 도구로 판정
 - [Phase 04]: 04-03: 문구 커밋(abdeb52284d6)은 index.html 네 줄만 담고 빈 뱃지 그림은 04-04 커밋으로 남김 (D-22). 푸시는 04-05
 - [Phase 04]: 04-04: 빈 뱃지 다섯 개를 받은 뱃지 색(줄 흑연·노랑·빨강, 스티커 고양이 노랑·왕관 빨강)으로 바꾸고 .rp-badge.t-empty 규칙을 지운 커밋 f8d66a6469cf를 남김. 푸시는 04-05에서 문구 커밋과 함께 (D-06, D-22)
+- [Phase 04]: 04-05: 승인받은 073d33e0e50a 하나만 원격 main에 푸시했고, Pages built 뒤 라이브 /가 빈 뱃지 커밋 빌드와 바이트가 같고 두 엔진 PASS behave라 되돌림 없이 LIVE_PUSH1=OK
 
 ### Pending Todos
 
@@ -212,6 +214,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T05:19:58.126Z
-Stopped at: Completed 04-04-PLAN.md
+Last session: 2026-11-17T05:46:54.291Z
+Stopped at: Completed 04-05-PLAN.md
 Resume file: None
