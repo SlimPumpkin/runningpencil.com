@@ -302,3 +302,23 @@ CHECK6=OK
 원본 맵 네 개(`CONVENTIONS.md`·`TESTING.md`·`ARCHITECTURE.md`·`STACK.md`)의 다섯 곳에서 점검 항목을 여섯으로 고친 문서 커밋입니다. 커밋은 네 맵만 담고, 커밋 전 작업 트리 점검(`check-site: 통과 (작업 트리, jekyll 3.10.0)`)이 통과했습니다. `.claude/CLAUDE.md` 재생성은 04-07 몫입니다.
 
 DOCS_CHECK6_SHA=f8fa9fb1d48c
+
+## 04-07 CLAUDE.md와 README
+
+DOCS_CLAUDE1_SHA=4b9288d285af
+
+- 기록 시각: 2026-11-17. 첫 푸시의 라이브 확인(`LIVE_PUSH1=OK`, PUSH1_SHA `073d33e0e50a`) 뒤에 만든 문서 커밋이고, 루트 `CLAUDE.md`와 `.claude/CLAUDE.md` 두 파일만 담습니다(D-23). 두 사본의 「이번 마일스톤 방침」 구간은 글자까지 같고, 「포인트·굿즈·코스북 제거」 행의 현재 상태 칸만 「결정됨 (U10). 랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음」으로 바꿨습니다. 다른 행과 적용 단계·이유·출처 칸은 그대로입니다.
+- 루트 `CLAUDE.md` Deploy 문단: pre-push 점검 항목 나열 끝에 「랜딩 출력에 포인트·굿즈·코스북이 없음」을 더했습니다. 다른 문장은 그대로입니다.
+- 생성기 시험: 방침 행을 고친 뒤 `.claude/CLAUDE.md` 사본을 임시 폴더에 두고 `generate-claude-md --output <임시 사본>`을 돌렸습니다. 방침 구간·project·skills·workflow·profile은 저장소 파일과 같고 stack·conventions·architecture 세 블록의 네 줄(04-06 원본 맵의 점검 6번 항목)만 바뀌었습니다. 그래서 저장소에서 `--output`·`--auto` 없이 같은 명령을 돌렸고, 결과는 시험 사본과 바이트가 같습니다. 커밋 전 `scripts/check-site.sh` 통과(`check-site: 통과 (작업 트리, jekyll 3.10.0)`).
+
+OK generator blocks only
+OK regenerated
+
+DOCS_README1_SHA=5b00b906d609
+
+- `README.md` 코드 블록과 `.planning/codebase/STRUCTURE.md` 디렉터리 그림의 `check-site.sh` 주석 끝에 「·랜딩 기능 이름」을 더했습니다(주석 시작 열 그대로). 커밋은 두 파일만 담고, 커밋 전 `scripts/check-site.sh` 통과(`check-site: 통과 (작업 트리, jekyll 3.10.0)`).
+- 문서 훑기: 대상은 `CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`와 `.planning/codebase/*.md` 일곱 개(ARCHITECTURE·CONCERNS·CONVENTIONS·INTEGRATIONS·STACK·STRUCTURE·TESTING), 모두 열 개입니다(계획 본문은 원본 맵을 여덟 개로 적었으나 실제 파일은 일곱 개이고 합계 열 개는 같음). 다섯 항목짜리 옛 나열·옛 항목 수 문장(Task 2 verify 첫 grep 정규식), 옛 방침 현재 상태 칸 문구, 로컬 경로(사용자 홈 폴더 꼴과 macOS 임시 폴더 꼴, Task 2 verify 셋째 grep)를 셌고 모두 0줄이라 고침 커밋을 더하지 않았습니다.
+
+OK stale oldlist=0 oldpolicy=0 localpath=0
+
+DOCS1_STALE=OK
