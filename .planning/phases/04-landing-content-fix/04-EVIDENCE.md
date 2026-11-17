@@ -322,3 +322,43 @@ DOCS_README1_SHA=5b00b906d609
 OK stale oldlist=0 oldpolicy=0 localpath=0
 
 DOCS1_STALE=OK
+
+## 04-08 문서 푸시 후보
+
+SITE-01 갈래의 문서와 점검 스크립트를 내보내는 문서 푸시의 후보입니다(Phase 3 D-21 원칙: 라이브 확인 뒤 문서 푸시, D-22). 후보는 그때의 로컬 main 끝(HEAD)이고, 이전 원격은 `git fetch -q origin main` 뒤의 `origin/main`입니다. 이전 원격은 PUSH1_SHA와 같고(첫 푸시 뒤 되돌리기 푸시 없음) 후보의 조상입니다(다른 곳의 푸시 없음).
+
+```
+OK prev = PUSH1_SHA 073d33e0e50a, ancestor of candidate
+OK unpublished commits=12
+OK docs files 4
+.claude/CLAUDE.md
+CLAUDE.md
+README.md
+scripts/check-site.sh
+OK in range CHECK6_SHA a02573fe173f, DOCS_CLAUDE1_SHA 4b9288d285af, DOCS_README1_SHA 5b00b906d609 (DOCS_CHECK6_SHA f8fa9fb1d48c도 범위 안)
+```
+
+`.planning/` 밖을 바꾼 커밋은 셋입니다(`git log -- . ':(exclude).planning'`): 점검 6번 항목 `a02573fe173f`, 두 CLAUDE.md `4b9288d285af`, README `5b00b906d609`. 모두 첫 푸시(PUSH1_SHA) 뒤의 커밋이고 이전 원격에는 없습니다.
+
+사이트 출력 불변: 스크래치(`$W/lib.sh`, playwright, `p4-behave.mjs`, `$W/base`)는 모두 있었고 `$W/base/TREE`는 BASE_SHA의 트리와 같아 다시 만들지 않았습니다. 비교 기준 c2는 계획대로 조건과 상관없이 C2_SHA로 새로 빌드했습니다. 그다음 `build p2 <후보>` 뒤 `diff -r "$W/c2/site" "$W/p2/site"`가 빈 출력입니다.
+
+```
+REGEN c2 build from f8d66a6469cf
+regen OK c2 tree words=0
+OK site output unchanged
+```
+
+검토 항목(막는 검사 아님): 범위 diff(`.planning/` 포함)의 더해진 줄에서 로컬 경로 꼴(macOS 홈 폴더, 임시 폴더)과 토큰 꼴을 찾은 결과입니다(검색 꼴은 04-08-PLAN Task 1 action 2번 (e)). 걸린 줄이 없습니다. 같은 검사를 첫 푸시 범위에 돌리면 04-05 기록과 같은 23줄이 나와 검사 자체가 동작함을 확인했습니다.
+
+```
+REVIEW hits=0
+```
+
+실제 푸시 경로(`printf 'refs/heads/main <후보> refs/heads/main <이전 원격>\n' | .githooks/pre-push`, 작업 트리의 6항목 스크립트):
+
+```
+check-site: 통과 (커밋 6e46bdcb24e0, jekyll 3.10.0)
+```
+
+PUSH2_CANDIDATE=6e46bdcb24e0
+PUSH2_PREV=073d33e0e50a
