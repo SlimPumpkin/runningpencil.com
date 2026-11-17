@@ -161,3 +161,108 @@ REVIEW step3 webkit 375 OK chromium 375와 같은 배치·색, 회색 없음, �
 C2_SHA=f8d66a6469cf
 OK commit files=index.html numstat=5/6
 C2_OK=OK
+
+## 04-05 첫 푸시 후보
+
+문구 커밋(C1_SHA)과 빈 뱃지 커밋(C2_SHA)을 함께 내보내는 첫 사이트 푸시의 후보입니다(D-21, D-22). 후보는 그때의 로컬 main 끝(HEAD)이고, 이전 원격은 `git fetch -q origin main` 뒤의 `origin/main`입니다. 이전 원격은 BASE_LIVE와 같고 후보의 조상입니다(다른 곳의 푸시 없음).
+
+```
+OK prev = BASE_LIVE 0bfe5b210c3c, ancestor of candidate
+OK unpublished commits=18
+OK site files 1
+index.html
+OK site commits = C2 C1
+f8d66a6469cf
+abdeb52284d6
+OK site tree = C2
+```
+
+커밋별 판정 요약 (04-03·04-04 구간):
+
+```
+C1 HUNKS 10c10 15c15 278c278 289c289 PASS behave
+C2 HUNKS 82d81 285,287c284,286 304c303 306c305 PASS behave
+```
+
+검토 항목(막는 검사 아님): 범위 diff의 더해진 줄에서 로컬 경로 꼴(macOS 홈 폴더, 임시 폴더)과 토큰 꼴을 찾은 결과입니다(검색 꼴은 04-05-PLAN Task 1 action 2번 (e)). 걸린 줄은 모두 누출 검사 규칙이 검색 꼴을 글로 적은 줄이고, 실제 경로나 토큰은 없습니다. 모두 `.planning/phases/04-landing-content-fix/` 아래의 계획·요약 문서입니다. 줄 내용은 승인 단계에서 사용자에게 보여 줍니다.
+
+```
+REVIEW hits=23
+04-01-PLAN.md:203
+04-01-SUMMARY.md:98
+04-02-PLAN.md:229
+04-02-SUMMARY.md:138
+04-03-PLAN.md:178
+04-03-SUMMARY.md:143
+04-04-PLAN.md:189
+04-04-SUMMARY.md:155
+04-05-PLAN.md:119
+04-05-PLAN.md:231
+04-06-PLAN.md:178
+04-07-PLAN.md:139
+04-07-PLAN.md:143
+04-08-PLAN.md:93
+04-08-PLAN.md:198
+04-09-PLAN.md:189
+04-09-PLAN.md:227
+04-10-PLAN.md:255
+04-11-PLAN.md:165
+04-11-PLAN.md:291
+04-12-PLAN.md:189
+04-12-PLAN.md:193
+04-13-PLAN.md:204
+```
+
+실제 푸시 경로(`printf 'refs/heads/main <후보> refs/heads/main <이전 원격>\n' | .githooks/pre-push`):
+
+```
+check-site: 통과 (커밋 073d33e0e50a, jekyll 3.10.0)
+```
+
+PUSH1_CANDIDATE=073d33e0e50a
+PUSH1_PREV=0bfe5b210c3c
+
+## 04-05 첫 푸시 라이브 확인
+
+승인: Task 2 `checkpoint:decision`(blocking-human)에서 사용자가 `PUSH1_CANDIDATE=073d33e0e50a`를 이름으로 적은 질문에 **push**로 답했습니다. 이 승인은 이 SHA의 푸시 한 번에만 썼습니다.
+
+푸시 전 확인: 스크래치(`$W/lib.sh`, playwright, `p4-behave.mjs`, `$W/base`, `$W/c2`)가 모두 있고 `$W/base/TREE`·`$W/c2/TREE`가 BASE_SHA·C2_SHA의 트리와 같아 다시 만든 것이 없습니다. `git fetch -q origin main` 뒤 `origin/main`은 PUSH1_PREV(`0bfe5b210c3c`), 로컬 HEAD는 PUSH1_CANDIDATE 그대로였습니다.
+
+푸시는 `git push origin <PUSH1_CANDIDATE 전체 해시>:refs/heads/main`으로 훅을 켠 채 했습니다. 첫 시도는 셸(zsh)이 변수 바로 뒤의 `:r`을 변수 수식자로 읽어 refspec이 깨졌고, git이 원격에 닿기 전에 거부해 아무것도 나가지 않았습니다(원격 그대로 확인). 변수를 중괄호로 감싸 같은 SHA로 다시 푸시했습니다.
+
+```
+check-site: 통과 (커밋 073d33e0e50a, jekyll 3.10.0)
+0bfe5b2..073d33e  -> main
+```
+
+PUSH1_SHA=073d33e0e50a
+
+배포 완료 (`gh api repos/<slug>/pages/builds/latest`, 20초 간격):
+
+```
+OK 빌드 073d33e0e50a built 2026-11-17T05:43:06Z
+```
+
+라이브 HTTP·바이트 (`https://runningpencil.com<경로>?cb=073d33e0e50a`, 사본 `$W/live1/`). 법적 세 문서의 세 낱말 줄 수는 `$W/c2/site/<경로>/index.html`과 같고(바뀌지 않음, Phase 6~8 몫), 법적 세 문서도 로컬 빌드와 바이트가 같습니다.
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다 words=0 badge7=1 empty=0
+OK live index bytes = c2
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 words=6
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 words=6
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 words=3
+```
+
+라이브 동작 (`node "$W/pw/p4-behave.mjs" https://runningpencil.com '?cb=073d33e0e50a'`, 출력 전체):
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=0
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=0
+PASS behave
+```
+
+LIVE_PUSH1=OK
