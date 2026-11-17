@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 다섯 가지를 확인한다.
+# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 여섯 가지를 확인한다.
 #   1. 빌드가 성공한다
 #   2. 빌드 결과에 내부 파일이 없다
 #   3. 기존 URL 문서 4개가 있고 <title>이 기대값과 같다
 #   4. 출력 HTML에 처리되지 않은 Liquid({%, {{)가 없다
 #   5. 출력 HTML에 Tailwind Play CDN(cdn.tailwindcss.com, tailwind.config)이 없다
+#   6. 랜딩 출력(index.html)에 출시 범위 밖 기능 이름(포인트·굿즈·코스북)이 없다
 # 사용법: scripts/check-site.sh          작업 트리를 빌드해 점검한다
 #         scripts/check-site.sh <커밋>   그 커밋의 추적 파일만 내보내 빌드해 점검한다 (pre-push 훅이 이렇게 부른다)
 # macOS 기본 /bin/bash 3.2에서도 돌도록 연관 배열·mapfile을 쓰지 않는다.
@@ -87,6 +88,12 @@ raw=$(grep -rlF -e '{%' -e '{{' --include='*.html' "$DEST" 2>/dev/null)
 # 법적 페이지는 정적 CSS(_includes/css/legal.css)로 그린다. 런타임 스크립트가 다시 들어오면 막는다.
 tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' "$DEST" 2>/dev/null)
 [ -n "$tw" ] && problem "Tailwind Play CDN이 출력에 남아 있습니다: ${tw//$DEST/}"
+
+# ── 6. 랜딩에 출시 범위 밖 기능 이름 없음 ──
+# 이번 마일스톤의 출시 앱에 없는 기능 이름(U10, SITE-01)이 랜딩에 다시 들어오면 막는다.
+# 법적 문서 본문에는 Phase 6~8 전까지 남아 있으므로 랜딩 출력 하나만 본다. 코스북이 앱에 들어오면 이 항목을 고친다.
+u10=$(grep -c -E '포인트|굿즈|코스북' "$DEST/index.html" 2>/dev/null)
+[ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}줄 (포인트·굿즈·코스북, U10)"
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
 printf 'check-site: 통과 (%s, %s)\n' "$label" "$got"
