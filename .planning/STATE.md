@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Phase 4 context gathered
-last_updated: "2026-11-17T03:11:36.855Z"
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-11-17T04:13:13.325Z"
 last_activity: 2026-11-17
-last_activity_desc: Phase 03 complete, transitioned to Phase 4
-state_head: 90d8046ae969dffcfe6c6f7e04048a331c24606a
+last_activity_desc: Phase 04 execution started
+state_head: 21ca5204d1730bd181a7a80daa3780ff3549a712
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 29
+  completed_plans: 30
   percent: 30
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 4 — 홈페이지 서비스 소개 정정 (Landing Content Fix)
+**Current focus:** Phase 04 — 홈페이지 서비스 소개 정정 (Landing Content Fix)
 
 ## Current Position
 
-Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — READY TO EXECUTE
-Plan: Not started
+Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
+Plan: 2 of 13
 Status: Ready to execute
-Last activity: 2026-11-17 — Phase 03 complete, transitioned to Phase 4
+Last activity: 2026-11-17 — Phase 04 execution started
 
 Progress: [███░░░░░░░] 30%
 
@@ -87,6 +87,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 03 P07 | 6min | 2 tasks | 8 files |
 | Phase 03 P08 | 4min | 2 tasks | 4 files |
 | Phase 03 P09 | 7min | 3 tasks | 1 files |
+| Phase 04 P01 | 1 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -167,6 +168,8 @@ Recent decisions affecting current work:
 - [Phase 03]: UAT 8/8 통과 (2026-11-17). 1·6·7번은 사용자가, 2·3·4·5·8번은 사용자 요청으로 Claude가 확인: 다른 폭·DPR 90건(Playwright, DPR은 에뮬레이션), 실제 macOS Safari AX 트리와 Chromium AX 트리(VoiceOver 음성·iOS 미확인), 시험 본문 표 그림자 픽셀 측정(scrollLeft를 코드로 이동), 실제 macOS Safari Tab·화살표 키(iOS Safari 미확인), 금지 사항 표 근거 재실행(27행 OK, --no-verify는 7번으로 갈음)
 - [Phase 03]: 코드 리뷰 WR-01(rem→px)은 UAT 6번에서 사용자가 px 고정을 받아들임. REVIEW-DISPOSITION을 deferred로 바꾸고 PROJECT.md Key Decisions에 기록
 - [Phase 03]: 스크래치 `$W/pw`의 Playwright 패키지 파일이 macOS 임시 폴더 정리로 지워져 있었음. 03-01 승인 범위(같은 경로·같은 고정 버전)대로 `pnpm --dir "$W/pw" install --frozen-lockfile --force`로 재설치함 (UAT 중). 스크래치 도구는 오래 두면 사라질 수 있음
+- [Phase 04]: 04-01: 기준 문장 세 곳(ROADMAP Phase 4 Goal·성공 기준 2, SITE-06)의 출시 전 표시를 「출시 전임을 알리는 표시(현재 「출시 준비 중」)」로 고침. Phase 9 문구는 유지 (D-08)
+- [Phase 04]: 04-01: USER-TASKS 작업 10을 iPhone 한 기기·화면 세 장·하단 탭 없음·NAVER 로고 유지·검색 결과 목록 없음 조건으로 고침 (D-16~D-20)
 
 ### Pending Todos
 
@@ -202,6 +205,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-16T22:39:46.591Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-landing-content-fix/04-CONTEXT.md
+Last session: 2026-11-17T04:13:13.069Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: None
