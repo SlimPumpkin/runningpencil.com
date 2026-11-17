@@ -404,7 +404,7 @@ OK 404 /scripts/check-site.sh
 
 LIVE_PUSH2=OK
 
-## 04-09 이미지 파이프라인 시험
+## (보류 1) 04-09 이미지 파이프라인 시험
 
 캡처 없이 합성 Display P3 이미지로 변환부터 빌드·서빙·두 엔진 표시까지 스크래치에서만 확인했습니다. 저장소와 라이브에는 아무것도 들어가지 않았습니다 (D-21).
 
@@ -447,4 +447,6 @@ PASS pipe
 
 OK repo untouched
 
-PIPE_TRACE=OK
+HOLD1_PIPE_TRACE=OK
+
+보류 사유: 캡처 대기 (Task 2에서 사용자가 hold로 답함. 다음 실행은 04-09 Task 1부터 다시 합니다)
