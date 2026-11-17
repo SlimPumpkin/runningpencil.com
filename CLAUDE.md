@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | 결정됨. 값은 사용자가 주기 전이라 어디에도 없습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present) | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
 | 한국어 + 영어 제공 | Phase 9 (`/en/` 아래 영문판) | 결정됨. 현재 페이지는 모두 한국어(`lang="ko"`)입니다 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/URLS.md` |
 | Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 3까지 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`)로 그립니다. 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
-| 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 현재 랜딩과 법적 문서 본문에는 남아 있습니다 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
+| 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
 | 법적 페이지 `noindex` 해제와 「임시 게시본」 문구 삭제 | Phase 6 (삭제 안내), Phase 7 (처리방침), Phase 8 (이용약관). 각 문서를 다시 쓰는 커밋에서 | 결정됨 (U14). 현재 세 문서에 `noindex`와 「임시 게시본」 표시가 있습니다 | 미완성 사이트로 보이면 심사에서 반려될 수 있습니다 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 6·7·8 Notes |
 
 ### 작업 규칙
@@ -128,4 +128,4 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
 
 ## Deploy
 
-`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. CI가 없으므로 `main` 푸시가 곧 배포입니다. `main`으로 푸시할 때 pre-push 훅(`.githooks/pre-push`)이 `scripts/check-site.sh <푸시할 커밋>`을 돌려 빌드 성공, 빌드 결과에 내부 파일이 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid가 없음, 출력 HTML에 Tailwind Play CDN이 없음을 확인합니다. 하나라도 실패하면 푸시가 멈춥니다. 훅은 `git config core.hooksPath .githooks`로 켜야 동작하고, 급하면 `git push --no-verify`로 건너뛸 수 있습니다.
+`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. CI가 없으므로 `main` 푸시가 곧 배포입니다. `main`으로 푸시할 때 pre-push 훅(`.githooks/pre-push`)이 `scripts/check-site.sh <푸시할 커밋>`을 돌려 빌드 성공, 빌드 결과에 내부 파일이 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid가 없음, 출력 HTML에 Tailwind Play CDN이 없음, 랜딩 출력에 포인트·굿즈·코스북이 없음을 확인합니다. 하나라도 실패하면 푸시가 멈춥니다. 훅은 `git config core.hooksPath .githooks`로 켜야 동작하고, 급하면 `git push --no-verify`로 건너뛸 수 있습니다.
