@@ -362,3 +362,44 @@ check-site: 통과 (커밋 6e46bdcb24e0, jekyll 3.10.0)
 
 PUSH2_CANDIDATE=6e46bdcb24e0
 PUSH2_PREV=073d33e0e50a
+
+## 04-08 문서 푸시 라이브 확인
+
+승인: Task 2 `checkpoint:decision`(blocking-human)에서 사용자가 `PUSH2_CANDIDATE=6e46bdcb24e0`를 이름으로 적은 질문에 **push**로 답했습니다. 이 승인은 이 SHA의 푸시 한 번에만 썼습니다.
+
+푸시 전 확인: 스크래치(`$W/lib.sh`, playwright, `p4-behave.mjs`, `$W/base`, `$W/c2`의 네 문서)가 모두 있고 `$W/base/TREE`·`$W/c2/TREE`가 BASE_SHA·C2_SHA의 트리와 같아(c2 출력의 세 낱말 0) 다시 만든 것이 없습니다. `git fetch -q origin main` 뒤 `origin/main`은 PUSH2_PREV(`073d33e0e50a`)였습니다.
+
+푸시는 `git push origin "${SHA}:refs/heads/main"`(SHA는 PUSH2_CANDIDATE의 전체 해시)으로 훅을 켠 채 한 번 했습니다. 훅은 이 푸시부터 6항목 점검으로 푸시할 SHA를 점검했습니다.
+
+```
+check-site: 통과 (커밋 6e46bdcb24e0, jekyll 3.10.0)
+073d33e..6e46bdc  -> main
+```
+
+PUSH2_SHA=6e46bdcb24e0
+
+배포 완료 (`gh api repos/<slug>/pages/builds/latest`, 20초 간격):
+
+```
+OK 빌드 6e46bdcb24e0 built 2026-11-17T07:27:26Z
+```
+
+라이브 HTTP·바이트 (`https://runningpencil.com<경로>?cb=6e46bdcb24e0`, 사본 `$W/live2/`). 기대 제목은 `$W/c2/site/`의 같은 문서 제목이고, 법적 세 문서도 `$W/c2/site/<경로>/index.html`과 바이트가 같습니다(이 푸시는 사이트 출력을 바꾸지 않음).
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬
+OK live index bytes = c2
+```
+
+내부 파일 (`?cb=6e46bdcb24e0`, 첫 요청에서 모두 404, 5xx 재시도 없음):
+
+```
+OK 404 /CLAUDE.md
+OK 404 /README.md
+OK 404 /scripts/check-site.sh
+```
+
+LIVE_PUSH2=OK
