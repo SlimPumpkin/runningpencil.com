@@ -12,7 +12,7 @@ last_mapped_at: 2026-11-14
 - 호스팅: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 `_layouts`·`_includes`로 페이지를 조립해 정적 파일로 서빙한다. `_config.yml`은 `url`과 `exclude`를 둔다. 커스텀 도메인은 `CNAME` → runningpencil.com.
 - 페이지 4개: 티저 랜딩 `index.html` (vanilla CSS + inline JS), 개인정보처리방침 `privacy-policy/index.html`, 이용약관 `terms/index.html`, 데이터 삭제 안내 `data-deletion/index.html`. 법적 페이지 3종은 정적 CSS(`_includes/css/legal.css`) + 「공통」 `.rp-*` CSS.
 - include로 공유: 네 페이지가 `_includes/head-links.html`(글꼴·파비콘 링크), `_includes/css/common.css`(「공통」 CSS), `_includes/header.html`(랜딩은 `home=true`), `_includes/footer.html`을 부른다. 법적 3종은 `_layouts/legal.html` + front matter로 그려지고, 랜딩은 `layout: none`에 include 네 줄을 쓴다.
-- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
+- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
 - 외부 CDN: Pretendard (jsDelivr)만. 모든 페이지의 CSS는 Tailwind 없이 직접 쓴 CSS를 `<style>`에 인라인한다 (Tailwind Play CDN은 Phase 3에서 제거).
 - 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`).
 
@@ -34,7 +34,7 @@ last_mapped_at: 2026-11-14
 | 법적 페이지 CSS | Preflight 대체(`html`)·레이아웃(`body`·`main`)·`.rp-legal-*` 카드 껍데기·`.rp-doc` 본문 규칙(클래스 없는 요소)·표 감싸개 스크롤 그림자, 768px(`min-width`) 카드 안쪽 여백 | `_includes/css/legal.css` (「법적 페이지 전용」) |
 | 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `_includes/css/legal.css:9` |
 | Jekyll 설정 | 사이트 정식 주소 `url`, 저장소 문서·빌드 파일이 사이트에 공개되지 않게 하는 열 항목 `exclude` | `_config.yml` |
-| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음 | `scripts/check-site.sh` + `.githooks/pre-push` |
+| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음 | `scripts/check-site.sh` + `.githooks/pre-push` |
 
 ## Pattern Overview
 
