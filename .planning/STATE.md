@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-05-PLAN.md
-last_updated: "2026-11-17T05:46:54.556Z"
+stopped_at: Completed 04-06-PLAN.md
+last_updated: "2026-11-17T05:59:52.165Z"
 last_activity: 2026-11-17
 last_activity_desc: Phase 04 execution started
-state_head: 9bc1c2078945bdd98f760fc04f195bceb481d686
+state_head: b6042196bf1add63691435a26970462f49f888dd
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 34
+  completed_plans: 35
   percent: 30
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 6 of 13
+Plan: 7 of 13
 Status: Ready to execute
 Last activity: 2026-11-17 — Phase 04 execution started
 
@@ -92,6 +92,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P03 | 3 min | 2 tasks | 2 files |
 | Phase 04 P04 | 7 min | 2 tasks | 2 files |
 | Phase 04 P05 | 3 min | 3 tasks | 1 files |
+| Phase 04 P06 | 3min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -179,6 +180,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-03: 문구 커밋(abdeb52284d6)은 index.html 네 줄만 담고 빈 뱃지 그림은 04-04 커밋으로 남김 (D-22). 푸시는 04-05
 - [Phase 04]: 04-04: 빈 뱃지 다섯 개를 받은 뱃지 색(줄 흑연·노랑·빨강, 스티커 고양이 노랑·왕관 빨강)으로 바꾸고 .rp-badge.t-empty 규칙을 지운 커밋 f8d66a6469cf를 남김. 푸시는 04-05에서 문구 커밋과 함께 (D-06, D-22)
 - [Phase 04]: 04-05: 승인받은 073d33e0e50a 하나만 원격 main에 푸시했고, Pages built 뒤 라이브 /가 빈 뱃지 커밋 빌드와 바이트가 같고 두 엔진 PASS behave라 되돌림 없이 LIVE_PUSH1=OK
+- [Phase 04]: 04-06: check-site 6번 항목은 빌드 출력 index.html 한 파일의 포인트·굿즈·코스북만 본다(법적 문서 제외). 첫 푸시 라이브 확인 뒤 별도 build 커밋 a02573fe173f로 넣어 revert 경로를 막지 않음
 
 ### Pending Todos
 
@@ -214,6 +216,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T05:46:54.291Z
-Stopped at: Completed 04-05-PLAN.md
+Last session: 2026-11-17T05:59:51.875Z
+Stopped at: Completed 04-06-PLAN.md
 Resume file: None

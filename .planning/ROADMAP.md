@@ -171,7 +171,7 @@ Plans:
   1. 홈페이지 본문, `<meta name="description">`, OG 제목·설명 어디에도 「포인트」「굿즈」「코스북」이 없다(빌드 결과 검색 0건)
   2. 홈페이지에 실제 앱 화면 스크린샷과 출시 전임을 알리는 표시(현재 「출시 준비 중」)가 함께 보이고(375·1280px), 스크린샷에는 출시 범위 밖 기능이 나오지 않는다
   3. 기존 동작(스크롤에 고정되는 세 가지 이유, 7초 달려 보기, 움직임 줄이기 대응)이 그대로 동작하고 브라우저 콘솔 오류가 없다
-**Plans**: 5/13 plans executed
+**Plans**: 6/13 plans executed
 
 Plans:
 **Wave 1**
@@ -190,7 +190,7 @@ Plans:
 - [x] 04-05-PLAN.md — 첫 사이트 푸시: 후보 검증 → 승인 checkpoint → 푸시·배포·라이브 바이트·동작 확인
 
 **Wave 6** *(blocked on Wave 5 completion)*
-- [ ] 04-06-PLAN.md — check-site 6번 항목(랜딩 출시 범위 밖 기능 이름) build 커밋과 음성 대조, 원본 맵 항목 수
+- [x] 04-06-PLAN.md — check-site 6번 항목(랜딩 출시 범위 밖 기능 이름) build 커밋과 음성 대조, 원본 맵 항목 수
 
 **Wave 7** *(blocked on Wave 6 completion)*
 - [ ] 04-07-PLAN.md — 두 CLAUDE.md 방침 행(D-23)·Deploy 문단·재생성, README·STRUCTURE 점검 주석
@@ -358,7 +358,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 1. 기준표와 방침 정비 (Ground Truth & Policy Reset) | 10/10 | Complete    | 2026-11-15 |
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
-| 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 5/13 | In Progress | - |
+| 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 6/13 | In Progress | - |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 0/TBD | Not started | - |
 | 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 0/TBD | Not started | - |
 | 7. 개인정보처리방침 재작성 (Privacy Policy Rewrite) | 0/TBD | Not started | - |
