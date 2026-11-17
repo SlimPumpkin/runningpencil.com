@@ -26,7 +26,7 @@
 
 ### 홈페이지와 도메인 (SITE)
 
-- [ ] **SITE-01**: 심사자는 홈페이지의 소개 문구·메타 설명·OG에서 출시 시점 앱에 없는 기능(포인트·기념 굿즈·코스북)을 보지 않는다
+- [x] **SITE-01**: 심사자는 홈페이지의 소개 문구·메타 설명·OG에서 출시 시점 앱에 없는 기능(포인트·기념 굿즈·코스북)을 보지 않는다
 - [ ] **SITE-02**: 심사자는 홈페이지 푸터에서 처리방침(Google 동의 화면에 등록하는 URL과 같은 문자열)·이용약관·데이터 삭제 안내·지원·위치기반서비스 이용약관으로 이동할 수 있고, 모두 `runningpencil.com` 한 도메인 안에 있다
 - [ ] **SITE-03**: Google은 Search Console에서 `runningpencil.com`의 도메인 소유권(도메인 속성, DNS TXT)을 확인된 상태로 본다 (가비아 DNS 작업은 사용자가 함)
 - [ ] **SITE-04**: 콘솔에 이미 등록된 기존 URL(`/privacy-policy/`, `/terms/`, `/data-deletion/`)과 새 URL(`/support/`, 위치약관, `/en/…`)이 모두 200으로 열리고, 이번 마일스톤 동안 경로가 바뀌지 않는다
@@ -163,7 +163,7 @@
 | SHELL-02 | Phase 2 | Complete |
 | SHELL-03 | Phase 2 | Complete |
 | SHELL-04 | Phase 3 | Complete |
-| SITE-01 | Phase 4 | Pending |
+| SITE-01 | Phase 4 | Complete |
 | SITE-02 | Phase 8 | Pending |
 | SITE-03 | Phase 5 | Pending |
 | SITE-04 | Phase 10 | Pending |

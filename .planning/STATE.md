@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-07-PLAN.md
-last_updated: "2026-11-17T07:16:51.441Z"
+stopped_at: Completed 04-08-PLAN.md
+last_updated: "2026-11-17T07:32:45.735Z"
 last_activity: 2026-11-17
 last_activity_desc: Phase 04 execution started
-state_head: 5f6abbc9c44fd468ead4a391de6d005877342ee1
+state_head: 060480fb017e5486fea124be7b66e51f9e9613dc
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 36
+  completed_plans: 37
   percent: 30
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 8 of 13
+Plan: 9 of 13
 Status: Ready to execute
 Last activity: 2026-11-17 — Phase 04 execution started
 
@@ -94,6 +94,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P05 | 3 min | 3 tasks | 1 files |
 | Phase 04 P06 | 3min | 2 tasks | 6 files |
 | Phase 04 P07 | 3min | 2 tasks | 5 files |
+| Phase 04 P08 | 15min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -183,6 +184,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-05: 승인받은 073d33e0e50a 하나만 원격 main에 푸시했고, Pages built 뒤 라이브 /가 빈 뱃지 커밋 빌드와 바이트가 같고 두 엔진 PASS behave라 되돌림 없이 LIVE_PUSH1=OK
 - [Phase 04]: 04-06: check-site 6번 항목은 빌드 출력 index.html 한 파일의 포인트·굿즈·코스북만 본다(법적 문서 제외). 첫 푸시 라이브 확인 뒤 별도 build 커밋 a02573fe173f로 넣어 revert 경로를 막지 않음
 - [Phase 04]: 04-07: 두 CLAUDE.md 문서 커밋 4b9288d285af(방침 행 「랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음」, 생성기 사본 시험에서 stack·conventions·architecture 네 줄만 바뀌어 --auto 없이 재생성), README·STRUCTURE 커밋 5b00b906d609. 열 개 문서 옛 나열·옛 방침 칸·로컬 경로 0줄(DOCS1_STALE=OK). 푸시 안 함
+- [Phase 04]: 04-08: 사용자가 PUSH2_CANDIDATE=6e46bdcb24e0 푸시를 승인(push). 원격이 PUSH2_PREV=073d33e0e50a 그대로인 것을 확인하고 그 SHA만 한 번 푸시(훅 6항목 통과). Pages built 2026-11-17T07:27:26Z, 네 URL 200·제목, 라이브 / = c2 빌드 바이트, 내부 파일 셋 404 → LIVE_PUSH2=OK. SITE-01 갈래 완료, 단계는 앱 화면 캡처(작업 10)를 기다림
 
 ### Pending Todos
 
@@ -218,6 +220,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T07:16:51.152Z
-Stopped at: Completed 04-07-PLAN.md
+Last session: 2026-11-17T07:32:45.418Z
+Stopped at: Completed 04-08-PLAN.md
 Resume file: None
