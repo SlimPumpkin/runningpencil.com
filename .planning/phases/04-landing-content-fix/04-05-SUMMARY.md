@@ -141,4 +141,4 @@ None - no external service configuration required.
 
 - FOUND: `04-EVIDENCE.md`의 PUSH1_CANDIDATE·PUSH1_PREV·PUSH1_SHA=073d33e0e50a·LIVE_PUSH1=OK, `$W/live1/index.html`, `$W/c2/TREE`
 - FOUND: `073d33e0e50a`이 `origin/main`(fetch 뒤) 그 자체이고 C1·C2의 후손
-- Task 1 verify, Task 3 verify 두 명령 exit 0. EVIDENCE에 `/Users/`·`/private/var`·`$HOME` 문자열 없음.
+- Task 1 verify, Task 3 verify 두 명령 exit 0. SUMMARY·EVIDENCE에 로컬 홈 경로·임시 폴더 경로 꼴 문자열 없음 (계획 verification의 누출 검사).
