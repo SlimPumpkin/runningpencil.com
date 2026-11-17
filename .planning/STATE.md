@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-11-17T04:13:13.325Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-11-17T04:39:13.607Z"
 last_activity: 2026-11-17
 last_activity_desc: Phase 04 execution started
-state_head: 21ca5204d1730bd181a7a80daa3780ff3549a712
+state_head: 2cba803c1af7d6b3a2b0f0455c92cc9f70da168a
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 30
+  completed_plans: 31
   percent: 30
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 2 of 13
+Plan: 3 of 13
 Status: Ready to execute
 Last activity: 2026-11-17 — Phase 04 execution started
 
@@ -88,6 +88,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 03 P08 | 4min | 2 tasks | 4 files |
 | Phase 03 P09 | 7min | 3 tasks | 1 files |
 | Phase 04 P01 | 1 min | 2 tasks | 4 files |
+| Phase 04 P02 | 11 min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -170,6 +171,8 @@ Recent decisions affecting current work:
 - [Phase 03]: 스크래치 `$W/pw`의 Playwright 패키지 파일이 macOS 임시 폴더 정리로 지워져 있었음. 03-01 승인 범위(같은 경로·같은 고정 버전)대로 `pnpm --dir "$W/pw" install --frozen-lockfile --force`로 재설치함 (UAT 중). 스크래치 도구는 오래 두면 사라질 수 있음
 - [Phase 04]: 04-01: 기준 문장 세 곳(ROADMAP Phase 4 Goal·성공 기준 2, SITE-06)의 출시 전 표시를 「출시 전임을 알리는 표시(현재 「출시 준비 중」)」로 고침. Phase 9 문구는 유지 (D-08)
 - [Phase 04]: 04-01: USER-TASKS 작업 10을 iPhone 한 기기·화면 세 장·하단 탭 없음·NAVER 로고 유지·검색 결과 목록 없음 조건으로 고침 (D-16~D-20)
+- [Phase 04]: 04-02: Playwright 1.59.1 설치 승인(install, 브라우저 포함) — pnpm 고정, 스크래치 $W/pw만, Phase 4 동안 같은 버전·경로 재설치 포함. 브라우저는 캐시 리비전이 맞아 받지 않음
+- [Phase 04]: 04-02: 기준 BASE_SHA=0e75e8b88fd2(라이브 0bfe5b210c3c와 같은 사이트). p4-behave.mjs가 기준 PASS, rp-run-btn 깬 사본 FAIL+pageerror — 이후 사이트 커밋 후보마다 이 도구로 판정
 
 ### Pending Todos
 
@@ -205,6 +208,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T04:13:13.069Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-11-17T04:39:13.337Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
