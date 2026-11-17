@@ -71,7 +71,7 @@ coverage:
         status: pass
     human_judgment: false
 
-duration: 6 min
+duration: 3 min
 completed: 2026-11-17
 ---
 
@@ -81,7 +81,7 @@ completed: 2026-11-17
 
 ## Performance
 
-- **Duration:** 약 6분 (2026-11-17T04:59:52Z 시작)
+- **Duration:** 약 3분 (2026-11-17T04:59:52Z 시작, STATE 갱신 05:02:56Z)
 - **Completed:** 2026-11-17
 - **Tasks:** 2 (Task 1 tracer, Task 2 auto)
 - **Files modified:** 2 (`index.html`, `04-EVIDENCE.md`) + 이 SUMMARY
