@@ -83,7 +83,7 @@ coverage:
     rationale: "색 배치가 보기 좋은지는 grep이나 DOM 개수로 판정할 수 없다. 계획 Task 2 <human-check>대로 단계 끝 UAT에서 사람이 확인한다"
 
 # Metrics
-duration: 6 min
+duration: 7 min
 completed: 2026-11-17
 ---
 
@@ -93,7 +93,7 @@ completed: 2026-11-17
 
 ## Performance
 
-- **Duration:** 약 6분 (2026-11-17T05:13:17Z 시작, SUMMARY 작성 05:19Z)
+- **Duration:** 약 7분 (2026-11-17T05:13:17Z 시작, STATE 갱신 05:20:09Z)
 - **Completed:** 2026-11-17
 - **Tasks:** 2 (Task 1 tracer, Task 2 auto)
 - **Files modified:** 2 (`index.html`, `04-EVIDENCE.md`) + 이 SUMMARY
