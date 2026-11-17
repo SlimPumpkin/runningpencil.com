@@ -266,3 +266,39 @@ PASS behave
 ```
 
 LIVE_PUSH1=OK
+
+## 04-06 check-site 6번 항목
+
+첫 푸시의 라이브 확인(`LIVE_PUSH1=OK`)이 통과한 뒤, 푸시 전 점검 `scripts/check-site.sh`에 6번 항목 「랜딩에 출시 범위 밖 기능 이름 없음」을 별도 build 커밋으로 더했습니다(RESEARCH 「check-site.sh에 SC1 점검을 넣을지」 위험 1 (a)). 빌드 출력 `index.html` 한 파일에서 포인트·굿즈·코스북을 찾으면 실패하고, 법적 문서는 보지 않습니다(Phase 6~8 몫). 커밋은 `scripts/check-site.sh` 하나만 담습니다. `.githooks/pre-push`는 고치지 않았습니다. 후보 커밋(`commit-tree`)으로 점검한 뒤 같은 인덱스를 커밋했고, 커밋 트리는 후보 트리(`$W/ck6/TREE`)와 같습니다. 스크래치는 04-02가 만든 것을 그대로 썼습니다(다시 만들지 않음, 설치 없음).
+
+CHECK6_CAND=bf010105a13b
+CHECK6_SHA=a02573fe173f
+
+새 스크립트로 후보·문구 커밋 점검 (작업 트리의 새 스크립트):
+
+```
+check-site: 통과 (커밋 bf010105a13b, jekyll 3.10.0)
+check-site: 통과 (커밋 abdeb52284d6, jekyll 3.10.0)
+```
+
+음성 대조 (같은 새 스크립트로 기준 커밋 점검, 종료 코드 1):
+
+```
+check-site.sh 0e75e8b88fd2
+check-site: 랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html 2줄 (포인트·굿즈·코스북, U10)
+check-site: 실패 — 1건 (커밋 0e75e8b88fd2)
+```
+
+출력 불변(`build ck6 <후보>` 뒤 `diff -r "$W/c2/site" "$W/ck6/site"` 빈 출력)과 훅 경로(`git fetch -q origin main` 뒤 `printf 'refs/heads/main <후보> refs/heads/main <origin/main>\n' | .githooks/pre-push`, 이전 원격은 PUSH1_SHA `073d33e0e50a`):
+
+```
+OK site output unchanged by check6
+check-site: 통과 (커밋 bf010105a13b, jekyll 3.10.0)
+OK pre-push unchanged
+```
+
+CHECK6=OK
+
+원본 맵 네 개(`CONVENTIONS.md`·`TESTING.md`·`ARCHITECTURE.md`·`STACK.md`)의 다섯 곳에서 점검 항목을 여섯으로 고친 문서 커밋입니다. 커밋은 네 맵만 담고, 커밋 전 작업 트리 점검(`check-site: 통과 (작업 트리, jekyll 3.10.0)`)이 통과했습니다. `.claude/CLAUDE.md` 재생성은 04-07 몫입니다.
+
+DOCS_CHECK6_SHA=f8fa9fb1d48c
