@@ -637,12 +637,12 @@ const box = await p.$eval('.rp-shots', e => { const r = e.getBoundingClientRect(
 ### `_site/index.html` 의도한 줄만 바뀜
 ```bash
 # Phase 3 build() 재사용: build base <기준 SHA>; build c1 <문구 커밋>; build c2 <뱃지 커밋>
-diff "$W/base/site/index.html" "$W/c1/site/index.html" | grep -E '^[0-9]'   # 기대: 10c10, 15c15, 231c231, 242c242 정도 (출력 행 번호 = 원본 − 3)
-diff "$W/c1/site/index.html" "$W/c2/site/index.html" | grep -E '^[0-9]'     # 기대: 238~240, 257, 259 (+ t-empty 규칙을 지우면 48d47)
+diff "$W/base/site/index.html" "$W/c1/site/index.html" | grep -E '^[0-9]'   # 기대: 10c10 15c15 278c278 289c289 (원본 13·18·234·245행)
+diff "$W/c1/site/index.html" "$W/c2/site/index.html" | grep -E '^[0-9]'     # 기대: 82d81 285,287c284,286 304c303 306c305 (원본 51행 t-empty 규칙 삭제, 241~243행, 260·262행)
 for d in privacy-policy terms data-deletion; do cmp "$W/base/site/$d/index.html" "$W/c2/site/$d/index.html"; done   # 법적 3종 바이트 동일
 grep -c -E '포인트|굿즈|코스북' "$W/c1/site/index.html"   # → 0
 ```
-- 출력 행 번호는 원본에서 front matter 3행을 뺀 값입니다. 이 세션 빌드에서 원본 13·18행이 출력 10·15행이었습니다 [VERIFIED: 이 세션 빌드 grep -n]. 정확한 기대 행 집합은 계획에서 원본 줄 번호로 정하고, 판정은 `diff` 출력의 행 머리(`NcN`) 목록이 기대 집합과 같은지로 합니다.
+- 출력 행 번호와 원본 행 번호의 차이는 자리마다 다릅니다. front matter 3행이 빠지고(−3), 한 줄짜리 include 태그가 include 파일 줄 수만큼 늘어납니다: 21행 `head-links.html` 8줄(+7), 27행 `css/common.css` 28줄(+27), 153행 `header.html` 14줄(+13). 그래서 21행 앞은 −3(원본 13·18행 → 출력 10·15행 [VERIFIED: 이 세션 빌드 grep -n]), 27행 뒤 153행 앞은 +31(원본 51행 → 출력 82행), 153행 뒤는 +44(원본 234·245행 → 출력 278·289행, 원본 241~243·260·262행 → 출력 285~287·304·306행)입니다 [VERIFIED: plan-phase 수정 때 `90d8046`을 스크래치에서 `--safe` 빌드해 grep -n]. 위 기대값은 계획 때 `90d8046`에 같은 편집을 스크래치로 적용해 잰 값이고(`04-03-PLAN.md`·`04-04-PLAN.md` assumptions), 처음 이 절에 적었던 「231c231, 242c242」「238~240, 257, 259」「48d47」(모두 −3만 뺀 값)은 틀린 값이라 고쳤습니다. 판정은 `diff` 출력의 행 머리(`NcN`) 목록이 기대 집합과 같은지로 합니다.
 
 ### SC1 점검 항목 (선택, `scripts/check-site.sh` 6번)
 ```bash
@@ -807,22 +807,30 @@ u10=$(grep -c -E '포인트|굿즈|코스북' "$DEST/index.html" 2>/dev/null)
 | A12 | 공유 미리보기 서비스가 옛 OG 설명을 캐시하고 있을 수 있다 | Runtime State | 심사에는 영향이 작습니다 |
 | A13 | `body overflow-x: clip`이 있어도 iOS Safari에서 밀림이 드러날 수 있다 | Pitfall 2 | 숫자 판정을 하므로 영향이 없습니다 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **51행 `.rp-badge.t-empty` 규칙을 지울까?**
+질문 다섯 개는 모두 처리 방향이 정해졌습니다(2026-11-17, plan-phase). 각 질문 끝의 RESOLVED 줄에 처리와 근거를 적었습니다. Q4·Q5의 처리는 CONTEXT에 기록된 결정과 이 연구의 근거만으로 정했고, 새 사용자 결정을 더하지 않았습니다.
+
+1. **51행 `.rp-badge.t-empty` 규칙을 지울까?** — RESOLVED: 지웁니다.
    - What we know: D-06 뒤에는 이 규칙을 쓰는 요소가 없습니다. 실루엣 색은 이 규칙에만 있습니다.
    - What's unclear: 지우면 「받지 못한 뱃지」 개념의 흔적이 사라지고 출력이 깔끔해집니다. 남기면 v2 코스북 때 다시 쓸 수 있습니다(Deferred).
    - Recommendation: 빈 뱃지 커밋에서 함께 지웁니다 (쓰지 않는 CSS를 남기지 않음). 의도한 줄 diff 기대 집합에 이 줄을 넣습니다. v2에서 필요하면 다시 만듭니다.
-2. **네이버 지도 캡처 사용 (머리말 사용자 확인 항목)**
+   - RESOLVED: 권장대로 처리합니다. `04-04-PLAN.md` Task 1이 빈 뱃지 커밋에서 이 규칙 한 줄을 지우고, 의도한 줄 diff 기대 집합(`82d81 285,287c284,286 304c303 306c305`)의 `82d81`이 이 줄입니다.
+2. **네이버 지도 캡처 사용 (머리말 사용자 확인 항목)** — RESOLVED: 사용자가 1번 「위험을 알고 진행」을 골랐습니다.
    - What we know: 명시 조항이 없고, 제7조 ⑨⑪은 넓게 읽힐 수 있습니다.
    - What's unclear: 네이버 클라우드가 홍보 페이지의 캡처를 「결과 데이터의 복제·배포」로 보는지 모릅니다.
    - Recommendation: 계획 확정 전에 사용자에게 1~3 중 하나를 고르게 합니다. 문구 정정 계획은 이 답을 기다리지 않습니다.
-3. **6번 점검 항목과 문서 푸시 묶기**
+   - RESOLVED: 사용자 결정(2026-11-17, plan-phase)이 `04-CONTEXT.md` D-20 「연구 뒤 사용자 결정」에 기록돼 있습니다. 서면 문의는 하지 않고 D-16 화면 구성을 그대로 둡니다. 진행 조건 세 가지(로고를 자르거나 덮지 않음, 구간 아래 출처 표기, 제휴 오인 문구 금지)는 `04-09`(캡처 `logo` 검토), `04-10`(출처 줄, 캡처 위 겹침 금지, 제휴 오인 문구 0 판정), `04-11`(사용자 승인 뒤에만 푸시)이 지킵니다.
+3. **6번 점검 항목과 문서 푸시 묶기** — RESOLVED: (a)로 처리합니다.
    - Recommendation: 「check-site.sh에 SC1 점검을 넣을지」의 (a)대로, 문구 푸시가 라이브 확인을 통과한 뒤 문서 푸시와 함께 냅니다.
-4. **UI 설계 계약**
+   - RESOLVED: 첫 사이트 푸시(`04-05`)에는 6번 항목을 싣지 않습니다. 라이브 확인 뒤 `04-06`이 6번 항목을 별도 build 커밋으로 더하고, `04-08` 문서 푸시가 그 커밋을 문서 커밋과 함께 냅니다. 그래서 첫 푸시를 되돌릴 때 6번 항목이 revert 푸시를 막는 일이 없습니다.
+4. **UI 설계 계약** — RESOLVED: UI-SPEC은 만들지 않습니다.
    - What we know: `workflow.ui_phase: true`입니다. 새 구간의 제목·캡션·바탕·간격은 UI-SPEC에서 정할 수 있습니다(CONTEXT 재량).
    - Recommendation: 스크린샷 구간 계획 전에 `/gsd-ui-phase`로 계약을 만들면, 이 연구의 Pattern 3·4를 기본값으로 씁니다.
-5. **FAQ 원문** — `ncloud-forums.com`을 가져오지 못했습니다(DNS). 사용자가 브라우저로 열 수 있으면 해당 글의 URL과 문장을 받아 기록에 남깁니다. 결론은 SDK 가이드로 이미 뒷받침됩니다.
+   - RESOLVED: CONTEXT는 UI 설계 계약을 선택 사항으로 둡니다(Claude's Discretion 「출시 안내」와의 맞물림: 「`/gsd-ui-phase`를 만들면 거기서 정해도 됩니다」). 새 구간의 모양은 이미 CONTEXT D-10~D-14(딱지 모양, 폰 테두리 값, 3장, 배치)와 기존 색 토큰으로 대부분 정해져 있고, 남은 값은 이 연구의 Pattern 3·4를 기본값으로 `04-10-PLAN.md` Task 1에 고정했습니다(바탕 `#FAFAF7`, 둥근 아래 모서리와 `z-index: 1`, 860px 블록 안의 가로 띠). 보기 좋은지는 `04-10`의 화면 검토와 단계 끝 사람 확인(UAT)이 봅니다. plan-phase의 UI 게이트도 이 실행을 막지 않았습니다.
+5. **FAQ 원문** — RESOLVED: 가져오지 않고 진행합니다. 결론이 원문에 기대지 않습니다.
+   - What we know: `ncloud-forums.com`을 가져오지 못했습니다(DNS). 사용자가 브라우저로 열 수 있으면 해당 글의 URL과 문장을 받아 기록에 남깁니다. 결론은 SDK 가이드로 이미 뒷받침됩니다.
+   - RESOLVED: 같은 취지의 규칙(「네이버 로고가 앱의 UI 요소에 가려지지 않도록」)이 NAVER 지도 SDK 가이드 원문에 있습니다(Q3, [VERIFIED]). 그래서 FAQ 원문이 없어도 처리(로고를 자르거나 덮지 않음)는 바뀌지 않습니다. FAQ 내용은 CONTEXT D-20에 논의 중 조사로 이미 적혀 있고, 사용자는 그 위험을 알고 진행하기로 했습니다(D-20 「연구 뒤 사용자 결정」). FAQ URL·문장을 받아 기록하는 일은 어느 계획의 판정에도 쓰이지 않으므로 계획에 넣지 않았습니다.
 
 ## Sources
 

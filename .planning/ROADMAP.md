@@ -171,7 +171,47 @@ Plans:
   1. 홈페이지 본문, `<meta name="description">`, OG 제목·설명 어디에도 「포인트」「굿즈」「코스북」이 없다(빌드 결과 검색 0건)
   2. 홈페이지에 실제 앱 화면 스크린샷과 「출시 예정」 표시가 함께 보이고(375·1280px), 스크린샷에는 출시 범위 밖 기능이 나오지 않는다
   3. 기존 동작(스크롤에 고정되는 세 가지 이유, 7초 달려 보기, 움직임 줄이기 대응)이 그대로 동작하고 브라우저 콘솔 오류가 없다
-**Plans**: TBD
+**Plans**: 13 plans
+
+Plans:
+**Wave 1**
+- [ ] 04-01-PLAN.md — 첫 문서 커밋: 기준 문장 세 곳의 출시 전 표시(D-08)와 캡처 절차서 작업 10 갱신(D-16~D-20) (tracer)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 04-02-PLAN.md — 기준 커밋·운영 동일 빌드(tracer), Playwright 설치 승인 checkpoint, p4-behave 기준 PASS와 음성 대조
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 04-03-PLAN.md — 문구 커밋: 메타·OG·「세 가지 이유」 3단계 글·캡션 (SITE-01, D-02~D-05)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 04-04-PLAN.md — 빈 뱃지 컬러 커밋: 빈 뱃지 다섯 개 색, 빈 뱃지 규칙 삭제 (D-06)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 04-05-PLAN.md — 첫 사이트 푸시: 후보 검증 → 승인 checkpoint → 푸시·배포·라이브 바이트·동작 확인
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 04-06-PLAN.md — check-site 6번 항목(랜딩 출시 범위 밖 기능 이름) build 커밋과 음성 대조, 원본 맵 항목 수
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 04-07-PLAN.md — 두 CLAUDE.md 방침 행(D-23)·Deploy 문단·재생성, README·STRUCTURE 점검 주석
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 04-08-PLAN.md — 문서 푸시: 후보 검증 → 승인 checkpoint → 푸시·404 확인 (SITE-01 갈래 끝)
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 04-09-PLAN.md — 이미지 파이프라인 시험(tracer), 앱 화면 캡처 받기 checkpoint, 캡처 검토·WebP 변환
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 04-10-PLAN.md — 스크린샷 구간 후보 판정: 「실제 앱 화면」 구간·이미지·CSS, p4-shots 두 엔진 × 375·1280, 후보는 브랜치 밖 객체로만 두고 작업 트리 되돌림 (SITE-06)
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 04-11-PLAN.md — 스크린샷 푸시: 스크린샷 구간 커밋을 브랜치 밖에서 만듦 → 캡처·화면 검토 승인 checkpoint → 푸시 뒤 fast-forward·이미지·구간 라이브 확인
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 04-12-PLAN.md — D-24 문서: 원본 맵 다섯 개와 두 CLAUDE.md(앱 화면 캡처 예외, 지도 출처, images/app/)
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 04-13-PLAN.md — D-24 문서 푸시와 Phase 4 성공 기준 1~3 라이브 판정표
 **UI hint**: yes
 **External gates**: 사용자가 실제 앱 화면 캡처를 줍니다. 출시 범위의 기능만 보이는 화면이어야 합니다. 문구 정정(SITE-01)은 캡처와 상관없이 별도 커밋으로 먼저 배포할 수 있습니다. U10(포인트·굿즈·코스북 제거)은 이미 결정됐습니다.
 **Research flag**: 아니요.
