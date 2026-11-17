@@ -118,3 +118,46 @@ PASS behave
 C1_SHA=abdeb52284d6
 OK commit files=index.html numstat=4/4
 C1_OK=OK
+
+## 04-04 빈 뱃지 커밋
+
+「세 가지 이유」 3단계 뱃지 줄의 빈 뱃지 세 개(고양이 `t-graphite`, 번개 `t-yellow`, 왕관 `t-red`)와 패널 장식 스티커의 빈 뱃지 두 개(4번째 고양이 `t-yellow`, 6번째 왕관 `t-red`)를 받은 뱃지 색으로 바꾸고, 쓰는 곳이 없어진 빈 뱃지 색 규칙 한 줄을 지운(D-06, RESEARCH Open Q1) 빈 뱃지 커밋입니다. `index.html` 여섯 줄(51행 삭제, 241~243·260·262행의 색 토큰)만 바꾸고 뱃지 줄 7개·스티커 6개의 길이·순서·크기·코스 모양·위치는 그대로 둡니다. 후보 커밋을 `$W/c2`에 운영과 같은 production·`--safe` 빌드로 만들고 `python3 -m http.server`(포트 4204)로 띄워 판정했습니다. 비교 기준은 문구 커밋 후보 출력 `$W/c1`입니다. 스크래치는 04-02가 만든 것을 그대로 썼습니다(다시 만들지 않음, 설치 없음).
+
+CAND2=21274178093f
+
+```
+check-site: 통과 (커밋 21274178093f, jekyll 3.10.0)
+HUNKS 82d81 285,287c284,286 304c303 306c305
+OK empty=0
+OK hex no-new
+OK legal same 3
+OK files same
+```
+
+후보 동작 판정 (`$W/c2`, 포트 4204). 첫 실행은 chromium 375 기본 문맥 하나에서 jsDelivr 글꼴 파일 요청이 CORS 헤더 없이 막힌 콘솔 오류 2줄로 통과하지 못했습니다. 바뀐 줄과 무관한 외부 CDN 응답이라 같은 후보·같은 서버로 다시 실행했고, 아래가 그 출력 전체입니다(첫 실행 출력은 스크래치 `$W/behave-c2-try1.txt`).
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=0
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=0
+PASS behave
+```
+
+3단계 화면 캡처 (`$W/pw/p4-step3.mjs`, 움직임 줄이기 문맥에서 단계 버튼 「3 뱃지」를 누른 뒤 `#story .rp-stage` 요소 캡처, `$W/cap/c2/<엔진>-<폭>-step3.png`). 네 장을 직접 열어 보았습니다.
+
+```
+OK step3 4
+REVIEW step3 chromium 1280 OK 뱃지 줄 7개 모두 컬러(노랑·빨강·크라프트·모눈·흑연·노랑·빨강), 회색 없음, 캡션 「보관함 · 받은 뱃지 7」, 스티커 6장 회색 없음(고양이 노랑, 왕관 빨강)
+REVIEW step3 chromium 375 OK 뱃지 줄 7개 모두 컬러(일곱째 왕관은 기존대로 둘째 줄로 넘어감), 회색 없음, 캡션 같음, 보이는 스티커 1~4 빨강·크라프트·모눈·노랑으로 서로 다름
+REVIEW step3 webkit 1280 OK chromium 1280과 같은 배치·색, 회색 없음, 캡션 같음
+REVIEW step3 webkit 375 OK chromium 375와 같은 배치·색, 회색 없음, 보이는 스티커 넷 서로 다름
+```
+
+판정을 통과한 같은 인덱스를 커밋했습니다. 커밋 트리는 후보 트리(`$W/c2/TREE`)와 같고, 커밋은 `index.html` 하나·5줄 더함·6줄 지움입니다. 문구 커밋(C1_SHA)과 이 커밋 사이에는 `.planning/`만 바꾼 docs 커밋만 있습니다. 푸시는 문구 커밋과 함께 04-05에서 합니다(D-22).
+
+C2_SHA=f8d66a6469cf
+OK commit files=index.html numstat=5/6
+C2_OK=OK
