@@ -3,6 +3,18 @@ phase: 04
 review: 04-REVIEW.md
 titles: json
 findings:
+  - id: WR-04
+    severity: warning
+    disposition: open
+    title: "「달려 보기」 코스 딱지가 같은 강아지런 코스를 `7.84 km`로 표기해, `7.8 km`로 고친 「코스 그리기」 목업과 같은 페이지 안에서 다름"
+  - id: IN-11
+    severity: info
+    disposition: open
+    title: "`U10_ALLOW_PREFIX` 형식 확인이 막을 값을 나열하는 방식이라, `.`·`.*`·`^`·`$` 같은 메타문자는 오류 없이 점검 6번을 무력화함"
+  - id: IN-12
+    severity: info
+    disposition: open
+    title: "랜딩 출력이 없을 때 점검 6번이 `U10_ALLOW_PREFIX`를 원인처럼 보이는 메시지로 실패를 한 번 더 셈"
   - id: WR-02
     severity: warning
     disposition: fixed
@@ -55,19 +67,22 @@ findings:
     severity: info
     disposition: skipped
     title: "`screen-badge-*.webp` 캡처에서 NAVER 로고가 앱의 뱃지 창에 일부 가려짐"
-open: 0
-total: 13
-recorded: 2026-11-18T13:56:27.047Z
+open: 3
+total: 16
+recorded: 2026-11-18T14:17:29.794Z
 ---
 
 # Phase 04: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-02 | warning | fixed | 04-REVIEW-FIX.md |
-| WR-03 | warning | fixed | 04-REVIEW-FIX.md |
-| IN-09 | info | fixed | 04-REVIEW-FIX.md |
-| IN-10 | info | fixed | 04-REVIEW-FIX.md |
+| WR-04 | warning | open | - |
+| IN-11 | info | open | - |
+| IN-12 | info | open | - |
+| WR-02 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| WR-03 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-09 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-10 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | IN-06 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | IN-07 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | IN-08 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
