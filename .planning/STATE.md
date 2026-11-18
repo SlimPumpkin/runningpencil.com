@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-09-PLAN.md
-last_updated: "2026-11-18T05:37:22.013Z"
+stopped_at: Completed 04-10-PLAN.md
+last_updated: "2026-11-18T06:07:33.592Z"
 last_activity: 2026-11-18
-last_activity_desc: 04-09 완료 — 캡처 검토·WebP 변환 (사용자 예외 3)
-state_head: ed817941b41d79a98dd97ee8a72a0e543fea94c6
+last_activity_desc: 04-10 완료 — 스크린샷 구간 후보 판정 (CAND3, 브랜치 밖)
+state_head: e1716ea07c83d3ad719d98e05ccf8af7a3757e52
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 38
+  completed_plans: 39
   percent: 30
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 10 of 13
+Plan: 11 of 13
 Status: Ready to execute
-Last activity: 2026-11-18 — 04-09 완료 (캡처 세 장 검토, WebP 여섯 개 스크래치, 사용자 예외 3). 다음은 04-10 스크린샷 구간
+Last activity: 2026-11-18 — 04-10 완료 (스크린샷 구간 후보 CAND3 판정 통과, 커밋·푸시 없음, 작업 트리 되돌림). 다음은 04-11 스크린샷 푸시(사용자 승인)
 
 Progress: [███░░░░░░░] 30%
 
@@ -96,6 +96,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P07 | 3min | 2 tasks | 5 files |
 | Phase 04 P08 | 15min | 3 tasks | 2 files |
 | Phase 04 P09 | 32min | 3 tasks | 3 files |
+| Phase 04 P10 | 10min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -189,6 +190,8 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-09 보류 1: Task 1 이미지 파이프라인 시험 통과(1170bd3, 두 엔진 × 배율 2·3 `PASS pipe`, 저장소·라이브 그대로). Task 2에서 사용자가 hold로 답해 `HOLD1_` 표시로 보류(d047ffc), SUMMARY 없음. 다음 실행은 04-09 Task 1부터 다시 함. 그때 safe-resume 게이트가 `docs(04-09):` 커밋 1170bd3을 보고 멈추면 `re-execute from scratch`를 고름(보류 커밋이 대신함, revert 안 함)
 - [Phase 04]: 04-09: 캡처 세 장(1260×2736 같은 기기) 검토 27항목 통과. badge의 NAVER 로고 가림(원본에서 앱의 뱃지 창이 덮음, D-20)과 run·badge 상태 표시줄 차이(D-18)는 사용자 예외(2026-11-18, CAPTURE_WAIVERS=3, 원래 판정은 ORIG_ 줄). 우리가 더 자르거나 덮지 않는 조건은 유지, 04-10은 ③에 한해 원본보다 더 깎지 않는지만 판정(CONTEXT D-18·D-20 덧붙임). WebP 여섯 개(q80, 846w 846x1837)는 스크래치에만 둠
 - [Phase 04]: 04-09 → 04-10·04-11 인계(`04-09-SUMMARY.md` 「04-10과 04-11이 알아야 할 것」): ALT run의 `"`는 `alt` 속성에서 `&quot;`로 적음. 04-11 승인 화면에는 `REVIEW` 27줄과 함께 `ORIG_REVIEW`·`WAIVER` 각 3줄도 보임. 04-11 retake 때 `CAPTURE_WAIVERS=`에도 `RETAKE<n>_`을 붙임. badge의 「로고가 잘리지 않았다」 문구는 CONTEXT D-20 덧붙임(원본보다 더 깎지 않음)으로 판정
+- [Phase 04]: 04-10: 스크린샷 구간 후보 CAND3(56fd3bb79160)는 두 엔진 × 두 폭 판정과 기존 동작을 통과했지만 커밋하지 않았다. 어떤 ref에도 붙지 않은 객체로만 두고 작업 트리를 SHOTS_BASE로 되돌렸다. main에는 04-11 승인 뒤에만 들어간다(D-19)
+- [Phase 04]: 04-10: 첫 판정에서 모두 통과해 CSS를 고치지 않았다(375 띠 끝 여백 20px, 그림 반경 37px 그대로, NAVER 로고가 둥근 모서리에서 멀어 깎이지 않음)
 
 ### Pending Todos
 
@@ -227,6 +230,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-18T05:37:21.724Z
-Stopped at: Completed 04-09-PLAN.md
+Last session: 2026-11-18T06:07:32.881Z
+Stopped at: Completed 04-10-PLAN.md
 Resume file: None
