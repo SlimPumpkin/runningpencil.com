@@ -94,10 +94,17 @@ tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' 
 # 법적 문서 본문에는 Phase 6~8 전까지 남아 있으므로 랜딩 출력 하나만 본다. 코스북이 앱에 들어오면 이 항목을 고친다.
 # 줄 단위가 아니라 낱말 단위로 센다. 「체크포인트」처럼 기능 이름이 아닌 낱말은 빼되, 같은 줄의 맨 「포인트」는 그대로 잡는다.
 # 허용 낱말(「○○포인트」)의 앞부분은 U10_ALLOW_PREFIX 한 곳에만 둔다. 잡는 쪽과 빼는 쪽이 이 값을 함께 쓴다.
+# 비우거나 빈 항목(||, 끝의 |)·괄호를 넣으면 점검이 무력해지므로 막는다. 예외를 모두 없애려면 이 항목의 grep 두 줄을 단순한 형태로 바꾼다.
 U10_ALLOW_PREFIX='체크|엔드'
-u10=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북" "$DEST/index.html" 2>/dev/null \
-    | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | wc -l | tr -d ' ')
-[ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
+case "|${U10_ALLOW_PREFIX}|" in *'||'*|*'('*|*')'*) fail "U10_ALLOW_PREFIX 형식이 잘못되었습니다: '${U10_ALLOW_PREFIX}'" ;; esac
+# grep 종료 코드 0은 찾음, 1은 못 찾음(정상), 2 이상은 오류다. 오류를 「못 찾음」으로 여기면 점검이 조용히 통과하므로 실패로 다룬다.
+u10_hits=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북" "$DEST/index.html"); u10_rc=$?
+if [ "$u10_rc" -gt 1 ]; then
+    problem "점검 6번 grep이 실패했습니다 (종료 코드 ${u10_rc}, U10_ALLOW_PREFIX='${U10_ALLOW_PREFIX}')"
+else
+    u10=$(printf '%s\n' "$u10_hits" | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | grep -c .)
+    [ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
+fi
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
 printf 'check-site: 통과 (%s, %s)\n' "$label" "$got"
