@@ -3,11 +3,11 @@ gsd_state_version: "1.0"
 current_phase: 5
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: planning
-stopped_at: Phase 04 complete, ready to plan Phase 5
-last_updated: "2026-11-18T15:16:32.938Z"
+stopped_at: Phase 5 context gathered
+last_updated: "2026-11-18T16:12:51.661Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 04 complete, transitioned to Phase 5
-state_head: 2e0309fa72e0f55bff953f05d589c09c96fc364a
+state_head: d0f8320464e593873f4ccad5c3c181233360fcee
 progress:
   total_phases: 10
   completed_phases: 4
@@ -227,7 +227,7 @@ Phase 3에서 넘어온 것:
 
 Phase 4 후속:
 - [Phase 04] 04-09 사용자 예외(D-20): 랜딩 ③ 완주 결과 캡처는 원본에서 앱의 뱃지 창이 NAVER 로고를 덮은 채로 04-10·04-11에서 공개될 예정(SDK 가이드 위험은 사용자가 받아들임). 앱에서 로고 위치(logoAlign·logoMargin)나 뱃지 창 위치를 고치면 ③만 다시 찍어 교체 (단계를 막지 않는 후속)
-- [Phase 04] 로컬 `main`이 `origin/main`(9cc1490)보다 앞서 있고 푸시되지 않음. 리뷰 수정으로 바뀐 `index.html`(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)과 `scripts/check-site.sh`가 들어 있어, 라이브는 아직 「댕댕런」 `8.3 km`. 푸시는 사용자 승인 뒤에 하고, 푸시 뒤 라이브에서 「코스 그리기」 목업과 「달려 보기」 칩을 한 번 봄
+- [Phase 04] (해소, 2026-11-19 확인) 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`)은 원격 `main`(`7876c5b`)에 들어갔고 로컬 `main`과 같음. 라이브 `/`에 「강아지런」·`7.8 km`가 보이고 「댕댕런」·`8.3 km`는 0건(curl). 「코스 그리기」 목업과 「달려 보기」 칩을 눈으로 한 번 보는 일은 기록이 없어 남김
 - [Phase 04] `deferred-items.md`의 원본 맵 정리 2건이 open: CONCERNS.md 랜딩 크기·줄 수(「72KB, 586줄」), TESTING.md에 `images/app/`과 「실제 앱 화면」 구간 점검 항목 없음. 단계 전환 때 Acknowledged Gaps로 기록(04-VERIFICATION.md). 다음 원본 맵 갱신이나 `/gsd-map-codebase` 때 고침
 
 ## Deferred Items
@@ -240,6 +240,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19
-Stopped at: Phase 04 complete, ready to plan Phase 5
-Resume file: None
+Last session: 2026-11-18T16:12:51.087Z
+Stopped at: Phase 5 context gathered
+Resume file: .planning/phases/05-business-info-support-contact/05-CONTEXT.md
