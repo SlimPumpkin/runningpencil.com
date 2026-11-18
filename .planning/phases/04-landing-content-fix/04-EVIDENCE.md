@@ -881,3 +881,41 @@ OK regenerated
 OK stale image=0 localpath=0
 
 DOCS2_STALE=OK
+
+## 04-13 문서 푸시 후보
+
+D-24 문서(04-12)를 내보내는 문서 푸시의 후보입니다(Phase 3 D-21 원칙: 라이브 확인 뒤 문서 푸시, D-22). 후보는 이 계획 시작 때의 로컬 main 끝(HEAD)이고, 이전 원격은 `git fetch -q origin main` 뒤의 `origin/main`입니다. 이전 원격은 PUSH3_SHA와 같고(스크린샷 푸시 뒤 되돌리기 푸시도, 다른 단계의 푸시도 없음) 후보의 조상입니다.
+
+```
+OK prev = PUSH3_SHA 95062367dc69, ancestor of candidate
+OK unpublished commits=9
+OK docs files 2
+.claude/CLAUDE.md
+CLAUDE.md
+OK in range DOCS_CLAUDE2_SHA 426174db1045 (DOCS_MAPS2_SHA fa90e3cb8cd1, DOCS_MAPS3_SHA 5c6451b2debf도 범위 안)
+```
+
+`.planning/` 밖을 바꾼 커밋은 하나입니다(`git log -- . ':(exclude).planning'`): 두 CLAUDE.md `426174db1045`. 스크린샷 푸시(PUSH3_SHA) 뒤의 커밋이고 이전 원격에는 없습니다. 나머지 여덟 커밋은 `.planning/` 안의 기록 문서입니다.
+
+사이트 출력 불변: 스크래치(`$W/lib.sh`, playwright, `p4-behave.mjs`, `p4-shots.mjs`, `$W/base/site`)가 모두 있어 다시 만든 것이 없습니다. `. "$W/lib.sh"; build p4prev <이전 원격>; build p4 <후보>` 뒤 두 빌드의 `TREE`가 각 커밋의 트리와 같고, `diff -r "$W/p4prev/site" "$W/p4/site"`가 빈 출력입니다.
+
+```
+OK p4prev tree
+OK p4 tree
+OK site output unchanged
+```
+
+검토 항목(막는 검사 아님): 범위 diff(`.planning/` 포함)의 더해진 줄에서 로컬 경로 꼴(macOS 홈 폴더, 임시 폴더)과 토큰 꼴을 찾은 결과입니다(검색 꼴은 04-08-PLAN Task 1 action 2번 (e)). 걸린 줄이 없습니다. 같은 검사를 첫 푸시 범위에 돌리면 04-05 기록과 같은 23줄이 나와 검사 자체가 동작함을 확인했습니다.
+
+```
+REVIEW hits=0
+```
+
+실제 푸시 경로(`printf 'refs/heads/main <후보> refs/heads/main <이전 원격>\n' | .githooks/pre-push`):
+
+```
+check-site: 통과 (커밋 9cc14903adbd, jekyll 3.10.0)
+```
+
+PUSH4_CANDIDATE=9cc14903adbd
+PUSH4_PREV=95062367dc69
