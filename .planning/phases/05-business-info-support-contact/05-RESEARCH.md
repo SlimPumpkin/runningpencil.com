@@ -7,7 +7,7 @@
 <user_constraints>
 ## User Constraints (from CONTEXT.md)
 
-아래 「Locked Decisions」와 「Claude's Discretion」은 `05-CONTEXT.md`의 `<decisions>` 블록(28~153행)을, 「Deferred Ideas」는 `<deferred>` 블록(224~233행)을 그대로 옮긴 것입니다.
+아래 「Locked Decisions」는 `05-CONTEXT.md` 31~142행(「### 이전에 정해진 것」부터 D-21까지), 「Claude's Discretion」은 144~152행, 「Deferred Ideas」는 227~231행을 그대로 옮긴 것입니다 (`<decisions>` 블록 28~154행, `<deferred>` 블록 224~233행 안).
 
 ### Locked Decisions
 
@@ -134,10 +134,6 @@
 - 화면 확인 방식. 이전 단계처럼 Playwright, Chromium·WebKit, 375px·넓은 폭을 쓰고, 스크래치 경로에 pnpm을 씁니다.
 - 위 순서 제약(D-03, D-04) 안에서 커밋을 나누는 세부 단위.
 
-### Claude's Discretion
-
-(위 블록 안의 「### Claude's Discretion」 항목이 그대로 적용됩니다.)
-
 ### Deferred Ideas (OUT OF SCOPE)
 
 - **앱 설정의 「고객 지원」 행** (앱 저장소): 「앱 정보」 묶음에 `https://runningpencil.com/support/`(필요하면 `#contact`)를 `url_launcher` 외부 브라우저로 여는 행을 더합니다. 사이트의 `/support/`가 게이트 뒤에 라이브가 되므로, 앱 링크도 그 뒤에 켭니다.
@@ -148,7 +144,7 @@
 </user_constraints>
 
 > **[결정과 어긋나는 검증 결과 — 계획자가 반드시 반영]**
-> D-08의 「Liquid에서는 빈 문자열이 참이므로 `!= blank`로 비교합니다(`.planning/research/ARCHITECTURE.md` Pattern 1)」는 **운영과 같은 Jekyll 3.10.0 / Liquid 4.0.4에서 동작하지 않습니다.** `x != blank`는 값이 `""`이든 null이든 키가 없든 **항상 참**입니다. 그대로 쓰면 값이 없는 행이 빈 채로 그려져 render-if-present(BIZ-02, U1)가 깨집니다.
+> D-08의 「Liquid에서는 빈 문자열이 참이므로 `!= blank`로 비교합니다(`.planning/research/ARCHITECTURE.md` Pattern 1)」는 **로컬 Jekyll 3.10.0 / Liquid 4.0.4 빌드(저장소 `Gemfile`)에서 동작하지 않습니다.** `x != blank`는 값이 `""`이든 null이든 키가 없든 **항상 참**입니다. 그대로 쓰면 값이 없는 행이 빈 채로 그려져 render-if-present(BIZ-02, U1)가 깨집니다.
 > 이번 세션 스크래치 빌드(`bundle exec jekyll build --safe`, 저장소 `Gemfile`) 출력 그대로:
 > ```
 > empty_str: truthy=T ne_blank=T eq_blank=F ne_empty=F size=0
@@ -156,7 +152,8 @@
 > missing: truthy=F ne_blank=T eq_blank=F ne_empty=T size=0
 > nofile: T truthy=F          ← site.data.nofile.x != blank 도 참
 > ```
-> 원인: Liquid 4.0.4의 `blank`는 값에 `blank?` 메서드가 있을 때만 동작하는데, ActiveSupport가 없는 Jekyll에서는 `String`·`NilClass`에 `blank?`가 없습니다 (`"".respond_to?(:blank?)` → `false`, `Liquid::VERSION` → `4.0.4`, 같은 세션에서 확인). `!= empty`도 null·키 없음에서 참이라 쓸 수 없습니다.
+> 원인: vendored `liquid-4.0.4/lib/liquid/expression.rb:20` `'blank'.freeze => MethodLiteral.new(:blank?, '').freeze,`, `condition.rb:12` `'!='.freeze => ->(cond, left, right) { !cond.send(:equal_variables, left, right) },`, `condition.rb:90-106`의 `equal_variables`는 `if right.respond_to?(left.method_name) … else return nil end`(반대쪽도 같음). 값에 `blank?`가 없으면 `nil`이 되고 `!=`가 뒤집어 참이 됩니다. 같은 세션에서 `"".respond_to?(:blank?)` → `false`, `nil.respond_to?(:blank?)` → `false`, `Liquid::VERSION` → `4.0.4` [VERIFIED: vendored gem 읽음, 실행]. `!= empty`도 null·키 없음에서 참이라 쓸 수 없습니다.
+> **운영 빌드와의 관계:** 운영(GitHub Pages)은 이 저장소의 `Gemfile.lock`이 아니라 자체 github-pages gem 세트로 빌드하므로, 이 시험을 운영에서 직접 돌린 것은 아닙니다. 다만 `.size > 0`은 `blank?` 메서드 유무와 상관없이 동작하므로 운영 gem 세트가 어떻든 결과가 같습니다. 운영 쪽 증거는 첫 푸시(M1~M4) 뒤 라이브 바이트 비교(라이브 HTML = 로컬 후보 빌드)로 얻습니다.
 > **대신 `.size > 0`을 씁니다.** `""`·null·키 없음·파일 없음·`false`가 모두 거짓이고 값이 있으면 참입니다(아래 「Liquid 존재 판정 비교」). D-08의 의도(빈 값은 그리지 않음)는 그대로이고 비교 방법만 바뀝니다. `.planning/research/ARCHITECTURE.md` Pattern 1의 예시도 같은 이유로 틀렸으므로, 이 단계의 문서 갱신(D-21)에서 함께 고치는 것을 권합니다. [VERIFIED: 스크래치 빌드 출력, 이번 세션]
 
 <phase_requirements>
@@ -178,13 +175,13 @@
 
 이 단계의 기술 작업은 작지만, 틀리면 되돌릴 수 없는 공개(주소·대표자 이름·자택일 수 있는 주소)가 걸려 있어 순서와 판정이 핵심입니다. 세 가지가 계획을 바꿉니다.
 
-첫째, D-08이 정한 `!= blank` 비교는 운영 버전(Liquid 4.0.4)에서 항상 참이라 render-if-present가 깨집니다. `.size > 0`으로 판정하면 빈 문자열·null·키 없음·파일 없음이 모두 거짓이 되고, 이 판정으로 쓴 푸터 템플릿과 빈 `_data/company.yml`을 넣어도 네 문서(`/`, 법적 3종)의 빌드 출력은 **기준 커밋과 바이트까지 같습니다**(`diff -r` 빈 출력, 이번 세션 확인). 다만 「공통」 CSS(`_includes/css/common.css`)는 네 페이지 `<style>`에 인라인되므로, 줄바꿈·링크 색 규칙을 같은 커밋에 넣으면 바이트 동일이 깨집니다. 그래서 D-03의 커밋 ①(슬롯+템플릿, 바이트 동일)과 ②(값) 사이에 CSS 두 줄만 더하는 시각 커밋을 따로 둡니다(출력 차이는 네 문서 모두 `<style>` 안 두 줄 추가뿐, 확인함).
+첫째, D-08이 정한 `!= blank` 비교는 로컬 Jekyll 3.10.0 / Liquid 4.0.4 빌드에서 항상 참이라 render-if-present가 깨집니다. `.size > 0`으로 판정하면 빈 문자열·null·키 없음·파일 없음이 모두 거짓이 되고, 이 판정으로 쓴 푸터 템플릿과 빈 `_data/company.yml`을 넣어도 네 문서(`/`, 법적 3종)의 빌드 출력은 **기준 커밋과 바이트까지 같습니다**(`diff -r` 빈 출력, 이번 세션 확인). 다만 「공통」 CSS(`_includes/css/common.css`)는 네 페이지 `<style>`에 인라인되므로, 줄바꿈·링크 색 규칙을 같은 커밋에 넣으면 바이트 동일이 깨집니다. 그래서 D-03의 커밋 ①(슬롯+템플릿, 바이트 동일)과 커밋 ②(값) 사이에 CSS 두 줄만 더하는 시각 커밋을 따로 둡니다. 이 연구는 `main`에 쌓는 네 커밋을 M1(= D-03 커밋 ①)·M2(CSS)·M3(check-site 가드)·M4(= D-03 커밋 ②, 값)로 부릅니다(출력 차이는 네 문서 모두 `<style>` 안 두 줄 추가뿐, 확인함).
 
 둘째, 375px에서 실제로 그려 보니 계획에 없던 결함 두 가지가 보였습니다. 푸터의 `mailto:` 링크는 규칙이 없어 기본 파란색으로 어두운 바탕(`#2B2B2B`) 위에 그려집니다. 또 줄이 바뀔 때 구분 기호 `·`가 첫 줄 끝에 매달립니다. 각 항목을 `display: inline-block`으로 묶으면 항목 중간에서 끊기지 않는 것은 Chromium·WebKit 모두 확인했습니다.
 
 셋째, D-04의 「보류 커밋이 먼저 푸시되는 커밋의 조상이 되면 안 됨」은 이름 붙은 로컬 브랜치(별도 worktree)에 보류 묶음을 두고, 게이트 때 `main` 끝으로 cherry-pick하는 방식이 가장 단순합니다. 여기에 「`/support/`가 출력에 있으면 `mailto:`가 있어야 함, `/support/` 링크가 있으면 그 페이지가 있어야 함」을 `scripts/check-site.sh` 7번 항목으로 **먼저** `main`에 넣으면, 실수로 보류 커밋이 섞여도 pre-push 훅이 푸시를 막습니다. 또 DNS는 CONTEXT D-01(오늘 아침 MX·TXT 0건) 뒤로 바뀌었습니다. 권한 있는 네임서버(`ns1.gabia.co.kr`) 기준 MX `1 smtp.google.com.`, SPF 1줄, `google-site-verification` 1줄이 이미 있습니다(DKIM 0). 사용자가 작업 2를 시작한 것으로 보이며, 이 결과가 D-06의 「변경 후」 기록 출발점이 됩니다.
 
-**Primary recommendation:** `main`에 ① 빈 슬롯+템플릿(바이트 동일) → ② 「공통」 CSS 두 줄(시각) → ③ check-site 7번 가드(build) → ④ 사업자 값(내용, 사용자 승인) 순으로 쌓아 푸시하고, `/support/`·링크·`EXPECTED_TITLES`는 이름 붙은 보류 브랜치에서 만들어 게이트 때 cherry-pick + 이메일 커밋 한 번으로 푸시합니다. 모든 존재 판정은 `!= blank`가 아니라 `.size > 0`으로 씁니다.
+**Primary recommendation:** `main`에 M1 빈 슬롯+템플릿(바이트 동일, D-03 커밋 ①) → M2 「공통」 CSS 두 줄(시각) → M3 check-site 7번 가드(build) → M4 사업자 값(내용, 사용자 승인, D-03 커밋 ②) 순으로 쌓아 푸시하고, `/support/`·링크·`EXPECTED_TITLES`는 이름 붙은 보류 브랜치에서 만들어 게이트 때 cherry-pick + 이메일 커밋 한 번으로 푸시합니다. 모든 존재 판정은 `!= blank`가 아니라 `.size > 0`으로 씁니다.
 
 ## Architectural Responsibility Map
 
@@ -212,7 +209,7 @@
 ### Supporting (저장소 밖 스크래치, 커밋 안 함)
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
-| playwright | 1.59.1 (고정) | 375px·넓은 폭, Chromium·WebKit 화면 측정·캡처 | 푸터 줄바꿈, 지원 페이지 확인. Phase 3·4에서 승인된 같은 고정 버전·같은 방식(pnpm, 스크래치) [VERIFIED: `$TMPDIR/rp-p4/pw/package.json`] |
+| playwright `[WARNING: flagged as suspicious — verify before using.]` | 1.59.1 (고정) | 375px·넓은 폭, Chromium·WebKit 화면 측정·캡처 | 푸터 줄바꿈, 지원 페이지 확인. Phase 3·4에서 승인된 같은 고정 버전·같은 방식(pnpm, 스크래치). 설치 상태는 `$TMPDIR/rp-p4/pw/package.json`에서 확인 [VERIFIED: 파일 읽음]. SUS 판정은 최신 릴리스 날짜 때문이며, 새로 설치하거나 버전을 바꿀 때만 checkpoint |
 | pngjs | 7.0.0 | 캡처 픽셀 비교(Phase 3·4 도구) | 픽셀 동일 판정이 필요할 때만 |
 
 ### Alternatives Considered
@@ -233,7 +230,7 @@
 | playwright (1.59.1 고정) | npm | 최신 릴리스 2026-11-13 | 약 1.77억/주 | github.com/microsoft/playwright | [SUS] (사유 `too-new` — 최신 릴리스 날짜 기준. 고정 버전 1.59.1은 Phase 3·4에서 이미 승인·사용) | 고정 버전 재사용만 허용. 새로 설치·버전 변경이 필요하면 `checkpoint:human-verify` |
 | pngjs (7.0.0 고정) | npm | 2023-02 | 약 1.1억/주 | github.com/pngjs/pngjs | [OK] | Approved |
 
-`npm view playwright@1.59.1 version` → `1.59.1`, `npm view pngjs@7.0.0 version` → `7.0.0`, 두 패키지 모두 `postinstall` 없음 [VERIFIED: gsd-tools package-legitimacy, npm registry, 이번 세션].
+`npm view playwright@1.59.1 version` → `1.59.1`, `npm view pngjs@7.0.0 version` → `7.0.0`, 두 패키지 모두 `postinstall` 없음 (gsd-tools package-legitimacy·`npm view` 실행 결과, 이번 세션). 두 이름은 공식 문서·Context7이 아니라 이전 단계 스크래치에서 왔고 playwright는 SUS 판정이므로, 둘 다 `[VERIFIED: npm registry]` 등급이 아닙니다 [ASSUMED 등급, 레지스트리 존재만 확인].
 
 **Packages removed due to [SLOP] verdict:** 없음
 **Packages flagged as suspicious [SUS]:** playwright — 이미 설치된 1.59.1 고정본을 쓰는 한 추가 조치 없음. 재설치·업그레이드 때만 checkpoint.
@@ -298,10 +295,10 @@ nofile: F
 - 공백만 있는 값(`" "`)은 `.size > 0`에서 참입니다. 따옴표 안에 공백만 넣지 않는다는 규칙을 `company.yml` 머리 주석에 적습니다.
 - 따옴표 없는 숫자는 정수가 되어 `.size`가 바이트 수(8)를 돌려주므로 참이 되고, 앞자리 `0`이 사라질 수 있습니다. **모든 값은 큰따옴표로 감쌉니다**(머리 주석에 적음). 이번 세션의 `phone: 0212345678`(따옴표 없음)은 문자열로 남았지만 YAML 1.1의 8진수 해석 때문에 값에 따라 달라질 수 있습니다 [ASSUMED: 8진수로 읽히는 다른 숫자 꼴은 시험하지 않음].
 
-### Pattern 2: 출력 불변 커밋 ①은 템플릿과 슬롯만
+### Pattern 2: 출력 불변 커밋 M1(D-03 커밋 ①)은 템플릿과 슬롯만
 
-**What:** 커밋 ①에는 `_data/company.yml`(모든 값 `""`)과 `_includes/footer.html` 템플릿만 넣습니다. CSS는 넣지 않습니다.
-**확인 결과:** 기준(HEAD `6267524`의 `git archive`)과 ① 사본을 `JEKYLL_ENV=production bundle exec jekyll build --safe`로 빌드하면 네 문서 `cmp` 동일, `diff -r` 빈 출력입니다. 값이 모두 null(`trade_name:`)인 경우와 `_data` 폴더가 아예 없는 경우도 `diff -r` 빈 출력입니다 [VERIFIED: 스크래치 빌드, 이번 세션].
+**What:** M1에는 `_data/company.yml`(모든 값 `""`)과 `_includes/footer.html` 템플릿만 넣습니다. CSS는 넣지 않습니다.
+**확인 결과:** 기준(HEAD `6267524`의 `git archive`)과 M1 사본을 `JEKYLL_ENV=production bundle exec jekyll build --safe`로 빌드하면 네 문서 `cmp` 동일, `diff -r` 빈 출력입니다. 값이 모두 null(`trade_name:`)인 경우와 `_data` 폴더가 아예 없는 경우도 `diff -r` 빈 출력입니다 [VERIFIED: 스크래치 빌드, 이번 세션].
 **CSS 커밋의 출력 차이:** 「공통」에 두 줄을 더하면 차이는 정확히 `<style>` 안 두 줄 추가입니다 — `index.html` `57a58,59`, 법적 3종 `47a48,49` [VERIFIED: 스크래치 빌드 diff, 이번 세션]. 값이 없으므로 화면은 그대로입니다(`span`·`a`가 아직 없음).
 
 ### Pattern 3: 좁은 화면 항목 단위 줄바꿈
@@ -321,19 +318,19 @@ nofile: F
 **What:** `/support/`를 만들거나 그쪽으로 링크하거나 주소를 담는 커밋(「보류 묶음」)만 이름 붙은 로컬 브랜치 `p5-support-hold`에 두고, 게이트가 열리면 `main` 끝으로 cherry-pick한 뒤 이메일 커밋을 더해 한 번에 푸시합니다.
 **왜 이 방식인가 (판별 조건):**
 - pre-push 훅은 **푸시하는 체크아웃의 작업 트리에 있는** `scripts/check-site.sh`로 **푸시하는 SHA**를 점검합니다 (`.githooks/pre-push`: `"$TOP/scripts/check-site.sh" "$local_sha"`, `TOP=$(git rev-parse --show-toplevel)`) [VERIFIED: `.githooks/pre-push` 읽음]. 그래서 `EXPECTED_TITLES`에 `support/index.html|고객 지원 - 러닝펜슬`을 더하는 커밋은 보류 묶음과 함께 움직여야 합니다. `main`에 먼저 들어가면 게이트 전 모든 푸시가 3번 항목 「문서가 없습니다: /support/index.html」로 막힙니다 (3번 항목은 `[ ! -f "$DEST/$path" ]`면 실패) [VERIFIED: `scripts/check-site.sh` 3번 항목 읽음].
-- Phase 4 규칙은 rebase·reset·amend를 로컬에서도 쓰지 않습니다(`04-05-PLAN.md` 「force push, 이력 수정(rebase·reset·commit --amend, 로컬 포함), --no-verify는 쓰지 않는다」) [VERIFIED: 04-05-PLAN.md:85 읽음]. 보류 묶음을 `main` 위로 옮길 때는 rebase가 아니라 **cherry-pick**을 씁니다.
+- 선례: Phase 4의 되돌리기 절차는 「force push, 이력 수정(rebase·reset·commit --amend, 로컬 포함), --no-verify는 쓰지 않는다」고 적었습니다 [VERIFIED: `04-05-PLAN.md:85`, 그 계획의 `<rollback_procedure>` 안]. 프로젝트 전체 규칙은 아니지만 같은 결을 따라, 보류 묶음을 `main` 위로 옮길 때 rebase 대신 **cherry-pick**을 씁니다. cherry-pick은 `main`에 새 커밋을 더할 뿐 기존 이력을 고치지 않아, 승인·라이브 확인 기록의 SHA가 그대로 남습니다.
 - Phase 4처럼 `git commit-tree`로 만든 이름 없는 객체로 며칠 기다리면 `git gc`가 지울 수 있습니다(도달 불가 객체 기본 보존 2주) [ASSUMED: git 기본값 `gc.pruneExpire=2.weeks.ago`, 이번 세션에 문서 확인 안 함. 이 저장소는 값 미설정]. 게이트가 언제 열릴지 모르므로 **이름 붙은 ref**가 필요합니다.
 - GSD 문서 커밋(`gsd-tools query commit`)은 체크아웃된 브랜치에 들어갑니다. 메인 체크아웃에서 보류 브랜치를 checkout하면 그동안의 SUMMARY·STATE 커밋이 보류 브랜치에 섞입니다. 그래서 보류 브랜치는 **별도 worktree**에서만 고칩니다. `scripts/check-site.sh`는 새 worktree를 지원합니다(`.bundle/config`가 없으면 메인 체크아웃의 Gemfile 사용) [VERIFIED: check-site.sh 「gem을 찾을 체크아웃」 블록 읽음].
 - 「링크를 이메일 값 조건으로 감싸기」만으로는 D-04를 못 지킵니다. 링크는 숨어도 `/support/` 페이지 자체가 연락처 없이 라이브에 올라갑니다.
 - `updated`(최종 업데이트)는 공개되는 날짜여야 하므로 게이트 커밋에서 그날 날짜로 씁니다(D-12의 「페이지 커밋 날짜」를 게이트 커밋 날짜로 읽음, 아래 Open Question 2).
 
 **절차 (권장):**
-1. (`main`) ①~④를 쌓아 푸시하고 라이브 확인. 그중 ③이 check-site 7번 가드입니다.
+1. (`main`) M1~M4를 쌓아 푸시하고 라이브 확인. 그중 M3이 check-site 7번 가드입니다.
 2. (`main` 끝에서) `git worktree add -b p5-support-hold <저장소 밖 경로> main`. 경로는 macOS 임시 폴더 정리를 피해 오래 남는 곳에 둡니다(작업 트리가 지워져도 커밋은 ref로 남고 `git worktree prune` 뒤 다시 만들 수 있음).
 3. (보류 worktree) 커밋을 쌓습니다: H1 `support/index.html`(연락처·신고 구간은 이메일 조건) → H2 `scripts/check-site.sh` `EXPECTED_TITLES` 줄 → H3 헤더·푸터 링크와 `aria-label`. 이 브랜치는 **푸시하지 않습니다**(upstream 없음 확인: `git rev-parse --abbrev-ref p5-support-hold@{upstream}`이 실패해야 함).
 4. 게이트 전 매번 확인: `git merge-base --is-ancestor p5-support-hold origin/main`이 거짓, `git branch -r --contains p5-support-hold`가 빈 출력.
 5. (게이트 확인 뒤, 메인 체크아웃) `git cherry-pick $(git merge-base main p5-support-hold)..p5-support-hold` → 이메일 커밋 G(`_data/company.yml`의 `support_email`, `support/index.html`의 `updated`) → 후보 점검 → 승인 → `git push origin <SHA>:refs/heads/main`.
-6. cherry-pick 뒤 사이트 파일 트리가 보류 브랜치와 같은지 확인: `git diff p5-support-hold <G의 부모> -- . ':(exclude).planning'`가 빈 출력이면, 보류 브랜치에서 한 판정이 그대로 유효합니다(빌드는 `.planning/`을 출력하지 않음).
+6. cherry-pick 뒤 사이트 출력이 보류 브랜치와 같은지 확인: `. "$W/lib.sh"; build hold p5-support-hold; build pick <G의 부모>; diff -r "$W/hold/site" "$W/pick/site"`가 빈 출력이면, 보류 브랜치에서 한 판정이 그대로 유효합니다. `git diff … -- . ':(exclude).planning'`로 비교하면 기다리는 동안 `main`에서 고친 두 `CLAUDE.md`(D-21) 같은 출력 밖 파일까지 잡혀 거짓 실패가 나므로 빌드 출력으로 비교합니다. M4 뒤에 보류 브랜치를 만들고 그사이 `main`에 사이트 파일 커밋이 없었다면 두 출력은 같아야 하고, 다르면 원인을 보고 멈춥니다.
 7. 라이브 확인 뒤 `git worktree remove`, `git branch -D p5-support-hold`.
 
 **대안 (fallback):** 보류 커밋을 미리 만들지 않고, 지원 페이지 초안을 스크래치 사본에서만 빌드·캡처해 사용자 확인을 받은 뒤 게이트 때 `main`에서 바로 커밋합니다. 조상 관계 위험은 0이지만 초안 파일이 임시 폴더 정리로 사라질 수 있습니다.
@@ -400,7 +397,7 @@ nofile: F
 ### Pitfall 1: `!= blank`가 항상 참
 **What goes wrong:** 값이 없는 「상호 」「대표자 」 행이 빈 채로 라이브에 오름(자리표시 금지 위반, 카카오 심사 감점 요인).
 **Why it happens:** Liquid 4.0.4의 `blank`는 `blank?` 메서드에 기대는데 Jekyll에는 ActiveSupport가 없음.
-**How to avoid:** `.size > 0`. 커밋 ①의 바이트 동일 판정이 이 실수를 바로 잡습니다(`!= blank`로 쓰면 빈 슬롯에서도 행이 생겨 diff가 남).
+**How to avoid:** `.size > 0`. M1의 바이트 동일 판정이 이 실수를 바로 잡습니다(`!= blank`로 쓰면 빈 슬롯에서도 행이 생겨 diff가 남).
 **Warning signs:** 빈 슬롯 빌드의 푸터에 「상호」 글자가 보임.
 
 ### Pitfall 2: Liquid `and`/`or`는 오른쪽부터 묶임
@@ -408,14 +405,14 @@ nofile: F
 **Evidence:** `{% if false and true or true %}` → `F` (왼쪽부터라면 `T`) [VERIFIED: 스크래치 빌드, 이번 세션].
 **How to avoid:** 줄 판정은 항목마다 비교 하나(`x.size > 0`)를 `or`로만 잇습니다.
 
-### Pitfall 3: 「공통」 CSS를 커밋 ①에 섞음
-**What goes wrong:** 커밋 ①의 바이트 동일 판정이 실패하고, 리팩터와 시각 변경이 한 커밋에 섞임(Ground Rule).
+### Pitfall 3: 「공통」 CSS를 M1에 섞음
+**What goes wrong:** M1의 바이트 동일 판정이 실패하고, 리팩터와 시각 변경이 한 커밋에 섞임(Ground Rule).
 **How to avoid:** CSS 두 줄은 별도 커밋. 그 커밋의 판정은 「diff가 `<style>` 안 두 줄 추가뿐」(`57a58,59` / `47a48,49`) + 화면 동일.
 
 ### Pitfall 4: 푸터 `mailto:` 링크가 기본 파란색
 **What goes wrong:** `.rp-foot-legal`에는 `a` 규칙이 없어 이메일 링크가 브라우저 기본 파란색·보라색(방문 후)으로 `#2B2B2B` 위에 그려짐. 375px 캡처에서 두 엔진 모두 확인 [VERIFIED: Playwright 캡처, 이번 세션].
 **How to avoid:** `.rp-foot-legal a { color: #FAFAF7; text-decoration: underline; }`(이미 `.rp-foot-nav a`가 쓰는 색, 새 hex 아님) 또는 `color: inherit; text-decoration: underline;`. 링크를 주변 글자와 색만으로 구분하지 않도록 밑줄을 둡니다. 대비: `#B5B0A7`/`#2B2B2B` ≈ 6.6:1, `#FAFAF7`/`#2B2B2B` ≈ 13:1 [ASSUMED: 손 계산, 도구 측정 아님].
-**Warning signs:** 게이트 전에는 링크가 없어 안 보임 → CSS를 ② 커밋에 미리 넣고, 게이트 후보 캡처에서 다시 봄.
+**Warning signs:** 게이트 전에는 링크가 없어 안 보임 → CSS를 M2에 미리 넣고, 게이트 후보 캡처에서 다시 봄.
 
 ### Pitfall 5: FAQ `dl`의 질문·답 쌍 사이 간격이 0
 **What goes wrong:** `legal.css`에는 `.rp-doc :where(… dl, dd …) { margin: 0; }`과 `.rp-doc dt { font-weight: 700; … }`만 있고 `dd + dt` 간격 규칙이 없어, 한 `dl` 안의 네 쌍이 붙어 보임 [VERIFIED: `_includes/css/legal.css:16`, `:28` 읽음]. 지금 법적 3종에는 `<dl>`이 없어 드러나지 않았습니다(`grep -c '<dl'` 세 파일 모두 0).
@@ -423,7 +420,7 @@ nofile: F
 
 ### Pitfall 6: `legal.css` 맨 위 주석을 고치면 법적 3종 출력이 바뀜
 **What goes wrong:** D-13이 제안한 「앵커 `id`는 `section`에 둔다」 한 줄을 `legal.css` 머리 주석에 더하면, 그 주석은 `<style>` 안에 인라인되므로 법적 3종 출력 바이트가 바뀝니다(Phase 2 D-06의 머리 주석 예외와 같은 종류) [VERIFIED: `legal.css:1-4`가 주석이고 `_layouts/legal.html:18`에서 include됨].
-**How to avoid:** 바이트 동일을 판정하는 커밋(①)과 섞지 않습니다. `.planning/codebase/CONVENTIONS.md`만 고치거나, 주석 변경을 별도 커밋으로 둡니다.
+**How to avoid:** 바이트 동일을 판정하는 커밋(M1)과 섞지 않습니다. `.planning/codebase/CONVENTIONS.md`만 고치거나, 주석 변경을 별도 커밋으로 둡니다.
 
 ### Pitfall 7: `EXPECTED_TITLES`를 먼저 `main`에 넣음
 **What goes wrong:** 게이트 전 모든 푸시가 check-site 3번 항목에서 막힘(pre-push 훅은 작업 트리 스크립트로 점검).
@@ -472,12 +469,12 @@ nofile: F
 - `{%-`는 `if`/`endif`에만 쓰였고, 0열의 `{%- if` 줄은 앞 줄바꿈을 지워 `<p>` 안을 한 줄로 만듭니다(include 공백 규칙 준수).
 - Pattern 3 선택지 2(`&nbsp;· `)를 고르면 위 ` · ` 세 곳을 바꿉니다.
 
-### 2. `_data/company.yml` (커밋 ①, 모든 값 빈 문자열)
+### 2. `_data/company.yml` (M1, 모든 값 빈 문자열)
 ```yaml
 # 사실값 슬롯. 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다 (BIZ-02).
 # - 값이 없으면 "" 로 둔다. 빈 값은 화면에 그리지 않는다 (render-if-present). 「추후 기재」 같은 자리표시는 쓰지 않는다.
 # - 값은 모두 큰따옴표로 감싼다 (따옴표 없는 숫자는 앞자리 0이 사라질 수 있다). 공백만 넣지 않는다.
-# - 템플릿은 `site.data.company.<키>.size > 0` 으로 판정한다. `!= blank` 는 Jekyll 3.10.0(Liquid 4.0.4)에서 항상 참이라 쓰지 않는다.
+# - 템플릿은 `site.data.company.<키>.size > 0` 으로 판정한다. `!= blank` 는 로컬 Jekyll 3.10.0(Liquid 4.0.4) 빌드에서 항상 참이어서 쓰지 않는다.
 # - support_email 은 이메일 게이트(외부 4곳 수신 시험 통과)를 Claude가 확인한 뒤에만 채운다 (D-19, Phase 5 D-05).
 # - 사업자등록증 표기 그대로 쓴다. 이 값은 .planning/ 문서·커밋 메시지에 적지 않는다 (저장소 PUBLIC, D-02).
 trade_name: ""        # 상호
@@ -541,14 +538,14 @@ updated: "2026년 11월 OO일"
                 </nav>
 ```
 
-### 5. 「공통」 CSS 두 줄 (커밋 ②, `@media (max-width: 860px)` 줄 바로 앞)
+### 5. 「공통」 CSS 두 줄 (M2, `@media (max-width: 860px)` 줄 바로 앞)
 ```css
         .rp-foot-legal span { display: inline-block; }
         .rp-foot-legal a { color: #FAFAF7; text-decoration: underline; }
 ```
 // 이번 세션 빌드로 출력 차이(두 줄 추가)와 375px 줄바꿈 확인 [VERIFIED]. 링크 색 값은 UI-SPEC에서 확정.
 
-### 6. check-site 7번 가드 (커밋 ③, `main`에 먼저. 설계안 — 이번 세션 미실행)
+### 6. check-site 7번 가드 (M3, `main`에 먼저. 설계안 — 이번 세션 미실행)
 ```bash
 # ── 7. 지원 페이지와 연락처 (이메일 게이트, Phase 5 D-04) ──
 # /support/가 출력에 있으면 mailto 연락처가 있어야 한다. /support/로 가는 링크가 있으면 그 페이지가 있어야 한다.
@@ -655,9 +652,9 @@ rm -f "$W/vals"
 ### Phase Requirements → Test Map
 | Req ID / SC | Behavior | Test Type | Automated Command | File Exists? |
 |--------|----------|-----------|-------------------|-------------|
-| BIZ-02 (①) | 빈 슬롯+템플릿이 네 문서 출력을 바꾸지 않음 | 바이트 비교 | `build base <BASE>; build c1 <CAND>; diff -r "$W/base/site" "$W/c1/site"` 빈 출력 | ❌ Wave 0 (`$W=$TMPDIR/rp-p5`, `lib.sh` 복사) |
+| BIZ-02 (M1) | 빈 슬롯+템플릿이 네 문서 출력을 바꾸지 않음 | 바이트 비교 | `build base <BASE>; build c1 <CAND>; diff -r "$W/base/site" "$W/c1/site"` 빈 출력 | ❌ Wave 0 (`$W=$TMPDIR/rp-p5`, `lib.sh` 복사) |
 | BIZ-02 | 빈 값·null·키 없음은 행 없음, 부분 값은 그 항목만 | 스크래치 변형 빌드 | 스크래치 사본에서 `_data/company.yml`만 바꿔 `build_src`, 푸터 블록 추출 후 행·구분 기호 수 확인(이번 세션 v.sh와 같은 꼴) | ❌ Wave 0 |
-| CSS 커밋 | 출력 차이가 `<style>` 안 두 줄뿐 | diff 행 머리 | `diff "$W/c1/site/$f" "$W/c2/site/$f" \| grep -E '^[0-9]'` → `57a58,59`(랜딩)·`47a48,49`(법적 3종) | ❌ Wave 0 |
+| M2 (CSS) | 출력 차이가 `<style>` 안 두 줄뿐 | diff 행 머리 | `diff "$W/c1/site/$f" "$W/c2/site/$f" \| grep -E '^[0-9]'` → `57a58,59`(랜딩)·`47a48,49`(법적 3종) | ❌ Wave 0 |
 | BIZ-01 / SC3 | 값 커밋 뒤 네 문서 푸터에 행이 있음, 값은 기록하지 않음 | grep 개수 | 푸터 블록에서 `<span>상호`·`<span>대표자`·`<span>사업자등록번호`·`<p>주소` 각 1개 × 4문서 | ❌ |
 | BIZ-01 (D-07) | 375px에서 항목 중간 끊김 없음, 가로 넘침 없음, 링크 색 | Playwright | `span` 높이 ≤ 한 줄, `scrollWidth == 375`, `getComputedStyle(a).color`가 정한 색 (Chromium·WebKit) | ❌ Wave 0 |
 | BIZ-03 / SC4 | `phone`만 채우면 푸터·`#contact`에 「전화」 행, 비우면 어디에도 없음 | 스크래치 변형 | 출력 전체 `grep -c '전화'` → 빈 값 0(기준 출력도 0, 이번 세션 확인) | ❌ |
@@ -734,7 +731,7 @@ rm -f "$W/vals"
 ## Sources
 
 ### Primary (HIGH confidence)
-- 이번 세션 스크래치 빌드(Jekyll 3.10.0, Liquid 4.0.4, `--safe`, production): `blank`/`empty`/`size` 판정, `and`/`or` 순서, 빈 슬롯 바이트 동일, CSS 커밋 diff 범위, 푸터 변형 출력
+- 이번 세션 로컬 스크래치 빌드(저장소 `Gemfile`의 Jekyll 3.10.0, Liquid 4.0.4, `--safe`, `JEKYLL_ENV=production`)와 vendored `liquid-4.0.4/lib/liquid/condition.rb`·`expression.rb`: `blank`/`empty`/`size` 판정, `and`/`or` 순서, 빈 슬롯 바이트 동일, CSS 커밋 diff 범위, 푸터 변형 출력
 - 이번 세션 Playwright 1.59.1(Chromium·WebKit, 375px) 측정과 캡처
 - 저장소 파일: `_includes/footer.html`, `_includes/header.html`, `_includes/css/common.css`, `_includes/css/legal.css`, `_layouts/legal.html`, `scripts/check-site.sh`, `.githooks/pre-push`, `_config.yml`, `data-deletion/index.html`
 - 기준 문서: `.planning/baseline/NAMES.md`, `URLS.md`, `DATA-INVENTORY.md:186-198, 250-262`, `DECISIONS.md`(U6·U11·U12·N3·N7 행), `USER-TASKS.md` 작업 4·5·7·dig 절
