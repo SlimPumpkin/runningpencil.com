@@ -919,3 +919,93 @@ check-site: 통과 (커밋 9cc14903adbd, jekyll 3.10.0)
 
 PUSH4_CANDIDATE=9cc14903adbd
 PUSH4_PREV=95062367dc69
+
+## 04-13 문서 푸시 라이브 확인
+
+승인: Task 2 `checkpoint:decision`(blocking-human)에서 사용자가 `PUSH4_CANDIDATE=9cc14903adbd`를 이름으로 적은 질문에 **push**로 답했습니다. 이 승인은 이 SHA의 푸시 한 번에만 썼습니다.
+
+푸시 전 확인 (action 0~1번): 스크래치(`$W/lib.sh`, playwright, `p4-behave.mjs`, `p4-shots.mjs`, `$W/base/site`, `$W/c3/site/index.html`, `$W/p4prev`)가 모두 있어 다시 만든 것이 없습니다(`$W/p4prev/TREE`는 PUSH4_PREV의 트리와 같음). 메인 체크아웃이고 `gh auth status`가 0이며 사이트 파일에 고친 것·스테이징한 것이 없습니다. `git fetch -q origin main` 뒤 `origin/main`은 PUSH4_PREV(`95062367dc69`) 그대로였습니다.
+
+```
+OK prev = PUSH4_PREV
+```
+
+푸시는 `git push origin "${C4}:refs/heads/main"`(C4는 PUSH4_CANDIDATE의 전체 해시)으로 훅을 켠 채 한 번 했습니다. 로컬 HEAD(`d6d6d56`, 후보 검증 기록 커밋)는 이 푸시에 싣지 않았습니다. `--no-verify`·force는 쓰지 않았습니다.
+
+```
+check-site: 통과 (커밋 9cc14903adbd, jekyll 3.10.0)
+9506236..9cc1490  -> main
+```
+
+PUSH4_SHA=9cc14903adbd
+
+배포 완료 (`gh api repos/<slug>/pages/builds/latest`, 20초 간격, 세 번째 읽기에서 built, 오류 메시지 없음):
+
+```
+OK 빌드 9cc14903adbd built 2026-11-18T07:57:50Z
+```
+
+라이브 HTTP (`https://runningpencil.com<경로>?cb=9cc14903adbd`, 사본 `$W/live4/`). 기대 제목은 `$W/p4/site/`의 같은 문서 제목(= `scripts/check-site.sh`의 기대 제목)이고, 네 문서 모두 `$W/p4/site/<경로>/index.html`과 바이트가 같습니다(문서 푸시라 출력이 PUSH4_PREV와 같음, 후보 구간의 `OK site output unchanged`):
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬
+OK live bytes = p4 (4 docs)
+OK 404 /CLAUDE.md
+```
+
+`/.claude/CLAUDE.md`도 404입니다(점으로 시작하는 폴더라 원래 출력되지 않음).
+
+LIVE_PUSH4=OK
+
+## 04-13 Phase 4 성공 기준 판정
+
+라이브(`https://runningpencil.com`, `?cb=9cc14903adbd`)에서 이 계획이 다시 돌린 결과입니다. 앞 계획의 기록을 옮겨 적지 않았습니다. 기준 문장은 ROADMAP Phase 4 Success Criteria 1~3(04-01이 고친 문장)입니다.
+
+```
+SC1 OK live / words=0 (법적 3종은 Phase 6~8 범위, 바뀌지 않음)
+SC2 OK live shots chromium,webkit 375,1280 PASS; capture review OK; user approved 95062367dc69
+SC3 OK live behave chromium,webkit PASS
+```
+
+- 성공 기준 1: 저장한 라이브 `/`(`$W/live4/index.html`)에서 `grep -c -E '포인트|굿즈|코스북'`이 0입니다. 법적 세 문서는 바이트가 PUSH4_PREV 빌드와 같아(위 라이브 확인) 이 단계에서 바뀌지 않았고, 세 낱말은 Phase 6~8에서 지웁니다.
+- 성공 기준 2: 라이브 `p4-shots.mjs`(Chromium·WebKit × 1280×800·375×812, 판정 (a)~(l))가 `PASS shots`이고 숫자가 04-10 후보·04-11 라이브 판정과 모두 같습니다. 04-09 캡처 검토는 `CAPTURE_REVIEW=OK`, 04-11 사용자 승인은 PUSH3_SHA `95062367dc69`입니다. 라이브 캡처 `$W/cap/live4/chromium-1280-screens.png`를 열어 「출시 준비 중」 딱지, 폰 테두리 속 세 장과 캡션, 「지도 © NAVER Corp.」를 눈으로도 확인했습니다. 375 끝 화면도 이번 캡처를 열어 보았습니다. `webkit-375-end.png`는 badge 장이 온전히 보이고 오른쪽 여백이 남습니다. `chromium-375-end.png`는 run 장이 띠 가운데에 있어, 04-11 NOTE에 적은 Chromium 요소 캡처의 부작용과 같은 모습입니다. 그래서 Chromium 375 끝은 캡처 전에 잰 `end-gap=20` 줄로 판정합니다. 두 스크립트의 출력은 판정한 구간 빌드의 기록(`$W/shots-c3.txt`, `$W/behave-c3.txt`)과 `diff`가 빈 출력입니다.
+- 성공 기준 3: 라이브 `p4-behave.mjs`(Chromium·WebKit, 1280·375, 움직임 줄이기 포함)가 `PASS behave`입니다.
+
+라이브 구간 판정 `node "$W/pw/p4-shots.mjs" https://runningpencil.com "$W/cap/live4" '?cb=9cc14903adbd'` (출력 전체):
+
+```
+OK hash chromium top=-0.4
+OK shots chromium 1280 imgs=3 credit-gap=38.4 src=564,564,564
+OK strip chromium 375 arrow=0->276 end-gap=20
+OK shots chromium 375 imgs=3 credit-gap=28 src=564,564,564
+OK hash webkit top=0.5
+OK shots webkit 1280 imgs=3 credit-gap=38.4 src=564,564,564
+OK strip webkit 375 arrow=0->276 end-gap=20
+OK shots webkit 375 imgs=3 credit-gap=28 src=564,564,564
+PASS shots
+```
+
+라이브 동작 판정 `node "$W/pw/p4-behave.mjs" https://runningpencil.com '?cb=9cc14903adbd'` (출력 전체):
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=0
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=0
+PASS behave
+```
+
+PHASE4_SC=OK
+
+단계 끝 사람 확인으로 넘기는 항목 (자동 판정 범위 밖):
+
+- 04-04: 「세 가지 이유」 3단계 뱃지 화면의 색 배치
+- 04-10: 「실제 앱 화면」 구간 화면(로고·구간 아래 둥근 모서리 맞물림)
+- 04-11: 실기기 iPhone Safari에서 구간과 가로 띠
+- 화면 낭독기로 구간·띠 읽기
+- 공유 미리보기 서비스의 옛 OG 캐시 (A12, 선택)
