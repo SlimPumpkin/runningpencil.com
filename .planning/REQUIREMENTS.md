@@ -31,7 +31,7 @@
 - [ ] **SITE-03**: Google은 Search Console에서 `runningpencil.com`의 도메인 소유권(도메인 속성, DNS TXT)을 확인된 상태로 본다 (가비아 DNS 작업은 사용자가 함)
 - [ ] **SITE-04**: 콘솔에 이미 등록된 기존 URL(`/privacy-policy/`, `/terms/`, `/data-deletion/`)과 새 URL(`/support/`, 위치약관, `/en/…`)이 모두 200으로 열리고, 이번 마일스톤 동안 경로가 바뀌지 않는다
 - [ ] **SITE-05**: 심사자는 법적 페이지에서 「임시 게시본」 같은 미완성 표시를 보지 않고, 법적 페이지는 검색에 노출된다 (`noindex` 해제, `robots.txt`로 막지 않음)
-- [ ] **SITE-06**: 심사자는 홈페이지에서 실제 앱 화면(스크린샷)과 출시 전임을 알리는 표시(현재 「출시 준비 중」)를 보고, 출시 전이어도 서비스 내용을 확인할 수 있다
+- [x] **SITE-06**: 심사자는 홈페이지에서 실제 앱 화면(스크린샷)과 출시 전임을 알리는 표시(현재 「출시 준비 중」)를 보고, 출시 전이어도 서비스 내용을 확인할 수 있다
 
 ### 사업자 정보와 연락처 (BIZ)
 
@@ -168,7 +168,7 @@
 | SITE-03 | Phase 5 | Pending |
 | SITE-04 | Phase 10 | Pending |
 | SITE-05 | Phase 8 | Pending |
-| SITE-06 | Phase 4 | Pending |
+| SITE-06 | Phase 4 | Complete |
 | BIZ-01 | Phase 5 | Pending |
 | BIZ-02 | Phase 5 | Pending |
 | BIZ-03 | Phase 5 | Pending |

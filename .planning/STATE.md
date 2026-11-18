@@ -2,17 +2,17 @@
 gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
-status: executing
-stopped_at: Completed 04-12-PLAN.md
-last_updated: "2026-11-18T07:15:06.436Z"
+status: verifying
+stopped_at: Completed 04-13-PLAN.md
+last_updated: "2026-11-18T08:03:01.059Z"
 last_activity: 2026-11-18
-last_activity_desc: 04-12 완료 — D-24 문서 커밋 셋(원본 맵·두 CLAUDE.md), 푸시 안 함
-state_head: 1b281cada346ff68595b31079741324d47d6ea5e
+last_activity_desc: 04-13 완료 — D-24 문서 푸시(9cc14903adbd)와 Phase 4 성공 기준 라이브 판정(PHASE4_SC=OK)
+state_head: 1b188ef1634e89d74ff388b2633fdf905e0d4729
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 41
+  completed_plans: 42
   percent: 30
 ---
 
@@ -29,8 +29,8 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
 Plan: 13 of 13
-Status: Ready to execute
-Last activity: 2026-11-18 — 04-12 완료 (D-24 문서 커밋 셋: 원본 맵 다섯 개, 루트 CLAUDE.md, 재생성한 .claude/CLAUDE.md. 푸시 안 함). 다음은 04-13 문서 푸시
+Status: Phase complete — ready for verification
+Last activity: 2026-11-18 — 04-13 완료 (승인받은 문서 푸시 9cc14903adbd, 라이브 확인 LIVE_PUSH4=OK, 성공 기준 1~3 라이브 재판정 PHASE4_SC=OK). 다음은 /gsd-verify-work 04 (단계 끝 사람 확인 다섯 항목)
 
 Progress: [███░░░░░░░] 30%
 
@@ -99,6 +99,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P10 | 10min | 2 tasks | 2 files |
 | Phase 04 P11 | 21min | 3 tasks | 9 files |
 | Phase 04 P12 | 6min | 3 tasks | 8 files |
+| Phase 04 P13 | 10min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -197,6 +198,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-11: 사용자가 승인한 스크린샷 구간 커밋 C3(95062367dc69) 하나만 원격 main에 푸시했고, 푸시 성공 뒤 로컬 main에 fast-forward로 들였다. 라이브 LIVE_PUSH3=OK
 - [Phase 04]: 04-11: Chromium 375 끝 캡처에서 badge가 안 보이는 것은 Playwright 요소 캡처가 Chromium에서만 scrollLeft를 477에서 170으로 옮기는 부작용이다. 캡처 전 측정 end-gap=20으로 판정하고 p4-shots.mjs는 고치지 않았다
 - [Phase 04]: 04-12: 「모두 인라인 SVG, 외부 이미지 없음」 규칙을 「그림은 인라인 SVG, 예외는 images/app/ 앱 화면 캡처 WebP」로 바꿔 원본 맵 다섯 개와 두 CLAUDE.md에 적음(D-24). 캡처 속 네이버 지도 출처는 구간 아래 「지도 © NAVER Corp.」만, 공유 푸터에는 넣지 않음. 문서 커밋 fa90e3cb8cd1·5c6451b2debf·426174db1045, 생성기 사본 시험 뒤 .claude/CLAUDE.md 재생성(stack·conventions·architecture만 바뀜), 열 개 문서 옛 문장·로컬 경로 0줄(DOCS2_STALE=OK). 푸시 안 함(04-13)
+- [Phase 04]: 04-13: 사용자가 승인한 문서 푸시 SHA 9cc14903adbd 하나만 푸시했고(9506236..9cc1490), 라이브에서 Phase 4 성공 기준 1~3을 다시 돌려 모두 OK(PHASE4_SC=OK). 승인은 이 푸시로 다 썼고 d6d6d56 이후 docs 커밋은 로컬에만 있다
 
 ### Pending Todos
 
@@ -235,6 +237,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-18T07:15:06.124Z
-Stopped at: Completed 04-12-PLAN.md
+Last session: 2026-11-18T08:03:00.754Z
+Stopped at: Completed 04-13-PLAN.md
 Resume file: None
