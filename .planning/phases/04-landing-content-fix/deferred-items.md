@@ -3,10 +3,10 @@
 ## Deferred Items
 
 - 04-12: `.planning/codebase/ARCHITECTURE.md`의 `index.html:NNN` 행 번호(Component 표, Layers, Data Flow)가 04-11 「실제 앱 화면」 구간 추가(36줄) 전 값이다
-  status: open
+  status: resolved
   **What:** 다음 원본 맵 갱신이나 `/gsd-map-codebase`에서 지금 `index.html` 행 번호로 맞춘다. ARCHITECTURE는 생성기 원본이라 고친 뒤 `.claude/CLAUDE.md`를 다시 만든다.
 - 04-12: `.planning/codebase/CONVENTIONS.md`의 「`index.html` 끝(약 428행)의 인라인 스크립트」가 지금은 464행부터다
-  status: open
+  status: resolved
   **What:** 이 줄은 `.claude/CLAUDE.md` 생성 구간에도 있다. 원본 맵을 고치고 생성기 사본 시험 뒤 다시 만든다.
 - 04-12: `.planning/codebase/CONCERNS.md`의 랜딩 크기·줄 수(「원본 72KB, 586줄」)가 04-11 뒤 값과 다르다
   status: open

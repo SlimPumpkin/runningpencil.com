@@ -129,7 +129,7 @@
 - 스크립트가 찾는 요소의 id는 `rp-` + 영역 + 역할로 쓴다: `rp-run-dot`, `rp-run-pct`, `rp-demo-prog`, `rp-demo-done`, `rp-run-btn`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`. 예외로 구간 앵커 id는 짧은 영어 단어로 쓴다: `story`, `demo`, `screens`, `get`, `top`. `screens`(「실제 앱 화면」)는 스크립트가 쓰지 않는다.
 - SVG `<defs>` 심볼 id: 아이콘은 `rp-i-*` (`#rp-i-play`, `#rp-i-replay`), 코스 선은 `rp-c-*` (`#rp-c-dog`).
 - 반복 요소에는 인덱스 data 속성을 쓴다: 내용은 `data-step="0..2"`, 버튼은 `data-go="0..2"`.
-- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 428행)의 인라인 스크립트도 반드시 같이 고친다.
+- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 464행)의 인라인 스크립트도 반드시 같이 고친다.
 ### JS functions / variables
 
 - 함수와 변수는 camelCase로 쓰고 함수 이름은 동사로 시작한다: `setStep`, `goStep`, `paintStory`, `paintDemo`, `setRun`, `startRun`, `syncLive`, `moveTo`, `setText`, `settle`. 작은 순수 유틸은 명사형도 쓴다: `clamp01`, `twoDigits`, `clock`, `reduced`.
@@ -294,13 +294,13 @@
 | Pre-paint 스크립트 | 첫 그리기 전에 `<html>`에 `rp-pin` 부여 | `index.html:22-25` |
 | head 링크 | Pretendard 글꼴 `<link>`, 파비콘·매니페스트 링크 (네 페이지 공통) | `_includes/head-links.html` (`index.html:21`, `_layouts/legal.html:14`에서 include) |
 | 「공통」 CSS 묶음 | 바탕·글꼴·`.rp-wrap`·헤더(`.rp-head`,`.rp-brand`,`.rp-nav`)·푸터(`.rp-foot-*`) | `_includes/css/common.css` (`index.html:27`, `_layouts/legal.html:16`의 `<style>` 안에서 include) |
-| 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`) | `_includes/header.html` (`index.html:153`은 `home=true`, `_layouts/legal.html:23`) |
-| 푸터 | 약관 링크 3개, 운영 안내, 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html:426`, `_layouts/legal.html:40`) |
+| 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`) | `_includes/header.html` (`index.html:164`은 `home=true`, `_layouts/legal.html:23`) |
+| 푸터 | 약관 링크 3개, 운영 안내, 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html:462`, `_layouts/legal.html:40`) |
 | 법적 레이아웃 | 법적 3종의 `<head>`·카드 머리(eyebrow·제목)·본문 틀(`.rp-doc`). `<style>`에 「공통」과 법적 페이지 CSS를 include. `noindex`·`updated`는 값이 있을 때만 출력, 제목은 `heading`이 없으면 `title` | `_layouts/legal.html` (`:18`에서 `_includes/css/legal.css` include) |
-| 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 앱 화면 띠, 반응형 | `index.html:29-115` |
+| 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 앱 화면 띠, 반응형 | `index.html:29-126` |
 | 실제 앱 화면 구간 | 제목·「출시 준비 중」 딱지·캡처 세 장(흑연 폰 테두리 `.rp-shot-frame`)·캡션·지도 출처(「지도 © NAVER Corp.」), 좁은 화면 가로 밀기(`scroll-snap`, 스크립트 없음) | `index.html` `#screens`, `images/app/*.webp` |
-| SVG 심볼 라이브러리 | 코스 path(`rp-c-*`), 지도(`rp-map-seoul`), 로고(`rp-logo`), 아이콘(`rp-i-*`), 히어로 캐릭터(`rp-t-*`) | `index.html:121-151` |
-| 랜딩 동작 스크립트 | story 단계/진행도, demo 런 애니메이션, 해시 정착, `rp-ready` | `index.html:428-583` |
+| SVG 심볼 라이브러리 | 코스 path(`rp-c-*`), 지도(`rp-map-seoul`), 로고(`rp-logo`), 아이콘(`rp-i-*`), 히어로 캐릭터(`rp-t-*`) | `index.html:132-162` |
+| 랜딩 동작 스크립트 | story 단계/진행도, demo 런 애니메이션, 해시 정착, `rp-ready` | `index.html:464-619` |
 | 법적 페이지 토큰 | `--rp-ink`/`--rp-accent`/`--rp-muted`/`--rp-muted-2`/`--rp-line` | `_includes/css/legal.css:5` (`:root`, 3개 법적 페이지 공통) |
 | 법적 페이지 CSS | Preflight 대체(`html`)·레이아웃(`body`·`main`)·`.rp-legal-*` 카드 껍데기·`.rp-doc` 본문 규칙(클래스 없는 요소)·표 감싸개 스크롤 그림자, 768px(`min-width`) 카드 안쪽 여백 | `_includes/css/legal.css` (「법적 페이지 전용」) |
 | 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `_includes/css/legal.css:9` |
@@ -319,7 +319,7 @@
 ### Markup (구조)
 
 - Purpose: 섹션·폰 목업·SVG 그림
-- Location: `index.html:119-427`, 각 법적 페이지 본문(`_layouts/legal.html`의 `content` 자리). 헤더·푸터 마크업과 그 안의 로고는 `_includes/header.html`·`_includes/footer.html`
+- Location: `index.html:130-463`, 각 법적 페이지 본문(`_layouts/legal.html`의 `content` 자리). 헤더·푸터 마크업과 그 안의 로고는 `_includes/header.html`·`_includes/footer.html`
 - Depends on: `<defs>` 심볼, CSS 클래스
 - Used by: 스크립트(id/data 속성 계약)
 
@@ -332,43 +332,43 @@
 ### Behavior (동작, 랜딩만)
 
 - Purpose: 스크롤 → 단계/진행도, demo 버튼 → 7초 rAF 애니메이션
-- Location: `index.html:428-583`
+- Location: `index.html:464-619`
 - Depends on: id·속성 계약 (아래 참고)
 
 ## Data Flow
 
 ### Story 스크롤 고정 (`#story`)
-- `<head>` 스크립트가 reduced-motion 아님 && `innerHeight <= 2400`이면 `rp-pin` 추가 (`index.html:24`) → CSS가 `.rp-scrolly`를 340vh, `.rp-stage`를 `position: sticky`로 바꿈 (`index.html:66-84`)
-- `scroll` 이벤트(passive) → rAF 스로틀 → `paintStory()` (`index.html:551-554`)
-- `paintStory()`가 `#story`의 `getBoundingClientRect()`로 f∈[0,3) 계산, `step = floor(f)`, 단계별 진행도 q 산출 (`index.html:485-505`)
-- `story.style.setProperty('--q0'|'--q1'|'--q2')` (`index.html:496-498`) → `stroke-dashoffset: calc(1000px * (1 - var(--q0)))`, 번호 점 `opacity: clamp(...)`, 진행 바 `width: calc(var(--q1) * 100%)` 등이 반응 (`index.html:281-347`)
+- `<head>` 스크립트가 reduced-motion 아님 && `innerHeight <= 2400`이면 `rp-pin` 추가 (`index.html:24`) → CSS가 `.rp-scrolly`를 340vh, `.rp-stage`를 `position: sticky`로 바꿈 (`index.html:65-83`)
+- `scroll` 이벤트(passive) → rAF 스로틀 → `paintStory()` (`index.html:587-590`)
+- `paintStory()`가 `#story`의 `getBoundingClientRect()`로 f∈[0,3) 계산, `step = floor(f)`, 단계별 진행도 q 산출 (`index.html:521-541`)
+- `story.style.setProperty('--q0'|'--q1'|'--q2')` (`index.html:532-534`) → `stroke-dashoffset: calc(1000px * (1 - var(--q0)))`, 번호 점 `opacity: clamp(...)`, 진행 바 `width: calc(var(--q1) * 100%)` 등이 반응 (`index.html:292-358`)
 - `--q1`로 `#rp-run-dot`을 `getPointAtLength`로 이동, `#rp-run-pct/-dist/-time` 텍스트 갱신
-- 단계 변경 시 `setStep(i)` → `[data-step]`에 `is-on`, `[data-go]`에 `is-on`+`aria-pressed`, `#rp-panel.className = 'rp-panel is-s' + i` (`index.html:467-476`)
-- 단계 버튼 클릭 → `goStep(i)`: pin 상태면 해당 위치로 smooth scroll, 아니면 바로 `setStep` (`index.html:507-515`)
-- `resize` → `syncLive()`가 `rp-pin`을 재판정·토글 (`index.html:479-482`)
+- 단계 변경 시 `setStep(i)` → `[data-step]`에 `is-on`, `[data-go]`에 `is-on`+`aria-pressed`, `#rp-panel.className = 'rp-panel is-s' + i` (`index.html:503-512`)
+- 단계 버튼 클릭 → `goStep(i)`: pin 상태면 해당 위치로 smooth scroll, 아니면 바로 `setStep` (`index.html:543-551`)
+- `resize` → `syncLive()`가 `rp-pin`을 재판정·토글 (`index.html:515-518`)
 ### Demo 런 (`#demo`)
-- `#rp-run-btn` 클릭 → `startRun()` (`index.html:533-544`)
+- `#rp-run-btn` 클릭 → `startRun()` (`index.html:569-580`)
 - 7000ms rAF 루프에서 `paintDemo(t)`: `#rp-demo-prog`의 `stroke-dashoffset`, `#rp-demo-dot` 위치, 퍼센트/거리(KM=8.3)/시간 텍스트
-- 상태 `idle → running → done`; `setRun()`이 `#rp-run-label` 문구, `#rp-run-icon`의 `href`(`#rp-i-play`↔`#rp-i-replay`), `#rp-demo-done`의 `is-on` 토글 (`index.html:526-531`)
+- 상태 `idle → running → done`; `setRun()`이 `#rp-run-label` 문구, `#rp-run-icon`의 `href`(`#rp-i-play`↔`#rp-i-replay`), `#rp-demo-done`의 `is-on` 토글 (`index.html:562-567`)
 ### 초기 정착 & `rp-ready`
-- 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:558-560`)
-- `load`와 `document.fonts.ready`에서 `settle()` → 사용자 입력(wheel/touch/key/mouse) 전까지 대상으로 `scrollIntoView({behavior:'instant'})` (`index.html:561-570`)
-- `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (`index.html:31`, `:569`)
-- reduced-motion이면 `#rp-hero-art` SMIL 정지, `#rp-sketch`는 6.6s 지점에서 정지 (`index.html:576-581`)
+- 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:594-596`)
+- `load`와 `document.fonts.ready`에서 `settle()` → 사용자 입력(wheel/touch/key/mouse) 전까지 대상으로 `scrollIntoView({behavior:'instant'})` (`index.html:597-606`)
+- `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (`index.html:31`, `:605`)
+- reduced-motion이면 `#rp-hero-art` SMIL 정지, `#rp-sketch`는 6.6s 지점에서 정지 (`index.html:612-617`)
 ### State Management
-- JS 내부 `state = { step, live, run }` (`index.html:446`) 하나. DOM 측 상태는 클래스(`rp-pin`, `rp-ready`, `is-on`, `is-s0..2`)와 CSS 변수(`--q0..2`). 영속 저장 없음.
+- JS 내부 `state = { step, live, run }` (`index.html:482`) 하나. DOM 측 상태는 클래스(`rp-pin`, `rp-ready`, `is-on`, `is-s0..2`)와 CSS 변수(`--q0..2`). 영속 저장 없음.
 ## Key Abstractions
 
 ### SVG 심볼 + `<use>`
 
 - Purpose: 코스 선·아이콘·지도를 한 번 정의, 여러 곳에서 다른 stroke로 재사용
-- Examples: `index.html:123` `<path id="rp-c-dog" pathLength="1000">`, 사용처 `index.html:281,282,296,312,347`
+- Examples: `index.html:134` `<path id="rp-c-dog" pathLength="1000">`, 사용처 `index.html:292,293,307,323,358`
 - Pattern: 코스 path는 `pathLength="1000"`으로 정규화 → `stroke-dasharray: 1000px`로 진행도 표현. `#rp-c-dog`는 JS의 `getPointAtLength` 기준 경로이기도 함.
 
 ### 진행도 CSS 변수
 
 - Purpose: JS→그림 단방향 데이터 전달
-- Examples: `#story` 초기값 `style="--q0: 1; --q1: 0.62; --q2: 1"` (`index.html:205`) — JS 비활성 시 정지 장면
+- Examples: `#story` 초기값 `style="--q0: 1; --q1: 0.62; --q2: 1"` (`index.html:216`) — JS 비활성 시 정지 장면
 ### 공유 헤더/푸터
 - Purpose: 4페이지 동일 브랜딩. 헤더는 `_includes/header.html`, 푸터는 `_includes/footer.html` 한 벌을 네 페이지가 부른다. 헤더 링크 변형은 include 매개변수(`{% include header.html home=true %}`)로 한다
 - 로고는 법적 페이지에 `<defs>`가 없어 `<use>` 없이 인라인 path로 직접 넣는다 (`_includes/header.html:5`, `_includes/footer.html:7`)
@@ -379,7 +379,7 @@
 ## Architectural Constraints
 
 - **Threading:** 브라우저 메인 스레드 단일. 스크롤 핸들러는 rAF 1프레임 1회로 스로틀.
-- **Global state:** 전역 오염 없음 — 스크립트 전체가 `'use strict'` IIFE (`index.html:430-431`). 법적 페이지에는 스크립트가 없다.
+- **Global state:** 전역 오염 없음 — 스크립트 전체가 `'use strict'` IIFE (`index.html:466-467`). 법적 페이지에는 스크립트가 없다.
 - **Circular imports:** 해당 없음 (모듈 시스템 없음).
 - **절대 경로 의존:** `/favicon/...`, `/terms/`, `/#story`는 커스텀 도메인 루트 전제. `file://` 또는 `slimpumpkin.github.io/<repo>/` 하위 경로에서는 깨짐.
 - **Markup–Script 계약:** 스크립트는 id `story`, `rp-panel`, `rp-run-dot|pct|time|dist|btn|icon|label`, `rp-demo-prog|dot|pct|dist|time|done`, `rp-c-dog`, `rp-hero-art`, `rp-sketch`와 속성 `data-step`(0~2, 글 3 + 폰 화면 3), `data-go`(버튼 3)에 의존. null 체크 없음(`rp-hero-art`/`rp-sketch` 제외) → 하나라도 빠지면 스크립트 전체가 예외로 중단.
@@ -402,7 +402,7 @@
 
 - **What happens:** 법적 본문 요소에 `class`를 붙이거나, `_includes/css/legal.css`에 `.rp-doc` 없이 본문 요소 선택자(`h2`, `p`, `ul`, `table` 등)를 씀. 또는 유틸리티 클래스를 씀
 - **Why it's wrong:** 법적 본문 작성 규칙(`CONVENTIONS.md` 「법적 본문 작성 규칙」) 위반. 범위 없는 요소 규칙은 사이트 머리말·바닥글로 새고, `common.css`에 넣으면 랜딩까지 바뀜. 모든 페이지가 Tailwind 없이 직접 쓴 CSS라 유틸리티 클래스는 효과가 없음
-- **Do this instead:** 본문은 클래스 없는 허용 요소만 씀. 새 모양은 `_includes/css/legal.css`에 `.rp-doc` 아래 규칙으로 더하고, 허용 요소 목록(legal.css 맨 위 주석, `CONVENTIONS.md`)도 함께 고침. 랜딩 스타일은 「랜딩 전용」 블록(`index.html:29` 이후)에 `.rp-*` 클래스로, 좁은 화면 규칙은 `@media (max-width: 860px)` (`index.html:100`)에.
+- **Do this instead:** 본문은 클래스 없는 허용 요소만 씀. 새 모양은 `_includes/css/legal.css`에 `.rp-doc` 아래 규칙으로 더하고, 허용 요소 목록(legal.css 맨 위 주석, `CONVENTIONS.md`)도 함께 고침. 랜딩 스타일은 「랜딩 전용」 블록(`index.html:29` 이후)에 `.rp-*` 클래스로, 좁은 화면 규칙은 `@media (max-width: 860px)` (`index.html:109`)에.
 ### JS에서 그림 속성 직접 조작
 - **What happens:** story 그림 요소의 style을 스크립트가 개별 설정
 - **Why it's wrong:** 기존 패턴은 `--q*` 변수만 쓰고 CSS가 반응; 분산되면 무-JS 기본 장면도 깨짐
@@ -412,8 +412,8 @@
 - **Strategy:** 방어적 try/catch로 조용히 폴백 (기능 저하 허용)
 
 ### Patterns
-- `moveTo()`의 `getPointAtLength` 실패 시 점을 출발점에 둠 (`index.html:459-464`)
-- 깨진 해시 `decodeURIComponent` 실패 무시 (`index.html:560`)
+- `moveTo()`의 `getPointAtLength` 실패 시 점을 출발점에 둠 (`index.html:495-500`)
+- 깨진 해시 `decodeURIComponent` 실패 무시 (`index.html:596`)
 - `scrollIntoView({behavior:'instant'})` 미지원 시 `scrollIntoView(true)` 폴백
 - `window.matchMedia`, `document.fonts`, `performance.getEntriesByType`, `pauseAnimations` 존재 여부 확인 후 사용
 
