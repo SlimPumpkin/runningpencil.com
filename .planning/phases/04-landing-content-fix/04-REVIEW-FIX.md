@@ -1,92 +1,95 @@
 ---
 phase: 04-landing-content-fix
-fixed_at: 2026-11-18T08:58:50Z
+fixed_at: 2026-11-18T09:30:31Z
 review_path: .planning/phases/04-landing-content-fix/04-REVIEW.md
 iteration: 1
-findings_in_scope: 6
-fixed: 5
-skipped: 1
-status: partial
+findings_in_scope: 3
+fixed: 3
+skipped: 0
+status: all_fixed
 ---
 
-# Phase 4: Code Review Fix Report
+# Phase 4: Code Review Fix Report (재검토 수정)
 
-**Fixed at:** 2026-11-18T08:58:50Z
-**Source review:** .planning/phases/04-landing-content-fix/04-REVIEW.md
+**Fixed at:** 2026-11-18T09:30:31Z
+**Source review:** .planning/phases/04-landing-content-fix/04-REVIEW.md (재검토, IN-06~IN-08)
 **Iteration:** 1
 
 **Summary:**
-- Findings in scope: 6 (fix_scope: all)
-- Fixed: 5 (WR-01, IN-01, IN-02, IN-03, IN-04)
-- Skipped: 1 (IN-05: 사용자 예외로 이미 기록된 위험)
+- Findings in scope: 3 (fix_scope: all, IN-06·IN-07·IN-08)
+- Fixed: 3 (IN-06, IN-08, IN-07)
+- Skipped: 0
 
-**작업 위치:** `workflow.use_worktrees=false`라서 worktree 없이 메인 체크아웃(`main`)에서 고치고 커밋했습니다. 아래 확인 명령은 모두 메인 체크아웃에서 돌렸습니다. push는 하지 않았습니다. 커밋은 `gsd_run query commit` 대신 `git commit`으로 했습니다. 오케스트레이터가 지정한 두 줄(Co-Authored-By, Claude-Session)을 메시지 끝에 붙이려고 그렇게 했습니다. 5건을 고쳤고 커밋은 6개입니다. IN-04가 내용 커밋과 문서 커밋 두 개라서 하나가 많습니다.
+이 파일은 첫 리뷰의 수정 보고서(WR-01, IN-01~IN-05)를 덮어씁니다. 그 보고서는 `8938727`에 커밋되어 있고, 처리 결정은 `04-REVIEW-DISPOSITION.md`에 남아 있습니다.
 
-**적용 순서:** 오케스트레이터 지시대로 IN-01 → IN-02 → IN-03 → IN-04 → WR-01 순서입니다. WR-01은 IN-04의 이름 변경 뒤에 줄 번호를 확정하려고 마지막에 했습니다 (IN-04는 줄 수를 바꾸지 않았습니다).
+**작업 위치:** `workflow.use_worktrees=false`라서 worktree를 만들지 않고 메인 체크아웃(`main`)에서 고치고 커밋했습니다. 아래 확인 명령(`scripts/check-site.sh`, grep, node 계산)도 모두 메인 체크아웃에서 돌렸습니다. push는 하지 않았습니다. 커밋은 `gsd_run query commit`이 아니라 `git commit <경로>`로 했습니다. 오케스트레이터가 지정한 두 줄(Co-Authored-By, Claude-Session)을 메시지 끝에 붙이기 위해서입니다. 3건을 고쳤고 커밋은 5개입니다. IN-06은 내용 커밋과 문서 커밋으로 나눴고, IN-08은 고정점 일부를 grep으로 찾히게 다듬는 후속 커밋이 하나 더 있습니다. IN-07은 동작을 바꾸지 않는 정리라서 `fix(04)` 대신 `refactor(04)` prefix를 썼습니다. 에이전트 규칙의 `fix({phase}): {id}` 형식과 다릅니다.
+
+**적용 순서:** IN-06 → IN-08 → IN-07입니다. IN-07은 necessity finding이라 마지막에 했습니다. IN-06은 같은 줄 안의 값만 바꾸고 줄 수(622)는 그대로이므로 IN-08의 고정점에 영향을 주지 않습니다.
+
+**최종 확인:** 모든 커밋 뒤 `scripts/check-site.sh HEAD` → `check-site: 통과 (커밋 dd0c710d1597, jekyll 3.10.0)`. 작업 트리에는 커밋하지 않은 이 보고서 파일 말고 변경이 없습니다.
 
 ## Fixed Issues
 
-### IN-01: 점검 6번 항목의 `포인트`가 「체크포인트」 같은 다른 낱말에도 걸림 (오탐)
+### IN-06: 코스 이름을 「강아지런」으로 맞춘 뒤, 목업의 8.3 km가 같은 페이지 캡처의 숫자와 다름
+
+**Files modified:** `index.html` (내용 커밋), `.planning/codebase/CONVENTIONS.md`·`ARCHITECTURE.md`·`TESTING.md`·`.claude/CLAUDE.md` (재생성) (문서 커밋)
+**Commit:** db064f3 (index.html), 9530f10 (문서)
+**Status:** fixed: requires human verification (화면에 보이는 숫자 변경이라 눈으로 한 번 확인할 것)
+**값의 출처:** 강아지런의 거리 7.84 km는 사용자가 2026-11-18에 직접 확인한 값입니다. REVIEW.md에는 「확인되지 않음」으로 적혀 있지만, 이 확인으로 값이 정해졌습니다. 표기는 사용자가 준 그대로 `7.84 km`이고 `7.8`로 줄이지 않았습니다.
+**Applied fix:** 거리와 거기서 나오는 시간을 함께 바꿨습니다.
+
+| 위치 | 바꾸기 전 | 바꾼 뒤 | 근거 |
+|---|---|---|---|
+| `:286` 목업 「코스 그리기」 | `8.3 km` | `7.84 km` | 사용자 확인값 |
+| `:353` 목업 결과 거리 | `8.30 km` | `7.84 km` | 사용자 확인값 |
+| `:379` 「달려 보기」 강아지런 딱지 | `8.3 km` | `7.84 km` | 사용자 확인값 |
+| `:479` `var KM` | `8.3` | `7.84` | 사용자 확인값 (주석 열 위치는 그대로) |
+| `:334` `#rp-run-dist` 정적 초기값 | `5.15 km` | `4.86 km` | `(7.84 × 0.62).toFixed(2)` |
+| `:333` `#rp-run-time` 정적 초기값 | `39:27` | `37:16` | `clock(4.8608 × 460)` |
+| `:352` 결과 「움직인 시간」 | `1:03:38` | `1:00:06` | `clock(7.84 × 460)` |
+| `:351` 결과 「총 시간」 | `1:06:12` | `1:02:40` | 목업 값 (아래 참고) |
+
+- 「총 시간」 `1:02:40`은 계산식이 없는 목업 값입니다. 기존 「총 시간 − 움직인 시간」 차이 154초를 그대로 두고 임의로 맞췄습니다 (3606초 + 154초).
+- 그대로 둔 것: 평균 페이스 `7'40"/km`(`:335`, `:354`), `62 %`, 「달려 보기」 정적 표시 `00:00`·`0.00 km`(끝 시간은 JS가 `KM × 390`으로 계산해 `50:58`), 「실제 앱 화면」 캡처와 alt 문구(`:419`의 6.5 km, `:423`의 16%·1.34 km).
+- 문서 커밋: 원본 `CONVENTIONS.md:35`, `ARCHITECTURE.md:88`, `TESTING.md:91`의 `KM = 8.3`을 `7.84`로 고치고 `generate-claude-md`로 `.claude/CLAUDE.md`를 다시 만들었습니다. 루트 `CLAUDE.md`에는 8.3이 없었습니다. `.planning/phases/` 아래 지난 기록은 고치지 않았습니다.
+**확인:**
+- 편집 전에 `index.html`의 거리·시간·퍼센트 리터럴을 모두 뽑아 분류했습니다 (`grep -n -o -E '[0-9]+(\.[0-9]+)? ?km|[0-9]+:[0-9]{2}(:[0-9]{2})?|[0-9]+ ?%'`). 위 표 말고 거리에서 나오는 정적 값은 없었습니다 (예: `53:57` 같은 값은 없음).
+- 같은 계산을 바꾸기 전 값에 돌리면 원래 값(`5.15`, `39:27`, `1:03:38`)이 그대로 나와서 계산 방법이 맞다는 것을 확인했습니다.
+- 편집한 `index.html`에서 `KM`, `clock()`, `--q1`을 직접 뽑아 node로 다시 계산했습니다. `runDist 4.86 km`, `runTime 37:16`, `62 %`, 움직인 시간 `1:00:06`, demo 끝 `50:58`이 나왔고, 정적 초기값 `#rp-run-dist`·`#rp-run-time`·`#rp-run-pct`와 같았습니다.
+- `grep -n -E '(^|[^0-9.])8\.3([^0-9]|$)|8\.30|5\.15|39:27|1:03:38|1:06:12' index.html` → 0건 (exit 1). 모든 커밋 뒤 `git grep -n -E '(^|[^0-9.])8\.3([^0-9]|$)|5\.15|39:27|1:03:38|1:06:12' -- ':!.planning/phases'` → 0건 (exit 1). 옛 거리와 거기서 나온 값이 `.planning/phases` 밖 어디에도 남지 않았습니다.
+- 커밋 전 `scripts/check-site.sh` → 통과. 줄 수 622 그대로.
+- 생성기 멱등성: 고치기 전 깨끗한 트리에서 `generate-claude-md`를 돌려 diff가 비는 것을 확인했고, 고친 뒤 `.claude/CLAUDE.md` 변경은 KM 두 줄뿐이었습니다.
+
+### IN-08: 줄 번호를 절대값으로 적는 방식이 남아 있어 다음 `index.html` 수정 때 다시 어긋남
+
+**Files modified:** `.planning/codebase/ARCHITECTURE.md`, `.planning/codebase/CONVENTIONS.md`, `.claude/CLAUDE.md` (재생성)
+**Commit:** 61391b3 (고정점으로 바꿈), dd0c710 (후속: grep -F로 찾히지 않던 고정점 4개 정리)
+**Applied fix:** 원본 `ARCHITECTURE.md`에 있던 `index.html` 줄 번호를 모두(약 40개) 고정점으로 바꿨습니다. 고정점은 include 태그(`{% include footer.html %}` 등), 구획 머리 주석(`/* ── 랜딩 전용 ── */`, `// ── 연결 ──`), 함수 이름(`function paintStory()` 등), 요소 시작 태그(`<section id="story">`, `<body id="top">`)입니다. `CONVENTIONS.md:30`의 「약 464행」은 「`</body>` 앞 `<script>`」로 바꿨습니다. `ARCHITECTURE.md`의 System Overview 목록 끝에 위치 표기 규칙을 한 줄 더했습니다 (「`index.html` 안의 위치는 줄 번호 대신 고정점으로 적고 `grep -n -F`로 찾는다」). 처음에는 이 규칙을 표 앞 문단으로 넣었는데, 생성기가 일반 문단을 빼서 `.claude/CLAUDE.md`에 들어가지 않았습니다. 그래서 목록 항목으로 옮겼습니다. 그 뒤 `generate-claude-md`로 다시 만들었습니다.
+- 「`rp-c-dog` 사용처」는 원래 번호 목록(`292,293,307,323,358`)이 실제 18곳 가운데 일부만 적고 있었습니다. 그래서 `grep -n -F 'href="#rp-c-dog"' index.html` 명령으로 바꿨습니다.
+- 다른 파일을 가리키는 줄 번호(`_layouts/legal.html:14/16/18/23/40`, `_includes/css/legal.css:5/9`, `_includes/header.html:5`, `_includes/footer.html:7`)는 이 finding의 대상이 아니라서 그대로 두었습니다. 위치 표기 규칙 문장에도 그렇게 적었습니다.
+- **남겨 둔 것:** `.planning/codebase/STRUCTURE.md`(`:21`~`:464` 등)와 `CONCERNS.md`(`index.html:428-573` 등, 일부는 이미 낡음)에도 `index.html` 줄 번호가 있습니다. 이 둘은 `.claude/CLAUDE.md`를 만드는 원본이 아니고 이 finding에 들어 있지 않습니다. 첫 수정 때처럼 deferred로 두었습니다. `deferred-items.md`에서 지금 open인 CONCERNS 항목은 줄 번호가 아니라 랜딩 크기·줄 수(「72KB, 586줄」)에 관한 것이라, 이 줄 번호들은 따로 기록되어 있지 않습니다.
+**확인:**
+- 커밋된 원본에서 더한 줄의 백틱 문자열을 모두 뽑아 `grep -c -F`로 `index.html`에서 셌습니다. 처음 커밋(61391b3)에는 실제 줄과 글자가 달라 0건이 나오는 고정점이 4개 있었습니다: `<section id="story">`(2곳), `<path id="rp-c-dog" pathLength="1000">`, `window.addEventListener('scroll', …)`, `window.addEventListener('load', …)`. 후속 커밋(dd0c710)에서 실제 줄 앞부분(`<section id="story"`, `window.addEventListener('scroll'` 등)으로 바꿨고, 지금은 각각 1건입니다. 위치를 가리키는 다른 고정점도 모두 1건입니다. 여러 번 나오는 것은 묶음으로 가리킨다고 문장에 적었습니다: `.rp-pin .rp-scrolly` 규칙들, `story.style.setProperty` 세 줄, `pauseAnimations()` 두 줄. `html.rp-ready`는 두 규칙(smooth, reduced-motion의 auto)이 있어서 `html.rp-ready { scroll-behavior: smooth; }` 전체를 적었습니다.
+- `grep -n -E 'index\.html:[0-9]|약 [0-9]+행'` → `ARCHITECTURE.md`, `CONVENTIONS.md`, `.claude/CLAUDE.md`, 루트 `CLAUDE.md`에서 0건.
+- `.claude/CLAUDE.md`의 변경 hunk는 모두 132~419행에 있습니다. 이 범위는 conventions·architecture 생성 구간(109~427행)이고, skills·workflow·profile 구간에는 변경이 없습니다.
+- 「이번 마일스톤 방침」 구간(제목부터 「마지막 규칙(데이터 목록)…」 문단까지 29줄)을 루트 `CLAUDE.md`와 `.claude/CLAUDE.md`에서 뽑아 `diff`했습니다. 두 커밋 뒤 모두 차이가 없습니다.
+
+### IN-07: 점검 6번 항목의 허용 목록이 두 곳에 나뉘어 있음 (necessity)
 
 **Files modified:** `scripts/check-site.sh`
-**Commit:** f46c3ca
-**Applied fix:** 줄 단위 `grep -c`를 낱말 단위 계산으로 바꿨습니다: `grep -o -E '(체크|엔드)?포인트|굿즈|코스북' | grep -v -x -E '체크포인트|엔드포인트' | wc -l`. REVIEW.md가 예로 든 줄 단위 `grep -v` 필터는 쓰지 않았습니다 (한 줄에 「체크포인트」와 맨 「포인트」가 같이 있으면 그 줄 전체가 빠집니다). 허용 낱말을 더할 때 접두어 묶음과 허용 목록 두 곳에 함께 더한다는 주석을 남겼습니다. 변수 이름(`u10`)과 종료 코드 흐름은 그대로입니다. 메시지의 단위만 「줄」에서 「곳」으로 바꿨습니다. 이제 세는 대상이 줄이 아니라 낱말이라서, 「줄」로 두면 틀린 단위가 됩니다.
-**확인:**
-- 스크래치 HTML로 시험: 맨 「포인트」만 있음 → 1, 「체크포인트」만 있음 → 0, 둘이 한 줄에 같이 있음 → 1, 「엔드포인트, 굿즈, 코스북」 → 2, 아무것도 없음 → 0. `LC_ALL=C`와 `LC_ALL=en_US.UTF-8`에서 결과가 같았습니다.
-- `bash -n scripts/check-site.sh` 통과, `scripts/check-site.sh` → `check-site: 통과 (작업 트리, jekyll 3.10.0)`.
-
-### IN-02: 점검 스크립트의 랜딩 제목 주석이 Phase 4 완료 뒤에도 「Phase 4에서 바뀔 수 있다」고 함
-
-**Files modified:** `scripts/check-site.sh`
-**Commit:** 86a5704
-**Applied fix:** 16행 주석을 「법적 URL 3개의 제목은 Ground Rule로 고정한다. 랜딩 제목을 바꾸는 단계가 이 값도 고친다.」로 바꿔 단계 번호를 뺐습니다. IN-01과 같은 파일이지만 따로 커밋했습니다.
-**확인:** `bash -n` 통과, `scripts/check-site.sh` → 통과.
-
-### IN-03: 넓은 화면에서 `.rp-shots`의 `tabindex="0"`이 기능 없는 탭 멈춤 자리가 됨
-
-**Files modified:** `.planning/codebase/CONVENTIONS.md`, `.claude/CLAUDE.md` (재생성)
-**Commit:** 7527e78
-**Applied fix:** 문서로 처리했습니다. `CONVENTIONS.md`의 「실제 앱 화면」 띠 설명 줄 끝에 「넓은 화면(860px 초과)에서는 밀 것이 없어도 띠가 탭 멈춤 자리로 하나 남는다. 「실제 앱 화면」 구간은 스크립트를 쓰지 않는 방침이라 그대로 둔다.」를 더했습니다. 그 뒤 `generate-claude-md`로 `.claude/CLAUDE.md`를 다시 만들었습니다. JS로 `tabindex`를 붙였다 떼는 방법은 쓰지 않았습니다. 이 구간은 스크립트를 쓰지 않는다는 결정과 어긋나기 때문입니다. `index.html`은 바꾸지 않았습니다.
-**확인:** 고치기 전에 재생성을 한 번 돌려 `git diff`가 비는 것(멱등)을 확인했습니다. 고친 뒤 `git diff -U0 .claude/CLAUDE.md`를 보니 161행 한 줄만 바뀌었습니다.
-
-### IN-04: 같은 강아지 모양 코스가 랜딩 목업에서는 「댕댕런」, 실제 캡처에서는 「강아지런」
-
-**Files modified:** `index.html` (내용 커밋), `CLAUDE.md`·`.planning/codebase/INTEGRATIONS.md` (docs 커밋)
-**Commit:** 270b880 (index.html), b3eb0db (문서)
-**Applied fix:** 사용자 결정에 따라 「강아지런」으로 통일했습니다. `index.html`의 9곳을 바꿨습니다: 히어로 aria-label, 목업 제목, 목업 뱃지 문구, 「달려 보기」 칩·지도 aria-label·완료 문구, 스케치 aria-label, 스크립트 주석 2곳. 이름 말고는 바꾸지 않았습니다 (`KM = 8.3`, 시간, 그림 그대로). 문서 커밋은 따로 했습니다. 바꾼 곳은 루트 `CLAUDE.md` 2곳(달려 보기 설명, 푸터 설명. 둘 다 「이번 마일스톤 방침」 구간 밖)과 `INTEGRATIONS.md` 1곳입니다. `.planning/phases/` 아래 과거 기록은 그대로 두었습니다.
-**확인:**
-- `diff <(git show HEAD:index.html | sed 's/댕댕런/강아지런/g') index.html` → 같음. 이름 말고 바뀐 곳이 없고, 줄 수도 622로 그대로입니다.
-- `scripts/check-site.sh` → 통과 (index.html 커밋 전).
-- `git grep -n 댕댕런 -- ':!.planning/phases'` → 결과 없음 (exit 1).
-
-### WR-01: `.claude/CLAUDE.md`의 `index.html` 줄 번호가 이번 단계의 줄 이동을 반영하지 않음
-
-**Files modified:** `.planning/codebase/ARCHITECTURE.md`, `.planning/codebase/CONVENTIONS.md`, `.claude/CLAUDE.md` (재생성), `.planning/phases/04-landing-content-fix/deferred-items.md`
-**Commit:** 8d3d2d9
-**Applied fix:** 일정한 값을 더하지 않았습니다. 기준 커밋(`0bfe5b2`)에서 각 번호가 가리키던 내용을 확인한 뒤, 현재 HEAD에서 `grep -n`으로 같은 내용을 하나씩 다시 찾았습니다. 바꾼 번호는 다음과 같습니다.
-- Component 표: 헤더 153→164, 푸터 426→462, 「랜딩 전용」 CSS 29-115→29-126, SVG `<defs>` 121-151→132-162, 스크립트 428-583→464-619
-- Layers: 마크업 119-427→130-463, 스크립트 428-583→464-619
-- Data Flow: CSS rp-pin 66-84→65-83, scroll 551-554→587-590, paintStory 485-505→521-541, setProperty 496-498→532-534, `--q*` 사용처 281-347→292-358, setStep 467-476→503-512, goStep 507-515→543-551, syncLive 479-482→515-518, startRun 533-544→569-580, setRun 526-531→562-567, hash 558-560→594-596, settle 561-570→597-606, rp-ready `:569`→`:605`, reduced-motion 576-581→612-617
-- State 446→482, rp-c-dog path 123→134, 사용처 281,282,296,312,347→292,293,307,323,358, `#story` 205→216, `'use strict'` 430-431→466-467, `@media (max-width: 860px)` 100→109, moveTo 459-464→495-500, decodeURIComponent 560→596
-- 바뀌지 않은 번호 (확인함): 21, 22-25, 24, 27, 29, 31
-- CONVENTIONS.md: 「약 428행」→「약 464행」
-
-같은 커밋에서 `deferred-items.md`의 첫 두 항목(ARCHITECTURE 행 번호, CONVENTIONS 「약 428행」)을 `status: resolved`로 바꿨습니다. CONCERNS·TESTING 항목은 `open`으로 두었습니다. CONCERNS.md·STRUCTURE.md·TESTING.md는 건드리지 않았습니다.
-**확인:**
-- 범위 끝 줄도 확인했습니다 (500·512·518·541·551·567·580·617은 `}`, 590은 `}, { passive: true });`, 463은 빈 줄, 126은 미디어 블록의 `}`, 162는 `</svg>`).
-- `diff <(git show HEAD:.claude/CLAUDE.md | sed -E 's/[0-9]+/N/g') <(sed -E 's/[0-9]+/N/g' .claude/CLAUDE.md)` → 같음. 재생성 결과에서 숫자 말고는 바뀐 것이 없습니다. ARCHITECTURE.md도 같은 방법으로 확인했습니다. 바뀐 hunk는 132행부터라서 「이번 마일스톤 방침」 구간과 skills·workflow·profile 구간에는 변경이 없습니다.
-- `scripts/check-site.sh HEAD` → `check-site: 통과 (커밋 8d3d2d9f49f7, jekyll 3.10.0)`.
-
-## Skipped Issues
-
-### IN-05: `screen-badge-*.webp` 캡처에서 NAVER 로고가 앱의 뱃지 창에 일부 가려짐
-
-**File:** `images/app/screen-badge-564.webp`, `images/app/screen-badge-846.webp` (사용처 `index.html:427` 부근)
-**Reason:** 오케스트레이터 지시로 고치지 않았습니다. 사용자 예외로 이미 기록된 위험이고, 근거는 세 곳에 있습니다: `04-CONTEXT.md` D-20(캡처 검토 뒤 사용자 결정), `04-SECURITY.md` AR-04-02, `04-EVIDENCE.md`의 `WAIVER badge logo`. 세 문서 모두에 해당 기록이 있는지 grep으로 확인했습니다.
-**Original issue:** 뱃지 캡처의 지도 왼쪽 아래 NAVER 로고가 앱의 반투명 덮개와 뱃지 창에 걸려 「NAV」까지만 보입니다. 지도 SDK 이용 조건이 로고 전체 노출을 요구하면 이 캡처가 그 기준에 못 미칠 수 있습니다 (확인되지 않은 판단).
+**Commit:** 8432d96
+**Status:** fixed: requires human verification (necessity finding. 고른 방법을 사람이 확인할 것)
+**Applied fix:** REVIEW.md의 두 방법 가운데 (나)를 골랐습니다. 허용 접두어를 변수 `U10_ALLOW_PREFIX='체크|엔드'` 하나에 두고, 잡는 grep(`"(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북"`)과 빼는 grep(`"(${U10_ALLOW_PREFIX})포인트"`)이 함께 씁니다. 두 목록이 어긋나는 문제를 이렇게 없앴습니다. 주석도 「두 곳에 함께 더한다」에서 「`U10_ALLOW_PREFIX` 한 곳에만 둔다」로 바꿨습니다.
+**(나)를 고른 이유:** (가)는 허용 목록을 빼서 단순한 형태로 되돌리는 방법입니다. 그러면 「체크포인트」가 다시 걸립니다. 첫 리뷰의 IN-01은 바로 그 오탐을 고친 것이고 `04-REVIEW-DISPOSITION.md`에 `fixed`로 기록되어 있습니다. 재검토도 그 결정을 뒤집으려는 것이 아니라고 적었습니다. (나)는 동작을 바꾸지 않고, 이 finding이 짚은 실제 위험(두 목록 중 한쪽만 고침)만 없앱니다. 동작이 같으므로 CLAUDE.md와 원본 문서의 점검 설명(「랜딩 출력에 포인트·굿즈·코스북 없음」)은 고칠 것이 없습니다.
+**확인 (양쪽):**
+- `bash -n scripts/check-site.sh` 통과.
+- 동작이 같은지: 재검토가 쓴 시험 줄 7개(`체크포인트 와 포인트`, `엔드포인트`, `굿즈 코스북`, `포인트포인트`, `체크포인트체크포인트`, `API 엔드 포인트`, `체크포인트`)와 허용 낱말만 있는 파일, 빈 파일로 시험했습니다. `/usr/bin/grep`(BSD)으로 고치기 전과 뒤 파이프라인을 `LC_ALL=C`, `en_US.UTF-8`, `ko_KR.UTF-8`에서 돌렸고 결과가 모두 같았습니다 (6 / 0 / 0).
+- 정상 트리: `scripts/check-site.sh` → `check-site: 통과 (작업 트리, jekyll 3.10.0)`.
+- 일부러 깨뜨린 트리: 랜딩 `<main>` 바로 뒤에 `<p>포인트 굿즈 코스북 체크포인트</p>`를 임시로 넣고 `LC_ALL=C scripts/check-site.sh`를 돌렸습니다. 결과는 `랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html 3곳 (포인트·굿즈·코스북, U10)`, `실패 — 1건`, exit 1입니다. 6번 항목에서 실패했고 빌드 실패는 아닙니다. 「체크포인트」는 세지 않았습니다. 이 시험은 IN-06 커밋 뒤에 했고, 끝난 뒤 `git checkout -- index.html`로 되돌렸습니다. `git diff --quiet index.html`로 되돌린 것을 확인했습니다.
+- 커밋 뒤 `scripts/check-site.sh HEAD` → 통과.
 
 ---
 
-_Fixed: 2026-11-18T08:58:50Z_
+_Fixed: 2026-11-18T09:30:31Z_
 _Fixer: Claude (gsd-code-fixer)_
 _Iteration: 1_
