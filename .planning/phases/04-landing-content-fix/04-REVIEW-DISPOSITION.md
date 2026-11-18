@@ -3,6 +3,22 @@ phase: 04
 review: 04-REVIEW.md
 titles: json
 findings:
+  - id: WR-02
+    severity: warning
+    disposition: open
+    title: "「코스 그리기」 목업의 걷기·달리기·자전거 예상 시간이 옛 거리 8.3 km 기준으로 남음"
+  - id: WR-03
+    severity: warning
+    disposition: open
+    title: "`U10_ALLOW_PREFIX`를 비우거나 형식을 틀리면 점검 6번이 조용히 통과함 (fail-open)"
+  - id: IN-09
+    severity: info
+    disposition: open
+    title: "`.claude/CLAUDE.md`의 `<head>` 순서 설명이 같은 파일의 고정점 표, 그리고 실제 `index.html`과 반대임 (이번 범위 전부터 있던 것)"
+  - id: IN-10
+    severity: info
+    disposition: open
+    title: "「코스 그리기」 목업의 거리 표기 `7.84 km`가 앱 「코스 그리기」 화면의 소수 한 자리 표기와 다를 수 있음 (확인되지 않음)"
   - id: IN-06
     severity: info
     disposition: fixed
@@ -39,18 +55,22 @@ findings:
     severity: info
     disposition: skipped
     title: "`screen-badge-*.webp` 캡처에서 NAVER 로고가 앱의 뱃지 창에 일부 가려짐"
-open: 0
-total: 9
-recorded: 2026-11-18T09:34:30.773Z
+open: 4
+total: 13
+recorded: 2026-11-18T13:25:58.467Z
 ---
 
 # Phase 04: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| IN-06 | info | fixed | 04-REVIEW-FIX.md |
-| IN-07 | info | fixed | 04-REVIEW-FIX.md |
-| IN-08 | info | fixed | 04-REVIEW-FIX.md |
+| WR-02 | warning | open | - |
+| WR-03 | warning | open | - |
+| IN-09 | info | open | - |
+| IN-10 | info | open | - |
+| IN-06 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-07 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-08 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | WR-01 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | IN-01 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | IN-02 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
