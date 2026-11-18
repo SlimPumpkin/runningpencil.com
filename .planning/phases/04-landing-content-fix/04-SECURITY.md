@@ -74,7 +74,7 @@ created: "2026-11-18"
 | T-04-20 | Information Disclosure | 캡처 속 개인 정보(실명·계정 주소·집 근처 위치) | high | mitigate | 시험 계정·시험 경로로 촬영. 04-09 Claude 검토 27항목 `CAPTURE_REVIEW=OK`(사용자 예외 `CAPTURE_WAIVERS=3`은 로고 가림 1건·상태 표시줄 2건으로 개인 정보 아님). 04-11에서 사용자가 검토 줄과 화면을 보고 승인 | closed |
 | T-04-21 | Information Disclosure | EXIF·XMP·ICC 메타데이터 | medium | mitigate | 저장소 WebP 6개 모두 `webpinfo`에서 EXIF·XMP·ICCP 청크 0(재확인) | closed |
 | T-04-22 | Information Disclosure | 캡처 원본과 그 위치(로컬 경로) | medium | mitigate | 원본은 스크래치 사본으로만 씀. 추적 PNG·HEIC 원본 0개, 기록의 로컬 경로 0건(재확인). 04-09 Task 3 verify 재실행 rc=0 | closed |
-| T-04-23 | Repudiation | 네이버 지도 화면 사용의 약관 위험 | medium | mitigate | 진행 조건(로고 미가림, 출처 표기, 제휴 오인 문구 금지)을 지킴: `logo` 검토 항목, 구간 아래 「지도 © NAVER Corp.」, 제휴·공식 문구 0. 남는 법적 해석 위험은 사용자가 받아들였다(아래 Accepted Risks Log AR-04-01) | closed |
+| T-04-23 | Repudiation | 네이버 지도 화면 사용의 약관 위험 | medium | mitigate | 출처 표기(구간 아래 「지도 © NAVER Corp.」)와 제휴 오인 문구 금지(제휴·공식 0)는 지킴. 로고는 ①·②가 온전하다. ③ 완주 결과는 원본에서 앱의 뱃지 창이 로고 오른쪽을 덮고 있어 `logo` 검토 항목이 FAIL이었고, 사용자 예외(D-20, 2026-11-18)로 그대로 쓴다. 웹페이지가 원본보다 더 자르거나 덮지 않는 조건은 지킴(EVIDENCE `WAIVER badge logo`, 04-10 구간 화면 검토). 남는 위험은 아래 Accepted Risks Log의 AR-04-01(약관 해석)과 AR-04-02(③ 로고 가림) | closed |
 | T-04-24 | Repudiation | 지도 출처 줄이 `#get`에 가려져 표기하지 않은 것처럼 보임 | medium | mitigate | 라이브 `p4-shots.mjs` (e) 두 엔진 × 두 폭 통과(04-13 판정표 `PASS shots`) | closed |
 | T-04-25 | Denial of Service | 새 구간이 랜딩 스크립트 계약을 깸 | medium | mitigate | 새 이름 `rp-shots*`·`screens`는 스크립트 계약 이름과 겹치지 않음. 04-10 Task 2 verify(스크립트 블록 바이트 동일·`PASS behave`) 재실행 rc=0. 라이브 `PASS behave` | closed |
 | T-04-26 | Spoofing | 네이버와 제휴한 것처럼 보이는 문구 | medium | mitigate | HEAD `#screens` 구간에 「제휴」「공식」 0, 출처는 저작권 귀속 꼴 「지도 © NAVER Corp.」(재확인). `p4-shots.mjs` (f) 통과 | closed |
@@ -98,7 +98,8 @@ created: "2026-11-18"
 
 | Risk ID | Threat Ref | Rationale | Accepted By | Date |
 |---------|------------|-----------|-------------|------|
-| AR-04-01 | T-04-23 | 연구에서 캡처 사용을 직접 다룬 NAVER 약관 조항을 찾지 못했다. 다만 Maps 약관 제7조 ⑨⑪을 넓게 읽으면 걸릴 여지가 있다. 진행 조건 셋(로고 미가림, 출처 표기, 제휴 오인 문구 금지)은 구현으로 지켰다. 서면 문의는 하지 않았고, 네이버가 지정 표시를 요청하면 그 표시로 바꾼다 (`04-CONTEXT.md` D-20 「연구 뒤 사용자 결정」) | 사용자 (plan-phase 결정 「위험을 알고 진행」) | 2026-11-17 |
+| AR-04-01 | T-04-23 | 연구에서 캡처 사용을 직접 다룬 NAVER 약관 조항을 찾지 못했다. 다만 Maps 약관 제7조 ⑨⑪을 넓게 읽으면 걸릴 여지가 있다. 서면 문의는 하지 않았고, 네이버가 지정 표시를 요청하면 그 표시로 바꾼다. 진행 조건 가운데 출처 표기와 제휴 오인 문구 금지는 구현으로 지켰고, 로고 조건은 ③에서 AR-04-02의 예외가 있다 (`04-CONTEXT.md` D-20 「연구 뒤 사용자 결정」) | 사용자 (plan-phase 결정 「위험을 알고 진행」) | 2026-11-17 |
+| AR-04-02 | T-04-23 | ③ 완주 결과 원본에서 앱의 뱃지 창이 지도 왼쪽 아래 NAVER 로고의 오른쪽을 덮는다(앞 세 글자만 보임). 웹페이지가 자르거나 덮은 것이 아니라 앱 화면 자체의 모습이다. NAVER 지도 SDK 가이드는 로고가 앱 UI 요소에 가려지지 않게 하라고 한다(`04-RESEARCH.md` Q3). 사용자는 이 문장과 위험을 들은 뒤 그대로 쓰기로 했다. 앱에서 로고나 뱃지 창 위치를 고치면 badge만 다시 찍어 바꾼다 (`04-CONTEXT.md` D-20 「캡처 검토 뒤 사용자 결정」, EVIDENCE `WAIVER badge logo`) | 사용자 (04-09 Task 3 캡처 검토 뒤 결정) | 2026-11-18 |
 
 *Accepted risks do not resurface in future audit runs.*
 

@@ -117,7 +117,7 @@ validated: "2026-11-18"
 - 계획 13개의 `<automated>` verify 38개를 HEAD에서 다시 돌려 37개 rc=0. 나머지 1개(04-11 T3-1)는 위 주처럼 04-12의 계획된 문서 커밋에 대체된 시점 조건이고, 나머지 조건은 모두 통과한다
 - 라이브 판정 행(SC1~SC3)은 04-13이 마지막 푸시 뒤 라이브에서 다시 돌린 판정표로 뒷받침된다 (`PHASE4_SC=OK`)
 
-일회용 행은 EVIDENCE 표식으로 뒷받침된다: `BEHAVE_BASE=OK`, `BEHAVE_NEG=OK`, `C1_OK=OK`, `C2_OK=OK`, `CHECK6=OK`, `DOCS1_STALE=OK`, `DOCS2_STALE=OK`, `PIPE_TRACE=OK`, `CAPTURE_REVIEW=OK`(사용자 예외 `CAPTURE_WAIVERS=3`), `IMG_OK=OK`, `SHOTS_OK=OK`, `LIVE_PUSH1=OK`, `LIVE_PUSH2=OK`, `LIVE_PUSH3=OK`, `LIVE_PUSH4=OK`, `PHASE4_SC=OK`. 위 Manual-Only 두 행(캡처 내용, NAVER 로고)은 04-09 캡처 검토와 04-11 사용자 승인으로 판정했고, 실기기·화면 낭독기 확인은 단계 끝 사람 확인으로 넘긴다 (04-13 SUMMARY).
+일회용 행은 EVIDENCE 표식으로 뒷받침된다: `BEHAVE_BASE=OK`, `BEHAVE_NEG=OK`, `C1_OK=OK`, `C2_OK=OK`, `CHECK6=OK`, `DOCS1_STALE=OK`, `DOCS2_STALE=OK`, `PIPE_TRACE=OK`, `CAPTURE_REVIEW=OK`(사용자 예외 `CAPTURE_WAIVERS=3`), `IMG_OK=OK`, `SHOTS_OK=OK`, `LIVE_PUSH1=OK`, `LIVE_PUSH2=OK`, `LIVE_PUSH3=OK`, `LIVE_PUSH4=OK`, `PHASE4_SC=OK`. 위 Manual-Only 두 행(캡처 내용, NAVER 로고)은 04-09 캡처 검토와 04-11 사용자 승인으로 판정했고(③ 완주 결과의 로고는 원본에서 앱의 뱃지 창에 덮여 있어 사용자 예외 D-20으로 통과, EVIDENCE `WAIVER badge logo`), 실기기·화면 낭독기 확인은 단계 끝 사람 확인으로 넘긴다 (04-13 SUMMARY).
 
 ## Validation Audit 2026-11-18
 
