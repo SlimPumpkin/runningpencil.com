@@ -110,6 +110,7 @@ created: "2026-11-18"
 | Audit Date | Threats Total | Closed | Open | Run By |
 |------------|---------------|--------|------|--------|
 | 2026-11-18 | 35 | 35 | 0 | secure-phase 오케스트레이터 (ASVS L1, auditor 생략: threats_open 0 + 계획 시점 register + L1) |
+| 2026-11-18 (재감사, HEAD `65c0c3970dae`) | 35 | 35 | 0 | secure-phase 오케스트레이터. 코드 리뷰 수정(IN-01~IN-08)이 닿은 위협만 다시 확인: T-04-06 세 낱말·실루엣·「채울 뱃지」 0, T-04-07·08·25 `PASS behave`(두 엔진 × 세 문맥), T-04-09 `c3` 대비 새 hex 0, T-04-14·15 check-site 통과·`bash -n`·훅 100755·기준 커밋 음성 대조(6번 항목 「/index.html 5곳」 실패), T-04-16·17·31 재생성 사본 바이트 동일·방침 구간 두 사본 동일, T-04-21 WebP 메타 0, T-04-33 `origin/main == 9cc14903adbd`(뒤 로컬 커밋은 나가지 않음) |
 
 ---
 
