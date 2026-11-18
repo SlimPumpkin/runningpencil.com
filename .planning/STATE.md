@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-10-PLAN.md
-last_updated: "2026-11-18T06:07:33.592Z"
+stopped_at: Completed 04-11-PLAN.md
+last_updated: "2026-11-18T06:45:42.474Z"
 last_activity: 2026-11-18
-last_activity_desc: 04-10 완료 — 스크린샷 구간 후보 판정 (CAND3, 브랜치 밖)
-state_head: e1716ea07c83d3ad719d98e05ccf8af7a3757e52
+last_activity_desc: 04-11 완료 — 스크린샷 구간 C3(95062367dc69) 푸시, LIVE_PUSH3=OK
+state_head: c8df2f18abffbcd3064ce9f668aa15ac364668aa
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 39
+  completed_plans: 40
   percent: 30
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 11 of 13
+Plan: 12 of 13
 Status: Ready to execute
-Last activity: 2026-11-18 — 04-10 완료 (스크린샷 구간 후보 CAND3 판정 통과, 커밋·푸시 없음, 작업 트리 되돌림). 다음은 04-11 스크린샷 푸시(사용자 승인)
+Last activity: 2026-11-18 — 04-11 완료 (승인받은 스크린샷 구간 커밋 C3 푸시, 로컬 main fast-forward, 라이브 HTTP·WebP·PASS shots·PASS behave). 다음은 04-12 D-24 문서
 
 Progress: [███░░░░░░░] 30%
 
@@ -97,6 +97,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P08 | 15min | 3 tasks | 2 files |
 | Phase 04 P09 | 32min | 3 tasks | 3 files |
 | Phase 04 P10 | 10min | 2 tasks | 2 files |
+| Phase 04 P11 | 21min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -192,6 +193,8 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-09 → 04-10·04-11 인계(`04-09-SUMMARY.md` 「04-10과 04-11이 알아야 할 것」): ALT run의 `"`는 `alt` 속성에서 `&quot;`로 적음. 04-11 승인 화면에는 `REVIEW` 27줄과 함께 `ORIG_REVIEW`·`WAIVER` 각 3줄도 보임. 04-11 retake 때 `CAPTURE_WAIVERS=`에도 `RETAKE<n>_`을 붙임. badge의 「로고가 잘리지 않았다」 문구는 CONTEXT D-20 덧붙임(원본보다 더 깎지 않음)으로 판정
 - [Phase 04]: 04-10: 스크린샷 구간 후보 CAND3(56fd3bb79160)는 두 엔진 × 두 폭 판정과 기존 동작을 통과했지만 커밋하지 않았다. 어떤 ref에도 붙지 않은 객체로만 두고 작업 트리를 SHOTS_BASE로 되돌렸다. main에는 04-11 승인 뒤에만 들어간다(D-19)
 - [Phase 04]: 04-10: 첫 판정에서 모두 통과해 CSS를 고치지 않았다(375 띠 끝 여백 20px, 그림 반경 37px 그대로, NAVER 로고가 둥근 모서리에서 멀어 깎이지 않음)
+- [Phase 04]: 04-11: 사용자가 승인한 스크린샷 구간 커밋 C3(95062367dc69) 하나만 원격 main에 푸시했고, 푸시 성공 뒤 로컬 main에 fast-forward로 들였다. 라이브 LIVE_PUSH3=OK
+- [Phase 04]: 04-11: Chromium 375 끝 캡처에서 badge가 안 보이는 것은 Playwright 요소 캡처가 Chromium에서만 scrollLeft를 477에서 170으로 옮기는 부작용이다. 캡처 전 측정 end-gap=20으로 판정하고 p4-shots.mjs는 고치지 않았다
 
 ### Pending Todos
 
@@ -230,6 +233,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-18T06:07:32.881Z
-Stopped at: Completed 04-10-PLAN.md
+Last session: 2026-11-18T06:45:42.176Z
+Stopped at: Completed 04-11-PLAN.md
 Resume file: None
