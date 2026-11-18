@@ -356,6 +356,13 @@ frontmatter `human_verification`에 8건을 다시 적었습니다.
 
 - HEAD의 54커밋이 아직 푸시되지 않았습니다 (리뷰 수정으로 `index.html`·`scripts/check-site.sh`를 바꾼 커밋 포함). 라이브는 아직 「댕댕런」 `8.3 km` 목업을 보여 줍니다. 푸시는 사용자 승인 뒤에 합니다.
 
+## Acknowledged Gaps
+
+2026-11-19 `/gsd-verify-work 04`의 단계 산출물 점검(`audit-open`)에서 열린 항목으로 나온 2건입니다. 사용자가 남겨 둔 채 단계 전환을 승인했습니다. 둘 다 `deferred-items.md`의 `.planning/codebase/` 원본 맵 정리이고, 사이트 출력과 단계 목표에는 닿지 않습니다.
+
+- `.planning/codebase/CONCERNS.md`의 랜딩 크기·줄 수 「원본 72KB, 586줄」이 지금 값(`index.html` 77,678바이트, 622줄)과 다릅니다 (`deferred-items.md` 04-12, status: open).
+- `.planning/codebase/TESTING.md`의 「검증 대상」 그림과 수동 점검 목록에 `images/app/`과 「실제 앱 화면」 구간 확인(WebP 404 없음, 좁은 화면 가로 띠와 키보드 밀기)이 없습니다 (`deferred-items.md` 04-12, status: open).
+
 ---
 
 _Verified: 2026-11-18T15:03:37Z_

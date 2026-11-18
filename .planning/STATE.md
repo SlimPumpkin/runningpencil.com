@@ -1,43 +1,43 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 04
-current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
-status: verifying
-stopped_at: Completed 04-13-PLAN.md
-last_updated: "2026-11-18T08:03:01.059Z"
-last_activity: 2026-11-18
-last_activity_desc: 04-13 완료 — D-24 문서 푸시(9cc14903adbd)와 Phase 4 성공 기준 라이브 판정(PHASE4_SC=OK)
-state_head: 1b188ef1634e89d74ff388b2633fdf905e0d4729
+current_phase: 5
+current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
+status: planning
+stopped_at: Phase 04 complete, ready to plan Phase 5
+last_updated: "2026-11-18T15:16:32.938Z"
+last_activity: 2026-11-19
+last_activity_desc: Phase 04 complete, transitioned to Phase 5
+state_head: 2e0309fa72e0f55bff953f05d589c09c96fc364a
 progress:
   total_phases: 10
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 42
   completed_plans: 42
-  percent: 30
+  percent: 40
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-17)
+See: .planning/PROJECT.md (updated 2026-11-19)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 04 — 홈페이지 서비스 소개 정정 (Landing Content Fix)
+**Current focus:** Phase 5 — 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 
 ## Current Position
 
-Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 13 of 13
-Status: Phase complete — ready for verification
-Last activity: 2026-11-18 — 04-13 완료 (승인받은 문서 푸시 9cc14903adbd, 라이브 확인 LIVE_PUSH4=OK, 성공 기준 1~3 라이브 재판정 PHASE4_SC=OK). 다음은 /gsd-verify-work 04 (단계 끝 사람 확인 다섯 항목)
+Phase: 5 — 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-11-19 — Phase 04 complete, transitioned to Phase 5
 
-Progress: [███░░░░░░░] 30%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 29
+- Total plans completed: 42
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -48,6 +48,7 @@ Progress: [███░░░░░░░] 30%
 | 01 | 10 | - | - |
 | 02 | 10 | - | - |
 | 03 | 9 | - | - |
+| 04 | 13 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: -
@@ -199,6 +200,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-11: Chromium 375 끝 캡처에서 badge가 안 보이는 것은 Playwright 요소 캡처가 Chromium에서만 scrollLeft를 477에서 170으로 옮기는 부작용이다. 캡처 전 측정 end-gap=20으로 판정하고 p4-shots.mjs는 고치지 않았다
 - [Phase 04]: 04-12: 「모두 인라인 SVG, 외부 이미지 없음」 규칙을 「그림은 인라인 SVG, 예외는 images/app/ 앱 화면 캡처 WebP」로 바꿔 원본 맵 다섯 개와 두 CLAUDE.md에 적음(D-24). 캡처 속 네이버 지도 출처는 구간 아래 「지도 © NAVER Corp.」만, 공유 푸터에는 넣지 않음. 문서 커밋 fa90e3cb8cd1·5c6451b2debf·426174db1045, 생성기 사본 시험 뒤 .claude/CLAUDE.md 재생성(stack·conventions·architecture만 바뀜), 열 개 문서 옛 문장·로컬 경로 0줄(DOCS2_STALE=OK). 푸시 안 함(04-13)
 - [Phase 04]: 04-13: 사용자가 승인한 문서 푸시 SHA 9cc14903adbd 하나만 푸시했고(9506236..9cc1490), 라이브에서 Phase 4 성공 기준 1~3을 다시 돌려 모두 OK(PHASE4_SC=OK). 승인은 이 푸시로 다 썼고 d6d6d56 이후 docs 커밋은 로컬에만 있다
+- [Phase 04]: 코드 리뷰 다섯 번(마지막 clean) 뒤 재검증 보고서의 사람 확인 8건이 04-UAT.md(8/8 pass)와 문구까지 같아, 2026-11-19 verify-work 재개에서 보고서 status만 passed로 바꾸고 단계 전환함. UAT 1~5번은 라이브 9cc1490에서 봤고, 그 뒤 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)은 자동 확인만 거쳤고 아직 푸시 전
 
 ### Pending Todos
 
@@ -210,7 +212,6 @@ None yet.
 - 가비아 DNS 1차 방문(Google Workspace 도메인 인증 TXT·MX·SPF 1개, Search Console TXT. 기존 레코드는 보존, 절차는 `.planning/baseline/USER-TASKS.md`)과 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
 - 가비아 DNS 2차 방문(DKIM, 절차는 `.planning/baseline/USER-TASKS.md` 작업 6. 작업 시점은 Phase 5 무렵) → Phase 10 (Apple 릴레이 답장의 전제. 이메일 게이트는 DKIM을 기다리지 않음)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
-- 실제 앱 화면 캡처(출시 범위 기능만) → Phase 4 (04-09에서 세 장 받음, 2026-11-18. 검토·WebP 변환 끝, 구간은 04-10)
 
 사용자·법률 결정(Phase 1에서 결정 목록으로 넘김):
 - U11 사업자 값과 영문 법인명 → Phase 5·8·9 (U12는 결정됨: Google Workspace 사용자 별칭 도메인, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`)
@@ -226,6 +227,8 @@ Phase 3에서 넘어온 것:
 
 Phase 4 후속:
 - [Phase 04] 04-09 사용자 예외(D-20): 랜딩 ③ 완주 결과 캡처는 원본에서 앱의 뱃지 창이 NAVER 로고를 덮은 채로 04-10·04-11에서 공개될 예정(SDK 가이드 위험은 사용자가 받아들임). 앱에서 로고 위치(logoAlign·logoMargin)나 뱃지 창 위치를 고치면 ③만 다시 찍어 교체 (단계를 막지 않는 후속)
+- [Phase 04] 로컬 `main`이 `origin/main`(9cc1490)보다 앞서 있고 푸시되지 않음. 리뷰 수정으로 바뀐 `index.html`(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)과 `scripts/check-site.sh`가 들어 있어, 라이브는 아직 「댕댕런」 `8.3 km`. 푸시는 사용자 승인 뒤에 하고, 푸시 뒤 라이브에서 「코스 그리기」 목업과 「달려 보기」 칩을 한 번 봄
+- [Phase 04] `deferred-items.md`의 원본 맵 정리 2건이 open: CONCERNS.md 랜딩 크기·줄 수(「72KB, 586줄」), TESTING.md에 `images/app/`과 「실제 앱 화면」 구간 점검 항목 없음. 단계 전환 때 Acknowledged Gaps로 기록(04-VERIFICATION.md). 다음 원본 맵 갱신이나 `/gsd-map-codebase` 때 고침
 
 ## Deferred Items
 
@@ -237,6 +240,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-18T08:03:00.754Z
-Stopped at: Completed 04-13-PLAN.md
+Last session: 2026-11-19
+Stopped at: Phase 04 complete, ready to plan Phase 5
 Resume file: None

@@ -26,6 +26,8 @@
 - ✓ 운영과 같은 Jekyll 3.10.0 로컬 미리보기(`Gemfile`)와 푸시 전 점검(`scripts/check-site.sh`, pre-push 훅) — Phase 2 (SHELL-02)
 - ✓ 라이브에서 내부 파일(`CLAUDE.md`·`README.md`·`Gemfile`·`.planning/` 등)이 404 — Phase 2 (SHELL-03)
 - ✓ 법적 페이지 3종을 Tailwind Play CDN 없이 정적 CSS(`_includes/css/legal.css`)로 그리고, 모양(375·768·1280px 픽셀)과 본문 텍스트가 전환 전과 같음. 이후 법적 본문은 클래스 없는 허용 요소만으로 씀 — Phase 3 (SHELL-04)
+- ✓ 홈페이지 본문·메타 설명·OG에서 포인트·굿즈·코스북을 지움(빌드 결과 0건). `scripts/check-site.sh` 6번 항목이 푸시마다 랜딩 출력을 확인함 — Phase 4 (SITE-01)
+- ✓ 홈페이지 「실제 앱 화면」 구간(`#screens`)에 iPhone 앱 화면 캡처 세 장(`images/app/` WebP)과 「출시 준비 중」 딱지를 보여 줌. 기존 동작(고정되는 세 가지 이유, 7초 달려 보기, 움직임 줄이기)은 그대로 — Phase 4 (SITE-06)
 
 ### Active
 
@@ -47,7 +49,7 @@
 - [ ] 개인정보처리방침을 앱의 실제 동작 기준으로 다시 쓴다. 넣을 것: 소셜 6곳에서 받는 항목, 기록 중 GPS 궤적(백그라운드 포함), Firebase 서비스(Auth·Firestore·Storage·Functions·Analytics·Crashlytics·FCM·App Check·Remote Config), 네이버 지도·검색 API, 자체 경로 라우터, 처리 위탁·국외 이전 여부, 개인정보 보호책임자와 연락처
 - [ ] 이용약관을 앱의 실제 동작과 사업자 정보 기준으로 다시 쓴다
 - [ ] 「위치기반서비스 이용약관」 페이지를 게시한다 (위치정보법 제12조①). 신고·등록 대상 여부는 법률 확인으로 범위를 조정한다
-- [ ] 사이트·법적 문서에서 출시 시점 앱에 없는 기능(포인트·굿즈·배송지·코스북)을 제거한다
+- [ ] 사이트·법적 문서에서 출시 시점 앱에 없는 기능(포인트·굿즈·배송지·코스북)을 제거한다 (랜딩은 Phase 4에서 끝남. 법적 문서 본문은 Phase 6~8)
 - [ ] 처리방침·약관·삭제 안내·지원 페이지의 영문판을 제공한다
 
 **사업자 표시·도메인**
@@ -69,7 +71,7 @@
 
 ## Context
 
-- **현재 사이트**: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 조립하는 정적 4페이지(`index.html`, `privacy-policy/`, `terms/`, `data-deletion/`). 공통 블록은 `_includes` 네 개(head 링크·「공통」 CSS·헤더·푸터)에 한 벌씩 있고, 법적 3종의 틀은 `_layouts/legal.html` 하나입니다 (Phase 2, 2026-11-16). 랜딩은 순수 CSS와 인라인 JS이고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`, 레이아웃에 인라인)로 그립니다 (Phase 3, 2026-11-17). 상세는 `.planning/codebase/`(ARCHITECTURE·STACK·CONCERNS 등) 참고.
+- **현재 사이트**: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 조립하는 정적 4페이지(`index.html`, `privacy-policy/`, `terms/`, `data-deletion/`). 공통 블록은 `_includes` 네 개(head 링크·「공통」 CSS·헤더·푸터)에 한 벌씩 있고, 법적 3종의 틀은 `_layouts/legal.html` 하나입니다 (Phase 2, 2026-11-16). 랜딩은 순수 CSS와 인라인 JS이고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`, 레이아웃에 인라인)로 그립니다 (Phase 3, 2026-11-17). 랜딩 소개 문구에서 출시 범위 밖 기능을 지웠고, 「달려 보기」와 「출시 안내」 사이에 「실제 앱 화면」 구간(앱 화면 캡처 WebP 세 장, 「출시 준비 중」 딱지, 「지도 © NAVER Corp.」)을 더했습니다. 그림은 인라인 SVG이고 예외는 `images/app/` 캡처뿐입니다 (Phase 4, 2026-11-19). 상세는 `.planning/codebase/`(ARCHITECTURE·STACK·CONCERNS 등) 참고.
 - **앱 저장소**: `~/dv/woody/running_pencil` (Flutter + Firebase). 개인정보처리방침의 근거는 여기서 가져옵니다.
   - 소셜 로그인: `kakao_flutter_sdk_user`, `naver_login_flutter`, `google_sign_in`, Apple(`flutter_web_auth_2`/Firebase Auth), `flutter_facebook_auth`, `flutter_line_sdk`, 그리고 익명 로그인(둘러보기만)
   - Firebase: Auth·Firestore·Storage·Functions·Analytics·Crashlytics·Messaging·App Check·Remote Config
@@ -106,7 +108,9 @@
 | 푸터에 사업자 정보 전부 표시 | 카카오 비즈앱 심사의 사업자-서비스 관계 확인, 국내 서비스 관행 | — Pending |
 | 한국어 + 영어 제공 — 기존 `ko` 전용 방침을 뒤집음 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 함 | — Pending |
 | 영문 서비스명은 `RunningPencil` — 기존 「RunningPencil 쓰지 않음」 방침을 뒤집음 | 영문판과 Google·Meta·LINE·스토어 콘솔에서 같은 이름을 써야 함 (요구사항 단계에서 결정) | — Pending |
-| 출시 시점 앱에 없는 포인트·굿즈·배송지·코스북을 사이트·법적 문서·`CLAUDE.md`에서 제거 | 앱 REQUIREMENTS는 포인트 리워드를 Out of Scope, 코스북을 나중 단계로 둠. 심사는 사이트와 앱이 일치하는지 봄 (U10) | — Pending |
+| 출시 시점 앱에 없는 포인트·굿즈·배송지·코스북을 사이트·법적 문서·`CLAUDE.md`에서 제거 | 앱 REQUIREMENTS는 포인트 리워드를 Out of Scope, 코스북을 나중 단계로 둠. 심사는 사이트와 앱이 일치하는지 봄 (U10) | ◐ 랜딩·`CLAUDE.md`는 Phase 4에서 제거(check-site 6번이 지킴). 법적 문서 본문은 Phase 6~8 |
+| 랜딩 앱 화면 캡처 ③ 완주 결과는 앱의 뱃지 창이 NAVER 로고를 덮은 원본 그대로 쓰고, run·badge의 상태 표시줄 차이도 받아들임. 우리 쪽에서 로고를 원본보다 더 자르거나 덮지 않는 조건은 유지 (Phase 4 D-18·D-20, 2026-11-18 사용자 예외) | 출시 범위 화면을 지금 앱에서 그대로 보여 주는 것이 우선. NAVER 지도 SDK 가이드의 위험은 사용자가 듣고 받아들임 | ✓ Phase 4. 앱에서 로고나 뱃지 창 위치를 고치면 ③만 다시 찍어 교체 |
+| 출시 전 표시는 「출시 준비 중」을 그대로 쓰고 출시 시기는 적지 않음 (Phase 4 D-08·D-09) | 앱 일정이 유동적이라 지난 날짜가 남으면 방치된 사이트처럼 보임 | ✓ Phase 4 |
 | 전화번호는 이번에 공개하지 않고 칸만 마련 | App Store Support URL 원문과 PIPA·위치정보법이 「전화번호 등 연락처」를 예로 듦. 법률 확인이나 심사에서 요구하면 값만 넣어 바로 표시 (U1) | — Pending |
 | 법적 페이지 `noindex` 해제, 「임시 게시본」 문구 삭제 | Apple 2.1(a)·네이버 4.1이 미완성 사이트로 반려할 소지 | — Pending |
 | `/support/` 지원 페이지 신설 | App Store Support URL용 전용 페이지가 심사자에게 가장 분명함 | — Pending |
@@ -138,4 +142,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-11-17 after Phase 3 (법적 페이지 정적 CSS 전환 완료, 모양·텍스트 불변, UAT 8/8 통과)*
+*Last updated: 2026-11-19 after Phase 4 (홈페이지 소개 정정과 「실제 앱 화면」 구간, UAT 8/8 통과)*
