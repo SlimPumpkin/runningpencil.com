@@ -10,7 +10,7 @@ last_mapped_at: 2026-11-14
 
 ```
 runningpencil.com/
-├── index.html                 # 티저 랜딩 (586줄: front matter `layout: none` + include 네 줄 + 랜딩 전용 CSS + SVG defs + 마크업 + 인라인 JS)
+├── index.html                 # 티저 랜딩 (622줄: front matter `layout: none` + include 네 줄 + 랜딩 전용 CSS + SVG defs + 마크업 + 인라인 JS)
 ├── privacy-policy/
 │   └── index.html             # 개인정보처리방침 (front matter + 카드 본문, noindex)
 ├── terms/
@@ -27,6 +27,8 @@ runningpencil.com/
 ├── _layouts/
 │   └── legal.html             # 법적 3종 레이아웃 (head·「공통」+legal.css include·카드 틀)
 ├── favicon/                   # 파비콘·앱 아이콘·웹 매니페스트
+├── images/
+│   └── app/                   # 「실제 앱 화면」 캡처 WebP (564w·846w)
 ├── scripts/
 │   └── check-site.sh          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름)
 ├── .githooks/
@@ -64,6 +66,11 @@ runningpencil.com/
 - Purpose: 브라우저/홈 화면 아이콘
 - Key files: `favicon.svg`, `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`, `site.webmanifest`
 
+**`images/app/`:**
+- Purpose: 랜딩 「실제 앱 화면」 구간(`#screens`)의 앱 화면 캡처 (iPhone 한 기기, 세 장)
+- Key files: `screen-draw-*.webp`, `screen-run-*.webp`, `screen-badge-*.webp` (각각 564w·846w 두 파일, sRGB, 메타데이터 없음)
+- 캡처 원본(PNG)은 저장소에 넣지 않는다. 사이트에 출력되어야 하므로 `_config.yml`의 `exclude`에 넣지 않는다
+
 ## Key File Locations
 
 **Entry Points:**
@@ -81,10 +88,10 @@ runningpencil.com/
 - `:21`: `{% include head-links.html %}`
 - `:22-25`: pre-paint `rp-pin` 스크립트
 - `:27`: 「공통」 CSS include 한 줄 (내용은 `_includes/css/common.css`)
-- `:29-115`: 「랜딩 전용」 CSS, `:100` 좁은 화면 `@media`
-- `:121-151`: 숨은 `<svg><defs>` 심볼
-- `:153` 헤더 include(`home=true`) / `:157` 히어로 / `:205` `#story` / `:362` `#demo` / `:400` `#get` / `:426` 푸터 include
-- `:428-583`: 동작 스크립트 (IIFE)
+- `:29-126`: 「랜딩 전용」 CSS, `:109` 좁은 화면 `@media`
+- `:132-162`: 숨은 `<svg><defs>` 심볼
+- `:164` 헤더 include(`home=true`) / `:168` 히어로 / `:216` `#story` / `:373` `#demo` / `:411` `#screens` / `:436` `#get` / `:462` 푸터 include
+- `:464-619`: 동작 스크립트 (IIFE)
 
 **Testing:**
 - 자동 점검은 `scripts/check-site.sh` 하나 (pre-push 훅이 `main` 푸시마다 실행). 화면 확인은 `bundle exec jekyll serve --livereload`(http://localhost:4000)로 띄워 수동으로 한다.
@@ -101,7 +108,7 @@ runningpencil.com/
 - SVG 심볼 id: 코스 `rp-c-<shape>`(`rp-c-dog`, `rp-c-heart`…), 아이콘 `rp-i-<name>`, 지도 `rp-map-<region>`, 캐릭터/소품 `rp-t-<name>`, 로고 `rp-logo`
 - 스크립트용 id: `rp-run-*`(story 폰 화면의 달리기 단계), `rp-demo-*`(달려 보기 구간)
 - 헤딩 id: `rp-h-<section>` (`aria-labelledby`용)
-- 섹션 앵커 id는 접두사 없음: `top`, `story`, `demo`, `get` (URL 해시로 노출)
+- 섹션 앵커 id는 접두사 없음: `top`, `story`, `demo`, `screens`, `get` (URL 해시로 노출)
 
 **Directories:**
 - URL 경로 = 디렉터리명, kebab-case
@@ -115,16 +122,16 @@ runningpencil.com/
 - 푸터에 링크를 추가하면 `_includes/footer.html` 한 곳만 고친다
 
 **랜딩 새 구간:**
-- 마크업: `index.html` `<main>` 안, `#get`(`:400`) 앞 등 적절한 위치에 `<section id="…" aria-labelledby="rp-h-…">`
-- 스타일: 「랜딩 전용」 블록, 반응형은 `clamp(...vw...)` + `:100`의 `@media (max-width: 860px)`
+- 마크업: `index.html` `<main>` 안, `#get`(`:436`) 앞 등 적절한 위치에 `<section id="…" aria-labelledby="rp-h-…">`
+- 스타일: 「랜딩 전용」 블록, 반응형은 `clamp(...vw...)` + `:109`의 `@media (max-width: 860px)`
 - 헤더 내비 추가 시 `_includes/header.html` 한 곳만 수정 (랜딩 링크와 법적 페이지 링크 두 갈래)
 
 **새 반복 도형/아이콘:**
-- `index.html:121-151` `<defs>`에 `<symbol id="rp-i-…">` 또는 `<path id="rp-c-…" pathLength="1000">` 추가 후 `<use href="#…">`
+- `index.html:132-162` `<defs>`에 `<symbol id="rp-i-…">` 또는 `<path id="rp-c-…" pathLength="1000">` 추가 후 `<use href="#…">`
 - 법적 페이지에는 `<defs>`가 없으므로 인라인 SVG로 직접 삽입
 
 **동작 추가:**
-- `index.html:428` 이후 IIFE 안에 추가, `byId()`로 요소 획득, 상태는 클래스/CSS 변수로 반영. id 이름 변경 시 스크립트 동시 수정.
+- `index.html:464` 이후 IIFE 안에 추가, `byId()`로 요소 획득, 상태는 클래스/CSS 변수로 반영. id 이름 변경 시 스크립트 동시 수정.
 
 **Utilities:**
 - 공유 헬퍼는 IIFE 내부 함수(`clamp01`, `clock`, `setText`, `moveTo`, `reduced`) 재사용. 별도 JS 파일 없음.
