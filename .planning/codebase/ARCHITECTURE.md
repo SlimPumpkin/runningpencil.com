@@ -75,9 +75,9 @@ last_mapped_at: 2026-11-14
 ### Story 스크롤 고정 (`#story`)
 
 - `<head>` 스크립트가 reduced-motion 아님 && `innerHeight <= 2400`이면 `rp-pin` 추가 (`<head>`의 `<script>`) → CSS가 `.rp-scrolly`를 340vh, `.rp-stage`를 `position: sticky`로 바꿈 (「랜딩 전용」의 `.rp-pin .rp-scrolly` 규칙)
-- `scroll` 이벤트(passive) → rAF 스로틀 → `paintStory()` (`// ── 연결 ──` 아래 `window.addEventListener('scroll', …)`)
+- `scroll` 이벤트(passive) → rAF 스로틀 → `paintStory()` (`// ── 연결 ──` 아래 `window.addEventListener('scroll'`)
 - `paintStory()`가 `#story`의 `getBoundingClientRect()`로 f∈[0,3) 계산, `step = floor(f)`, 단계별 진행도 q 산출 (`function paintStory()`)
-- `story.style.setProperty('--q0'|'--q1'|'--q2')` (`paintStory()` 안) → `stroke-dashoffset: calc(1000px * (1 - var(--q0)))`, 번호 점 `opacity: clamp(...)`, 진행 바 `width: calc(var(--q1) * 100%)` 등이 반응 (`<section id="story">` 폰 목업의 인라인 `style`)
+- `story.style.setProperty('--q0'|'--q1'|'--q2')` (`paintStory()` 안) → `stroke-dashoffset: calc(1000px * (1 - var(--q0)))`, 번호 점 `opacity: clamp(...)`, 진행 바 `width: calc(var(--q1) * 100%)` 등이 반응 (`<section id="story"` 폰 목업의 인라인 `style`)
 - `--q1`로 `#rp-run-dot`을 `getPointAtLength`로 이동, `#rp-run-pct/-dist/-time` 텍스트 갱신
 - 단계 변경 시 `setStep(i)` → `[data-step]`에 `is-on`, `[data-go]`에 `is-on`+`aria-pressed`, `#rp-panel.className = 'rp-panel is-s' + i` (`function setStep(i)`)
 - 단계 버튼 클릭 → `goStep(i)`: pin 상태면 해당 위치로 smooth scroll, 아니면 바로 `setStep` (`function goStep(i)`)
@@ -93,7 +93,7 @@ last_mapped_at: 2026-11-14
 
 - 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`// ── 연결 ──` 아래 `var target`와 `decodeURIComponent` 줄)
 - `load`와 `document.fonts.ready`에서 `settle()` → 사용자 입력(wheel/touch/key/mouse) 전까지 대상으로 `scrollIntoView({behavior:'instant'})` (`function settle()`)
-- `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (「랜딩 전용」의 `html.rp-ready { scroll-behavior: smooth; }`, `window.addEventListener('load', …)`)
+- `load` 후 `<html>`에 `rp-ready` → `scroll-behavior: smooth` 활성 (「랜딩 전용」의 `html.rp-ready { scroll-behavior: smooth; }`, `window.addEventListener('load'`)
 - reduced-motion이면 `#rp-hero-art` SMIL 정지, `#rp-sketch`는 6.6s 지점에서 정지 (스크립트 끝 `// 움직임 줄이기 설정이면` 주석 아래 `pauseAnimations()`)
 
 ### State Management
@@ -105,13 +105,13 @@ last_mapped_at: 2026-11-14
 ### SVG 심볼 + `<use>`
 
 - Purpose: 코스 선·아이콘·지도를 한 번 정의, 여러 곳에서 다른 stroke로 재사용
-- Examples: `<defs>` 안의 `<path id="rp-c-dog" pathLength="1000">`, 사용처는 `<use href="#rp-c-dog">` (`grep -n -F 'href="#rp-c-dog"' index.html`)
+- Examples: `<defs>` 안의 `<path id="rp-c-dog" pathLength="1000"`, 사용처는 `<use href="#rp-c-dog">` (`grep -n -F 'href="#rp-c-dog"' index.html`)
 - Pattern: 코스 path는 `pathLength="1000"`으로 정규화 → `stroke-dasharray: 1000px`로 진행도 표현. `#rp-c-dog`는 JS의 `getPointAtLength` 기준 경로이기도 함.
 
 ### 진행도 CSS 변수
 
 - Purpose: JS→그림 단방향 데이터 전달
-- Examples: `#story` 초기값 `style="--q0: 1; --q1: 0.62; --q2: 1"` (`<section id="story">`) — JS 비활성 시 정지 장면
+- Examples: `#story` 초기값 `style="--q0: 1; --q1: 0.62; --q2: 1"` (`<section id="story"`) — JS 비활성 시 정지 장면
 
 ### 공유 헤더/푸터
 
