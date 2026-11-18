@@ -13,7 +13,7 @@ set -u
 
 # ── 기대값 (이후 단계에서 바뀌면 여기만 고친다) ──
 JEKYLL_VERSION='jekyll 3.10.0'
-# 법적 URL 3개의 제목은 Ground Rule로 고정한다. 랜딩 제목은 Phase 4에서 바뀔 수 있고, 바꾸는 단계가 이 값도 고친다.
+# 법적 URL 3개의 제목은 Ground Rule로 고정한다. 랜딩 제목을 바꾸는 단계가 이 값도 고친다.
 EXPECTED_TITLES='index.html|러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
 privacy-policy/index.html|개인정보처리방침 - 러닝펜슬
 terms/index.html|서비스 이용약관 - 러닝펜슬
