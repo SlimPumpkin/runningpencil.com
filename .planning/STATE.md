@@ -188,6 +188,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-08: 사용자가 PUSH2_CANDIDATE=6e46bdcb24e0 푸시를 승인(push). 원격이 PUSH2_PREV=073d33e0e50a 그대로인 것을 확인하고 그 SHA만 한 번 푸시(훅 6항목 통과). Pages built 2026-11-17T07:27:26Z, 네 URL 200·제목, 라이브 / = c2 빌드 바이트, 내부 파일 셋 404 → LIVE_PUSH2=OK. SITE-01 갈래 완료, 단계는 앱 화면 캡처(작업 10)를 기다림
 - [Phase 04]: 04-09 보류 1: Task 1 이미지 파이프라인 시험 통과(1170bd3, 두 엔진 × 배율 2·3 `PASS pipe`, 저장소·라이브 그대로). Task 2에서 사용자가 hold로 답해 `HOLD1_` 표시로 보류(d047ffc), SUMMARY 없음. 다음 실행은 04-09 Task 1부터 다시 함. 그때 safe-resume 게이트가 `docs(04-09):` 커밋 1170bd3을 보고 멈추면 `re-execute from scratch`를 고름(보류 커밋이 대신함, revert 안 함)
 - [Phase 04]: 04-09: 캡처 세 장(1260×2736 같은 기기) 검토 27항목 통과. badge의 NAVER 로고 가림(원본에서 앱의 뱃지 창이 덮음, D-20)과 run·badge 상태 표시줄 차이(D-18)는 사용자 예외(2026-11-18, CAPTURE_WAIVERS=3, 원래 판정은 ORIG_ 줄). 우리가 더 자르거나 덮지 않는 조건은 유지, 04-10은 ③에 한해 원본보다 더 깎지 않는지만 판정(CONTEXT D-18·D-20 덧붙임). WebP 여섯 개(q80, 846w 846x1837)는 스크래치에만 둠
+- [Phase 04]: 04-09 → 04-10·04-11 인계(`04-09-SUMMARY.md` 「04-10과 04-11이 알아야 할 것」): ALT run의 `"`는 `alt` 속성에서 `&quot;`로 적음. 04-11 승인 화면에는 `REVIEW` 27줄과 함께 `ORIG_REVIEW`·`WAIVER` 각 3줄도 보임. 04-11 retake 때 `CAPTURE_WAIVERS=`에도 `RETAKE<n>_`을 붙임. badge의 「로고가 잘리지 않았다」 문구는 CONTEXT D-20 덧붙임(원본보다 더 깎지 않음)으로 판정
 
 ### Pending Todos
 
