@@ -89,7 +89,17 @@ layout: none
         @keyframes rp-pulse { 0% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(2.6); } }
         .rp-pulse { transform-box: fill-box; transform-origin: center; animation: rp-pulse 1.4s ease-out infinite; }
 
-        /* 「출시 안내」: 윗부분이 「달려 보기」의 둥근 아래 모서리 밑으로 들어간다 */
+        /* 「실제 앱 화면」: 캡처 세 장을 흑연 폰 테두리에 담는다. 넓은 화면은 한 줄 세 장, 좁은 화면은 가로로 밀어 본다 (스크립트 없음) */
+        .rp-shots-sec { position: relative; z-index: 1; background: #FAFAF7; border-radius: 0 0 clamp(28px, 4vw, 56px) clamp(28px, 4vw, 56px); padding: clamp(56px, 7vw, 104px) 0; }
+        .rp-shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+        .rp-shots:focus-visible { outline-offset: -3px; }
+        .rp-shot { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .rp-shot-frame { width: 100%; max-width: 300px; border-radius: 46px; background: #1F1B13; padding: 9px; box-shadow: 0 28px 56px rgba(31, 27, 19, 0.28); }
+        .rp-shot-frame img { display: block; width: 100%; height: auto; border-radius: 37px; }
+        .rp-shot-cap { font-size: 16px; font-weight: 700; color: #2B2B2B; }
+        .rp-shots-credit { align-self: flex-end; font-size: 14px; font-weight: 500; color: #57534C; }
+
+        /* 「출시 안내」: 윗부분이 바로 앞 구간(「실제 앱 화면」)의 둥근 아래 모서리 밑으로 들어간다 */
         .rp-get { display: flex; align-items: center; min-height: min(100vh, 860px); margin-top: calc(-1 * clamp(28px, 4vw, 56px)); padding: calc(clamp(72px, 9vw, 128px) + clamp(28px, 4vw, 56px)) 0 clamp(72px, 9vw, 128px); background: #F2B134; }
 
         @media (prefers-reduced-motion: reduce) {
@@ -102,6 +112,8 @@ layout: none
             .rp-stage-in { grid-template-columns: minmax(0, 1fr); }
             .rp-pin .rp-scrolly .rp-stage-in { grid-template-rows: auto minmax(0, 1fr); padding-top: 16px; padding-bottom: 16px; gap: 14px; }
             .rp-get { min-height: 0; }
+            .rp-shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 calc(-1 * clamp(20px, 5vw, 64px)); padding: 8px clamp(20px, 5vw, 64px) 64px; scroll-padding: 0 clamp(20px, 5vw, 64px); }
+            .rp-shot { flex: 0 0 min(72vw, 260px); scroll-snap-align: start; }
             .rp-panel { min-height: 0; padding: 28px 12px; }
             .rp-phone { zoom: .74; }
             .rp-pin .rp-scrolly .rp-phone { zoom: .6; }
@@ -392,6 +404,31 @@ layout: none
                         <div><div style="font-size: 13px; font-weight: 600; color: #B9C7BC">시간</div><div id="rp-demo-time" style="font-size: clamp(18px, 1.8vw, 24px); font-weight: 700; line-height: 1.35; min-width: 3.4em">00:00</div></div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- App screens -->
+        <section id="screens" class="rp-shots-sec" aria-labelledby="rp-h-screens">
+            <div class="rp-wrap" style="display: flex; flex-direction: column; gap: clamp(28px, 4vw, 48px)">
+                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px">
+                    <h2 id="rp-h-screens" style="font-size: clamp(30px, 4.3vw, 60px); font-weight: 800; line-height: 1.14; letter-spacing: -0.03em">실제 앱 화면</h2>
+                    <span style="display: inline-flex; align-items: center; padding: 4px 10px; border: 2px solid #2B2B2B; border-radius: 8px; font-size: clamp(13px, 1.1vw, 15px); font-weight: 800; letter-spacing: 0.02em; color: #2B2B2B; transform: rotate(-3deg)">출시 준비 중</span>
+                </div>
+                <ul class="rp-shots" role="list" tabindex="0" aria-label="러닝펜슬 앱 화면 3장">
+                    <li class="rp-shot">
+                        <div class="rp-shot-frame"><img src="/images/app/screen-draw-564.webp" srcset="/images/app/screen-draw-564.webp 564w, /images/app/screen-draw-846.webp 846w" sizes="(max-width: 860px) 242px, 282px" width="846" height="1837" loading="lazy" decoding="async" alt="러닝펜슬 앱 화면: 코스 그리기 에디터에서 지도 위 번호 점들이 출발점부터 끝점까지 선으로 이어져 있고, 위에 거리 6.5 km와 걷기·달리기·자전거 예상 시간이 보인다"></div>
+                        <p class="rp-shot-cap">코스 그리기</p>
+                    </li>
+                    <li class="rp-shot">
+                        <div class="rp-shot-frame"><img src="/images/app/screen-run-564.webp" srcset="/images/app/screen-run-564.webp 564w, /images/app/screen-run-846.webp 846w" sizes="(max-width: 860px) 242px, 282px" width="846" height="1837" loading="lazy" decoding="async" alt="러닝펜슬 앱 화면: 따라 달리기 중 지도 위 코스 선과 지나온 길, 아래에 진행률 16%와 움직인 시간 16:08, 거리 1.34 km, 평균 페이스 12'00&quot;/km가 보인다"></div>
+                        <p class="rp-shot-cap">따라 달리기</p>
+                    </li>
+                    <li class="rp-shot">
+                        <div class="rp-shot-frame"><img src="/images/app/screen-badge-564.webp" srcset="/images/app/screen-badge-564.webp 564w, /images/app/screen-badge-846.webp 846w" sizes="(max-width: 860px) 242px, 282px" width="846" height="1837" loading="lazy" decoding="async" alt="러닝펜슬 앱 화면: 완주 결과 위에 강아지 모양 코스 뱃지를 받았다는 창이 떠 있다"></div>
+                        <p class="rp-shot-cap">완주하고 뱃지 받기</p>
+                    </li>
+                </ul>
+                <p class="rp-shots-credit">지도 © NAVER Corp.</p>
             </div>
         </section>
 
