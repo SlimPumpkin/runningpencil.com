@@ -121,6 +121,8 @@ validated: "2026-11-18"
 
 **재감사 2026-11-18 (HEAD `65c0c3970dae`, 코드 리뷰 수정 IN-01~IN-08 뒤):** `scripts/check-site.sh HEAD` 통과. HEAD 빌드에서 SC1 grep 0, D-02 두 문장 각 1, D-04 두 문장 각 1과 「채울 뱃지」「실루엣」 0, D-06 `t-empty` 0. 법적 3종 출력은 마지막 사이트 푸시 빌드(`c3`)와 바이트가 같다. `p4-behave.mjs` `PASS behave`(두 엔진 × 세 문맥), `p4-shots.mjs` `PASS shots`, WebP 여섯 개 메타데이터 청크 0. 코스 이름은 「강아지런」 9곳·「댕댕런」 0곳, `var KM = 7.84`. 이 수정분(`index.html` 출력이 `c3`와 30줄 다름)은 아직 원격 main에 푸시되지 않았으므로, 라이브 판정 행(SC1~SC3)의 근거는 여전히 04-13의 `PHASE4_SC=OK`다.
 
+**재감사 2026-11-18 (HEAD `8a6a4545eefc`, 세 번째·네 번째 코드 리뷰 수정 WR-02~WR-04·IN-09~IN-12 뒤):** `scripts/check-site.sh HEAD` 통과, `bash -n` 통과, `core.hooksPath=.githooks`, 두 스크립트 100755. HEAD 빌드에서 SC1 grep 0, D-02 두 문장 각 1, D-04 두 문장 각 1과 「채울 뱃지」「실루엣」 0, D-06 `t-empty` 0. 법적 3종 출력은 `c3`와 바이트가 같다. `p4-behave.mjs` `PASS behave`, `p4-shots.mjs` `PASS shots`(두 엔진 × 두 폭), WebP 여섯 개 메타데이터 청크 0. 「강아지런」 9곳·「댕댕런」 0곳. 화면의 코스 표기는 `7.8 km` 두 곳(「코스 그리기」 목업, 「달려 보기」 코스 딱지)이고, `7.84 km`는 「달려 보기」 완주 기록의 거리 한 곳과 `var KM = 7.84`뿐이다 (WR-04: 코스 표기와 달린 측정 거리를 나눔). 점검 6번 음성 대조: `U10_ALLOW_PREFIX`를 `.`·`체크||엔드`·`체크|엔 드`로 바꾼 사본은 모두 형식 오류로 rc=1, 기준 커밋 `0e75e8b88fd2`는 「/index.html 5곳」으로 rc=1. 이 수정분은 아직 원격 main에 푸시되지 않았으므로, 라이브 판정 행(SC1~SC3)의 근거는 여전히 04-13의 `PHASE4_SC=OK`다.
+
 ## Validation Audit 2026-11-18
 
 | Metric | Count |
