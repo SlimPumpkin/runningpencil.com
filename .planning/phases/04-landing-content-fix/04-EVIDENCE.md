@@ -586,3 +586,97 @@ IMG badge 846 45950 846x1837 q=80 sha256=9fe688176edf90fbecd8f76f74f0cfa4baee1d1
 
 CAPTURE_REVIEW=OK
 IMG_OK=OK
+
+## 04-10 스크린샷 구간
+
+「달려 보기」(`#demo`)와 「출시 안내」(`#get`) 사이에 「실제 앱 화면」 구간(`#screens`)을 넣은 후보입니다. 04-09에서 검토·변환한 WebP 여섯 개를 `images/app/`에 넣고, 제목 옆에 히어로와 같은 모양의 「출시 준비 중」 딱지, 흑연 폰 테두리 속 캡처 세 장과 캡션, 구간 아래 「지도 © NAVER Corp.」를 더했습니다(D-10~D-14, D-20). 캡처는 공개되면 지울 수 없으므로(D-19) 이 후보는 커밋하지 않고 브랜치에 붙지 않은 커밋 객체(`git commit-tree`)로만 판정합니다. main에는 04-11에서 사용자가 승인한 뒤에만 들어갑니다. 스크래치는 04-02·04-09가 만든 것을 그대로 썼고(다시 만들지 않음, 설치 없음), 구간 판정 스크립트 `$W/pw/p4-shots.mjs`만 이 계획에서 새로 썼습니다.
+
+새 기준은 실행 시작 HEAD입니다. `build sbase` 뒤 포트 4206에서 기존 동작이 그대로 통과했고, 해시 정착 (k)의 기준값은 두 엔진 모두 ±2px 안입니다.
+
+SHOTS_BASE=273022c3f176
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=0
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=0
+PASS behave
+OK hash chromium top=-0.3
+OK hash webkit top=-0.4
+PASS shots
+```
+
+이미지: `$W/img/out/`의 여섯 파일을 그대로 `images/app/`에 복사했고, sha256이 모두 04-09 `IMG` 줄과 같습니다. `img`의 `width`·`height`는 04-09 `IMG <이름> 846` 줄의 846x1837, `alt`는 04-09 `ALT` 줄의 글(run의 큰따옴표는 `&quot;`)입니다. `sizes`는 `(max-width: 860px) 242px, 282px`입니다.
+
+후보는 `index.html`과 WebP 여섯 개만 스테이징해 `git commit-tree "$(git write-tree)" -p HEAD`로 만들었습니다(`index.html` 38줄 더함·1줄 지움, 지운 줄은 `.rp-get` 주석). 후보를 `$W/c3`에 운영과 같은 production·`--safe` 빌드로 만들고 포트 4207에서 판정했습니다.
+
+CAND3=56fd3bb79160
+
+```
+check-site: 통과 (커밋 56fd3bb79160, jekyll 3.10.0)
+```
+
+구간 판정 `node "$W/pw/p4-shots.mjs" <포트 4207> "$W/cap/c3"` (Chromium·WebKit × 1280×800·375×812, deviceScaleFactor 1, 판정 (a)~(l)). 첫 실행에서 모두 통과해 CSS를 고치지 않았습니다. 375px 띠는 → 키 한 번에 276px 밀렸고, 끝까지 민 뒤 마지막 장 오른쪽 여백이 20px입니다(A8: 두 엔진 모두 끝 `padding`이 스크롤 범위에 들어감). `credit-gap`은 출처 줄 아래 끝과 `#get` 위 끝 사이 거리입니다:
+
+```
+OK hash chromium top=-0.4
+OK shots chromium 1280 imgs=3 credit-gap=38.4 src=564,564,564
+OK strip chromium 375 arrow=0->276 end-gap=20
+OK shots chromium 375 imgs=3 credit-gap=28 src=564,564,564
+OK hash webkit top=0.5
+OK shots webkit 1280 imgs=3 credit-gap=38.4 src=564,564,564
+OK strip webkit 375 arrow=0->276 end-gap=20
+OK shots webkit 375 imgs=3 credit-gap=28 src=564,564,564
+PASS shots
+```
+
+후보 동작 판정 (`$W/c3`, 포트 4207, 성공 기준 3). 문맥 여섯 줄 모두 `badges=7 stickers=6 empty=0`입니다:
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=0
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=0
+PASS behave
+```
+
+의도한 줄만 바뀜 (부모 = HEAD = `SHOTS_BASE`, 인덱스 기준): `index.html`에서 지운 줄은 `.rp-get` 주석 한 줄이고, 두 `<script>` 블록은 바이트가 같고, 새 hex가 없습니다(`#FAFAF7`·`#1F1B13`·`#2B2B2B`·`#57534C`는 원래 있던 값). 법적 3종 출력은 `$W/sbase/site`와 같고, 출력 파일 목록은 기준 목록에 `images/app/` 여섯 파일을 더한 것과 같습니다. `_includes`·`_layouts`·법적 3종·`scripts`는 그대로입니다(D-15):
+
+```
+OK index deleted=1
+OK script blocks same
+OK hex no-new
+OK legal same 3
+OK files = sbase + 6 webp
+OK includes untouched
+```
+
+구간 화면 검토: `$W/cap/c3/`의 `*-screens.png` 넷, `*-seam.png` 넷, `*-375-end.png` 둘을 Read 도구로 직접 열어 보았습니다. NAVER 로고는 draw·run에서 지도 왼쪽 아래(캡처 높이의 약 86%·69% 지점), badge에서 지도 왼쪽 아래(약 55% 지점)라 그림의 둥근 모서리(37px)에서 멀어 깎이지 않습니다. 그래서 그림 반경을 줄이지 않았습니다. badge 로고는 원본에서 앱의 뱃지 창이 오른쪽을 덮은 상태(사용자 예외 D-20)이고, 테두리·둥근 모서리가 원본보다 더 깎은 곳은 없습니다:
+
+```
+REVIEW shots chromium 1280 OK 세 장이 한 줄에 테두리 안 잘림 없이 보임, draw·run NAVER 로고 온전, badge 로고는 원본(D-20 예외)보다 더 깎이지 않음, 딱지는 제목 옆이고 캡션은 테두리 아래라 캡처 위 겹침 없음, 오른쪽 아래 출처 줄 보임, 구간 아래 둥근 모서리 사이로 노랑이 들어감(seam)
+REVIEW shots webkit 1280 OK chromium 1280과 같은 배치, 로고·딱지·캡션·출처·맞물림 같음
+REVIEW shots chromium 375 OK 첫 장 draw가 테두리 안 잘림 없이 보이고 다음 장이 오른쪽에 조금 보임, draw NAVER 로고 온전, 끝까지 민 화면(end)에서 badge가 온전히 보이고 오른쪽 여백이 남음, 출처 줄 보임, 노랑 맞물림 보임(seam)
+REVIEW shots webkit 375 OK chromium 375와 같은 배치, end에서 badge 로고는 원본(D-20 예외)보다 더 깎이지 않음, 출처·맞물림 같음
+```
+
+후보 확정 (커밋하지 않음): 후보 트리는 판정한 빌드(`$W/c3/TREE`)와 같고, 부모는 `SHOTS_BASE`, 바뀐 파일은 WebP 여섯 개와 `index.html`이며, `git for-each-ref --contains`가 빈 출력입니다(어떤 브랜치·태그·원격 추적 ref에도 없음). `git commit`·`git branch`·`git tag`·`git update-ref`·`git merge`는 쓰지 않았습니다:
+
+```
+OK candidate tree = c3
+OK candidate parent = SHOTS_BASE
+OK candidate files 7
+OK candidate on no ref
+```
+
+작업 트리와 인덱스 되돌림: `git restore --staged --worktree -- index.html`, `git restore --staged -- images`, `rm -rf images` 뒤 사이트 파일 변경·스테이징·추적되지 않은 파일이 없고 `images/`가 없습니다. 후보의 파일은 `CAND3` 객체와 스크래치(`$W/img/out/`, `$W/c3/src/`)에만 있습니다:
+
+```
+OK worktree restored
+```
+
+SHOTS_OK=OK
