@@ -46,7 +46,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 경로 | 용도 |
 |---|---|
-| `index.html` | 티저 랜딩 — 헤더, 히어로(쿼터뷰 지도 그림), 세 가지 이유(`#story`), 달려 보기(`#demo`), 출시 안내(`#get`), 푸터 |
+| `index.html` | 티저 랜딩 — 헤더, 히어로(쿼터뷰 지도 그림), 세 가지 이유(`#story`), 달려 보기(`#demo`), 실제 앱 화면(`#screens`), 출시 안내(`#get`), 푸터 |
 | `privacy-policy/index.html` | 개인정보처리방침 (현재 임시 게시본·`noindex`, 2026-11 기준. Phase 7 재작성 커밋에서 둘 다 지움, U14) |
 | `terms/index.html` | 서비스 이용약관 (현재 임시 게시본·`noindex`, 2026-11 기준. Phase 8 재작성 커밋에서 둘 다 지움, U14) |
 | `data-deletion/index.html` | 계정·데이터 삭제 안내 (앱 스토어 심사용. 현재 임시 게시본·`noindex`, 2026-11 기준. Phase 6 재작성 커밋에서 둘 다 지움, U14) |
@@ -109,8 +109,9 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
   - 스크립트는 `id`(`story`, `rp-panel`, `rp-run-*`, `rp-demo-*`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`)와 `data-step`·`data-go` 속성으로 요소를 찾고, 상태는 클래스(`is-on`, `is-s0`~`is-s2`)로 바꿉니다. 이름을 바꾸면 스크립트도 함께 고쳐야 합니다.
 - **디자인 원본**은 Claude 디자인 캔버스 「러닝펜슬 랜딩 페이지」입니다 (저장소 밖). 캔버스는 컨테이너 쿼리 단위(`cqw`)로 쓰여 있고, `index.html`은 그 티저 상태를 `vw`와 미디어 쿼리로 옮긴 것입니다. 출시 후 구간(평점, 인기 코스, 명예의 전당, 리뷰, 스토어 뱃지·QR)은 캔버스에만 있고 사이트에는 넣지 않았습니다. 캔버스 메모대로 히어로의 쿼터뷰 지도 그림은 애니메이션으로 바꿀 자리에 둔 임시 그림입니다. `prepare/desgin/teaser html/`의 목업은 이전 디자인입니다.
 - **다크 모드 없음.** 달려 보기 구간과 푸터만 의도적으로 어두운 바탕입니다.
-- **로고·아이콘·지도 그림은 모두 인라인 SVG**입니다. 외부 이미지 의존이 없습니다. 랜딩에서 여러 번 쓰는 도형(코스 선, 지도, 아이콘, 히어로 캐릭터)은 `<body>` 맨 위의 숨은 `<svg><defs>`에 모아 두고 `<use href="#…">`로 씁니다. 헤더·푸터의 로고는 법적 페이지에 `<defs>`가 없으므로 `<use>` 없이 `_includes/header.html`·`_includes/footer.html` 안에 그대로 넣습니다.
-- **푸터**에는 약관 링크 3개, 운영 안내 문장, 저작권, 경로 데이터 출처 표기가 있습니다. 「경로 데이터 © OpenStreetMap contributors」는 랜딩에 그린 댕댕런 코스 선이 OpenStreetMap 기반 경로 데이터에서 나온 것이라 넣었습니다. 웹페이지에 실제 지도를 쓰게 되면 그 지도의 출처 표기를 더합니다.
+- **로고·아이콘·지도 그림은 모두 인라인 SVG**입니다. 예외는 「실제 앱 화면」 구간의 앱 화면 캡처 WebP(`images/app/`)뿐입니다. 랜딩에서 여러 번 쓰는 도형(코스 선, 지도, 아이콘, 히어로 캐릭터)은 `<body>` 맨 위의 숨은 `<svg><defs>`에 모아 두고 `<use href="#…">`로 씁니다. 헤더·푸터의 로고는 법적 페이지에 `<defs>`가 없으므로 `<use>` 없이 `_includes/header.html`·`_includes/footer.html` 안에 그대로 넣습니다.
+- **「실제 앱 화면」 구간**(id `screens`)은 `#demo`와 `#get` 사이에 있습니다. 제목 옆에 「출시 준비 중」 딱지가 있고, 앱 화면 캡처 세 장을 흑연 폰 테두리(`.rp-shot-frame`)에 담아 캡션과 함께 보여 줍니다. 「세 가지 이유」의 `.rp-phone`은 좁은 화면 `zoom` 규칙에 묶여 있어 이 구간에서 다시 쓰지 않습니다. 좁은 화면(860px 이하)에서는 스크립트 없이 CSS `scroll-snap`으로 미는 가로 띠가 됩니다. 구간에는 `z-index: 1`과 둥근 아래 모서리가 있고, 바로 아래 `.rp-get`이 음수 위 margin으로 그 모서리 밑으로 들어갑니다. 스크립트는 이 구간의 이름(`screens`, `rp-shots*`)을 쓰지 않습니다.
+- **푸터**에는 약관 링크 3개, 운영 안내 문장, 저작권, 경로 데이터 출처 표기가 있습니다. 「경로 데이터 © OpenStreetMap contributors」는 랜딩에 그린 댕댕런 코스 선이 OpenStreetMap 기반 경로 데이터에서 나온 것이라 넣었습니다. 「실제 앱 화면」 구간의 캡처에 네이버 지도가 보이므로, 그 출처(「지도 © NAVER Corp.」)는 구간 바로 아래에 적고 법적 페이지와 함께 쓰는 공유 푸터에는 넣지 않습니다.
 - **이메일 수집 폼 없음.** 정적 호스팅이라 서버 처리가 불가능해 의도적으로 뺐고, 앞으로도 만들지 않습니다. 현재 사이트에는 지원 이메일이 없습니다 (2026-11 기준). 이메일 게이트(Phase 5)가 열리면 지원 이메일을 푸터·지원 페이지·법적 문서에 넣습니다. 그전에는 주소를 HTML·`_data`에 넣지 않습니다.
 
 ## Assets
@@ -118,6 +119,8 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
 - `favicon/`: `favicon.svg`(둥근 노랑 타일 + 로고), `favicon.ico`(16/32/48), `favicon-96x96.png`(둥근 타일, 모서리 투명), `apple-touch-icon.png`(180, 전면 불투명), `web-app-manifest-192x192.png`·`512x512.png`(전면 불투명, `purpose: maskable`), `site.webmanifest`(`theme_color`·`background_color`는 `#F2B134`).
 - 로고는 앱 아이콘과 같은 그림(핀 모양 연필)이고, 원본 SVG는 앱 저장소의 `docs/brand/icon-1024.svg`입니다. `apple-touch-icon`과 매니페스트 아이콘은 앱 아이콘(전면 노랑, 로고 높이 66%)을 그대로 줄인 것이고, `favicon.svg`·`favicon.ico`·`favicon-96x96.png`는 둥근 타일(512 기준 모서리 반경 116)에 로고를 높이 400으로 얹은 것입니다. 작게 보이는 `favicon.svg`·`favicon.ico`와 헤더·푸터의 로고는 깎은 면의 선 두 개를 뺀 작은 판입니다.
 - 재생성 시에는 SVG를 목표 크기의 8배로 그린 뒤(`rsvg-convert` 등) 8×8 평균으로 줄이면 가장자리가 깔끔합니다.
+- `images/app/`: `screen-{draw,run,badge}-{564,846}.webp`(① 코스 그리기 ② 따라 달리기 ③ 완주하고 뱃지 받기, iPhone 한 기기 캡처). 한 장마다 564w·846w 두 파일이고, 랜딩 「실제 앱 화면」 구간이 `srcset`으로 씁니다.
+- 캡처 재생성은 `sips --matchTo`(macOS 내장 sRGB 프로필)로 sRGB로 바꾸고 `sips --resampleWidth 564`·`846`으로 줄인 뒤 `cwebp -q 80 -m 6 -sharp_yuv`로 인코딩하고, `webpinfo`로 EXIF·XMP·ICCP 메타데이터 청크가 없는지 확인합니다. 캡처 원본은 저장소에 넣지 않습니다. 캡처 조건(출시 범위 기능만, 하단 탭 없음, NAVER 로고 유지 등)은 `.planning/baseline/USER-TASKS.md` 작업 10에 있습니다.
 - `prepare/`는 `.gitignore`로 제외된 로컬 전용 폴더입니다 (이전 디자인의 목업, 옛 아이콘 원본 등).
 
 ## Content language
