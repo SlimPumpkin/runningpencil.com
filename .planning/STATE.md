@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: 04-09 보류 — 캡처 대기 (Task 1 완료, SUMMARY 없음)
-last_updated: "2026-11-17T07:39:36.330Z"
-last_activity: 2026-11-17
-last_activity_desc: 04-09 보류 — 캡처 대기
-state_head: ea4b1165a6639b6cea55fbb48363da92efbf61c5
+stopped_at: Completed 04-09-PLAN.md
+last_updated: "2026-11-18T05:37:22.013Z"
+last_activity: 2026-11-18
+last_activity_desc: 04-09 완료 — 캡처 검토·WebP 변환 (사용자 예외 3)
+state_head: ed817941b41d79a98dd97ee8a72a0e543fea94c6
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 37
+  completed_plans: 38
   percent: 30
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 9 of 13
-Status: 04-09 보류 — 앱 화면 캡처(작업 10) 대기. 캡처를 받으면 `/gsd-execute-phase 4`로 04-09를 Task 1부터 다시 함
-Last activity: 2026-11-17 — 04-09 보류 (이미지 파이프라인 시험은 통과, 캡처 대기)
+Plan: 10 of 13
+Status: Ready to execute
+Last activity: 2026-11-18 — 04-09 완료 (캡처 세 장 검토, WebP 여섯 개 스크래치, 사용자 예외 3). 다음은 04-10 스크린샷 구간
 
 Progress: [███░░░░░░░] 30%
 
@@ -95,6 +95,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P06 | 3min | 2 tasks | 6 files |
 | Phase 04 P07 | 3min | 2 tasks | 5 files |
 | Phase 04 P08 | 15min | 3 tasks | 2 files |
+| Phase 04 P09 | 32min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -186,6 +187,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-07: 두 CLAUDE.md 문서 커밋 4b9288d285af(방침 행 「랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음」, 생성기 사본 시험에서 stack·conventions·architecture 네 줄만 바뀌어 --auto 없이 재생성), README·STRUCTURE 커밋 5b00b906d609. 열 개 문서 옛 나열·옛 방침 칸·로컬 경로 0줄(DOCS1_STALE=OK). 푸시 안 함
 - [Phase 04]: 04-08: 사용자가 PUSH2_CANDIDATE=6e46bdcb24e0 푸시를 승인(push). 원격이 PUSH2_PREV=073d33e0e50a 그대로인 것을 확인하고 그 SHA만 한 번 푸시(훅 6항목 통과). Pages built 2026-11-17T07:27:26Z, 네 URL 200·제목, 라이브 / = c2 빌드 바이트, 내부 파일 셋 404 → LIVE_PUSH2=OK. SITE-01 갈래 완료, 단계는 앱 화면 캡처(작업 10)를 기다림
 - [Phase 04]: 04-09 보류 1: Task 1 이미지 파이프라인 시험 통과(1170bd3, 두 엔진 × 배율 2·3 `PASS pipe`, 저장소·라이브 그대로). Task 2에서 사용자가 hold로 답해 `HOLD1_` 표시로 보류(d047ffc), SUMMARY 없음. 다음 실행은 04-09 Task 1부터 다시 함. 그때 safe-resume 게이트가 `docs(04-09):` 커밋 1170bd3을 보고 멈추면 `re-execute from scratch`를 고름(보류 커밋이 대신함, revert 안 함)
+- [Phase 04]: 04-09: 캡처 세 장(1260×2736 같은 기기) 검토 27항목 통과. badge의 NAVER 로고 가림(원본에서 앱의 뱃지 창이 덮음, D-20)과 run·badge 상태 표시줄 차이(D-18)는 사용자 예외(2026-11-18, CAPTURE_WAIVERS=3, 원래 판정은 ORIG_ 줄). 우리가 더 자르거나 덮지 않는 조건은 유지, 04-10은 ③에 한해 원본보다 더 깎지 않는지만 판정(CONTEXT D-18·D-20 덧붙임). WebP 여섯 개(q80, 846w 846x1837)는 스크래치에만 둠
 
 ### Pending Todos
 
@@ -197,7 +199,7 @@ None yet.
 - 가비아 DNS 1차 방문(Google Workspace 도메인 인증 TXT·MX·SPF 1개, Search Console TXT. 기존 레코드는 보존, 절차는 `.planning/baseline/USER-TASKS.md`)과 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
 - 가비아 DNS 2차 방문(DKIM, 절차는 `.planning/baseline/USER-TASKS.md` 작업 6. 작업 시점은 Phase 5 무렵) → Phase 10 (Apple 릴레이 답장의 전제. 이메일 게이트는 DKIM을 기다리지 않음)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
-- 실제 앱 화면 캡처(출시 범위 기능만) → Phase 4
+- 실제 앱 화면 캡처(출시 범위 기능만) → Phase 4 (04-09에서 세 장 받음, 2026-11-18. 검토·WebP 변환 끝, 구간은 04-10)
 
 사용자·법률 결정(Phase 1에서 결정 목록으로 넘김):
 - U11 사업자 값과 영문 법인명 → Phase 5·8·9 (U12는 결정됨: Google Workspace 사용자 별칭 도메인, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`)
@@ -211,6 +213,9 @@ Phase 3에서 넘어온 것:
 - [Phase 03] 코드 리뷰 WR-02 open: `scripts/check-site.sh` 5번 항목이 `@tailwindcss/browser` 스크립트와 `<style type="text/tailwindcss">`를 잡지 못함. 고칠지 사람이 정해야 함 (`03-REVIEW.md`). Info IN-01~06도 open이고, 그중 IN-01(`th` nowrap이 `tbody`의 행 머리에도 걸림)은 Phase 7 처리 위탁 표를 쓸 때 다시 봄
 - [Phase 03] Phase 7에서 실제 처리 위탁 표가 들어오면 실기기 iOS Safari와 VoiceOver 음성으로 표 읽기·Tab 도달·스크롤 그림자를 다시 확인함 (Phase 3 UAT는 시험 본문, macOS Safari, 접근성 트리까지만 확인)
 
+Phase 4 후속:
+- [Phase 04] 04-09 사용자 예외(D-20): 랜딩 ③ 완주 결과 캡처는 원본에서 앱의 뱃지 창이 NAVER 로고를 덮은 채로 04-10·04-11에서 공개될 예정(SDK 가이드 위험은 사용자가 받아들임). 앱에서 로고 위치(logoAlign·logoMargin)나 뱃지 창 위치를 고치면 ③만 다시 찍어 교체 (단계를 막지 않는 후속)
+
 ## Deferred Items
 
 Items acknowledged and deferred at milestone close, most recent first:
@@ -221,6 +226,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T07:32:45.418Z
-Stopped at: 04-09 보류 — 캡처 대기 (Task 1 완료, SUMMARY 없음)
+Last session: 2026-11-18T05:37:21.724Z
+Stopped at: Completed 04-09-PLAN.md
 Resume file: None
