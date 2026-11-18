@@ -44,7 +44,7 @@ key-decisions:
 patterns-established:
   - "캡처를 담은 사이트 변경은 `git commit-tree` 후보 객체로만 판정하고, 승인 전에는 어떤 ref에도 붙이지 않는다. 판정 기록은 EVIDENCE의 CAND 표식과 트리 해시로 남긴다"
 
-requirements-completed: []  # SITE-06은 04-11(승인·푸시)·04-12·04-13도 선언해 이 계획에서 완료 표시하지 않음
+requirements-completed: [SITE-06]  # PLAN requirements를 그대로 옮김. REQUIREMENTS.md 체크는 requirements.ready-ids가 SITE-06을 blocked로 내어(04-11~04-13도 선언) Pending으로 둠
 
 coverage:
   - id: D1
@@ -115,7 +115,7 @@ completed: 2026-11-18
 1. **Task 1: 후보 구간 판정 (tracer)** - 커밋 없음. 판정 후보 객체 `56fd3bb79160`
 2. **Task 2: 기존 동작·의도한 줄만·화면 검토, 후보 확정과 되돌림** - 커밋 없음
 
-**Plan metadata:** 이 SUMMARY와 `04-EVIDENCE.md`를 담은 docs 커밋 하나(이 계획의 유일한 커밋), 그 뒤 STATE·ROADMAP 커밋
+**Plan metadata:** `e1716ea` (SUMMARY·EVIDENCE docs 커밋), `a96f0f9` (STATE·ROADMAP), 그 뒤 해시 정착 (k) 다시 재기와 이 SUMMARY 고침을 담은 docs 커밋 하나. 사이트 커밋은 없다
 
 ## Files Created/Modified
 
@@ -132,7 +132,25 @@ completed: 2026-11-18
 
 ## Deviations from Plan
 
-None - plan executed exactly as written.
+### Auto-fixed Issues
+
+**1. [Rule 1 - Bug] 해시 정착 (k)를 새로 연 문서에서 다시 잼**
+- **Found during:** 계획 마무리 검토 (Task 1 판정 스크립트)
+- **Issue:** `p4-shots.mjs` 기본 모드의 (k)는 `/`를 판정한 같은 페이지에서 `/#get`으로 옮겨 재므로 문서를 새로 열지 않는다(조각만 다른 같은 문서 이동, 이미지는 이미 받아진 상태). 계획의 「`/#get`으로 열어 load 뒤」 조건과 다르다
+- **Fix:** 스크립트는 그대로 두고, 같은 c3 빌드에서 새 문맥을 여는 `--hash-only` 모드로 다시 쟀다. chromium -0.4px, webkit 0.5px로 ±2px 안, 기준과 같은 수준이라 판정은 바뀌지 않음
+- **Files modified:** `04-EVIDENCE.md` (04-10 구간 끝에 다시 잰 출력 추가), 이 SUMMARY
+- **Verification:** `PASS shots` (hash-only, 두 엔진). Task 1·2 verify 다시 실행 exit 0
+- **Committed in:** 마지막 docs 커밋 (`--amend` 없이 새 커밋)
+
+**2. [Rule 1 - Bug] `requirements-completed`를 PLAN 값 그대로 `[SITE-06]`으로 고침**
+- **Found during:** 계획 마무리 검토
+- **Issue:** 처음 SUMMARY에 `[]`로 적었으나 execute-plan 규칙은 PLAN `requirements`를 그대로 옮기라고 한다(04-09도 `[SITE-06]`)
+- **Fix:** `[SITE-06]`으로 고침. REQUIREMENTS.md 체크는 그대로 Pending(`requirements.ready-ids`가 blocked)
+- **Committed in:** 마지막 docs 커밋
+
+---
+
+**Total deviations:** 2 auto-fixed (Rule 1 둘). **Impact on plan:** 판정 결과와 사이트 후보는 바뀌지 않았다. 기록만 보강했다.
 
 ## Issues Encountered
 
@@ -156,4 +174,5 @@ None - no external service configuration required.
 
 - FOUND: `.planning/phases/04-landing-content-fix/04-EVIDENCE.md` (SHOTS_BASE, CAND3, SHOTS_OK=OK)
 - FOUND: 후보 객체 `56fd3bb79160` (`git cat-file -t` = commit, 어떤 ref에도 없음)
-- Task 1·Task 2 verify 명령 재실행 exit 0
+- Task 1·Task 2 verify 명령 재실행 exit 0 (마지막 docs 커밋 뒤에도 다시 실행)
+- 해시 정착 (k) 새 문맥 재측정 `PASS shots`

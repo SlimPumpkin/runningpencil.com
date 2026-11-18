@@ -680,3 +680,11 @@ OK worktree restored
 ```
 
 SHOTS_OK=OK
+
+해시 정착 (k) 다시 재기: 위 구간 판정의 `OK hash` 줄은 같은 페이지에서 `/`를 판정한 뒤 `#get`으로 옮긴 것이라 문서를 새로 열지 않았습니다(이미지가 이미 받아진 상태). 그래서 `serve c3 4207` 뒤 `node "$W/pw/p4-shots.mjs" <포트 4207> "$W/cap/c3-hash" '' --hash-only`로 새 문맥에서 `/#get`을 바로 열어 다시 쟀습니다. 두 엔진 모두 ±2px 안이고 기준(chromium -0.3, webkit -0.4)과 같은 수준입니다. 판정 뒤 `stop c3`로 포트 4207을 비웠습니다:
+
+```
+OK hash chromium top=-0.4
+OK hash webkit top=0.5
+PASS shots
+```
