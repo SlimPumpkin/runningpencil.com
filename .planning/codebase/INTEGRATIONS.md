@@ -14,7 +14,7 @@ last_mapped_at: 2026-11-14
   - Auth: 없음
 
 **데이터 출처 표기:**
-- OpenStreetMap - 랜딩 댕댕런 코스 선의 경로 데이터 출처. API 호출 없음(인라인 SVG로 고정), 푸터에 「경로 데이터 © OpenStreetMap contributors」 표기
+- OpenStreetMap - 랜딩 강아지런 코스 선의 경로 데이터 출처. API 호출 없음(인라인 SVG로 고정), 푸터에 「경로 데이터 © OpenStreetMap contributors」 표기
 - NAVER 지도 - 랜딩 「실제 앱 화면」 구간 캡처 속 지도(앱이 쓰는 네이버 지도). 사이트는 지도 API를 부르지 않고 정적 WebP(`images/app/`)만 쓴다. 캡처 안 NAVER 로고를 그대로 두고, 구간 바로 아래에 「지도 © NAVER Corp.」를 적는다(공유 푸터에는 넣지 않음). 이 문구는 약관에 지정된 문구가 아니라 추정이고, 네이버가 지정 표시를 요청하면 바꾼다. 제휴로 오인될 문구는 쓰지 않는다(NAVER API 이용약관 7.3 ⑦⑧)
 
 **분석·광고·지도 SDK:** Not detected
