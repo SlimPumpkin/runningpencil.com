@@ -93,8 +93,10 @@ tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' 
 # 이번 마일스톤의 출시 앱에 없는 기능 이름(U10, SITE-01)이 랜딩에 다시 들어오면 막는다.
 # 법적 문서 본문에는 Phase 6~8 전까지 남아 있으므로 랜딩 출력 하나만 본다. 코스북이 앱에 들어오면 이 항목을 고친다.
 # 줄 단위가 아니라 낱말 단위로 센다. 「체크포인트」처럼 기능 이름이 아닌 낱말은 빼되, 같은 줄의 맨 「포인트」는 그대로 잡는다.
-# 허용 낱말이 더 생기면 앞쪽 접두어 묶음 (체크|엔드)와 뒤쪽 허용 목록 '체크포인트|엔드포인트'에 함께 더한다.
-u10=$(grep -o -E '(체크|엔드)?포인트|굿즈|코스북' "$DEST/index.html" 2>/dev/null | grep -v -x -E '체크포인트|엔드포인트' | wc -l | tr -d ' ')
+# 허용 낱말(「○○포인트」)의 앞부분은 U10_ALLOW_PREFIX 한 곳에만 둔다. 잡는 쪽과 빼는 쪽이 이 값을 함께 쓴다.
+U10_ALLOW_PREFIX='체크|엔드'
+u10=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북" "$DEST/index.html" 2>/dev/null \
+    | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | wc -l | tr -d ' ')
 [ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
