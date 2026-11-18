@@ -61,7 +61,7 @@ last_mapped_at: 2026-11-14
 
 - 고정 breakpoint 대신 유동 수치를 먼저 쓴다: `padding-left: clamp(20px, 5vw, 64px)`, `padding: clamp(40px, 5vw, 64px) 0`.
 - 좁은 화면 규칙은 `index.html` `<style>` 끝의 `@media (max-width: 860px) { ... }` 블록 하나에 모은다. 랜딩의 폭 breakpoint는 860px(`max-width`) 하나다. 법적 카드는 768px(`min-width`)에서 안쪽 여백만 28px에서 48px로 바뀐다 (`_includes/css/legal.css`). 둘은 별개다.
-- 「실제 앱 화면」 띠(`.rp-shots`)는 넓은 화면에서 한 줄 세 장(grid)이고, 860px 이하에서는 `.rp-wrap` 좌우 여백과 같은 음수 margin(`calc(-1 * clamp(20px, 5vw, 64px))`)으로 화면 끝까지 닿는 가로 띠가 되어 CSS `scroll-snap`으로 밀린다 (스크립트 없음). 띠 `<ul>`에는 키보드로 밀 수 있게 `tabindex="0"`, 목록으로 읽히게 `role="list"`, 이름으로 `aria-label`을 준다.
+- 「실제 앱 화면」 띠(`.rp-shots`)는 넓은 화면에서 한 줄 세 장(grid)이고, 860px 이하에서는 `.rp-wrap` 좌우 여백과 같은 음수 margin(`calc(-1 * clamp(20px, 5vw, 64px))`)으로 화면 끝까지 닿는 가로 띠가 되어 CSS `scroll-snap`으로 밀린다 (스크립트 없음). 띠 `<ul>`에는 키보드로 밀 수 있게 `tabindex="0"`, 목록으로 읽히게 `role="list"`, 이름으로 `aria-label`을 준다. 넓은 화면(860px 초과)에서는 밀 것이 없어도 띠가 탭 멈춤 자리로 하나 남는다. 「실제 앱 화면」 구간은 스크립트를 쓰지 않는 방침이라 그대로 둔다.
 - 창 높이에 따른 축소는 `@media (max-height: ...)`에서 `zoom`으로 한다 (`.rp-pin .rp-scrolly .rp-phone { zoom: .84; }`).
 - 움직임은 `@media (prefers-reduced-motion: reduce)` 블록과 JS의 `reduced()` 확인 둘 다로 막는다.
 
