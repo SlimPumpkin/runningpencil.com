@@ -99,13 +99,16 @@ tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' 
 U10_ALLOW_PREFIX='체크|엔드'
 case "|${U10_ALLOW_PREFIX}|" in *'||'*) fail "U10_ALLOW_PREFIX 형식이 잘못되었습니다: '${U10_ALLOW_PREFIX}'" ;; esac
 case "${U10_ALLOW_PREFIX//|/}" in *[[:punct:][:space:]]*) fail "U10_ALLOW_PREFIX 형식이 잘못되었습니다: '${U10_ALLOW_PREFIX}'" ;; esac
-# grep 종료 코드 0은 찾음, 1은 못 찾음(정상), 2 이상은 오류다. 오류를 「못 찾음」으로 여기면 점검이 조용히 통과하므로 실패로 다룬다.
-u10_hits=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북" "$DEST/index.html"); u10_rc=$?
-if [ "$u10_rc" -gt 1 ]; then
-    problem "점검 6번 grep이 실패했습니다 (종료 코드 ${u10_rc}, U10_ALLOW_PREFIX='${U10_ALLOW_PREFIX}')"
-else
-    u10=$(printf '%s\n' "$u10_hits" | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | grep -c .)
-    [ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
+# 랜딩 출력이 없으면 3번 항목이 「문서가 없습니다」로 이미 셌으므로 이 항목은 건너뛴다.
+if [ -f "$DEST/index.html" ]; then
+    # grep 종료 코드 0은 찾음, 1은 못 찾음(정상), 2 이상은 오류다. 오류를 「못 찾음」으로 여기면 점검이 조용히 통과하므로 실패로 다룬다.
+    u10_hits=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북" "$DEST/index.html"); u10_rc=$?
+    if [ "$u10_rc" -gt 1 ]; then
+        problem "점검 6번 grep이 실패했습니다 (종료 코드 ${u10_rc}, U10_ALLOW_PREFIX='${U10_ALLOW_PREFIX}')"
+    else
+        u10=$(printf '%s\n' "$u10_hits" | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | grep -c .)
+        [ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
+    fi
 fi
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
