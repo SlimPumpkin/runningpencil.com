@@ -476,7 +476,7 @@ layout: none
             var demoPct = byId('rp-demo-pct'), demoDist = byId('rp-demo-dist'), demoTime = byId('rp-demo-time');
             var runBtn = byId('rp-run-btn'), runIcon = byId('rp-run-icon'), runLabel = byId('rp-run-label'), demoDone = byId('rp-demo-done');
             var course = byId('rp-c-dog');   // 강아지런 코스 선
-            var KM = 7.84;                   // 강아지런 거리
+            var KM = 7.84;                   // 강아지런을 한 번 달린 측정 거리 (앱의 코스 표기는 7.8 km)
 
             // step: 보이는 단계(0~2) · live: 구간을 화면에 고정하고 스크롤로 넘기는 중인지 · run: 체험 상태(idle → running → done)
             var state = { step: 0, live: doc.classList.contains('rp-pin'), run: 'idle' };
