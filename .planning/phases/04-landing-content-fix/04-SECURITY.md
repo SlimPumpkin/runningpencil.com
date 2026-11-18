@@ -111,6 +111,7 @@ created: "2026-11-18"
 |------------|---------------|--------|------|--------|
 | 2026-11-18 | 35 | 35 | 0 | secure-phase 오케스트레이터 (ASVS L1, auditor 생략: threats_open 0 + 계획 시점 register + L1) |
 | 2026-11-18 (재감사, HEAD `65c0c3970dae`) | 35 | 35 | 0 | secure-phase 오케스트레이터. 코드 리뷰 수정(IN-01~IN-08)이 닿은 위협만 다시 확인: T-04-06 세 낱말·실루엣·「채울 뱃지」 0, T-04-07·08·25 `PASS behave`(두 엔진 × 세 문맥), T-04-09 `c3` 대비 새 hex 0, T-04-14·15 check-site 통과·`bash -n`·훅 100755·기준 커밋 음성 대조(6번 항목 「/index.html 5곳」 실패), T-04-16·17·31 재생성 사본 바이트 동일·방침 구간 두 사본 동일, T-04-21 WebP 메타 0, T-04-33 `origin/main == 9cc14903adbd`(뒤 로컬 커밋은 나가지 않음) |
+| 2026-11-18 (재감사, HEAD `8a6a4545eefc`) | 35 | 35 | 0 | secure-phase 오케스트레이터. 세 번째·네 번째 코드 리뷰 수정(WR-02~WR-04·IN-09~IN-12)이 바꾼 파일은 `index.html`(거리·시간 표기 8줄)·`scripts/check-site.sh`(6번 항목 형식 확인·건너뛰기)·`.claude/CLAUDE.md`(`<head>` 순서 1줄)뿐이라 닿는 위협만 다시 확인: T-04-06 HEAD 빌드 세 낱말·실루엣·「채울 뱃지」 0, T-04-07·08·25 `PASS behave`(두 엔진 × 세 문맥, `badges=7 stickers=6 empty=0`), T-04-09 `c3` 대비 새 hex 0, T-04-14·15 check-site HEAD 통과·`bash -n`·훅 100755·기준 커밋 음성 대조(「/index.html 5곳」 실패)·`U10_ALLOW_PREFIX` 형식 오류 사본 세 개 모두 실패, T-04-16·31 재생성 사본 바이트 동일(`REGEN_IDENTICAL=OK`), T-04-21 WebP 메타 0, T-04-26·27 `#screens`에 외부 URL·`<script`·「제휴」「공식」 0, T-04-33 `origin/main == 9cc14903adbd`(로컬 50커밋은 나가지 않음) |
 
 ---
 
