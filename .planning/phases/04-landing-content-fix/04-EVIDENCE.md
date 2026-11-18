@@ -688,3 +688,164 @@ OK hash chromium top=-0.4
 OK hash webkit top=0.5
 PASS shots
 ```
+
+## 04-11 스크린샷 푸시 후보
+
+04-10에서 판정한 후보(`CAND3`)와 사이트 트리가 같은 스크린샷 구간 커밋(C3)을 실행 시작 HEAD 위에 브랜치에 붙지 않은 커밋 객체로 만든 후보입니다(D-19, D-22). 캡처를 담은 커밋은 Task 2에서 사용자가 이 SHA를 승인하기 전에는 어떤 브랜치·태그에도 두지 않습니다.
+
+스크래치 확인: `$W/lib.sh`, `$W/pw/node_modules/playwright`, `$W/pw/p4-behave.mjs`, `$W/base/site`, `$W/pw/p4-shots.mjs`, `$W/c3/site/index.html`, `$W/c3/src/images/app/`의 WebP 여섯 개, `$W/cap/c3/`의 구간 화면 열 장이 모두 있고 `$W/c3/TREE`가 `CAND3`의 트리와 같아 다시 만든 것이 없습니다.
+
+이전 원격과 기준: `git fetch -q origin main` 뒤 `origin/main`은 `6e46bdcb24e0`(PUSH2_SHA, 그 뒤 다른 곳의 푸시 없음)이고 HEAD(`61bd06a7f90f`)의 조상입니다. HEAD의 사이트 트리는 `SHOTS_BASE`와 같습니다(04-10 뒤 사이트 커밋 없음).
+
+```
+OK prev 6e46bdcb24e0 ancestor of HEAD
+OK base unchanged since SHOTS_BASE
+```
+
+커밋 객체: 임시 인덱스(`$W/c3/push.index`)에 HEAD 트리를 읽고 `CAND3`의 `index.html`·`images/`를 덮어 트리를 지은 뒤 `git commit-tree <트리> -p HEAD -F "$W/c3/msg"`로 만들었습니다. 임시 인덱스는 지웠습니다. 작업 트리와 실제 인덱스는 건드리지 않았고, `git commit`·`git branch`·`git tag`·`git update-ref`·`git merge`는 쓰지 않았습니다. 제목은 `feat(04-11): 랜딩에 실제 앱 화면 구간 추가 (캡처 세 장, 출시 준비 중 딱지, 지도 출처)`입니다.
+
+```
+OK site tree = CAND3
+OK c3 files 7
+OK c3 parent = HEAD
+OK c3 on no ref
+OK worktree untouched
+```
+
+푸시 범위 (`PUSH3_PREV..C3`): 공개되지 않은 커밋은 C3와 그 부모까지의 기록 문서 커밋입니다. 범위의 사이트 커밋은 C3 하나이고, `.planning/` 밖에서 바뀌는 파일은 WebP 여섯 개와 `index.html`입니다:
+
+```
+OK unpublished commits=16
+OK site commits = C3
+95062367dc69
+OK site files 7
+images/app/screen-badge-564.webp
+images/app/screen-badge-846.webp
+images/app/screen-draw-564.webp
+images/app/screen-draw-846.webp
+images/app/screen-run-564.webp
+images/app/screen-run-846.webp
+index.html
+```
+
+04-10 판정 요약:
+
+```
+CAND3 PASS shots PASS behave REVIEW shots 4 OK
+```
+
+검토 항목(막는 검사 아님): 범위 diff의 더해진 줄에서 로컬 경로 꼴(macOS 홈 폴더, 임시 폴더)과 토큰 꼴을 찾은 결과입니다(검색 꼴은 이 계획 Task 1 action 5번 (d)). 걸린 한 줄은 누출 검사 대상을 글로 적은 줄이고, 실제 경로나 토큰은 없습니다. 줄 내용은 승인 단계에서 사용자에게 보여 줍니다.
+
+```
+REVIEW hits=1
+04-10-SUMMARY.md:157
+```
+
+실제 푸시 경로(`printf 'refs/heads/main <C3> refs/heads/main <이전 원격>\n' | .githooks/pre-push`):
+
+```
+check-site: 통과 (커밋 95062367dc69, jekyll 3.10.0)
+```
+
+C3_SHA=95062367dc69
+PUSH3_CANDIDATE=95062367dc69
+PUSH3_PREV=6e46bdcb24e0
+
+## 04-11 스크린샷 푸시 라이브 확인
+
+승인: Task 2 `checkpoint:decision`(blocking-human)에서 사용자가 `PUSH3_CANDIDATE=95062367dc69`를 이름으로 적은 질문에 **push**로 답했습니다. 이 승인은 이 SHA의 푸시 한 번에만 썼습니다.
+
+푸시 전 확인 (`<scratch_regen>`과 action 1번): `$W/lib.sh`, playwright, `p4-behave.mjs`, `$W/base/site`, `p4-shots.mjs`, `$W/c3/site/index.html`, `$W/c3/src/images/app/`의 WebP 여섯 개, `$W/cap/c3/`의 구간 화면 열 장이 모두 있고 `$W/c3/TREE`가 `CAND3`의 트리와 같아 다시 만든 것이 없습니다(`$W/c3/site/images/app/` 여섯 파일의 sha256도 04-09 `IMG` 줄과 같음). `git fetch -q origin main` 뒤 `origin/main`은 PUSH3_PREV(`6e46bdcb24e0`)였고, 로컬 HEAD는 C3의 부모 그대로(그사이 커밋 없음), C3는 어떤 ref에도 없었고 작업 트리에 `images/`가 없었습니다.
+
+```
+OK prev = PUSH3_PREV
+OK site unchanged since C3^
+OK site tree = CAND3
+OK c3 on no ref
+```
+
+푸시는 `git push origin "${C3}:refs/heads/main"`(C3는 PUSH3_CANDIDATE의 전체 해시)으로 훅을 켠 채 한 번 했습니다. `--no-verify`·force는 쓰지 않았습니다.
+
+```
+check-site: 통과 (커밋 95062367dc69, jekyll 3.10.0)
+6e46bdc..9506236  -> main
+```
+
+PUSH3_SHA=95062367dc69
+
+로컬 main에 들이기: 푸시가 성공한 뒤 HEAD가 아직 C3의 부모라 `git merge --ff-only <C3>`로 들였습니다. 작업 트리의 고치지 않은 `.planning/` 파일 두 개(STATE·EVIDENCE)는 그대로입니다. C3가 HEAD의 조상이고, `.planning/` 밖 트리가 C3와 같고, `git status --porcelain -- index.html images`가 빈 출력입니다.
+
+```
+OK local main has C3 (ff)
+```
+
+배포 완료 (`gh api repos/<slug>/pages/builds/latest`, 20초 간격, 두 번째 읽기에서 built):
+
+```
+OK 빌드 95062367dc69 built 2026-11-18T06:41:14Z
+```
+
+라이브 HTTP·바이트 (`https://runningpencil.com<경로>?cb=95062367dc69`, 사본 `$W/live3/`). 기대 제목은 `$W/c3/site/`의 같은 문서 제목(= `scripts/check-site.sh`의 기대 제목)이고, 법적 세 문서도 `$W/c3/site/<경로>/index.html`과 바이트가 같습니다:
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬
+OK live index bytes = c3
+```
+
+이미지 (`https://runningpencil.com/images/app/<파일>?cb=95062367dc69`, 사본 `$W/live3/`). 여섯 파일 모두 200이고 `content-type: image/webp`이며 저장소 파일과 `cmp`로 바이트가 같습니다(RESEARCH A10 확인):
+
+```
+OK IMG screen-badge-564.webp 200 image/webp same
+OK IMG screen-badge-846.webp 200 image/webp same
+OK IMG screen-draw-564.webp 200 image/webp same
+OK IMG screen-draw-846.webp 200 image/webp same
+OK IMG screen-run-564.webp 200 image/webp same
+OK IMG screen-run-846.webp 200 image/webp same
+```
+
+라이브 구간 판정 `node "$W/pw/p4-shots.mjs" https://runningpencil.com "$W/cap/live3" '?cb=95062367dc69'` (Chromium·WebKit × 1280×800·375×812, 판정 (a)~(l)). 숫자가 04-10 후보 판정과 모두 같습니다:
+
+```
+OK hash chromium top=-0.4
+OK shots chromium 1280 imgs=3 credit-gap=38.4 src=564,564,564
+OK strip chromium 375 arrow=0->276 end-gap=20
+OK shots chromium 375 imgs=3 credit-gap=28 src=564,564,564
+OK hash webkit top=0.5
+OK shots webkit 1280 imgs=3 credit-gap=38.4 src=564,564,564
+OK strip webkit 375 arrow=0->276 end-gap=20
+OK shots webkit 375 imgs=3 credit-gap=28 src=564,564,564
+PASS shots
+```
+
+해시 정착 (k)는 04-10과 같은 까닭으로 새 문맥에서 `/#get`을 바로 열어 한 번 더 쟀습니다(`--hash-only`, 캡처 `$W/cap/live3-hash`). 두 엔진 모두 ±2px 안입니다:
+
+```
+OK hash chromium top=-0.4
+OK hash webkit top=0.5
+PASS shots (hash-only)
+```
+
+라이브 동작 판정 `node "$W/pw/p4-behave.mjs" https://runningpencil.com '?cb=95062367dc69'` (성공 기준 3):
+
+```
+OK chromium 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK chromium 1280 reduce pin=0 badges=7 stickers=6 empty=0
+OK webkit 1280 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 375 no-preference pin=1 badges=7 stickers=6 empty=0
+OK webkit 1280 reduce pin=0 badges=7 stickers=6 empty=0
+PASS behave
+```
+
+라이브 구간 화면: `$W/cap/live3/`의 `chromium-1280-screens.png`, `webkit-375-end.png`, `chromium-375-end.png`를 Read 도구로 열어 보았습니다. 1280px에서 제목 옆 「출시 준비 중」 딱지, 폰 테두리 속 세 장과 캡션, 오른쪽 아래 「지도 © NAVER Corp.」, 구간 아래 둥근 모서리 사이 노랑이 보이고, draw·run의 NAVER 로고가 온전합니다. WebKit 375 끝 화면은 badge 장이 온전히 보이고 오른쪽 여백이 남습니다.
+
+기록 정정 (04-10 `REVIEW shots chromium 375` 줄): 그 줄은 「끝까지 민 화면(end)에서 badge가 온전히 보임」이라고 적었지만, Chromium의 `*-375-end.png`(04-10 후보 캡처와 이번 라이브 캡처 둘 다)는 run 장이 띠 가운데에 있고 badge가 보이지 않습니다. 오케스트레이터가 승인 검토 중에 이를 찾아 후보 빌드를 따로 재 보았습니다(커밋하지 않은 확인): Chromium 375×812에서 `scrollLeft = scrollWidth` 뒤 1.5초에 띠는 scrollLeft 477(최댓값)이고 badge 장은 x 95~355로 온전히 보이며, 창 전체 캡처는 그 자리를 유지합니다. 그런데 Playwright의 요소 캡처(`locator('#screens').screenshot()`)가 Chromium에서만 캡처 순간 다시 배치하면서 scrollLeft를 170으로 옮깁니다. → 키 세 번과 가로 휠은 Chromium·WebKit 모두 477에 닿고, WebKit의 요소 캡처는 위치를 옮기지 않습니다. 그래서 사이트 결함이 아니라 Chromium 요소 캡처의 부작용이고, 캡처 전에 잰 `OK strip chromium 375 arrow=0->276 end-gap=20` 줄이 유효한 판정입니다. 판정 도구 `p4-shots.mjs`는 고치지 않았습니다(판정 기준을 이 자리에서 바꾸지 않음). 04-10 검토 줄 자체는 고치지 않고 이 줄로 정정합니다.
+
+```
+NOTE chromium 375 end image = element-screenshot artifact (scrollLeft 477 -> 170 at capture), judged by end-gap=20
+```
+
+LIVE_PUSH3=OK
