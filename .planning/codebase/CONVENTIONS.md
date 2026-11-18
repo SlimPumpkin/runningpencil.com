@@ -17,13 +17,14 @@ last_mapped_at: 2026-11-14
 ### CSS classes
 
 - 직접 만든 클래스에는 모두 `rp-` 접두사를 붙이고 kebab-case로 쓴다: `.rp-wrap`, `.rp-head-in`, `.rp-brand-tile`, `.rp-foot-legal`, `.rp-scrolly`, `.rp-phone`, `.rp-grid`.
+- 랜딩 「실제 앱 화면」 구간(`#screens`)의 클래스는 `.rp-shots-sec`(구간)·`.rp-shots`(띠)·`.rp-shot`(한 장)·`.rp-shot-frame`(흑연 폰 테두리)·`.rp-shot-cap`(캡션)·`.rp-shots-credit`(지도 출처)이다. 스크립트가 쓰지 않는 이름이다. 이 구간의 폰 테두리는 `.rp-phone`을 다시 쓰지 않는다 (`.rp-phone`은 좁은 화면과 낮은 창 높이의 `zoom` 규칙에 묶여 있다).
 - 부모-자식 관계는 접미사로 나타낸다 (BEM과 비슷하지만 `__`/`--`는 쓰지 않는다): `.rp-foot` → `.rp-foot-in` → `.rp-foot-top` / `.rp-foot-brand` / `.rp-foot-nav`.
 - 상태 클래스는 `is-` 접두사를 쓰고 JS에서만 바꾼다: `is-on` (보임/켜짐), `is-s0`·`is-s1`·`is-s2` (세 가지 이유의 단계).
 - 문서 전체 모드 클래스는 `<html>`에 `rp-` 접두사로 붙인다: `rp-pin` (스크롤 고정 모드, `<head>` 스크립트가 첫 그리기 전에 붙임), `rp-ready` (`load` 뒤 부드러운 스크롤 켜기).
 
 ### IDs and data attributes (JS 연결점)
 
-- 스크립트가 찾는 요소의 id는 `rp-` + 영역 + 역할로 쓴다: `rp-run-dot`, `rp-run-pct`, `rp-demo-prog`, `rp-demo-done`, `rp-run-btn`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`. 예외로 구간 앵커 id는 짧은 영어 단어로 쓴다: `story`, `demo`, `get`, `top`.
+- 스크립트가 찾는 요소의 id는 `rp-` + 영역 + 역할로 쓴다: `rp-run-dot`, `rp-run-pct`, `rp-demo-prog`, `rp-demo-done`, `rp-run-btn`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`. 예외로 구간 앵커 id는 짧은 영어 단어로 쓴다: `story`, `demo`, `screens`, `get`, `top`. `screens`(「실제 앱 화면」)는 스크립트가 쓰지 않는다.
 - SVG `<defs>` 심볼 id: 아이콘은 `rp-i-*` (`#rp-i-play`, `#rp-i-replay`), 코스 선은 `rp-c-*` (`#rp-c-dog`).
 - 반복 요소에는 인덱스 data 속성을 쓴다: 내용은 `data-step="0..2"`, 버튼은 `data-go="0..2"`.
 - id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 428행)의 인라인 스크립트도 반드시 같이 고친다.
@@ -60,6 +61,7 @@ last_mapped_at: 2026-11-14
 
 - 고정 breakpoint 대신 유동 수치를 먼저 쓴다: `padding-left: clamp(20px, 5vw, 64px)`, `padding: clamp(40px, 5vw, 64px) 0`.
 - 좁은 화면 규칙은 `index.html` `<style>` 끝의 `@media (max-width: 860px) { ... }` 블록 하나에 모은다. 랜딩의 폭 breakpoint는 860px(`max-width`) 하나다. 법적 카드는 768px(`min-width`)에서 안쪽 여백만 28px에서 48px로 바뀐다 (`_includes/css/legal.css`). 둘은 별개다.
+- 「실제 앱 화면」 띠(`.rp-shots`)는 넓은 화면에서 한 줄 세 장(grid)이고, 860px 이하에서는 `.rp-wrap` 좌우 여백과 같은 음수 margin(`calc(-1 * clamp(20px, 5vw, 64px))`)으로 화면 끝까지 닿는 가로 띠가 되어 CSS `scroll-snap`으로 밀린다 (스크립트 없음). 띠 `<ul>`에는 키보드로 밀 수 있게 `tabindex="0"`, 목록으로 읽히게 `role="list"`, 이름으로 `aria-label`을 준다.
 - 창 높이에 따른 축소는 `@media (max-height: ...)`에서 `zoom`으로 한다 (`.rp-pin .rp-scrolly .rp-phone { zoom: .84; }`).
 - 움직임은 `@media (prefers-reduced-motion: reduce)` 블록과 JS의 `reduced()` 확인 둘 다로 막는다.
 
@@ -172,7 +174,9 @@ last_mapped_at: 2026-11-14
   - include 공백 규칙: include 태그는 0열에 혼자 두고, include 파일은 원본 들여쓰기 그대로, 끝 줄바꿈 없이 쓴다. `{%-`는 `if`/`endif`에만 쓰고 내용을 내보내는 태그에는 쓰지 않는다.
   - raw 규칙: front matter가 붙은 파일은 전체가 Liquid를 거친다. 인라인 JS·CSS에 이중 중괄호나 중괄호-퍼센트가 생기면 그 부분을 `{% raw %}`…`{% endraw %}`로 감싼다. `scripts/check-site.sh`의 4번 항목은 출력에 남은 이런 문자열을 잡으므로, raw로 일부러 내보내는 경우가 생기면 그 항목에 예외 규칙을 더한다.
 
-- **SVG:** 모든 그림은 인라인 SVG다. 랜딩에서 두 번 이상 쓰는 도형은 `<body>` 맨 위 숨은 `<svg><defs>`에 두고 `<use href="#rp-...">`로 쓴다. 법적 페이지에는 `<defs>`가 없으므로 로고를 그 자리에 그대로 넣는다. 외부 이미지 파일을 쓰지 않는다.
+- **SVG:** 그림(로고·아이콘·지도 그림·코스 선)은 모두 인라인 SVG다. 랜딩에서 두 번 이상 쓰는 도형은 `<body>` 맨 위 숨은 `<svg><defs>`에 두고 `<use href="#rp-...">`로 쓴다. 법적 페이지에는 `<defs>`가 없으므로 로고를 그 자리에 그대로 넣는다. 예외는 랜딩 「실제 앱 화면」 구간의 앱 화면 캡처뿐이고, 이 캡처는 `images/app/screen-{draw,run,badge}-{564,846}.webp`에 둔다.
+
+- **이미지 (앱 화면 캡처, `images/app/`):** 캡처는 sRGB로 바꿔 WebP로 인코딩하고 메타데이터(EXIF·XMP·ICC)를 넣지 않는다. 한 장마다 564w·846w 두 파일을 `srcset`·`sizes`로 쓰고, `src`는 564w, `width`·`height`는 846w 파일의 실제 크기(846×1837)로 적는다. `loading="lazy"`·`decoding="async"`를 준다. `alt`에는 화면에 보이는 것만 쓴다. 캡처 원본(PNG)은 저장소에 넣지 않는다. 캡처 위에 웹페이지 요소를 겹치지 않고, 캡처 속 NAVER 로고를 원본보다 더 자르거나 덮지 않는다.
 
 ## Content & Naming Rules
 

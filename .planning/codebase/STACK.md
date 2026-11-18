@@ -15,6 +15,7 @@ last_mapped_at: 2026-11-14
 **Secondary:**
 - JavaScript (vanilla, 라이브러리 없음) - `index.html`의 `<head>` 짧은 스크립트(`rp-pin` 부여)와 `</body>` 앞 인라인 스크립트(스크롤 단계, 달려 보기 데모, `rp-ready`)
 - SVG (인라인) - 로고·아이콘·지도 그림, `index.html` `<body>` 맨 위 숨은 `<svg><defs>` + `<use href="#…">`; `favicon/favicon.svg`
+- WebP (래스터) - 랜딩 「실제 앱 화면」 캡처 `images/app/screen-{draw,run,badge}-{564,846}.webp` (sRGB, 메타데이터 없음, 564w·846w)
 - YAML - `_config.yml` (Jekyll 설정)과 페이지 front matter (랜딩 `layout: none`, 법적 3종 `layout: legal` + 제목·설명 등)
 - JSON - `favicon/site.webmanifest`
 
@@ -79,6 +80,7 @@ last_mapped_at: 2026-11-14
 **Development:**
 - Homebrew Ruby 4.x + Bundler (`bundle install`), 텍스트 에디터, 인터넷(CDN 글꼴). macOS 시스템 Ruby 2.6은 쓰지 않는다
 - 아이콘 재생성 시 `rsvg-convert` 등 (8배 렌더 후 8×8 평균 축소)
+- 앱 화면 캡처 재생성 시 macOS `sips`(sRGB 변환·축소)와 Homebrew `cwebp`·`webpinfo`(libwebp)
 
 **Production:**
 - GitHub Pages (조직 `SlimPumpkin` 프로젝트 사이트), `main` 푸시 = 배포. 절대 경로(`/favicon/...`, `/terms/`)는 커스텀 도메인 연결을 전제

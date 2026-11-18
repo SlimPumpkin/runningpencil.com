@@ -14,20 +14,21 @@ last_mapped_at: 2026-11-14
 - include로 공유: 네 페이지가 `_includes/head-links.html`(글꼴·파비콘 링크), `_includes/css/common.css`(「공통」 CSS), `_includes/header.html`(랜딩은 `home=true`), `_includes/footer.html`을 부른다. 법적 3종은 `_layouts/legal.html` + front matter로 그려지고, 랜딩은 `layout: none`에 include 네 줄을 쓴다.
 - 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
 - 외부 CDN: Pretendard (jsDelivr)만. 모든 페이지의 CSS는 Tailwind 없이 직접 쓴 CSS를 `<style>`에 인라인한다 (Tailwind Play CDN은 Phase 3에서 제거).
-- 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`).
+- 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`), `images/app/` (랜딩 「실제 앱 화면」 구간의 앱 화면 캡처 WebP).
 
 ## Component Responsibilities
 
 | Component | Responsibility | File |
 |-----------|----------------|------|
-| 랜딩 페이지 | 히어로·세 가지 이유(`#story`)·달려 보기(`#demo`)·출시 안내(`#get`) | `index.html` |
+| 랜딩 페이지 | 히어로·세 가지 이유(`#story`)·달려 보기(`#demo`)·실제 앱 화면(`#screens`)·출시 안내(`#get`). 구간 순서는 `#demo` → `#screens` → `#get`이고, `.rp-get`의 음수 위 margin이 `#screens`(`z-index: 1`)의 둥근 아래 모서리 밑으로 들어간다 | `index.html` |
 | Pre-paint 스크립트 | 첫 그리기 전에 `<html>`에 `rp-pin` 부여 | `index.html:22-25` |
 | head 링크 | Pretendard 글꼴 `<link>`, 파비콘·매니페스트 링크 (네 페이지 공통) | `_includes/head-links.html` (`index.html:21`, `_layouts/legal.html:14`에서 include) |
 | 「공통」 CSS 묶음 | 바탕·글꼴·`.rp-wrap`·헤더(`.rp-head`,`.rp-brand`,`.rp-nav`)·푸터(`.rp-foot-*`) | `_includes/css/common.css` (`index.html:27`, `_layouts/legal.html:16`의 `<style>` 안에서 include) |
 | 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`) | `_includes/header.html` (`index.html:153`은 `home=true`, `_layouts/legal.html:23`) |
 | 푸터 | 약관 링크 3개, 운영 안내, 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html:426`, `_layouts/legal.html:40`) |
 | 법적 레이아웃 | 법적 3종의 `<head>`·카드 머리(eyebrow·제목)·본문 틀(`.rp-doc`). `<style>`에 「공통」과 법적 페이지 CSS를 include. `noindex`·`updated`는 값이 있을 때만 출력, 제목은 `heading`이 없으면 `title` | `_layouts/legal.html` (`:18`에서 `_includes/css/legal.css` include) |
-| 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 반응형 | `index.html:29-115` |
+| 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 앱 화면 띠, 반응형 | `index.html:29-115` |
+| 실제 앱 화면 구간 | 제목·「출시 준비 중」 딱지·캡처 세 장(흑연 폰 테두리 `.rp-shot-frame`)·캡션·지도 출처(「지도 © NAVER Corp.」), 좁은 화면 가로 밀기(`scroll-snap`, 스크립트 없음) | `index.html` `#screens`, `images/app/*.webp` |
 | SVG 심볼 라이브러리 | 코스 path(`rp-c-*`), 지도(`rp-map-seoul`), 로고(`rp-logo`), 아이콘(`rp-i-*`), 히어로 캐릭터(`rp-t-*`) | `index.html:121-151` |
 | 랜딩 동작 스크립트 | story 단계/진행도, demo 런 애니메이션, 해시 정착, `rp-ready` | `index.html:428-583` |
 | 법적 페이지 토큰 | `--rp-ink`/`--rp-accent`/`--rp-muted`/`--rp-muted-2`/`--rp-line` | `_includes/css/legal.css:5` (`:root`, 3개 법적 페이지 공통) |
@@ -44,7 +45,7 @@ last_mapped_at: 2026-11-14
 
 - 공통 블록(head 링크, 「공통」 CSS, 헤더, 푸터)은 include 네 개에 한 벌씩 있고, 법적 3종의 틀은 `_layouts/legal.html` 하나에 있다. 페이지 파일에는 그 페이지만의 내용(랜딩 마크업·CSS·JS, 법적 문서 본문과 front matter)만 있다.
 - 랜딩은 라이브러리 없는 vanilla JS IIFE 하나, 상태는 클래스 토글과 CSS custom property로 DOM에 반영.
-- 시각 자산은 전부 인라인 SVG. 반복 도형은 숨은 `<svg><defs>` + `<use href="#…">`.
+- 로고·아이콘·지도 그림·코스 선은 인라인 SVG. 반복 도형은 숨은 `<svg><defs>` + `<use href="#…">`. 예외: 「실제 앱 화면」 구간의 캡처 WebP(`images/app/`).
 - 진행형 애니메이션은 JS가 CSS 변수(`--q0..2`)만 쓰고, 그림은 `calc()`/`clamp()`로 스스로 반응(선언적 렌더링).
 
 ## Layers
