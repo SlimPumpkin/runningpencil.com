@@ -119,6 +119,8 @@ validated: "2026-11-18"
 
 일회용 행은 EVIDENCE 표식으로 뒷받침된다: `BEHAVE_BASE=OK`, `BEHAVE_NEG=OK`, `C1_OK=OK`, `C2_OK=OK`, `CHECK6=OK`, `DOCS1_STALE=OK`, `DOCS2_STALE=OK`, `PIPE_TRACE=OK`, `CAPTURE_REVIEW=OK`(사용자 예외 `CAPTURE_WAIVERS=3`), `IMG_OK=OK`, `SHOTS_OK=OK`, `LIVE_PUSH1=OK`, `LIVE_PUSH2=OK`, `LIVE_PUSH3=OK`, `LIVE_PUSH4=OK`, `PHASE4_SC=OK`. 위 Manual-Only 두 행(캡처 내용, NAVER 로고)은 04-09 캡처 검토와 04-11 사용자 승인으로 판정했고(③ 완주 결과의 로고는 원본에서 앱의 뱃지 창에 덮여 있어 사용자 예외 D-20으로 통과, EVIDENCE `WAIVER badge logo`), 실기기·화면 낭독기 확인은 단계 끝 사람 확인으로 넘긴다 (04-13 SUMMARY).
 
+**재감사 2026-11-18 (HEAD `65c0c3970dae`, 코드 리뷰 수정 IN-01~IN-08 뒤):** `scripts/check-site.sh HEAD` 통과. HEAD 빌드에서 SC1 grep 0, D-02 두 문장 각 1, D-04 두 문장 각 1과 「채울 뱃지」「실루엣」 0, D-06 `t-empty` 0. 법적 3종 출력은 마지막 사이트 푸시 빌드(`c3`)와 바이트가 같다. `p4-behave.mjs` `PASS behave`(두 엔진 × 세 문맥), `p4-shots.mjs` `PASS shots`, WebP 여섯 개 메타데이터 청크 0. 코스 이름은 「강아지런」 9곳·「댕댕런」 0곳, `var KM = 7.84`. 이 수정분(`index.html` 출력이 `c3`와 30줄 다름)은 아직 원격 main에 푸시되지 않았으므로, 라이브 판정 행(SC1~SC3)의 근거는 여전히 04-13의 `PHASE4_SC=OK`다.
+
 ## Validation Audit 2026-11-18
 
 | Metric | Count |
