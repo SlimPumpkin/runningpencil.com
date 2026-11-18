@@ -200,7 +200,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-11: Chromium 375 끝 캡처에서 badge가 안 보이는 것은 Playwright 요소 캡처가 Chromium에서만 scrollLeft를 477에서 170으로 옮기는 부작용이다. 캡처 전 측정 end-gap=20으로 판정하고 p4-shots.mjs는 고치지 않았다
 - [Phase 04]: 04-12: 「모두 인라인 SVG, 외부 이미지 없음」 규칙을 「그림은 인라인 SVG, 예외는 images/app/ 앱 화면 캡처 WebP」로 바꿔 원본 맵 다섯 개와 두 CLAUDE.md에 적음(D-24). 캡처 속 네이버 지도 출처는 구간 아래 「지도 © NAVER Corp.」만, 공유 푸터에는 넣지 않음. 문서 커밋 fa90e3cb8cd1·5c6451b2debf·426174db1045, 생성기 사본 시험 뒤 .claude/CLAUDE.md 재생성(stack·conventions·architecture만 바뀜), 열 개 문서 옛 문장·로컬 경로 0줄(DOCS2_STALE=OK). 푸시 안 함(04-13)
 - [Phase 04]: 04-13: 사용자가 승인한 문서 푸시 SHA 9cc14903adbd 하나만 푸시했고(9506236..9cc1490), 라이브에서 Phase 4 성공 기준 1~3을 다시 돌려 모두 OK(PHASE4_SC=OK). 승인은 이 푸시로 다 썼고 d6d6d56 이후 docs 커밋은 로컬에만 있다
-- [Phase 04]: 코드 리뷰 다섯 번(마지막 clean) 뒤 재검증 보고서의 사람 확인 8건이 04-UAT.md(8/8 pass)와 문구까지 같아, 2026-11-19 verify-work 재개에서 보고서 status만 passed로 바꾸고 단계 전환함. UAT 1~5번은 라이브 9cc1490에서 봤고, 그 뒤 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)은 자동 확인만 거쳤고 아직 푸시 전
+- [Phase 04]: 코드 리뷰 다섯 번(마지막 clean) 뒤 재검증 보고서의 사람 확인 8건이 04-UAT.md(8/8 pass)와 문구까지 같아, 2026-11-19 verify-work 재개에서 보고서 status만 passed로 바꾸고 단계 전환함. UAT 1~5번은 라이브 9cc1490에서 봤고, `9cc1490` 이후 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)은 자동 확인만 거쳤고 아직 푸시 전
 
 ### Pending Todos
 
