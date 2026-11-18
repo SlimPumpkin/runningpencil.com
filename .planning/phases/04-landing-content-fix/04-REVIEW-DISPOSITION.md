@@ -3,6 +3,18 @@ phase: 04
 review: 04-REVIEW.md
 titles: json
 findings:
+  - id: IN-06
+    severity: info
+    disposition: fixed
+    title: "코스 이름을 「강아지런」으로 맞춘 뒤, 목업의 8.3 km가 같은 페이지 캡처의 숫자와 다름 (확인되지 않음)"
+  - id: IN-07
+    severity: info
+    disposition: fixed
+    title: "Generality without instantiation — 점검 6번 항목의 허용 목록 `체크포인트|엔드포인트`가 지금 랜딩에 없는 낱말만 거름"
+  - id: IN-08
+    severity: info
+    disposition: fixed
+    title: "줄 번호를 절대값으로 적는 방식이 남아 있어 다음 `index.html` 수정 때 다시 어긋남"
   - id: WR-01
     severity: warning
     disposition: fixed
@@ -28,20 +40,23 @@ findings:
     disposition: skipped
     title: "`screen-badge-*.webp` 캡처에서 NAVER 로고가 앱의 뱃지 창에 일부 가려짐"
 open: 0
-total: 6
-recorded: 2026-11-18T09:00:10.376Z
+total: 9
+recorded: 2026-11-18T09:34:30.773Z
 ---
 
 # Phase 04: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-01 | warning | fixed | 04-REVIEW-FIX.md |
-| IN-01 | info | fixed | 04-REVIEW-FIX.md |
-| IN-02 | info | fixed | 04-REVIEW-FIX.md |
-| IN-03 | info | fixed | 04-REVIEW-FIX.md |
-| IN-04 | info | fixed | 04-REVIEW-FIX.md |
-| IN-05 | info | skipped | 04-REVIEW-FIX.md |
+| IN-06 | info | fixed | 04-REVIEW-FIX.md |
+| IN-07 | info | fixed | 04-REVIEW-FIX.md |
+| IN-08 | info | fixed | 04-REVIEW-FIX.md |
+| WR-01 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-01 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-02 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-03 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-04 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-05 | info | skipped | 04-REVIEW-FIX.md (not in the current review) |
 
 Dispositions: `open` (recorded, not yet triaged), `fixed`, `skipped`, `deferred`.
 Set `deferred` by hand and put the reason in the Source cell; both are preserved. A `|` in the reason is kept as prose and escaped on the next run.

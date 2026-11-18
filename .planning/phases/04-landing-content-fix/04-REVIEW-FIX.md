@@ -30,7 +30,7 @@ status: all_fixed
 
 ## Fixed Issues
 
-### IN-06: 코스 이름을 「강아지런」으로 맞춘 뒤, 목업의 8.3 km가 같은 페이지 캡처의 숫자와 다름
+### IN-06: 코스 이름을 「강아지런」으로 맞춘 뒤, 목업의 8.3 km가 같은 페이지 캡처의 숫자와 다름 (확인되지 않음)
 
 **Files modified:** `index.html` (내용 커밋), `.planning/codebase/CONVENTIONS.md`·`ARCHITECTURE.md`·`TESTING.md`·`.claude/CLAUDE.md` (재생성) (문서 커밋)
 **Commit:** db064f3 (index.html), 9530f10 (문서)
@@ -74,7 +74,7 @@ status: all_fixed
 - `.claude/CLAUDE.md`의 변경 hunk는 모두 132~419행에 있습니다. 이 범위는 conventions·architecture 생성 구간(109~427행)이고, skills·workflow·profile 구간에는 변경이 없습니다.
 - 「이번 마일스톤 방침」 구간(제목부터 「마지막 규칙(데이터 목록)…」 문단까지 29줄)을 루트 `CLAUDE.md`와 `.claude/CLAUDE.md`에서 뽑아 `diff`했습니다. 두 커밋 뒤 모두 차이가 없습니다.
 
-### IN-07: 점검 6번 항목의 허용 목록이 두 곳에 나뉘어 있음 (necessity)
+### IN-07: Generality without instantiation — 점검 6번 항목의 허용 목록 `체크포인트|엔드포인트`가 지금 랜딩에 없는 낱말만 거름
 
 **Files modified:** `scripts/check-site.sh`
 **Commit:** 8432d96
