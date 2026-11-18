@@ -495,3 +495,94 @@ PASS pipe
 OK repo untouched
 
 PIPE_TRACE=OK
+
+## 04-09 캡처 검토와 변환
+
+Task 2에서 사용자가 캡처 세 장을 넘겼고, 시험 계정과 시험 경로로 찍었다고 확인했습니다. 세 파일은 모두 PNG이고, 장 순서대로 스크래치 사본 `$W/captures/{draw,run,badge}.png`로만 씁니다. 원래 위치는 적지 않습니다. `git ls-files -- '*.png'`는 `favicon/` 밖 파일을 내지 않습니다.
+
+CAPTURES_RECEIVED=3
+
+기계 확인 (`sips -g pixelWidth -g pixelHeight -g profile`). 세 장 모두 같은 크기이고 폭이 846 이상입니다:
+
+```
+draw  pixelWidth: 1260  pixelHeight: 2736  profile: sRGB IEC61966-2.1
+run   pixelWidth: 1260  pixelHeight: 2736  profile: sRGB IEC61966-2.1
+badge pixelWidth: 1260  pixelHeight: 2736  profile: sRGB IEC61966-2.1
+```
+
+OK device 3 same 1260x2736
+
+세 장을 Read 도구로 직접 열어 항목별로 판정했습니다. 앞 실행이 먼저 검토했고, 이번 실행이 세 장을 다시 열어 모든 줄에 동의했습니다. 걸린 항목은 셋입니다. badge `logo`는 FAIL이었고, run `status`와 badge `status`는 판단이 필요했습니다. 사용자가 2026-11-18에 오케스트레이터에게서 NAVER 지도 SDK 가이드 문장(`04-RESEARCH.md` Q3)과 위험을 듣고 다시 확인한 뒤, 세 장을 그대로 쓰기로 했습니다. 그래서 세 항목은 원래 판정을 `ORIG_` 줄로 남기고, 바로 다음 줄에 사용자 예외 판정을 적습니다. 결정 내용은 `04-CONTEXT.md` D-18·D-20의 「캡처 검토 뒤 사용자 결정 (2026-11-18, 04-09 Task 3)」에 있습니다.
+
+```
+REVIEW draw device OK 세 장 모두 1260x2736, 폭 846 이상
+REVIEW draw tabs OK 아래는 되돌리기·닫기·완료 편집 막대이고 하단 탭 없음
+REVIEW draw scope OK 포인트·굿즈·코스북 화면과 문구 없음
+REVIEW draw dev OK 제목은 「코스 그리기」, Dev 표시 없음
+REVIEW draw pii OK 실명·이메일·전화번호·프로필 사진·계정 이름 없음. 위치는 사용자의 시험 경로 확인에 근거함
+REVIEW draw search OK 검색 아이콘만 있고 장소 검색 결과 목록 없음
+REVIEW draw logo OK 지도 왼쪽 아래 NAVER 로고가 온전히 보임
+REVIEW draw content OK 지도 위 번호 점들이 선으로 이어진 에디터, 위에 거리와 예상 시간
+REVIEW draw status OK 상태 표시줄 보임(시계·무음 표시·Wi-Fi·배터리)
+REVIEW run device OK 세 장 모두 1260x2736
+REVIEW run tabs OK 아래는 진행 정보와 종료 버튼이고 하단 탭 없음
+REVIEW run scope OK 포인트·굿즈·코스북 화면과 문구 없음
+REVIEW run dev OK Dev 표시 없음
+REVIEW run pii OK 실명·이메일·전화번호·프로필 사진·계정 이름 없음. 위치는 사용자의 시험 경로 확인에 근거함
+REVIEW run search N/A draw만 해당
+REVIEW run logo OK 지도 왼쪽 아래 NAVER 로고가 온전히 보임
+REVIEW run content OK 진행률·움직인 시간·거리·평균 페이스가 보임
+ORIG_REVIEW run status FAIL 판단 필요: 시계 옆 아이콘이 위치 화살표라 draw·badge의 무음 표시와 다름
+REVIEW run status OK 사용자 예외(D-18, 2026-11-18): 시계 옆 아이콘이 위치 화살표라 draw·badge의 무음 표시와 다름, 그대로 사용
+REVIEW badge device OK 세 장 모두 1260x2736
+REVIEW badge tabs OK 아래는 결과 수치와 닫기 버튼이고 하단 탭 없음
+REVIEW badge scope OK 포인트·굿즈·코스북 화면과 문구 없음
+REVIEW badge dev OK Dev 표시 없음
+REVIEW badge pii OK 실명·이메일·전화번호·프로필 사진·계정 이름 없음. 화면 제목과 창 문구는 코스 이름
+REVIEW badge search N/A draw만 해당
+ORIG_REVIEW badge logo FAIL 뱃지 창이 NAVER 로고 오른쪽을 덮고 로고가 어두운 막 아래에 있음(앞 세 글자만 보임)
+REVIEW badge logo OK 사용자 예외(D-20, 2026-11-18): 원본에서 앱의 뱃지 창이 NAVER 로고 오른쪽을 덮고 로고가 어두운 막 아래에 있음(앞 세 글자만 보임), 우리가 더 자르거나 덮지 않고 그대로 사용
+REVIEW badge content OK 완주 결과(총 시간·움직인 시간·거리·평균 페이스) 위에 뱃지를 받았다는 창
+ORIG_REVIEW badge status FAIL 판단 필요: 상태 표시줄이 어두운 막 아래라 다른 두 장과 색이 다름
+REVIEW badge status OK 사용자 예외(D-18, 2026-11-18): 상태 표시줄이 어두운 막 아래라 다른 두 장과 색이 다름, 그대로 사용
+```
+
+CAPTURE_WAIVERS=3
+
+```
+WAIVER badge logo D-20 원본에서 앱의 뱃지 창이 NAVER 로고를 덮은 장면을 그대로 씀. 우리가 더 자르거나 덮지 않는 조건은 지킴. 04-10은 badge에 대해 테두리·둥근 모서리가 로고 쪽을 원본보다 더 깎지 않는지만 판정함. 앱에서 로고나 뱃지 창 위치를 고치면 badge만 다시 찍어 교체함
+WAIVER run status D-18 시계 옆 아이콘(위치 화살표)이 다른 두 장(무음 표시)과 다른 것을 허용함. 한 기기·같은 픽셀 크기 조건은 그대로임
+WAIVER badge status D-18 상태 표시줄이 뱃지 창 뒤 어두운 막 아래에 있어 색이 다른 것을 허용함. 배터리 양 차이도 허용함
+```
+
+NAVER 로고 위치 (04-10의 구간 화면 검토가 이 위치를 봅니다. 원본 좌표):
+
+```
+LOGO draw 지도 영역 왼쪽 아래, 축척 막대 왼쪽 (원본 약 y 2340~2390)
+LOGO run 지도 영역 왼쪽 아래, 축척 막대 왼쪽 (원본 약 y 1885~1930)
+LOGO badge 지도 영역 왼쪽 아래, 원본에서 오른쪽이 앱의 뱃지 창에 덮임(앞 세 글자만 보임, 사용자 예외 D-20) (원본 약 y 1510~1550)
+```
+
+대체 글 초안 (04-10이 `alt`로 씁니다). 화면에 실제로 보이는 것만 담았고 지명·코스 이름·개인 정보는 넣지 않았습니다. run의 `12'00"/km`에는 큰따옴표가 있어 `alt` 속성에 넣을 때 `&quot;`로 적어야 합니다:
+
+```
+ALT draw: 러닝펜슬 앱 화면: 코스 그리기 에디터에서 지도 위 번호 점들이 출발점부터 끝점까지 선으로 이어져 있고, 위에 거리 6.5 km와 걷기·달리기·자전거 예상 시간이 보인다
+ALT run: 러닝펜슬 앱 화면: 따라 달리기 중 지도 위 코스 선과 지나온 길, 아래에 진행률 16%와 움직인 시간 16:08, 거리 1.34 km, 평균 페이스 12'00"/km가 보인다
+ALT badge: 러닝펜슬 앱 화면: 완주 결과 위에 강아지 모양 코스 뱃지를 받았다는 창이 떠 있다
+```
+
+변환: `. "$W/img.sh"` 뒤 `make_webp "$W/captures/<이름>.png" <이름> "$W/img/out"`을 draw·run·badge 순서로 돌렸습니다. 모두 q80으로 상한 안이라 q75 재시도가 없었습니다. 여섯 파일 모두 `webpinfo`에서 청크가 `VP8` 하나, `No error detected.`이고 EXIF·XMP·ICCP 청크가 없습니다. 세 장의 846w 크기는 모두 846x1837입니다.
+
+```
+IMG draw 564 81804 564x1224 q=80 sha256=d6c4a2311ae84a9b8870aff16b71cf557f209000554ea2b1f8764565ceb51ca4
+IMG draw 846 143790 846x1837 q=80 sha256=4915c3fa29e733a9b36dc2d5131d0cf34ecfcda63c527b90b990408ac6435615
+IMG run 564 46654 564x1224 q=80 sha256=180a563775116530db4e134675eb228936440e7a6c5d84a19c839d417412c0a0
+IMG run 846 82008 846x1837 q=80 sha256=6996d2b092f17bdab6a9c306a911872fa6b91f14a12cf0f08103473fb307df52
+IMG badge 564 27290 564x1224 q=80 sha256=e52ab7e3bafa3e1d2cfcf521667c2389e3cbed8611d6934a7d866a427dee8779
+IMG badge 846 45950 846x1837 q=80 sha256=9fe688176edf90fbecd8f76f74f0cfa4baee1d1b163076c8611ce9ff783029a9
+```
+
+`git status --porcelain -- images`가 빈 출력입니다 (WebP는 스크래치 `$W/img/out/`에만 있음).
+
+CAPTURE_REVIEW=OK
+IMG_OK=OK
