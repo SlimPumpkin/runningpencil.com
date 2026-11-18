@@ -32,7 +32,7 @@ last_mapped_at: 2026-11-14
 ### JS functions / variables
 
 - 함수와 변수는 camelCase로 쓰고 함수 이름은 동사로 시작한다: `setStep`, `goStep`, `paintStory`, `paintDemo`, `setRun`, `startRun`, `syncLive`, `moveTo`, `setText`, `settle`. 작은 순수 유틸은 명사형도 쓴다: `clamp01`, `twoDigits`, `clock`, `reduced`.
-- 상수는 UPPER_CASE로 쓴다: `var KM = 8.3;`.
+- 상수는 UPPER_CASE로 쓴다: `var KM = 7.84;`.
 - DOM 참조 변수는 영역 + 역할 + `El`/`Btn`/`Dot`으로 쓴다: `runBtn`, `demoDot`, `stepEls`.
 - 애니메이션 프레임 핸들은 `*Frame`으로 쓰고 0으로 초기화한다: `storyFrame`, `runFrame`.
 

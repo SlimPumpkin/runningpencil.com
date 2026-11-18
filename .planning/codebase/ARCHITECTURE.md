@@ -85,7 +85,7 @@ last_mapped_at: 2026-11-14
 ### Demo 런 (`#demo`)
 
 - `#rp-run-btn` 클릭 → `startRun()` (`index.html:569-580`)
-- 7000ms rAF 루프에서 `paintDemo(t)`: `#rp-demo-prog`의 `stroke-dashoffset`, `#rp-demo-dot` 위치, 퍼센트/거리(KM=8.3)/시간 텍스트
+- 7000ms rAF 루프에서 `paintDemo(t)`: `#rp-demo-prog`의 `stroke-dashoffset`, `#rp-demo-dot` 위치, 퍼센트/거리(KM=7.84)/시간 텍스트
 - 상태 `idle → running → done`; `setRun()`이 `#rp-run-label` 문구, `#rp-run-icon`의 `href`(`#rp-i-play`↔`#rp-i-replay`), `#rp-demo-done`의 `is-on` 토글 (`index.html:562-567`)
 
 ### 초기 정착 & `rp-ready`

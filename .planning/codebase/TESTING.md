@@ -88,7 +88,7 @@ bundle exec jekyll serve --livereload     # 미리보기 → http://localhost:40
 
 ## Fixtures and Factories
 
-**Test Data:** 없음. 데모 값은 `index.html` 스크립트 안의 상수(`KM = 8.3`, 7000ms)와 SVG 경로에 박혀 있다.
+**Test Data:** 없음. 데모 값은 `index.html` 스크립트 안의 상수(`KM = 7.84`, 7000ms)와 SVG 경로에 박혀 있다.
 
 **Location:** Not applicable
 

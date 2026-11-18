@@ -133,7 +133,7 @@
 ### JS functions / variables
 
 - 함수와 변수는 camelCase로 쓰고 함수 이름은 동사로 시작한다: `setStep`, `goStep`, `paintStory`, `paintDemo`, `setRun`, `startRun`, `syncLive`, `moveTo`, `setText`, `settle`. 작은 순수 유틸은 명사형도 쓴다: `clamp01`, `twoDigits`, `clock`, `reduced`.
-- 상수는 UPPER_CASE로 쓴다: `var KM = 8.3;`.
+- 상수는 UPPER_CASE로 쓴다: `var KM = 7.84;`.
 - DOM 참조 변수는 영역 + 역할 + `El`/`Btn`/`Dot`으로 쓴다: `runBtn`, `demoDot`, `stepEls`.
 - 애니메이션 프레임 핸들은 `*Frame`으로 쓰고 0으로 초기화한다: `storyFrame`, `runFrame`.
 
@@ -348,7 +348,7 @@
 - `resize` → `syncLive()`가 `rp-pin`을 재판정·토글 (`index.html:515-518`)
 ### Demo 런 (`#demo`)
 - `#rp-run-btn` 클릭 → `startRun()` (`index.html:569-580`)
-- 7000ms rAF 루프에서 `paintDemo(t)`: `#rp-demo-prog`의 `stroke-dashoffset`, `#rp-demo-dot` 위치, 퍼센트/거리(KM=8.3)/시간 텍스트
+- 7000ms rAF 루프에서 `paintDemo(t)`: `#rp-demo-prog`의 `stroke-dashoffset`, `#rp-demo-dot` 위치, 퍼센트/거리(KM=7.84)/시간 텍스트
 - 상태 `idle → running → done`; `setRun()`이 `#rp-run-label` 문구, `#rp-run-icon`의 `href`(`#rp-i-play`↔`#rp-i-replay`), `#rp-demo-done`의 `is-on` 토글 (`index.html:562-567`)
 ### 초기 정착 & `rp-ready`
 - 첫 navigate이고 `location.hash`가 있으면 대상 요소를 기억 (`index.html:594-596`)
