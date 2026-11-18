@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 04
 current_phase_name: 홈페이지 서비스 소개 정정 (Landing Content Fix)
 status: executing
-stopped_at: Completed 04-11-PLAN.md
-last_updated: "2026-11-18T06:45:42.474Z"
+stopped_at: Completed 04-12-PLAN.md
+last_updated: "2026-11-18T07:15:06.436Z"
 last_activity: 2026-11-18
-last_activity_desc: 04-11 완료 — 스크린샷 구간 C3(95062367dc69) 푸시, LIVE_PUSH3=OK
-state_head: c8df2f18abffbcd3064ce9f668aa15ac364668aa
+last_activity_desc: Phase 04 execution started
+state_head: 1b281cada346ff68595b31079741324d47d6ea5e
 progress:
   total_phases: 10
   completed_phases: 3
   total_plans: 42
-  completed_plans: 40
+  completed_plans: 41
   percent: 30
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 ## Current Position
 
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
-Plan: 12 of 13
+Plan: 13 of 13
 Status: Ready to execute
-Last activity: 2026-11-18 — 04-11 완료 (승인받은 스크린샷 구간 커밋 C3 푸시, 로컬 main fast-forward, 라이브 HTTP·WebP·PASS shots·PASS behave). 다음은 04-12 D-24 문서
+Last activity: 2026-11-18 — Phase 04 execution started
 
 Progress: [███░░░░░░░] 30%
 
@@ -98,6 +98,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 04 P09 | 32min | 3 tasks | 3 files |
 | Phase 04 P10 | 10min | 2 tasks | 2 files |
 | Phase 04 P11 | 21min | 3 tasks | 9 files |
+| Phase 04 P12 | 6min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -195,6 +196,7 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-10: 첫 판정에서 모두 통과해 CSS를 고치지 않았다(375 띠 끝 여백 20px, 그림 반경 37px 그대로, NAVER 로고가 둥근 모서리에서 멀어 깎이지 않음)
 - [Phase 04]: 04-11: 사용자가 승인한 스크린샷 구간 커밋 C3(95062367dc69) 하나만 원격 main에 푸시했고, 푸시 성공 뒤 로컬 main에 fast-forward로 들였다. 라이브 LIVE_PUSH3=OK
 - [Phase 04]: 04-11: Chromium 375 끝 캡처에서 badge가 안 보이는 것은 Playwright 요소 캡처가 Chromium에서만 scrollLeft를 477에서 170으로 옮기는 부작용이다. 캡처 전 측정 end-gap=20으로 판정하고 p4-shots.mjs는 고치지 않았다
+- [Phase 04]: 04-12: 「모두 인라인 SVG, 외부 이미지 없음」 규칙을 「그림은 인라인 SVG, 예외는 images/app/ 앱 화면 캡처 WebP」로 바꿔 원본 맵 다섯 개와 두 CLAUDE.md에 적음(D-24). 캡처 속 네이버 지도 출처는 구간 아래 「지도 © NAVER Corp.」만, 공유 푸터에는 넣지 않음. 문서 커밋 fa90e3cb8cd1·5c6451b2debf·426174db1045, 생성기 사본 시험 뒤 .claude/CLAUDE.md 재생성(stack·conventions·architecture만 바뀜), 열 개 문서 옛 문장·로컬 경로 0줄(DOCS2_STALE=OK). 푸시 안 함(04-13)
 
 ### Pending Todos
 
@@ -233,6 +235,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-18T06:45:42.176Z
-Stopped at: Completed 04-11-PLAN.md
+Last session: 2026-11-18T07:15:06.124Z
+Stopped at: Completed 04-12-PLAN.md
 Resume file: None
