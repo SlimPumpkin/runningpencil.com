@@ -213,8 +213,8 @@
 ### Order (`<head>`)
 
 - meta (charset, viewport, title, description, `theme-color`, 법적 페이지는 `robots noindex`)
-- 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
 - `{% include head-links.html %}` (Pretendard 글꼴 `<link>`와 파비콘·매니페스트 링크 8줄. jsDelivr `orioncactus/pretendard@v1.3.9`, `/favicon/...`)
+- 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
 - `<style>` — 맨 위에 「공통」(`{% include css/common.css %}`)이 들어오고, 법적 페이지는 그 다음에 `{% include css/legal.css %}`가 들어온다 (`_layouts/legal.html`). 랜딩은 「공통」 다음에 「랜딩 전용」을 바로 쓴다
 ### Path Aliases
 
