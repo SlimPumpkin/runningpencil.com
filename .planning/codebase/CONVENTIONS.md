@@ -27,7 +27,7 @@ last_mapped_at: 2026-11-14
 - 스크립트가 찾는 요소의 id는 `rp-` + 영역 + 역할로 쓴다: `rp-run-dot`, `rp-run-pct`, `rp-demo-prog`, `rp-demo-done`, `rp-run-btn`, `rp-hero-art`, `rp-sketch`, `rp-c-dog`. 예외로 구간 앵커 id는 짧은 영어 단어로 쓴다: `story`, `demo`, `screens`, `get`, `top`. `screens`(「실제 앱 화면」)는 스크립트가 쓰지 않는다.
 - SVG `<defs>` 심볼 id: 아이콘은 `rp-i-*` (`#rp-i-play`, `#rp-i-replay`), 코스 선은 `rp-c-*` (`#rp-c-dog`).
 - 반복 요소에는 인덱스 data 속성을 쓴다: 내용은 `data-step="0..2"`, 버튼은 `data-go="0..2"`.
-- id·class·data 속성 이름을 바꾸면 `index.html` 끝(약 464행)의 인라인 스크립트도 반드시 같이 고친다.
+- id·class·data 속성 이름을 바꾸면 `index.html` 끝(`</body>` 앞 `<script>`)의 인라인 스크립트도 반드시 같이 고친다.
 
 ### JS functions / variables
 
