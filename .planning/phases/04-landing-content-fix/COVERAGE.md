@@ -1,1 +1,1 @@
-No external API integration: Phase 4 edits static landing copy and adds static same-origin WebP screenshots; NAVER Maps/API HUB appear only as license-terms context for the captured app screens (no site-side API calls), and `gh api` is read-only verification tooling, not a product integration.
+No external API integration: Phase 4 edits static landing copy and adds same-origin WebP screenshots. NAVER appears only as license context; `gh api` is read-only verification tooling.
