@@ -6,7 +6,7 @@ status: executing
 stopped_at: Completed 04-12-PLAN.md
 last_updated: "2026-11-18T07:15:06.436Z"
 last_activity: 2026-11-18
-last_activity_desc: Phase 04 execution started
+last_activity_desc: 04-12 완료 — D-24 문서 커밋 셋(원본 맵·두 CLAUDE.md), 푸시 안 함
 state_head: 1b281cada346ff68595b31079741324d47d6ea5e
 progress:
   total_phases: 10
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-11-17)
 Phase: 04 (홈페이지 서비스 소개 정정 (Landing Content Fix)) — EXECUTING
 Plan: 13 of 13
 Status: Ready to execute
-Last activity: 2026-11-18 — Phase 04 execution started
+Last activity: 2026-11-18 — 04-12 완료 (D-24 문서 커밋 셋: 원본 맵 다섯 개, 루트 CLAUDE.md, 재생성한 .claude/CLAUDE.md. 푸시 안 함). 다음은 04-13 문서 푸시
 
 Progress: [███░░░░░░░] 30%
 

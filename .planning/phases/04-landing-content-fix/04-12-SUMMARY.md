@@ -18,7 +18,7 @@ affects: [04-13]
 
 # Actuals (#2632)
 actuals:
-  tokens: 11719    # chars/4: 세 문서 커밋의 diff(39226자 → 9806) + 04-EVIDENCE.md 더한 줄(7652자 → 1913). SUMMARY 제외
+  tokens: 11719    # 바이트/4 (wc -c, 04-11과 같은 척도): 세 문서 커밋의 diff 39226바이트 → 9806 + 04-EVIDENCE.md diff 7652바이트 → 1913. 글자 수(wc -m)로는 26674 + 4889 → 약 7890. SUMMARY 제외
   tasks: 3         # tracer 1, auto 2
   commits: 3       # 측정값: git rev-list --count plan_head_before..HEAD (SUMMARY 작성 시점). SUMMARY·EVIDENCE docs 커밋과 STATE·ROADMAP 커밋은 이 뒤
 plan_head_before: 8b080e3ba2d6710b9764c5be654c321c669cadf5
@@ -164,6 +164,9 @@ completed: 2026-11-18
 
 - `.planning/codebase/ARCHITECTURE.md`의 `index.html:NNN` 행 번호(Component 표, Layers, Data Flow)는 04-11 구간 추가 전 값임. 이 계획의 파일이지만 계획이 요구하지 않았고 고칠 곳이 많아 남김. 다음 원본 맵 갱신(또는 `/gsd-map-codebase`)에서 맞춤
 - `.planning/codebase/CONCERNS.md`의 「원본 72KB, 586줄」 숫자는 04-11 뒤 값과 다름. 같은 절의 「외부 이미지 대신 인라인 SVG 사용」은 파일 크기의 원인을 적은 문장이라 옛 규칙 문장이 아니어서 그대로 둠. CONCERNS는 이 계획의 파일이 아님
+- `.planning/codebase/CONVENTIONS.md`의 「`index.html` 끝(약 428행)의 인라인 스크립트」도 지금은 464행부터임. 이 줄은 `.claude/CLAUDE.md` 생성 구간에도 들어가 있어 고치려면 원본 맵 커밋과 재생성이 다시 필요하므로 남김
+- `.planning/codebase/TESTING.md`의 「검증 대상」 그림과 수동 점검 목록에 `images/app/`과 「실제 앱 화면」 구간(이미지 404 없음, 좁은 화면 가로 띠) 확인이 없음. 이 계획의 파일이 아님
+- 위 항목은 모두 `deferred-items.md`(이 단계 폴더)에 적음
 
 ## User Setup Required
 
