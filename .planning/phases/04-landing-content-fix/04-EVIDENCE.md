@@ -849,3 +849,35 @@ NOTE chromium 375 end image = element-screenshot artifact (scrollLeft 477 -> 170
 ```
 
 LIVE_PUSH3=OK
+
+## 04-12 문서 (D-24)
+
+DOCS_MAPS2_SHA=fa90e3cb8cd1
+
+- 기록 시각: 2026-11-18. 스크린샷 구간 푸시의 라이브 확인(`LIVE_PUSH3=OK`, PUSH3_SHA `95062367dc69`) 뒤에 만든 문서 커밋이고, 생성기 원본 맵 세 개(`.planning/codebase/CONVENTIONS.md`·`ARCHITECTURE.md`·`STACK.md`)만 담습니다.
+- CONVENTIONS: SVG 항목 첫 문장을 「그림(로고·아이콘·지도 그림·코스 선)은 모두 인라인 SVG다」로 좁히고 마지막 문장을 「예외는 랜딩 「실제 앱 화면」 구간의 앱 화면 캡처뿐이고, `images/app/screen-{draw,run,badge}-{564,846}.webp`에 둔다」로 바꿨습니다. 같은 절에 이미지 규칙 항목(sRGB WebP, 메타데이터 없음, 564w·846w `srcset`·`sizes`, `src` 564w, `width`·`height` 846×1837, `loading="lazy"`·`decoding="async"`, `alt`는 보이는 것만, 원본 PNG 비커밋, 캡처 위 겹침 없음, NAVER 로고를 원본보다 더 자르거나 덮지 않음)을 더했습니다. 로고 문구는 04-09 사용자 예외(CONTEXT D-20 덧붙임)에 맞춰 「원본보다 더」로 적었습니다. Naming Patterns에 `rp-shots*` 클래스 여섯 개(스크립트가 쓰지 않음, `.rp-phone` 재사용 안 함)와 앵커 id `screens`를, 반응형 절에 좁은 화면 음수 margin + `scroll-snap` 띠와 `tabindex="0"`·`role="list"`·`aria-label`을 적었습니다.
+- ARCHITECTURE: Component 표에 「실제 앱 화면 구간」 행, 랜딩 페이지 행에 `#screens`와 구간 순서(`#demo` → `#screens` → `#get`, `.rp-get` 음수 위 margin이 `#screens`의 둥근 아래 모서리 밑으로 들어감), 「랜딩 전용」 CSS 행에 「앱 화면 띠」, System Overview 로컬 정적 자산에 `images/app/`, Key Characteristics 인라인 SVG 항목에 캡처 WebP 예외를 적었습니다.
+- STACK: Languages에 WebP 줄(SVG 줄은 그대로), Platform Requirements Development에 `sips`·`cwebp`·`webpinfo` 줄을 더했습니다.
+- 생성기 사본 시험(커밋 전): `.claude/CLAUDE.md` 사본을 저장소 밖 임시 폴더에 두고 `generate-claude-md --output <임시 사본>`을 돌렸습니다. 바뀐 곳은 stack·conventions·architecture 세 블록뿐이고 방침 구간·project·skills·workflow·profile은 그대로입니다. 새 줄(WebP·재생성 도구, `rp-shots*` 클래스, `screens` 앵커, 띠 반응형, SVG 예외와 이미지 규칙, `images/app/` 자산, `#screens` 행, Key Characteristics 예외)이 모두 생성 구간에 들어갔습니다. 생성기는 conventions 블록의 「IDs and data attributes」 머리 뒤 빈 줄 하나도 지웠습니다(생성기 출력 그대로, 손 수정 없음). 저장소의 `.claude/CLAUDE.md`는 Task 3에서 다시 만듭니다. 커밋 전 `scripts/check-site.sh` 통과(`check-site: 통과 (작업 트리, jekyll 3.10.0)`).
+
+OK generator dry-run images/app in conventions
+
+DOCS_MAPS3_SHA=5c6451b2debf
+
+- 생성기가 쓰지 않는 원본 맵 두 개(`STRUCTURE.md`·`INTEGRATIONS.md`)만 담은 문서 커밋입니다. STRUCTURE: 디렉터리 그림에 `favicon/` 줄과 같은 꼴로 `images/` → `app/` 줄, Directory Purposes에 `images/app/` 절(Purpose, Key files `screen-draw-*`·`screen-run-*`·`screen-badge-*.webp`, 원본 PNG 비커밋, `_config.yml` exclude에 넣지 않음), 섹션 앵커 목록에 `screens`를 더했습니다. 계획대로 랜딩 줄 수를 지금 값(586줄 → 622줄)으로 맞췄고, 같은 파일의 `index.html` 구획 행 번호(「랜딩 전용」 CSS, 860px `@media`, `<defs>`, 헤더·히어로·`#story`·`#demo`·`#get`·푸터, 동작 스크립트)도 04-11 구간 추가 뒤 값으로 맞추고 `:411` `#screens`를 더했습니다.
+- INTEGRATIONS: 데이터 출처 표기 절에 NAVER 지도 항목(지도 API 호출 없음, 정적 WebP만, 캡처 안 로고 유지, 구간 바로 아래 「지도 © NAVER Corp.」, 공유 푸터에는 넣지 않음, 문구는 약관 지정 문구가 아닌 추정, 제휴 오인 문구 금지 NAVER API 이용약관 7.3 ⑦⑧)을 더했고, File Storage 줄에 `images/app/`을 더했습니다. 「분석·광고·지도 SDK」 줄은 사이트에 SDK가 없다는 뜻이라 그대로 두었습니다. 커밋 전 `scripts/check-site.sh` 통과(`check-site: 통과 (작업 트리, jekyll 3.10.0)`).
+
+DOCS_CLAUDE2_SHA=426174db1045
+
+- 루트 `CLAUDE.md`와 `.claude/CLAUDE.md` 두 파일만 담은 문서 커밋입니다. 방침 구간은 고치지 않았고, 두 사본의 「이번 마일스톤 방침」 구간은 글자까지 같습니다.
+- 루트 `CLAUDE.md`: Pages 표 `index.html` 행의 구간 목록에서 달려 보기와 출시 안내 사이에 「실제 앱 화면(`#screens`)」을 넣었습니다. Architecture 인라인 SVG 문단은 첫 문장을 두고 그다음 문장을 「예외는 「실제 앱 화면」 구간의 앱 화면 캡처 WebP(`images/app/`)뿐입니다」로 바꿨습니다. 같은 절에 「실제 앱 화면」 구간 항목(`#demo`와 `#get` 사이, 「출시 준비 중」 딱지, `.rp-shot-frame` 흑연 폰 테두리와 `.rp-phone`을 다시 쓰지 않는 이유, 좁은 화면 `scroll-snap` 띠, `z-index: 1`과 둥근 아래 모서리 밑으로 들어가는 `.rp-get`)을 더했습니다. 푸터 문단 끝 문장은 「캡처 속 네이버 지도의 출처(「지도 © NAVER Corp.」)는 구간 바로 아래에 적고 공유 푸터에는 넣지 않는다」는 내용으로 바꿨습니다. Assets 절에 `images/app/` 항목(세 장의 이름, iPhone 한 기기, 564w·846w)과 재생성 방법(`sips --matchTo` sRGB → `sips --resampleWidth 564`·`846` → `cwebp -q 80 -m 6 -sharp_yuv` → `webpinfo` 메타데이터 청크 없음 확인, 원본 비커밋, 캡처 조건은 `.planning/baseline/USER-TASKS.md` 작업 10)을 더했습니다.
+- 생성기 시험: 루트를 고친 뒤 `.claude/CLAUDE.md` 사본을 임시 폴더에 두고 `generate-claude-md --output <임시 사본>`을 돌렸습니다. 바뀐 곳은 Task 1 시험과 같은 stack·conventions·architecture 블록의 열 군데뿐이고, 방침 구간·project·skills·workflow·profile은 저장소 파일과 같았습니다. 그래서 저장소에서 `--output`·`--auto` 없이 같은 명령을 돌렸습니다(12줄 추가, 7줄 삭제, 생성 구간 손 수정 없음). 커밋 전 `scripts/check-site.sh` 통과(`check-site: 통과 (작업 트리, jekyll 3.10.0)`).
+
+OK generator blocks only
+OK regenerated
+
+- 문서 훑기: 대상은 `CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`와 `.planning/codebase/*.md` 일곱 개, 모두 열 개입니다. 옛 이미지·지도 문장(Task 3 verify 첫 grep 정규식)과 로컬 경로(사용자 홈 폴더 꼴과 macOS 임시 폴더 꼴)가 모두 0줄이라 고침 커밋을 더하지 않았습니다. 더 넓은 낱말로도 훑었고, 남은 한 줄 `CONCERNS.md`의 「외부 이미지 대신 인라인 SVG 사용」은 랜딩 파일 크기의 원인(그림을 인라인 SVG로 둠)을 적은 문장이라 옛 규칙 문장이 아니어서 그대로 두었습니다. 같은 절의 랜딩 크기·줄 수 숫자는 04-11 뒤 값과 다르지만 이 계획의 범위 밖이라 고치지 않았습니다(SUMMARY에 남김).
+
+OK stale image=0 localpath=0
+
+DOCS2_STALE=OK
