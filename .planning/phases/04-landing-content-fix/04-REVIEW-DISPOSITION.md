@@ -69,16 +69,16 @@ findings:
     title: "`screen-badge-*.webp` 캡처에서 NAVER 로고가 앱의 뱃지 창에 일부 가려짐"
 open: 0
 total: 16
-recorded: 2026-11-18T14:42:03.637Z
+recorded: 2026-11-18T14:58:30.086Z
 ---
 
 # Phase 04: Code Review Disposition
 
 | Finding | Severity | Disposition | Source |
 |---------|----------|-------------|--------|
-| WR-04 | warning | fixed | 04-REVIEW-FIX.md |
-| IN-11 | info | fixed | 04-REVIEW-FIX.md |
-| IN-12 | info | fixed | 04-REVIEW-FIX.md |
+| WR-04 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-11 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
+| IN-12 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | WR-02 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | WR-03 | warning | fixed | 04-REVIEW-FIX.md (not in the current review) |
 | IN-09 | info | fixed | 04-REVIEW-FIX.md (not in the current review) |
