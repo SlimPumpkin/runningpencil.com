@@ -103,7 +103,7 @@ completed: 2026-11-18
 - **Started:** 2026-11-18T06:23Z
 - **Completed:** 2026-11-18T06:44Z
 - **Tasks:** 3 (tracer 1, checkpoint:decision 1, auto 1)
-- **Files modified:** 사이트 8 (`index.html`, WebP 여섯 개는 C3 안), 기록 2 (`04-EVIDENCE.md`, 이 SUMMARY)
+- **Files modified:** 사이트 7 (`index.html`과 WebP 여섯 개, 모두 C3 안), 기록 2 (`04-EVIDENCE.md`, 이 SUMMARY)
 
 ## Accomplishments
 
@@ -173,4 +173,4 @@ None - no external service configuration required.
 - FOUND: `images/app/` WebP 여섯 개, `index.html`의 `id="screens"` (HEAD = C3)
 - FOUND: `9506236` (`git merge-base --is-ancestor` HEAD·origin/main 둘 다 참)
 - FOUND: `04-EVIDENCE.md`의 `PUSH3_SHA=95062367dc69`, `LIVE_PUSH3=OK`
-- Task 1 verify, Task 3 verify 두 명령 exit 0
+- Task 1 verify, Task 3 verify 두 명령 exit 0 (기록 고침 docs 커밋 뒤 마지막 HEAD에서 다시 실행)

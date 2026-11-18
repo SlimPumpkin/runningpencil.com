@@ -825,7 +825,7 @@ PASS shots
 ```
 OK hash chromium top=-0.4
 OK hash webkit top=0.5
-PASS shots (hash-only)
+PASS shots
 ```
 
 라이브 동작 판정 `node "$W/pw/p4-behave.mjs" https://runningpencil.com '?cb=95062367dc69'` (성공 기준 3):
