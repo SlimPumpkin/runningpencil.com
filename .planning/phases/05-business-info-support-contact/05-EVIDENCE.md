@@ -803,3 +803,33 @@ PASS foot
 이미 공개된 사업자 값·주소는 되돌려도 검색 캐시와 아카이브에 남습니다(D-10 one-way). 되돌리기는 필요 없었습니다.
 
 LIVE_PUSH1=OK
+
+## 05-07 사업자 정보 문서
+
+첫 푸시의 라이브 확인(`LIVE_PUSH1=OK`) 뒤에 사업자 정보 쪽 문서를 고쳤습니다(D-21 시점). 지원 이메일·`/support/` 쪽 문서는 고치지 않았습니다(05-13). 문서 커밋은 푸시하지 않았고 게이트 푸시(05-12)가 함께 싣습니다.
+
+Task 1 (tracer). 원본 맵 다섯 개(STACK·CONVENTIONS·ARCHITECTURE·TESTING·STRUCTURE), 이름 표, 연구 문서 Pattern 1·2를 사실값 슬롯·푸터 사업자 줄·`.size > 0`·점검 7번 항목대로 고쳤습니다. 커밋 전에 `.claude/CLAUDE.md`를 저장소 밖 임시 사본으로 생성기에 돌려, 새 문장(일곱 항목 문장, 「사실값 슬롯」 머리줄과 목록, STACK의 슬롯 줄, ARCHITECTURE의 슬롯 행, `.rp-foot-legal span`)이 모두 생성 구간에 옮겨지고 바뀐 줄이 stack·conventions·architecture 블록 안에만 있음을 확인했습니다(원본 맵 → 생성기 → `.claude/CLAUDE.md` 사슬). 연구 문서는 계획이 적은 Pattern 1(140·145-148행) 말고 Pattern 2 본문 문장 규칙(157행)에도 blank 비교가 있어 같은 판정으로 고쳤습니다. 커밋 전 작업 트리 check-site 통과, 값 누출 점검 (c) 0건(`vals filled=4 emitted=3 excluded=1`), 추가 줄의 로컬 경로 0건.
+
+DOCS_MAPS1_SHA=f39c726f6461
+
+Task 2. 두 CLAUDE.md 방침 표의 「사업자 정보 표시」 행 현재 상태 칸만 「Phase 5에서 적용됨 …」으로 같은 글자로 고쳤고(「지원 이메일 공개」 행은 그대로), 루트 본문에 사실값 슬롯 글머리, 푸터 include 줄·푸터 설명의 사업자 줄·주소 줄, Deploy의 점검 7번 항목을 더했습니다. `.claude/CLAUDE.md`는 저장소 밖 임시 사본으로 생성기를 먼저 돌려, 바뀐 줄이 stack·conventions·architecture 블록뿐이고 방침 구간과 project·skills·workflow·profile 블록이 그대로임을 확인한 뒤 저장소에서 출력 지정·자동 옵션 없이 다시 만들었습니다. 다시 만든 파일을 임시 사본으로 한 번 더 돌린 결과와 바이트가 같고, 두 사본의 방침 구간이 같습니다. 커밋 전 작업 트리 check-site 통과, 값 누출 점검 (c) 0건(스테이징한 전체 diff 기준도 0건).
+
+OK generator blocks only
+OK regenerated
+DOCS_CLAUDE1_SHA=a37b1245702b
+
+Task 3. README 점검 주석 괄호 끝에 「·지원 페이지 연락처」를 더했고(주석 시작 열 그대로), STATE Blockers의 가비아 DNS 1차 방문 줄을 작업 0~3 완료·남은 작업(4·5·7)으로 고치고 해소된 Phase 4 리뷰 수정 줄을 지웠습니다(D-21). STATE 구조 점검(`state.validate`)은 오류·경고 없음. 커밋 전 작업 트리 check-site 통과, 값 누출 점검 (c) 0건.
+
+DOCS_MISC1_SHA=6856f78d7f97
+
+훑기. 대상 열두 개(`CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`, `.planning/codebase/*.md` 일곱 개, `.planning/baseline/NAMES.md`, `.planning/research/ARCHITECTURE.md`)에서 옛 항목 수 문장, 옛 「사업자 정보 표시」 현재 상태 문장, 연구 문서의 blank 비교, 로컬 경로, 새로 공개되는 사업자 값(`vals filled=4 emitted=3 excluded=1`의 패턴 파일)을 셌습니다. 모두 0이라 더한 문서 커밋은 없습니다.
+
+```
+OK stale oldcount=0 oldpolicy=0 blank=0 localpath=0 leak=0
+```
+
+DOCS1_STALE=OK
+
+```
+OK site-clean 05-07-t3 6856f78d7f97
+```
