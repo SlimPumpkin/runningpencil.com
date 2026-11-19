@@ -833,3 +833,142 @@ DOCS1_STALE=OK
 ```
 OK site-clean 05-07-t3 6856f78d7f97
 ```
+
+## 05-08 보류 묶음
+
+이메일 게이트 전에 지원 페이지·기대 제목·헤더/푸터 링크를 완성해 두되 어떤 게이트 전 푸시의 조상도 되지 않게, `main` 끝(`HOLD_BASE`)에서 보류 worktree `$HOLD_WT`(저장소 옆 `<저장소 폴더 이름>-p5-hold`)와 로컬 브랜치 `p5-support-hold`를 만들었습니다. 보류 worktree에서는 사이트 파일 편집과 그 커밋(`git -C "$HOLD_WT" add`·`commit`)만 했고, 판정·빌드·기록은 메인 체크아웃 `main`에서 해시로 했습니다. 보류 브랜치는 푸시하지 않았고 upstream이 없습니다.
+
+**Task 1 (tracer).** H1은 `git cat-file blob <PROTO_SUPPORT_BLOB>`를 그대로 `support/index.html`로 담은 커밋입니다(손으로 다시 쓰지 않음). H1을 그 커밋의 `scripts/check-site.sh`로 점검하면 종료 코드 1, `실패 — 1건`, 문제는 7번 연락처 문구 하나입니다(이메일 값이 없어서, Pitfall 8). 실제 값(이메일 빈 값)으로 빌드한 지원 페이지는 `#faq`만 그리고 `dl`이 셋입니다(운영 주체·위치·계정 삭제). 가짜 이메일 빌드(`variant h1f <H1_SHA> "$W/yml/hold-email.yml"`, H1의 `_data/company.yml`에서 `support_email` 줄 하나만 `example.invalid` 도메인 가짜 주소로 바꾼 스크래치 파일)는 두 엔진 × 두 폭에서 `#contact` → `#report` → `#faq`, 연락처 `mailto:` 1개, FAQ `dl`·`dt` 넷, `#report` 앵커가 맞습니다. 헤더·푸터 링크는 H3에서 더하므로 이때는 `hdr=0 ftr=0`, 네 문서 `supportlinks=0`입니다.
+
+HOLD_BASE=32afecdddd20
+H1_SHA=48f332e57e8b
+
+```
+OK hold worktree present
+check-site: 지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)
+check-site: 실패 — 1건 (커밋 48f332e57e8b)
+OK h1 only7
+OK h1 support ids=faq dl=3 robots=0 updated=0 title=고객 지원 - 러닝펜슬 h1=러닝펜슬 고객 지원
+```
+
+가짜 이메일 빌드 두 엔진 화면(`node "$W/pw/p5-support.mjs" http://127.0.0.1:4509`, 종료 코드 0):
+
+```
+OK chromium 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=0 anchor=ok
+OK chromium 375 / supportlinks=0
+OK chromium 375 /privacy-policy/ supportlinks=0
+OK chromium 375 /terms/ supportlinks=0
+OK chromium 375 /data-deletion/ supportlinks=0
+OK chromium 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=0 anchor=ok
+OK chromium 1280 / supportlinks=0
+OK chromium 1280 /privacy-policy/ supportlinks=0
+OK chromium 1280 /terms/ supportlinks=0
+OK chromium 1280 /data-deletion/ supportlinks=0
+OK webkit 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=0 anchor=ok
+OK webkit 375 / supportlinks=0
+OK webkit 375 /privacy-policy/ supportlinks=0
+OK webkit 375 /terms/ supportlinks=0
+OK webkit 375 /data-deletion/ supportlinks=0
+OK webkit 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=0 anchor=ok
+OK webkit 1280 / supportlinks=0
+OK webkit 1280 /privacy-policy/ supportlinks=0
+OK webkit 1280 /terms/ supportlinks=0
+OK webkit 1280 /data-deletion/ supportlinks=0
+PASS support
+```
+
+조상 점검(`git fetch` 뒤 원격 main은 `PUSH1_SHA` 그대로)과 task 끝 깨끗함 기록:
+
+```
+OK hold not-ancestor
+OK site-clean 05-08-t1 32afecdddd20
+```
+
+**Task 2.** H2는 보류 worktree의 `scripts/check-site.sh`에서 `EXPECTED_TITLES` 마지막 줄 다음에 `support/index.html|고객 지원 - 러닝펜슬` 줄을 더하고 머리 주석 3번 줄을 「기존 URL 문서 4개와 지원 페이지(/support/)가 있고 …」로 바꾼 커밋입니다(다른 줄과 실행 권한은 그대로). H2를 그 스크립트로 점검하면 3번은 지원 페이지 제목이 맞아 통과하고 7번 하나만 실패합니다. 대조로 H2의 스크립트로 라이브 M4(`PUSH1_SHA`)를 점검하면 3번 「문서가 없습니다: /support/index.html」로 실패합니다. 그래서 이 줄은 게이트 전 `main`에 들어갈 수 없습니다(Pitfall 7). 메인 체크아웃의 스크립트에는 이 줄이 없습니다(깨끗함 기록의 해시가 `HOLD_BASE`와 같음).
+
+H2_SHA=0d49bcabfd23
+
+```
+check-site: 지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)
+check-site: 실패 — 1건 (커밋 0d49bcabfd23)
+OK h2 only7
+check-site: 문서가 없습니다: /support/index.html
+check-site: 실패 — 1건 (커밋 57e56b07f2ab)
+OK h2-script on push1 fails item3
+OK hold not-ancestor
+OK site-clean 05-08-t2 32afecdddd20
+```
+
+**Task 3.** H3는 보류 worktree에서 `_includes/header.html` 메뉴 끝(`#get` 링크 다음, 16칸)에 `<a href="/support/">고객 지원</a>`을, `_includes/footer.html` nav 끝(`/data-deletion/` 링크 다음, 20칸)에 같은 링크를 더하고 푸터 nav의 `aria-label`을 「약관 및 지원」으로 바꾼 커밋입니다(D-18~D-20). 헤더 링크는 `home` 여부와 상관없이 절대 경로이고, 860px 이하 헤더 메뉴 숨김 규칙은 그대로입니다. 두 파일 모두 끝 줄바꿈이 없습니다. H3도 7번 하나만 실패합니다. 실제 값(이메일 빈 값) 빌드 `$W/h3`에서 다섯 문서 모두 `/support/` 링크가 헤더·푸터 두 곳이고 푸터 nav 이름이 다섯 문서에 있으며, 지원 페이지는 여전히 `#faq`만 그리고 `dl`이 셋입니다. 가짜 이메일 빌드(`variant h3f <H3_SHA> "$W/yml/hold-email.yml"`, 포트 4510)에서 1280px은 헤더·푸터 링크가 모두 보이고 375px은 헤더 메뉴가 숨어 푸터 링크만 보입니다. 푸터 측정은 가짜 이메일 줄까지 더해 `/support/`를 포함한 다섯 문서에서 통과했습니다.
+
+H3_SHA=5100b37ade83
+
+```
+check-site: 지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)
+check-site: 실패 — 1건 (커밋 5100b37ade83)
+OK h3 only7
+OK h3 supportlinks index=2 privacy-policy=2 terms=2 data-deletion=2 support=2
+OK h3 footnav label=5
+```
+
+가짜 이메일 빌드 지원 페이지·링크(`node "$W/pw/p5-support.mjs" http://127.0.0.1:4510`, 종료 코드 0):
+
+```
+OK chromium 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK chromium 375 / supportlinks=2
+OK chromium 375 /privacy-policy/ supportlinks=2
+OK chromium 375 /terms/ supportlinks=2
+OK chromium 375 /data-deletion/ supportlinks=2
+OK chromium 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK chromium 1280 / supportlinks=2
+OK chromium 1280 /privacy-policy/ supportlinks=2
+OK chromium 1280 /terms/ supportlinks=2
+OK chromium 1280 /data-deletion/ supportlinks=2
+OK webkit 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK webkit 375 / supportlinks=2
+OK webkit 375 /privacy-policy/ supportlinks=2
+OK webkit 375 /terms/ supportlinks=2
+OK webkit 375 /data-deletion/ supportlinks=2
+OK webkit 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK webkit 1280 / supportlinks=2
+OK webkit 1280 /privacy-policy/ supportlinks=2
+OK webkit 1280 /terms/ supportlinks=2
+OK webkit 1280 /data-deletion/ supportlinks=2
+PASS support
+```
+
+가짜 이메일 빌드 푸터(`node "$W/pw/p5-foot.mjs" http://127.0.0.1:4510`, 종료 코드 0):
+
+```
+OK chromium 375 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+PASS foot
+```
+
+H1·H2·H3 모두 `only7`이고, 화면 판정(H1 `h1f`, H3 `h3f`)이 모두 통과했습니다.
+
+HOLD_ONLY7=OK
+HOLD_UI=OK
+
+```
+OK hold not-ancestor
+OK site-clean 05-08-t3 32afecdddd20
+```
