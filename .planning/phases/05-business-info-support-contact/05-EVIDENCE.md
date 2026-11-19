@@ -401,3 +401,66 @@ FOOT_LAYOUT=OK
 ```
 OK site-clean 05-03-t3 3bfc1cbe1128
 ```
+
+## 05-04 가드
+
+`scripts/check-site.sh`에 7번 항목(지원 페이지와 연락처, 이메일 게이트 D-04)을 더하고 이 파일만 build 커밋 M3로 남겼습니다. 출력에 `/support/` 문서가 있으면 그 문서에 `href="mailto:`가 있어야 하고, 출력 어디든 `href="/support/` 링크가 있으면 `/support/` 문서가 있어야 합니다. 링크 검색 grep의 종료 코드 2 이상은 실패로 셉니다(6번 항목과 같은 방식). 기대 제목 목록(`EXPECTED_TITLES`)과 `.githooks/pre-push`는 고치지 않았습니다(Pitfall 7).
+
+브랜치에 붙지 않는 후보(`commit-tree`)의 스크립트 사본으로 판정한 뒤 같은 인덱스를 커밋했고, 커밋 트리는 후보 트리와 같습니다. 시험 객체 셋은 `mkobj`로 M2 위에 만들었고 어떤 ref에도 붙이지 않았습니다.
+
+- 양성: 기준 커밋, M2, 후보가 통과합니다.
+- `NEG7_PAGE`: M2 + 05-02 원형 지원 페이지(`$W/proto-support.html`, 이메일 값 없음). 7번의 연락처 문구 하나로 실패합니다.
+- `NEG7_LINK`: M2 + 헤더 끝에 「고객 지원」 링크 한 줄을 더한 시험용 헤더(`$W/h3-header.html`), 지원 페이지 없음. 7번의 링크 문구 하나로 실패합니다.
+- `POS7`: M2 + 원형 지원 페이지 + 이메일 가짜 값(`$W/yml/email.yml`) + 시험용 헤더. 통과합니다.
+
+```
+check-site: 통과 (커밋 2db88d9a199f, jekyll 3.10.0)
+check-site: 통과 (커밋 b7e2dcd0de13, jekyll 3.10.0)
+check-site: 통과 (커밋 a1fecbe43bc0, jekyll 3.10.0)
+OK neg7-page rc=1 count=1 mailto-msg=1
+OK neg7-link rc=1 count=1 link-msg=1
+OK pos7 pass
+```
+
+음성 시험 출력(전체):
+
+```
+check-site: 지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)
+check-site: 실패 — 1건 (커밋 bcdb59d63667)
+check-site: 지원 페이지 없이 /support/ 링크가 있습니다: /index.html /privacy-policy/index.html /terms/index.html /data-deletion/index.html
+check-site: 실패 — 1건 (커밋 432a214f884d)
+```
+
+M3_SHA=da940757106e
+NEG7_PAGE=bcdb59d63667
+NEG7_LINK=432a214f884d
+POS7=a208f0d5823d
+GUARD7=OK
+
+```
+OK site-clean 05-04-t1 da940757106e
+```
+
+## 05-04 훅
+
+실제 푸시 경로인 `.githooks/pre-push`에 표준 입력(`refs/heads/main <SHA> refs/heads/main <원격 main>`)만 주어 판정했습니다. 아무것도 푸시하지 않았습니다. 원격 main을 새로 받아 본 값이 `BASE_LIVE`와 같았고, 훅을 돌릴 때 작업 트리의 `scripts/check-site.sh`·`.githooks/pre-push`는 M3와 같았습니다. 훅은 M3를 통과시키고, 두 음성 시험 객체(`NEG7_PAGE`, `NEG7_LINK`)는 7번 항목의 해당 문구로 거부했습니다. 게이트 전 어떤 푸시든 연락처 없는 `/support/`나 페이지 없는 `/support/` 링크를 담으면 훅이 멈춥니다(`--no-verify`는 규칙으로 쓰지 않습니다).
+
+```
+OK origin = base-live
+OK hook files = m3
+OK hook m3 pass
+OK hook neg7-page rejected
+OK hook neg7-link rejected
+```
+
+훅 출력(M3, `NEG7_PAGE`, `NEG7_LINK` 차례):
+
+```
+check-site: 통과 (커밋 da940757106e, jekyll 3.10.0)
+check-site: 지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)
+check-site: 실패 — 1건 (커밋 bcdb59d63667)
+check-site: 지원 페이지 없이 /support/ 링크가 있습니다: /index.html /privacy-policy/index.html /terms/index.html /data-deletion/index.html
+check-site: 실패 — 1건 (커밋 432a214f884d)
+```
+
+HOOK7=OK
