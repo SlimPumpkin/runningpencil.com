@@ -708,3 +708,43 @@ D10_APPROVED=OK
 SEPARATOR=opt2
 USER_MATCH=OK
 D10_DATE=2026-11-19
+
+## 05-06 값 커밋과 푸시 후보
+
+첫 실행입니다(`M3_SHA..HEAD`에 `_includes/footer.html`·`_data/company.yml`을 바꾼 커밋이 없음). 시작 전 05-01 「스크래치 재확인」(가)~(마)가 그대로였고, `$W/c4/TREE`가 `C4_CAND` 트리와 같고 `$W/d10o1`~`$W/d10o3`이 있어 다시 만든 것은 없습니다. 작업 트리 `_data/company.yml`은 `C4_CAND`의 파일과 같았습니다(되살리지 않음). 값과 푸터 글은 적지 않습니다(D-02).
+
+- 선택지 2(`SEPARATOR=opt2`)라 구분 기호 토큰 커밋 S는 없습니다.
+- M4: `_data/company.yml` 하나만 스테이징해 브랜치에 붙지 않는 후보(`commit-tree`)를 만들고, 후보로 `scripts/check-site.sh`를 통과한 뒤 `build m4 <후보>`의 네 문서가 승인한 선택지 빌드 `$W/d10o2/site`와 `cmp`로 같음을 보았습니다(출력 전체 `diff -rq`도 0줄). 같은 인덱스를 커밋했고 커밋 트리가 `$W/m4/TREE`와 같습니다.
+- 원격 main을 새로 받아 본 값이 `BASE_LIVE`이고 후보의 조상입니다. 범위의 사이트 커밋은 M1·M2·M3·M4 넷이고, `.planning/` 밖에서 바뀐 파일은 네 개입니다.
+- 보류 브랜치 `p5-support-hold`는 아직 없습니다. 후보 트리에 `support/`가 없고 `_includes`에 `/support/` 링크가 없으며 `support_email`·`phone`이 빈 값입니다.
+- 값 누출: 새로 공개되는 값 3건, 기준 커밋에 이미 있던 값 1건. 범위의 `.planning` diff와 커밋 메시지에서 0건, `.planning/` 전체 `git grep` 종료 코드 1(0건), `BASE_SHA..HEAD` 커밋 메시지 0건.
+- 실제 푸시 경로: 훅을 돌릴 때 작업 트리의 `scripts/check-site.sh`·`.githooks/pre-push`가 후보와 같았고, 표준 입력만 준 `.githooks/pre-push`가 후보를 통과시켰습니다. 아무것도 푸시하지 않았습니다.
+
+S_SHA=none
+M4_SHA=57e56b07f2ab
+PUSH1_CANDIDATE=57e56b07f2ab
+PUSH1_PREV=84a5d9114ef3
+
+```
+check-site: 통과 (커밋 9209624d9ec7, jekyll 3.10.0)
+OK m4 = approved opt2
+OK origin = base-live
+OK site files 4
+OK hold absent
+OK cand no-support
+vals filled=4 emitted=3 excluded=1
+leak range .planning=0 messages=0
+OK hook files = push1-cand
+OK hook push1-cand pass
+check-site: 통과 (커밋 57e56b07f2ab, jekyll 3.10.0)
+OK site-clean 05-06-t1 57e56b07f2ab
+```
+
+범위의 사이트 커밋(새 것부터):
+
+```
+57e56b07f2ab feat: 모든 페이지 푸터에 사업자 정보 표시 (상호·대표자·사업자등록번호·주소)
+da940757106e build: 점검 7번 항목 추가 (지원 페이지 연락처와 /support/ 링크, 이메일 게이트)
+b7e2dcd0de13 style: 푸터 사업자 줄을 항목 단위로 줄바꿈하고 푸터 링크 색을 정함
+bc934fb9555e refactor: 사업자 정보 사실값 슬롯과 푸터 행 템플릿 추가 (값 없음, 출력 불변)
+```
