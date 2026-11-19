@@ -17,6 +17,20 @@
             </div>
             <div class="rp-foot-legal">
                 <p>러닝펜슬은 슬림펌킨이 운영하는 서비스입니다.</p>
+                {%- if site.data.company.trade_name.size > 0 or site.data.company.representative.size > 0 or site.data.company.biz_reg_no.size > 0 %}
+                <p>
+{%- if site.data.company.trade_name.size > 0 %}<span>상호 {{ site.data.company.trade_name | escape }}</span>{% endif %}
+{%- if site.data.company.representative.size > 0 %}{% if site.data.company.trade_name.size > 0 %}&nbsp;· {% endif %}<span>대표자 {{ site.data.company.representative | escape }}</span>{% endif %}
+{%- if site.data.company.biz_reg_no.size > 0 %}{% if site.data.company.trade_name.size > 0 or site.data.company.representative.size > 0 %}&nbsp;· {% endif %}<span>사업자등록번호 {{ site.data.company.biz_reg_no | escape }}</span>{% endif %}</p>
+                {%- endif %}
+                {%- if site.data.company.address.size > 0 %}
+                <p>주소 {{ site.data.company.address | escape }}</p>
+                {%- endif %}
+                {%- if site.data.company.support_email.size > 0 or site.data.company.phone.size > 0 %}
+                <p>
+{%- if site.data.company.support_email.size > 0 %}<span>이메일 <a href="mailto:{{ site.data.company.support_email | escape }}">{{ site.data.company.support_email | escape }}</a></span>{% endif %}
+{%- if site.data.company.phone.size > 0 %}{% if site.data.company.support_email.size > 0 %}&nbsp;· {% endif %}<span>전화 {{ site.data.company.phone | escape }}</span>{% endif %}</p>
+                {%- endif %}
                 <p>© 2026 슬림펌킨. All rights reserved.</p>
                 <p>경로 데이터 © OpenStreetMap contributors</p>
             </div>
