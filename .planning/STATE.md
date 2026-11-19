@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-04-PLAN.md
-last_updated: "2026-11-19T03:44:43.520Z"
+stopped_at: Completed 05-05-PLAN.md
+last_updated: "2026-11-19T04:17:54.595Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 8810868c7fdf4b5e86c01ce4dab316108ea2a594
+state_head: 4530b9ac4a8f3fd8cdd5b7e982e9bec065376b0f
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 46
+  completed_plans: 47
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 5 of 15
-Status: Executing Phase 05
+Plan: 6 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -105,6 +105,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P02 | 8min | 2 tasks | 2 files |
 | Phase 05 P03 | 20min | 3 tasks | 7 files |
 | Phase 05 P04 | 13 min | 2 tasks | 2 files |
+| Phase 05 P05 | 9min | 4 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -214,6 +215,8 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-03: D-07은 한 줄에 들어가는 항목에 그대로 지켜지고, 줄보다 긴 항목 하나는 자기 상자 안에서 줄을 바꿈(사용자 승인). 가로 넘침 없음
 - [Phase 05]: 05-04: check-site 7번 항목(지원 페이지 mailto, /support/ 링크와 페이지)을 M3 da940757106e로 main에 더함. EXPECTED_TITLES·pre-push 훅은 그대로(Pitfall 7). 보류 묶음 중간 커밋은 7번 하나로 실패가 기대값
 - [Phase 05]: 05-04: 문서의 점검 항목 수(여섯→일곱)는 05-07이 고침. SUP-01·SUP-02는 ready-ids blocked라 완료 처리 안 함
+- [Phase 05]: 05-05: D-10 승인 approve-opt2(사업자등록증 표기 전체, 구분 기호 &nbsp;· 그대로). 보류 1 뒤 시도 2의 후보 C4_CAND=fef24cd83cfb가 시도 1 후보와 blob·사이트 트리·p5-foot 출력이 같음을 확인한 뒤에만 적용. 값은 작업 트리 _data/company.yml에만 있고 커밋 안 함(05-06이 M4로 커밋), 후보는 refs/p5-scratch/c4-cand에만 있음
+- [Phase 05]: 05-05: 실제 값에서는 375px에서도 첫 줄이 한 줄에 들어가 세 구분 기호 선택지의 측정(sepLead 0)이 같다. webkit 375 선택지 2 첫 캡처만 한 번 흔들렸고 다시 찍으면 같음(기록만)
 
 ### Pending Todos
 
@@ -253,6 +256,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T03:10:18.386Z
-Stopped at: Completed 05-04-PLAN.md
+Last session: 2026-11-19T04:17:53.914Z
+Stopped at: Completed 05-05-PLAN.md
 Resume file: None
