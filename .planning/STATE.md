@@ -2,17 +2,17 @@
 gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
-status: executing
-stopped_at: Completed 05-14-PLAN.md
-last_updated: "2026-11-19T18:52:39.471Z"
+status: verifying
+stopped_at: Completed 05-15-PLAN.md
+last_updated: "2026-11-19T19:03:30.037Z"
 last_activity: 2026-11-20
 last_activity_desc: Phase 05 execution started
-state_head: a7c38ea390c0f67684327e108719fdc78d2f891e
+state_head: 3186dafd664095a8185eded83eba998f710b37a4
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 56
+  completed_plans: 57
   percent: 40
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
 Plan: 15 of 15
-Status: Executing Phase 05
+Status: Phase complete — ready for verification
 Last activity: 2026-11-20 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -115,6 +115,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P12 | 16min | 3 tasks | 1 files |
 | Phase 05 P13 | 13min | 3 tasks | 11 files |
 | Phase 05 P14 | 8h (사용자 대기 포함) | 3 tasks | 3 files |
+| Phase 05 P15 | 11min | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -238,6 +239,7 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-12: 사용자가 승인한 SHA 2bd47891b837 하나만 원격 main에 푸시했고, 배포 완료 뒤 다섯 URL·푸터 이메일 행·두 엔진 화면·원격 주소 이력(첫 커밋 = G)을 라이브에서 확인했다 (LIVE_PUSH2=OK). 문서 커밋은 05-15 때 나간다
 - [Phase 05]: 05-13: 지원 쪽 문서(D-21)는 게이트 푸시 라이브 확인 뒤에 고쳤고 주소는 support_email 키와 이름 표로만 가리킨다. 보류 worktree는 git cherry 세 줄 모두 - 확인 뒤 지웠고 브랜치 ref p5-support-hold는 로컬에 남긴다(단계 검증 뒤 사용자가 지움)
 - [Phase 05]: 05-14: 마지막 DNS(A 4·Google MX 1·SPF 1·SC TXT 1·DKIM 0)와 /·/support/ HTTPS 200, 작업 5 보고(TASK5=OK)로 D-06 단계 완료 표 일곱 행을 모두 충족으로 기록했다 (PHASE5_RECORD=OK). 작업 7은 05-09 SITE03을 인용, DKIM은 참고 행으로 Phase 10
+- [Phase 05]: 05-15: 사용자가 승인한 SHA e0f233169329 하나만 원격 main에 푸시했고(사이트 출력은 G 그대로), 배포 완료 뒤 다섯 URL과 Phase 5 성공 기준 1~5를 라이브 근거로 다시 판정해 모두 OK (LIVE_PUSH3=OK, PHASE5_SC=OK). 이후 문서 커밋은 다음 단계 첫 푸시 때 나간다
 
 ### Pending Todos
 
@@ -275,6 +277,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T18:41:13.207Z
-Stopped at: Completed 05-14-PLAN.md
+Last session: 2026-11-19T19:03:29.363Z
+Stopped at: Completed 05-15-PLAN.md
 Resume file: None
