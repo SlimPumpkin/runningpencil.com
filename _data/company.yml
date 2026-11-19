@@ -4,9 +4,9 @@
 # - 템플릿은 `site.data.company.<키>.size > 0` 으로 판정한다. `!= blank` 는 로컬 Jekyll 3.10.0(Liquid 4.0.4) 빌드에서 항상 참이어서 쓰지 않는다.
 # - support_email 은 이메일 게이트(외부 4곳 수신 시험 통과)를 Claude가 확인한 뒤에만 채운다 (D-19, Phase 5 D-05).
 # - 사업자등록증 표기 그대로 쓴다. 이 값은 .planning/ 문서·커밋 메시지에 적지 않는다 (저장소 PUBLIC, D-02).
-trade_name: ""        # 상호
-representative: ""    # 대표자
-biz_reg_no: ""        # 사업자등록번호
-address: ""           # 주소 (사업자등록증 표기 전체, D-10)
+trade_name: "슬림펌킨"        # 상호
+representative: "문태식"    # 대표자
+biz_reg_no: "858-49-01009"        # 사업자등록번호
+address: "서울특별시 용산구 이촌로 324-10, 2동 610호(이촌동, 반도아파트)"           # 주소 (사업자등록증 표기 전체, D-10)
 support_email: ""     # 지원 이메일 (게이트 뒤)
 phone: ""             # 전화번호 (칸만, U1·BIZ-03)
