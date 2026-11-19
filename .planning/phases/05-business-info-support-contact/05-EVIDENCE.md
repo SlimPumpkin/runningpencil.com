@@ -464,3 +464,61 @@ check-site: 실패 — 1건 (커밋 432a214f884d)
 ```
 
 HOOK7=OK
+
+## 05-05 시험 실행
+
+실제 사업자 값을 받기 전에, Task 3이 실제 값으로 돌릴 파이프라인을 가짜 값으로 끝까지 돌렸습니다. 저장소 사이트 파일과 인덱스는 건드리지 않았습니다.
+
+- 시험 값 `$W/yml/biz-fake.yml`은 05-02 가짜 값 `$W/yml/all.yml`에서 `support_email`·`phone`만 `""`로 바꾼 것입니다(사업자 값 네 개만 가짜로 채움).
+- 시험 객체는 `mkobj HEAD _data/company.yml=$W/yml/biz-fake.yml`로 만들었고 어떤 ref에도 붙이지 않았습니다(`git for-each-ref --contains` 빈 출력). 푸시하지 않습니다.
+- `c3`은 HEAD(사이트 트리 = M3) 빌드, `dry`는 시험 객체 빌드입니다. 네 문서마다 `footblock` 줄 범위를 뺀 나머지가 `cmp`로 같고, 출력 파일 목록도 같습니다.
+- 선택지 빌드 `dryo1`·`dryo2`·`dryo3`은 `$W/dry/src`를 복사해 `_includes/footer.html`의 구분 기호 토큰 `&nbsp;· ` 세 곳을 각각 ` · `(선택지 1), 그대로(선택지 2), ` ·&nbsp;`(선택지 3)로 바꾼 것입니다. 바꾼 뒤 옛 토큰 0곳·새 토큰 3곳, 선택지 2의 템플릿과 출력은 `dry`와 바이트가 같습니다. 포트 4506~4508로 띄워 `p5-foot.mjs … --shot "$W/cap/dryo<n>"`을 돌렸고, 캡처는 `$W/cap/dryo<n>/<엔진>-<폭>.png`입니다.
+- 세 선택지 모두 375px sepLead가 1이고 1280px은 0입니다. 가짜 상호(줄 폭보다 긴 항목, `NOTE … longItem`)가 상자 안에서 줄을 바꾸는 모양이라 세 선택지가 같게 나왔습니다. 실제 값에서의 위치는 Task 3 측정과 캡처로 봅니다(기록만, 실패 아님).
+
+DRY_OBJ=f7e64b9e2d4d
+
+```
+check-site: 통과 (커밋 f7e64b9e2d4d, jekyll 3.10.0)
+OK dry diff footer-only 4
+OK dry labels trade=1 rep=1 bizno=1 addr=1 email=0 phone=0 docs=4
+OK dry opt1 pass
+OK dry opt2 pass
+OK dry opt3 pass
+OK dry captures=12
+```
+
+p5-foot 출력(세 선택지가 줄마다 같아 한 번만 붙임. 선택지마다 종료 코드 0, 마지막 줄 `PASS foot`):
+
+```
+NOTE chromium 375 / longItem span0 natural=417 line=335
+OK chromium 375 / rows=5 spans=3 seps=2 links=0 sepLead=1
+NOTE chromium 375 /privacy-policy/ longItem span0 natural=417 line=335
+OK chromium 375 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=1
+NOTE chromium 375 /terms/ longItem span0 natural=417 line=335
+OK chromium 375 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=1
+NOTE chromium 375 /data-deletion/ longItem span0 natural=417 line=335
+OK chromium 375 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=1
+OK chromium 1280 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+NOTE webkit 375 / longItem span0 natural=417 line=335
+OK webkit 375 / rows=5 spans=3 seps=2 links=0 sepLead=1
+NOTE webkit 375 /privacy-policy/ longItem span0 natural=417 line=335
+OK webkit 375 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=1
+NOTE webkit 375 /terms/ longItem span0 natural=417 line=335
+OK webkit 375 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=1
+NOTE webkit 375 /data-deletion/ longItem span0 natural=417 line=335
+OK webkit 375 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=1
+OK webkit 1280 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+PASS foot
+```
+
+DRY_RUN=OK
+
+```
+OK site-clean 05-05-t1 bf00e3e05173
+```
