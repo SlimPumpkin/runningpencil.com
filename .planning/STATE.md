@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-03-PLAN.md
-last_updated: "2026-11-19T03:00:42.551Z"
+stopped_at: Completed 05-04-PLAN.md
+last_updated: "2026-11-19T03:10:18.868Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 6046317d1fb1d66b9ec87d704b70bf6878a7dcda
+state_head: 2ae8a282a28e73ce2db4301d9b2b89698e05d3c6
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 45
+  completed_plans: 46
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 4 of 15
-Status: Executing Phase 05
+Plan: 5 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -104,6 +104,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P01 | 18 min | 3 tasks | 2 files |
 | Phase 05 P02 | 8min | 2 tasks | 2 files |
 | Phase 05 P03 | 20min | 3 tasks | 7 files |
+| Phase 05 P04 | 13 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -211,6 +212,8 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-03: p5-foot split 판정 보정(사용자 결정) — 여러 줄 span은 언제나 split, 상자 하나인 span은 줄바꿈 없는 폭이 p 줄 폭 + 1px보다 길 때만 상자 안 줄바꿈 허용하고 NOTE longItem 줄로 남김. 시험 값 all.yml은 그대로
 - [Phase 05]: 05-03: 보류 1 재개는 Task 3만 다시 함(05-01 Task 1부터 규칙의 사용자 승인 예외, 이력 수정 금지). M1·M2 표식은 HOLD1_ 머리 없이 유지
 - [Phase 05]: 05-03: D-07은 한 줄에 들어가는 항목에 그대로 지켜지고, 줄보다 긴 항목 하나는 자기 상자 안에서 줄을 바꿈(사용자 승인). 가로 넘침 없음
+- [Phase 05]: 05-04: check-site 7번 항목(지원 페이지 mailto, /support/ 링크와 페이지)을 M3 da940757106e로 main에 더함. EXPECTED_TITLES·pre-push 훅은 그대로(Pitfall 7). 보류 묶음 중간 커밋은 7번 하나로 실패가 기대값
+- [Phase 05]: 05-04: 문서의 점검 항목 수(여섯→일곱)는 05-07이 고침. SUP-01·SUP-02는 ready-ids blocked라 완료 처리 안 함
 
 ### Pending Todos
 
@@ -250,6 +253,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T02:55:42.250Z
-Stopped at: Completed 05-03-PLAN.md
+Last session: 2026-11-19T03:10:18.386Z
+Stopped at: Completed 05-04-PLAN.md
 Resume file: None
