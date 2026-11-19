@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-11-PLAN.md
-last_updated: "2026-11-19T09:45:54.590Z"
+stopped_at: Completed 05-12-PLAN.md
+last_updated: "2026-11-19T10:02:08.683Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 877a5c8198199cea377bbd3290be9da463385666
+state_head: e9dfe5f3362bee6b7c2759e61e988670b1ad13c0
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 53
+  completed_plans: 54
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 12 of 15
-Status: Executing Phase 05
+Plan: 13 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -112,6 +112,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P09 | 1h 54m | 3 tasks | 1 files |
 | Phase 05 P10 | 1h 43m | 3 tasks | 1 files |
 | Phase 05 P11 | 3 min | 2 tasks | 6 files |
+| Phase 05 P12 | 16min | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -232,6 +233,7 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-10: 이메일 게이트를 2026-11-19에 열었다(GATE_OPEN=OK). 근거는 작업 4 재시험 4/4(Gmail·네이버·iCloud·Outlook 모두 받은편지함). 게이트 시점 원격 main = PUSH1, PUSH1 사이트 이력·GATE_HEAD 사이트 파일에 지원 주소 0건. 게이트 기록 커밋 9e3b9be2d0cc
 - [Phase 05]: 05-10: 1차 수신 시험 2/4(iCloud·Outlook 스팸함, 보낸 쪽 SPF·DKIM·DMARC PASS) 뒤 사용자가 운영자 Gmail에 지원 주소 수신 메일 스팸 방지 필터를 만들고 재시험 4/4. 저장소 밖 운영 설정이고 실제 스팸도 받은편지함에 들어오는 대가가 있음
 - [Phase 05]: 05-11: 보류 묶음 H1~H3를 main에 cherry-pick(출력이 H3 빌드와 같음)하고 G0(지원 페이지 updated 2026년 11월 19일)·G(support_email 값)를 커밋. G가 check-site 일곱 항목·두 엔진 화면 통과, 지원 주소를 처음 더한 사이트 커밋이 G이고 게이트 기록 뒤. 푸시 안 함(05-12)
+- [Phase 05]: 05-12: 사용자가 승인한 SHA 2bd47891b837 하나만 원격 main에 푸시했고, 배포 완료 뒤 다섯 URL·푸터 이메일 행·두 엔진 화면·원격 주소 이력(첫 커밋 = G)을 라이브에서 확인했다 (LIVE_PUSH2=OK). 문서 커밋은 05-15 때 나간다
 
 ### Pending Todos
 
@@ -270,6 +272,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T09:38:28.780Z
-Stopped at: Completed 05-11-PLAN.md
+Last session: 2026-11-19T10:02:08.052Z
+Stopped at: Completed 05-12-PLAN.md
 Resume file: None
