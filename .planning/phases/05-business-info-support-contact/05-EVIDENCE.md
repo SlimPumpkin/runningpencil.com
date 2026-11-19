@@ -522,3 +522,53 @@ DRY_RUN=OK
 ```
 OK site-clean 05-05-t1 bf00e3e05173
 ```
+
+## 05-05 값 후보
+
+사용자가 대화로 준 사업자 값 네 개(상호·대표자·사업자등록번호·주소)를 작업 트리 `_data/company.yml`의 네 칸에만 넣었습니다. `support_email`·`phone`은 빈 값 그대로입니다. 값과 푸터 글은 이 기록에 적지 않습니다(D-02). 건수와 판정 줄만 남깁니다.
+
+- 값 넣은 뒤 `ruby -ryaml`로 읽어 네 값이 받은 글자와 같고(키마다 OK, 화면에 값을 찍지 않음) `support_email`·`phone`이 빈 문자열임을 확인했습니다.
+- 값 누출 점검(05-01): 새로 공개되는 값 3건, 기준 커밋에 이미 있던 값 1건(누출 대상 아님). `.planning/`에서 `git grep` 종료 코드 1(0건), `BASE_SHA..HEAD` 커밋 메시지 0건.
+- 후보 `C4_CAND`는 `_data/company.yml` 하나만 스테이징해 `git commit-tree … -p HEAD -m candidate`로 만들고 곧바로 `git restore --staged`로 인덱스를 비웠습니다. 로컬 스크래치 ref `refs/p5-scratch/c4-cand`에만 붙였고 어떤 브랜치에도 없습니다(`git branch -a --contains` 빈 출력). 푸시하지 않습니다.
+- `c3`은 HEAD(사이트 트리 = M3) 빌드, `c4`는 후보 빌드입니다(`$W/c4/TREE` = 후보 트리). 출력 파일 목록이 같고, 네 문서 밖의 출력 파일은 바이트가 같으며, 네 문서는 `footblock` 줄 범위를 뺀 나머지가 `cmp`로 같습니다(푸터 블록 5줄 → 7줄).
+- 선택지 빌드 `d10o1`·`d10o2`·`d10o3`은 `$W/c4/src`를 복사해 `_includes/footer.html`의 구분 기호 토큰 `&nbsp;· ` 세 곳을 각각 ` · `(선택지 1), 그대로(선택지 2), ` ·&nbsp;`(선택지 3)로 바꾼 것입니다. 선택지 1·3은 옛 토큰 0곳·새 토큰 3곳, 선택지 2의 템플릿과 출력은 `c4`와 바이트가 같습니다. 포트 4506~4508로 띄워 `p5-foot.mjs … --shot "$W/cap/d10o<n>"`을 돌렸고 서버는 모두 내렸습니다. 캡처는 `$W/cap/d10o<n>/<엔진>-<폭>.png`입니다.
+- 실제 값에서는 375px에서도 첫 줄 세 항목이 한 줄에 들어가 줄이 바뀌지 않습니다. 그래서 세 선택지 모두 두 엔진·두 폭에서 sepLead가 0이고, 세 선택지의 p5-foot 출력은 줄마다 같으며(`cmp`), 같은 엔진·폭의 캡처 PNG도 세 선택지가 바이트까지 같습니다. 선택지는 첫 줄이 바뀌는 더 좁은 화면이나 값이 바뀔 때만 모양이 갈립니다(기록만, 실패 아님).
+
+VALUES_RECEIVED=OK
+
+C4_CAND=4d5e90c0402b
+
+```
+vals filled=4 emitted=3 excluded=1
+leak .planning=0 messages=0
+OK c4 worktree only-yml=cand index=clean
+check-site: 통과 (커밋 4d5e90c0402b, jekyll 3.10.0)
+OK c4 diff footer-only 4
+OK c4 labels trade=1 rep=1 bizno=1 addr=1 email=0 phone=0 docs=4
+OK d10 opt1 pass
+OK d10 opt2 pass
+OK d10 opt3 pass
+OK d10 captures=12
+```
+
+p5-foot 출력(세 선택지가 줄마다 같아 한 번만 붙임. 선택지마다 종료 코드 0, 마지막 줄 `PASS foot`, 값 0건):
+
+```
+OK chromium 375 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 375 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 375 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 375 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+PASS foot
+```
