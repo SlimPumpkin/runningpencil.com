@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-11-19T02:15:06.958Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-11-19T02:25:20.033Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 316fa7a70e33112b9af3bf398cd624fb45b5d5fe
+state_head: 9d7641ea13ccdac7bcc48c703fe6ab02a9879b36
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 43
+  completed_plans: 44
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 2 of 15
-Status: Executing Phase 05
+Plan: 3 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -102,6 +102,7 @@ Progress: [████░░░░░░] 40%
 | Phase 04 P12 | 6min | 3 tasks | 8 files |
 | Phase 04 P13 | 10min | 3 tasks | 2 files |
 | Phase 05 P01 | 18 min | 3 tasks | 2 files |
+| Phase 05 P02 | 8min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -204,6 +205,8 @@ Recent decisions affecting current work:
 - [Phase 04]: 코드 리뷰 다섯 번(마지막 clean) 뒤 재검증 보고서의 사람 확인 8건이 04-UAT.md(8/8 pass)와 문구까지 같아, 2026-11-19 verify-work 재개에서 보고서 status만 passed로 바꾸고 단계 전환함. UAT 1~5번은 라이브 9cc1490에서 봤고, `9cc1490` 이후 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)은 자동 확인만 거쳤고 아직 푸시 전
 - [Phase 05]: Phase 5 판정 도구 Playwright 1.59.1·pngjs 7.0.0을 사용자 승인(install, 브라우저 포함) 뒤 pnpm frozen-lockfile로 스크래치 $W/pw에만 설치함. Phase 5 동안 같은 버전·같은 경로 재설치 포함
 - [Phase 05]: p5-foot.mjs split 판정은 getClientRects 상자 수가 아니라 줄 수로 셈 (Chromium의 상자 없는 inline span 오탐)
+- [Phase 05]: 05-02: 원형 세 파일(슬롯·&nbsp;· 푸터·지원 페이지)을 ref 없는 시험 객체로 빌드해 빈 값 네 문서 바이트 동일과 가짜 값 열한 경우 행렬을 확인했다. 05-03·05-04·05-08은 EVIDENCE의 PROTO_*_BLOB을 그대로 꺼내 쓴다
+- [Phase 05]: 05-02: 요구사항 BIZ-02·BIZ-03·SUP-01·SUP-03·SUP-04는 완료 처리하지 않음(스크래치 설계 시험만, ready-ids 모두 blocked)
 
 ### Pending Todos
 
@@ -243,6 +246,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T02:08:41.787Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-11-19T02:25:19.453Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
