@@ -9,7 +9,7 @@ last_mapped_at: 2026-11-14
 ## Test Framework
 
 **Runner:**
-- 자동 점검 하나: `scripts/check-site.sh`. 운영과 같은 Jekyll 3.10.0으로 빌드해 일곱 가지를 본다. 빌드 성공, `_site`에 내부 파일이 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`이 기대값과 같음, 처리되지 않은 Liquid(`{%`, `{{`)가 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트).
+- 자동 점검 하나: `scripts/check-site.sh`. 운영과 같은 Jekyll 3.10.0으로 빌드해 일곱 가지를 본다. 빌드 성공, `_site`에 내부 파일이 없음, 문서 5개(기존 URL 4개 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`와 `support/index.html`)의 `<title>`이 기대값과 같음, 처리되지 않은 Liquid(`{%`, `{{`)가 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트).
 - `.githooks/pre-push` 훅이 `main` 푸시마다 이 스크립트를 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번). 실패하면 푸시가 멈춘다.
 - 그 밖의 테스트 러너, CI, HTML validator는 없다 (`package.json` 없음). 전역 규칙의 「커밋 전 린터 실행」은 이 스크립트로 갈음한다.
 - Config: 기대 제목과 금지 경로는 `scripts/check-site.sh` 맨 위 한 곳에 있다
@@ -66,7 +66,7 @@ bundle exec jekyll serve --livereload     # 미리보기 → http://localhost:40
 6. **공통 블록 한 벌 확인**
    - `<head>` 글꼴·파비콘 링크, `<style>` 「공통」 묶음, 헤더·푸터 마크업이 include에 한 벌만 있고 페이지 파일에 복사본이 다시 생기지 않았는지. 아래 `git grep` 명령으로 확인.
 7. **콘텐츠 규칙**
-   - 서비스 이름이 이름 표(`.planning/baseline/NAMES.md`)와 같은지 (한국어 페이지는 러닝펜슬, Phase 9 영문판은 `RunningPencil`). 이메일 게이트(Phase 5) 전에는 HTML·`_data`에 이메일 주소가 없는지. 다시 쓰지 않은 법적 페이지에 `noindex`와 「임시 게시본」 표시가 그대로 있는지 (Phase 6·7·8의 재작성 커밋에서 지운다, U14).
+   - 서비스 이름이 이름 표(`.planning/baseline/NAMES.md`)와 같은지 (한국어 페이지는 러닝펜슬, Phase 9 영문판은 `RunningPencil`). 이메일 게이트 뒤에는 지원 주소 하나만 HTML에 있는지(값은 `_data/company.yml`의 `support_email` 한 곳, 템플릿에는 주소를 글자로 적지 않음). 다시 쓰지 않은 법적 페이지에 `noindex`와 「임시 게시본」 표시가 그대로 있는지 (Phase 6·7·8의 재작성 커밋에서 지운다, U14).
 8. **브라우저 콘솔**에 오류가 없는지, 파비콘·`site.webmanifest`가 404 없이 뜨는지.
 9. **`CLAUDE.md` 두 사본의 방침 구간 일치**
    - 루트 `CLAUDE.md`와 `.claude/CLAUDE.md`의 「이번 마일스톤 방침」 구간(「작업 규칙」 포함)이 같은지. 아래 diff 명령으로 확인. 방침 구간을 고친 단계는 이 확인을 통과해야 끝난다.
@@ -136,15 +136,17 @@ git grep -lF '/* ── 공통' -- '*.html' '*.css'              # 「공통」 
 - `generate-claude-md`는 GSD 마커 밖을 건드리지 않으므로 두 사본을 맞춰 주지 않는다. 손으로 같이 고친 뒤 이 명령으로 확인한다.
 - `generate-claude-md`는 `.planning/codebase/STACK.md`·`CONVENTIONS.md`·`ARCHITECTURE.md`에서 `## `·`### ` 머리줄, 맨 위 단계의 `- ` 목록, 표만 `.claude/CLAUDE.md`로 옮긴다. 굵은 소제목 줄(`**…:**`), 들여 쓴 하위 목록, 번호 목록, 코드 블록 안의 내용은 버린다. 그래서 이 세 원본을 고치거나 `gsd-map-codebase`로 다시 만든 뒤에는 소제목을 `### ` 머리줄이나 줄 안(`- **이름:** …`)에 넣고, 번호 목록은 `- ` 목록으로, 예시는 줄 안 코드로 바꾼다. 다시 생성한 `.claude/CLAUDE.md`에 빈 머리줄이나 콜론으로 끝나는 줄이 없는지 확인한다.
 
-**이메일 주소 미노출 확인 (이메일 게이트 전, Phase 5까지 유효):**
+**이메일 주소 확인 (이메일 게이트 뒤 기준, Phase 5부터):**
 ```bash
-grep -rnE "@[a-z0-9.-]+\.(com|kr)" --include='*.html' . | grep -v prepare/
-# 출력이 없으면 통과. 이메일 게이트(Phase 5)가 열린 뒤에는 지원 이메일 주소만 나와야 한다
+grep -rnE "@[a-z0-9.-]+\.(com|kr)" --include='*.html' . | grep -v -e prepare/ -e _site/ -e vendor/
+# 원본(템플릿)에서는 출력이 없어야 통과. 주소는 _data/company.yml의 support_email에서만 읽는다
+bundle exec jekyll build && grep -rhoE "[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.(com|kr)" --include='*.html' _site | sort -u
+# 빌드 출력에는 지원 주소 하나만 나와야 통과 (푸터 이메일 행과 /support/)
 ```
 
 **내부 링크 점검 (`bundle exec jekyll serve` 실행 중):**
 ```bash
-for p in / /privacy-policy/ /terms/ /data-deletion/ /favicon/favicon.svg /favicon/site.webmanifest; do
+for p in / /privacy-policy/ /terms/ /data-deletion/ /support/ /favicon/favicon.svg /favicon/site.webmanifest; do
   printf '%s %s\n' "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4000$p)" "$p"
 done
 ```

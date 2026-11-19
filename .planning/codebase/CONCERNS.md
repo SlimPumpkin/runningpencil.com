@@ -47,7 +47,7 @@ last_mapped_at: 2026-11-14
 - Recommendations: Pretendard에 `integrity` 추가 또는 self-host. CSP `<meta>` 도입 검토.
 
 **개인정보처리방침 필수 항목 누락 가능성:**
-- Risk: `privacy-policy/index.html`의 항목은 1~6(수집 항목·이용 목적·위치정보·보유 기간·제3자 제공/위탁·사용자 권리)뿐이며 "개인정보 보호책임자"나 문의처가 없음 (`grep -c 책임자` = 0). 현재 사이트에는 지원 이메일이 없음 (2026-11 기준). 이메일 게이트(Phase 5) 뒤에 지원 이메일을 공개하고, 보호책임자와 연락처는 Phase 7 처리방침 재작성에서 넣기로 결정함 (`.planning/PROJECT.md` Key Decisions). 개인정보 보호법상 처리방침 기재 사항(보호책임자·고충 처리 부서 등)과 앱 스토어 심사 요건에 미달할 수 있음 — 법률 판단은 확인 필요.
+- Risk: `privacy-policy/index.html`의 항목은 1~6(수집 항목·이용 목적·위치정보·보유 기간·제3자 제공/위탁·사용자 권리)뿐이며 "개인정보 보호책임자"나 문의처가 없음 (`grep -c 책임자` = 0). 지원 이메일은 해소: Phase 5 게이트(2026-11-19) 뒤 푸터와 `/support/`에 지원 이메일이 있음(처리방침 본문에는 아직 없음). 보호책임자와 처리방침 안 연락처는 Phase 7 처리방침 재작성에서 넣기로 결정함 (`.planning/PROJECT.md` Key Decisions). 개인정보 보호법상 처리방침 기재 사항(보호책임자·고충 처리 부서 등)과 앱 스토어 심사 요건에 미달할 수 있음 — 법률 판단은 확인 필요.
 - Files: `privacy-policy/index.html:10-49`, `data-deletion/index.html:11` ("삭제 방법"이 앱 내 경로만 안내하는지 확인 필요)
 - Current mitigation: 세 페이지 모두 "임시 게시본" 명시 (`terms/index.html:80`, `privacy-policy/index.html:54`, `data-deletion/index.html:32`), `noindex` (각 파일 front matter `noindex: true` — `terms/index.html:7`, `privacy-policy/index.html:7`, `data-deletion/index.html:8`. 출력은 `_layouts/legal.html:10-12`).
 - Recommendations: 정식 출시 전 법률 검토로 본문 확정, 연락 수단(최소 문의 채널) 결정.
@@ -85,14 +85,14 @@ last_mapped_at: 2026-11-14
 
 **커밋 = 배포:**
 - Files: 저장소 전체
-- Why fragile: CI, HTML 검증, 링크 검사가 없어 깨진 마크업이 즉시 라이브 반영. pre-push 훅의 `scripts/check-site.sh`는 빌드 성공, 내부 파일 부재, 기존 URL 문서 4개의 제목, Liquid 잔여만 본다.
+- Why fragile: CI, HTML 검증, 링크 검사가 없어 깨진 마크업이 즉시 라이브 반영. pre-push 훅의 `scripts/check-site.sh`는 빌드 성공, 내부 파일 부재, 문서 5개(기존 URL 4개와 `/support/`)의 제목, Liquid 잔여, Tailwind Play CDN 없음, 랜딩 기능 이름, 지원 페이지 연락처만 본다.
 - Safe modification: 훅을 켜 두고(`git config core.hooksPath .githooks`) 푸시 전 로컬 미리보기로 화면 확인; 필요 시 GitHub Actions로 HTML validator/link checker 추가.
 
 ## Scaling Limits
 
 **페이지 추가 비용:**
-- Current capacity: 4페이지.
-- Limit: 공통 블록은 include 한 벌이라 페이지 수에 비례한 불일치 위험은 없어졌다. 새 페이지는 `scripts/check-site.sh`의 기대 제목 목록(기존 URL 넷)에 자동으로 들어가지 않는다.
+- Current capacity: 5페이지 (랜딩, 법적 3종, 고객 지원).
+- Limit: 공통 블록은 include 한 벌이라 페이지 수에 비례한 불일치 위험은 없어졌다. 새 페이지는 `scripts/check-site.sh`의 기대 제목 목록(다섯 문서: 기존 URL 넷과 `/support/`)에 자동으로 들어가지 않는다.
 - Scaling path: Jekyll layout/include 도입은 해결: Phase 2. 새 법적·안내 페이지는 `layout: legal`과 front matter로 만든다.
 
 ## Dependencies at Risk
@@ -109,8 +109,8 @@ last_mapped_at: 2026-11-14
 - Blocks: 출시 시 `#get` 구간 개편 필요.
 
 **문의 채널:**
-- Problem: 현재 문의 채널이 없음 (2026-11 기준). 이메일 수집 폼은 만들지 않기로 했고(정적 호스팅), 지원 이메일은 이메일 게이트(Phase 5) 뒤에 `/support/`와 푸터에 공개하기로 결정함.
-- Blocks: 법적 페이지의 권리 행사·삭제 요청 수단이 앱 밖에서는 제공되지 않음 (위 Security 참고).
+- Problem: 해소: Phase 5 게이트(2026-11-19) 뒤 푸터와 `/support/`에 지원 이메일. 주소는 `_data/company.yml`의 `support_email` 한 곳에 있다. 이메일 수집 폼은 만들지 않는다(정적 호스팅).
+- Blocks: 법적 문서 본문(처리방침의 권리 행사, 삭제 안내의 앱 밖 삭제 요청)에는 지원 이메일이 아직 없음 → Phase 6~8 (위 Security 참고).
 
 **법적 페이지 OG 메타 없음:**
 - Problem: `index.html:15-20`에는 og 태그가 있으나 법적 페이지에는 `description`만 있음 (`_layouts/legal.html:9`, 값은 각 페이지 front matter — `terms/index.html:4`).

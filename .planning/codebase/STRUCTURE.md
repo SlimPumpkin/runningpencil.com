@@ -17,15 +17,17 @@ runningpencil.com/
 │   └── index.html             # 서비스 이용약관 (front matter + 카드 본문, noindex)
 ├── data-deletion/
 │   └── index.html             # 계정·데이터 삭제 안내 (front matter + 카드 본문, noindex)
+├── support/
+│   └── index.html             # 고객 지원 (front matter + 카드 본문, 앵커 #contact·#report·#faq, noindex 없음)
 ├── _includes/                 # 공통 블록 한 벌 (Jekyll include)
 │   ├── head-links.html        # Pretendard 글꼴·파비콘·매니페스트 링크
-│   ├── header.html            # 헤더 마크업 (home=true면 랜딩 링크)
-│   ├── footer.html            # 푸터 마크업
+│   ├── header.html            # 헤더 마크업 (home=true면 랜딩 링크, 끝에 「고객 지원」)
+│   ├── footer.html            # 푸터 마크업 (nav 「약관 및 지원」, 사업자 줄·주소 줄·이메일 행)
 │   └── css/
 │       ├── common.css         # 「공통」 CSS 묶음
 │       └── legal.css          # 「법적 페이지 전용」 CSS (토큰·Preflight 대체·.rp-legal-*·.rp-doc)
 ├── _layouts/
-│   └── legal.html             # 법적 3종 레이아웃 (head·「공통」+legal.css include·카드 틀)
+│   └── legal.html             # 법적 3종과 지원 페이지 레이아웃 (head·「공통」+legal.css include·카드 틀)
 ├── _data/
 │   └── company.yml            # 사실값 슬롯 (사업자 정보·연락처, 값이 없는 키는 그리지 않음)
 ├── favicon/                   # 파비콘·앱 아이콘·웹 매니페스트
@@ -55,8 +57,8 @@ runningpencil.com/
 - Purpose: 랜딩 페이지와 배포 설정
 - Key files: `index.html`, `CNAME`, `_config.yml`
 
-**`privacy-policy/`, `terms/`, `data-deletion/`:**
-- Purpose: 법적 페이지. 디렉터리 + `index.html`로 trailing-slash URL(`/terms/`) 제공
+**`privacy-policy/`, `terms/`, `data-deletion/`, `support/`:**
+- Purpose: 법적 페이지와 고객 지원 페이지. 디렉터리 + `index.html`로 trailing-slash URL(`/terms/`) 제공. `support/`는 문의(지원 이메일)·공개 코스 신고·FAQ이고 앵커 `#contact`·`#report`·`#faq`는 앱·콘솔이 쓰므로 이름을 바꾸지 않는다
 - Contains: front matter(`layout: legal`, `title`, `description`, `eyebrow`, `updated`, `noindex`)와 클래스 없는 본문 `<section>` 반복(작성 규칙은 `CONVENTIONS.md` 「법적 본문 작성 규칙」). 틀(`main.rp-grid` 모눈종이 + 흰 카드 + 본문 범위 `div.rp-doc`)은 `_layouts/legal.html`이 그린다
 - Key files: `_layouts/legal.html` (`_includes/css/legal.css` include `:18`, 본문 자리 `:34`), `_includes/css/legal.css` (토큰 `:5`, `.rp-grid` `:9`, 768px 카드 여백 `:39`)
 
@@ -78,6 +80,7 @@ runningpencil.com/
 **Entry Points:**
 - `index.html`: `/`
 - `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`: 법적 페이지
+- `support/index.html`: `/support/` 고객 지원 (법적 레이아웃)
 
 **Configuration:**
 - `_config.yml`: Jekyll `url`과 `exclude`. 사용자 `exclude`가 기본 제외 목록을 덮어쓰므로 새 마크다운 문서나 루트 파일·폴더를 추가하면 등록 필수
@@ -110,7 +113,7 @@ runningpencil.com/
 - SVG 심볼 id: 코스 `rp-c-<shape>`(`rp-c-dog`, `rp-c-heart`…), 아이콘 `rp-i-<name>`, 지도 `rp-map-<region>`, 캐릭터/소품 `rp-t-<name>`, 로고 `rp-logo`
 - 스크립트용 id: `rp-run-*`(story 폰 화면의 달리기 단계), `rp-demo-*`(달려 보기 구간)
 - 헤딩 id: `rp-h-<section>` (`aria-labelledby`용)
-- 섹션 앵커 id는 접두사 없음: `top`, `story`, `demo`, `screens`, `get` (URL 해시로 노출)
+- 섹션 앵커 id는 접두사 없음: `top`, `story`, `demo`, `screens`, `get` (URL 해시로 노출). 지원 페이지의 앵커 `contact`·`report`·`faq`는 `section`에 둔다
 
 **Directories:**
 - URL 경로 = 디렉터리명, kebab-case
@@ -120,7 +123,7 @@ runningpencil.com/
 **새 법적/정적 페이지:**
 - `<slug>/index.html`에 front matter(`layout: legal`, `title`, `description`, `eyebrow`, 필요하면 `heading`·`updated`·`noindex`)와 본문 `<section>`만 쓴다. head·헤더·푸터·카드 틀은 `_layouts/legal.html`이 그린다. 본문은 `CONVENTIONS.md` 「법적 본문 작성 규칙」의 클래스 없는 허용 요소로만 쓴다
 - 마크다운 문서나 새 루트 파일을 더하면 `_config.yml`의 `exclude`를 확인한다
-- `scripts/check-site.sh`의 기대 제목 목록은 기존 URL 넷(`/`, `/privacy-policy/`, `/terms/`, `/data-deletion/`)만 다룬다. 새 페이지는 그 목록에 자동으로 들어가지 않는다
+- `scripts/check-site.sh`의 기대 제목 목록은 다섯 문서(기존 URL 넷 `/`, `/privacy-policy/`, `/terms/`, `/data-deletion/`과 `/support/`)를 다룬다. 새 페이지는 그 목록에 자동으로 들어가지 않는다
 - 푸터에 링크를 추가하면 `_includes/footer.html` 한 곳만 고친다
 
 **랜딩 새 구간:**

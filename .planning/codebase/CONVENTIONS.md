@@ -10,7 +10,7 @@ last_mapped_at: 2026-11-14
 
 ### Files
 
-- 페이지마다 디렉터리 하나에 `index.html` 하나를 둔다 (pretty URL): `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`. 디렉터리 이름은 kebab-case 영어로 쓴다.
+- 페이지마다 디렉터리 하나에 `index.html` 하나를 둔다 (pretty URL): `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`, `support/index.html`(고객 지원). 디렉터리 이름은 kebab-case 영어로 쓴다.
 - 에셋은 `favicon/` 아래에 kebab-case와 크기 접미사로 둔다: `favicon-96x96.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`.
 - include는 `_includes/` 아래 kebab-case `.html`로 두고 (`head-links.html`, `header.html`, `footer.html`), CSS 조각은 `_includes/css/*.css`로 둔다 (`_includes/css/common.css`, `_includes/css/legal.css`). 레이아웃은 `_layouts/legal.html` 하나다. 레이아웃 이름에 `default`·`page`·`home`·`post`를 쓰지 않는다 (운영 테마의 레이아웃과 충돌한다).
 - 사실값 슬롯은 `_data/company.yml` 한 파일이다 (사업자 정보·연락처 값). `_`로 시작하는 폴더라 사이트에 출력되지 않으므로 `_config.yml`의 `exclude`에 적지 않는다.
@@ -49,13 +49,13 @@ last_mapped_at: 2026-11-14
 
 ### Linting
 
-- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 일곱이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트). `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 일곱이다: 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`와 `support/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트). `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 
 ## CSS / Styling Patterns
 
 ### `<style>` 블록 구획 (주석 머리 `/* ── 이름 ── */`)
 
-- 「공통」 — 네 페이지가 함께 쓰는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 이 묶음은 `_includes/css/common.css` 한 곳에 있고, 랜딩(`index.html`)과 legal 레이아웃(`_layouts/legal.html`)의 `<style>` 안에서 `{% include css/common.css %}`로 인라인된다. 고칠 때는 그 파일만 고친다.
+- 「공통」 — 모든 페이지가 함께 쓰는 묶음 (`html`, `body`, `.rp-wrap`, `.rp-head*`, `.rp-brand*`, `.rp-nav`, `.rp-foot*`, `@media (max-width: 860px) { .rp-nav { display: none; } }`). 이 묶음은 `_includes/css/common.css` 한 곳에 있고, 랜딩(`index.html`)과 legal 레이아웃(`_layouts/legal.html`)의 `<style>` 안에서 `{% include css/common.css %}`로 인라인된다. 고칠 때는 그 파일만 고친다.
 - 「랜딩 전용」 — `index.html`에만 있다. 새 랜딩 스타일은 여기에 넣는다.
 - 「법적 페이지 전용」 — `_includes/css/legal.css` 한 곳에 있고, `_layouts/legal.html`의 `<style>` 안에서 「공통」 다음에 `{% include css/legal.css %}`로 인라인된다. 법적 페이지 3종이 함께 쓴다 (토큰, Preflight 대체, `.rp-grid` 모눈종이 바탕, `.rp-legal-*` 카드 껍데기, `.rp-doc` 본문 규칙).
 
@@ -74,13 +74,14 @@ last_mapped_at: 2026-11-14
 - 카드 껍데기는 레이아웃이 그리는 클래스 `.rp-legal-wrap`·`.rp-legal-card`·`.rp-legal-eyebrow`·`.rp-legal-title`·`.rp-legal-updated`로 쓴다. 본문은 `<div class="rp-doc">` 안에 들어가고, 본문 규칙은 모두 `.rp-doc` 범위로 쓴다.
 - Preflight 대체는 `html`(line-height 1.5, tab-size 4, `-webkit-tap-highlight-color: transparent`)과 `.rp-doc` 범위 규칙만 쓴다. 레이아웃 규칙(`body` 세로 flex, `main` 늘리기, `.rp-grid`)은 법적 페이지에서만 불리므로 그대로 둔다. 본문 요소(h2·p·ul·table 등)의 규칙은 범위 없는 요소 선택자로 쓰지 않는다. 사이트 머리말·바닥글로 샌다.
 - 토큰과 초기화 규칙을 「공통」(`common.css`)에 넣지 않는다. 넣으면 랜딩 출력이 바뀐다.
-- 헤더·푸터는 「공통」 `.rp-*` 클래스로 그린다.
+- 헤더·푸터는 「공통」 `.rp-*` 클래스로 그린다. 헤더 메뉴 끝과 푸터 nav(`aria-label` 「약관 및 지원」)에 「고객 지원」 링크(`/support/`, 절대 경로)가 있다.
 
 ### 법적 본문 작성 규칙 (Phase 6~9가 따름)
 
-- 법적 문서(처리방침·약관·삭제 안내, 이후 지원 페이지와 영문판)의 본문을 쓸 때 지킨다. `_includes/css/legal.css` 맨 위 주석에도 허용 요소 목록이 짧게 있다.
-- 원본은 HTML이다 (`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`). Markdown(kramdown)으로 바꾸지 않는다. kramdown은 곧은 따옴표를 굽은 따옴표로 바꾸고 제목에 자동 `id`를 붙인다 (D-01).
+- 법적 문서(처리방침·약관·삭제 안내), 지원 페이지, 이후 영문판의 본문을 쓸 때 지킨다. `_includes/css/legal.css` 맨 위 주석에도 허용 요소 목록이 짧게 있다.
+- 원본은 HTML이다 (`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`, `support/index.html`). Markdown(kramdown)으로 바꾸지 않는다. kramdown은 곧은 따옴표를 굽은 따옴표로 바꾸고 제목에 자동 `id`를 붙인다 (D-01).
 - 조항마다 `<section>` 하나를 두고 첫 자식은 `<h2>`다. 간격은 본문 최상위 자식 사이 32px(`section`끼리, 마지막 `footer` 앞), `section` 안 자식 사이 12px, 목록 항목(`li`) 사이 4px다 (D-02).
+- 앵커 `id`는 `section`에 둔다(예: `/support/`의 `#contact`·`#report`·`#faq`, Phase 6의 `#facebook`). 앱과 콘솔이 이 앵커로 열므로 이름을 바꾸지 않는다 (Phase 5 D-13).
 - 문서 끝 안내는 `<footer>`(위 1px `line` 선, 위 여백 16px, 14px, `muted-2`), 조항 안 보충 설명(예: 표 아래 「※ …」)은 `<aside>`(14px, `muted-2`, 구분선 없음)로 쓴다. 둘 다 클래스가 없다 (D-03).
 - 본문에 쓸 수 있는 요소는 `section` `h2` `h3` `p` `ul` `ol` `li` `dl` `dt` `dd` `table` `thead` `tbody` `tr` `th` `td` `figure` `strong` `a` `aside` `footer`가 전부이고, 모두 클래스 없이 쓴다 (D-04).
 - `strong`과 `a`는 클래스 없이 기본 모양을 받는다. `strong`은 600·`ink`, `a`는 600·`ink`에 2px `accent` 밑줄(offset 4px), hover 때 글자색 `accent` (D-05).
@@ -171,8 +172,8 @@ last_mapped_at: 2026-11-14
 
 - **Exports:** 없음. 페이지마다 스크립트·스타일은 그 HTML 안에만 있다 (외부 `.js`/`.css` 파일 없음).
 
-- **Shared code:** Jekyll 공유 셸(Phase 2 적용됨). 공통 블록은 include 네 개(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`)와 레이아웃 `_layouts/legal.html`에 한 벌씩 있다. 랜딩은 front matter `layout: none`에 include 네 줄을 쓰고, 법적 3종은 `layout: legal`과 front matter로 그려진다. 법적 페이지 전용 CSS는 include 하나(`_includes/css/legal.css`)에 있고 레이아웃만 부른다. 법적 페이지 front matter 키는 `layout`·`title`·`description`·`eyebrow`·`heading`·`updated`·`noindex`다 (`heading`이 없으면 `title`을 쓰고, `updated`·`noindex`는 값이 있을 때만 출력한다).
-  - 헤더 링크 변형은 include 매개변수로 한다. 랜딩은 `{% include header.html home=true %}`(링크 `#top`·`#story`·`#demo`·`#get`), 법적 페이지는 `{% include header.html %}`(링크 `/`·`/#story`·`/#demo`·`/#get`)다.
+- **Shared code:** Jekyll 공유 셸(Phase 2 적용됨). 공통 블록은 include 네 개(`_includes/head-links.html`, `_includes/css/common.css`, `_includes/header.html`, `_includes/footer.html`)와 레이아웃 `_layouts/legal.html`에 한 벌씩 있다. 랜딩은 front matter `layout: none`에 include 네 줄을 쓰고, 법적 3종과 지원 페이지는 `layout: legal`과 front matter로 그려진다. 법적 페이지 전용 CSS는 include 하나(`_includes/css/legal.css`)에 있고 레이아웃만 부른다. 법적 페이지 front matter 키는 `layout`·`title`·`description`·`eyebrow`·`heading`·`updated`·`noindex`다 (`heading`이 없으면 `title`을 쓰고, `updated`·`noindex`는 값이 있을 때만 출력한다).
+  - 헤더 링크 변형은 include 매개변수로 한다. 랜딩은 `{% include header.html home=true %}`(링크 `#top`·`#story`·`#demo`·`#get`), 법적 페이지는 `{% include header.html %}`(링크 `/`·`/#story`·`/#demo`·`/#get`)다. 두 경우 모두 끝에 「고객 지원」(`/support/`)이 있다.
   - include 공백 규칙: include 태그는 0열에 혼자 두고, include 파일은 원본 들여쓰기 그대로, 끝 줄바꿈 없이 쓴다. `{%-`는 `if`/`endif`에만 쓰고 내용을 내보내는 태그에는 쓰지 않는다.
   - raw 규칙: front matter가 붙은 파일은 전체가 Liquid를 거친다. 인라인 JS·CSS에 이중 중괄호나 중괄호-퍼센트가 생기면 그 부분을 `{% raw %}`…`{% endraw %}`로 감싼다. `scripts/check-site.sh`의 4번 항목은 출력에 남은 이런 문자열을 잡으므로, raw로 일부러 내보내는 경우가 생기면 그 항목에 예외 규칙을 더한다.
 
@@ -185,15 +186,14 @@ last_mapped_at: 2026-11-14
 - 현재 페이지는 모두 `<html lang="ko">`이고 본문은 한국어다 (2026-11 기준). Phase 9에서 `/en/` 아래에 영문판(`lang="en"`)이 생기고, 그 뒤로는 한국어와 영어를 함께 제공한다.
 - 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
-- 모든 페이지 푸터에 사업자 정보 줄(상호·대표자·사업자등록번호)과 주소 줄이 있고 값은 `_data/company.yml`에 있다 (Phase 5). 운영 안내·저작권 문장은 그대로다.
-- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 이메일 게이트(Phase 5) 뒤 공개하는 지원 이메일 하나로 한다. 현재는 문의 채널이 없다 (2026-11 기준).
-- 현재 사이트에는 지원 이메일이 없다 (2026-11 기준). 이메일 게이트(Phase 5: 외부 4곳 수신 시험 통과)가 열리면 지원 이메일을 푸터, 지원 페이지, 법적 문서에 넣는다. 그전에는 주소를 HTML·`_data`에 넣지 않는다. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)이고, 사이트(HTML·`_data`)에는 없고 `.planning/` 문서에만 있다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있다. HTML·`_data`에 넣지 않는 규칙은 사이트 노출만 막는다.
-- 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
+- 모든 페이지 푸터에 사업자 정보 줄(상호·대표자·사업자등록번호), 주소 줄, 이메일 행(`mailto:` 링크)이 있고 값은 `_data/company.yml`에 있다 (Phase 5). 푸터 nav(이름 「약관 및 지원」)에는 약관 링크 3개와 「고객 지원」 링크가 있다. 운영 안내·저작권 문장은 그대로다.
+- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 지원 이메일 하나다. 주소는 `_data/company.yml`의 `support_email` 한 곳에 있고 모든 페이지 푸터와 `/support/`에 나온다(Phase 5, 게이트 2026-11-19). 정본은 이름 표(`.planning/baseline/NAMES.md`)다. 주소를 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거친다. 법적 문서에는 Phase 6~8에서 넣는다. 문서(`CLAUDE.md`·README·원본 맵)에는 주소를 글자로 적지 않고 `support_email` 키와 이름 표로 가리킨다.
+- 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 지원 페이지(`/support/`)에는 둘 다 없다. 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
 - 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다. 마크다운 문서뿐 아니라 사이트에 올리지 않을 새 루트 파일·폴더도 `exclude`에 적는다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰기 때문이다.
 
 ### 사실값 슬롯 (_data/company.yml)
 
-- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 이후 지원 페이지·법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
+- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 지원 페이지, 이후 법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
 - 판정은 `site.data.company.<키>.size > 0`만 쓴다. blank·empty 비교는 로컬 Jekyll 3.10.0(Liquid 4.0.4)에서 값이 없어도 늘 참이라 쓰지 않는다. 값이 없는 키는 행·항목째 그리지 않는다 (render-if-present). 「추후 기재」 같은 자리표시는 쓰지 않는다.
 - 여러 값을 함께 볼 때는 `or`로만 잇는다. 한 조건에 `and`와 섞지 않는다 (Liquid는 괄호 없이 오른쪽부터 묶는다).
 - 출력은 모두 `| escape`를 붙인다. 값 바로 뒤에 조사를 붙이지 않는다 (값에 따라 조사가 달라진다).

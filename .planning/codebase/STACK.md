@@ -9,14 +9,14 @@ last_mapped_at: 2026-11-14
 ## Languages
 
 **Primary:**
-- HTML5 - 모든 페이지 (`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`), `<html lang="ko">`
+- HTML5 - 모든 페이지 다섯 개 (`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`, `support/index.html`), `<html lang="ko">`
 - CSS - 각 페이지 `<head>` 내 `<style>` 한 블록(「공통」 + 「랜딩 전용」/「법적 페이지 전용」) 및 인라인 `style`. 「공통」 묶음은 include(`_includes/css/common.css`)로 `<style>` 안에 인라인되고, 「법적 페이지 전용」은 `_includes/css/legal.css`에 있고 `_layouts/legal.html`의 `<style>` 안에 include로 인라인된다
 
 **Secondary:**
 - JavaScript (vanilla, 라이브러리 없음) - `index.html`의 `<head>` 짧은 스크립트(`rp-pin` 부여)와 `</body>` 앞 인라인 스크립트(스크롤 단계, 달려 보기 데모, `rp-ready`)
 - SVG (인라인) - 로고·아이콘·지도 그림, `index.html` `<body>` 맨 위 숨은 `<svg><defs>` + `<use href="#…">`; `favicon/favicon.svg`
 - WebP (래스터) - 랜딩 「실제 앱 화면」 캡처 `images/app/screen-{draw,run,badge}-{564,846}.webp` (sRGB, 메타데이터 없음, 564w·846w)
-- YAML - `_config.yml` (Jekyll 설정), `_data/company.yml` (사실값 슬롯)과 페이지 front matter (랜딩 `layout: none`, 법적 3종 `layout: legal` + 제목·설명 등)
+- YAML - `_config.yml` (Jekyll 설정), `_data/company.yml` (사실값 슬롯)과 페이지 front matter (랜딩 `layout: none`, 법적 3종과 지원 페이지 `layout: legal` + 제목·설명 등)
 - JSON - `favicon/site.webmanifest`
 
 ## Runtime
@@ -33,8 +33,8 @@ last_mapped_at: 2026-11-14
 ## Frameworks
 
 **Core:**
-- 없음 - 랜딩(`index.html`)과 법적 페이지 3종 모두 프레임워크 없이 직접 쓴 CSS다 (2026-11 기준)
-- 직접 쓴 정적 CSS `_includes/css/legal.css` - 법적 페이지 3종. 레이아웃 `<style>`에 include로 인라인한다 (외부 `.css` 파일 없음). 토큰은 `:root`의 `--rp-ink #2B2B2B`·`--rp-accent #7C580D`·`--rp-muted #4A463F`·`--rp-muted-2 #57534C`·`--rp-line #E4E0D6`. Tailwind Play CDN은 Phase 3에서 제거했다
+- 없음 - 랜딩(`index.html`)과 법적 레이아웃을 쓰는 페이지(법적 3종과 지원 페이지) 모두 프레임워크 없이 직접 쓴 CSS다 (2026-11 기준)
+- 직접 쓴 정적 CSS `_includes/css/legal.css` - 법적 페이지 3종과 지원 페이지. 레이아웃 `<style>`에 include로 인라인한다 (외부 `.css` 파일 없음). 토큰은 `:root`의 `--rp-ink #2B2B2B`·`--rp-accent #7C580D`·`--rp-muted #4A463F`·`--rp-muted-2 #57534C`·`--rp-line #E4E0D6`. Tailwind Play CDN은 Phase 3에서 제거했다
 
 **Testing:**
 - Not detected
@@ -47,7 +47,7 @@ last_mapped_at: 2026-11-14
 ## Key Dependencies
 
 **Critical (외부 CDN):**
-- Pretendard Variable `v1.3.9` (dynamic subset) - 네 페이지 공통 글꼴
+- Pretendard Variable `v1.3.9` (dynamic subset) - 모든 페이지 공통 글꼴
   - `https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css`
   - `<link rel="preconnect" href="https://cdn.jsdelivr.net">` 동반
 
@@ -64,13 +64,13 @@ last_mapped_at: 2026-11-14
 
 **Environment:**
 - 환경변수·`.env` 없음 (서버 처리 없음)
-- 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 법적 페이지는 `<meta name="robots" content="noindex">`
+- 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 법적 페이지 3종은 `<meta name="robots" content="noindex">` (지원 페이지는 없음)
 
 **Build:**
 - `_config.yml` - `url: "https://runningpencil.com"`과 열 항목 `exclude`(`CNAME`, `CLAUDE.md`, `README.md`, `.planning/`, `Gemfile`, `Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 사용자 `exclude`는 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 새 마크다운 문서나 루트 파일·폴더는 여기에 모두 적는다
-- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트 뒤에 채운다
+- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트(2026-11-19 통과) 뒤 채웠다
 - `Gemfile` / `Gemfile.lock` - 로컬 빌드용 gem 고정 (위 「로컬 빌드 전용 gem」)
-- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음)
+- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음)
 - `.githooks/pre-push` - `main` 푸시마다 `scripts/check-site.sh`를 부른다. 켜기: `git config core.hooksPath .githooks` (클론마다 한 번)
 - `CNAME` - `runningpencil.com`
 - `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시), `.planning/state.json`·`.planning/ui-reviews/`(GSD 상태 요약·UI 감사 캡처), Jekyll 로컬 빌드 산출물과 gem 위치 `_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`
