@@ -12,7 +12,7 @@ created: "2026-11-19"
 # Phase 5 — Validation Strategy
 
 > Per-phase validation contract for feedback sampling during execution.
-> 근거: `05-RESEARCH.md` 「Validation Architecture」. 이 저장소에는 테스트 러너가 없으므로 셸·CLI 명령과 스크래치 Playwright로 검증합니다. 스크래치 도구(`$TMPDIR/rp-p5/`)는 커밋하지 않습니다.
+> 근거: `05-RESEARCH.md` 「Validation Architecture」. 이 저장소에는 테스트 러너가 없으므로 셸·CLI 명령과 스크래치 Playwright로 검증합니다. 스크래치 도구(`$W`, 위치는 `05-01-PLAN.md` 「scratch_contract」: 저장소 옆 `<저장소 폴더 이름>-p5-scratch`, 임시 폴더 밖)는 커밋하지 않고 단계 검증 뒤에 지웁니다.
 > **D-02:** 사업자 값(상호·대표자·사업자등록번호·주소)은 이 파일을 포함한 `.planning/` 어디에도 적지 않습니다. 판정 기록에는 「행이 있다/없다」, 건수, 사용자 대조 결과만 남깁니다. 지원 주소는 명령에 직접 적지 않고 `.planning/baseline/NAMES.md`에서 읽습니다.
 
 ---
@@ -22,7 +22,7 @@ created: "2026-11-19"
 | Property | Value |
 |----------|-------|
 | **Framework** | `scripts/check-site.sh`(빌드 + 6항목, 이 단계에서 7번 가드 추가) + 스크래치 `lib.sh`(`build`/`build_src`/`serve`/`stop`, Phase 4 계약) + Playwright 1.59.1 스크래치 스크립트(Chromium·WebKit, pnpm, 커밋 안 함) |
-| **Config file** | `scripts/check-site.sh` 맨 위 `EXPECTED_TITLES`, `.githooks/pre-push`. Wave 0에서 `$TMPDIR/rp-p5/lib.sh`, `pw/p5-foot.mjs`, `pw/p5-support.mjs`를 만듭니다 |
+| **Config file** | `scripts/check-site.sh` 맨 위 `EXPECTED_TITLES`, `.githooks/pre-push`. Wave 0에서 `$W/lib.sh`, `pw/p5-foot.mjs`, `pw/p5-support.mjs`를 만듭니다 |
 | **Quick run command** | `scripts/check-site.sh <후보 SHA>` |
 | **Full suite command** | `scripts/check-site.sh <후보>` + `build <이름> <후보>` + `diff -r`/`cmp` + `node "$W/pw/<스크립트>.mjs"` (두 엔진 × 375/1280) + 훅 경로 `printf 'refs/heads/main %s refs/heads/main %s\n' <후보> <원격> \| .githooks/pre-push` |
 | **Estimated runtime** | check-site 약 2초, 전체 약 60초 |
@@ -72,7 +72,7 @@ created: "2026-11-19"
 
 ## Wave 0 Requirements
 
-- [ ] `$TMPDIR/rp-p5/lib.sh` — Phase 4 `lib.sh`를 복사해 `W`만 바꿈 (절대 경로 금지 규칙 유지)
+- [ ] `$W/lib.sh` — Phase 4 `lib.sh`를 복사해 `W`만 05-01 「scratch_contract」 식으로 바꿈 (절대 경로 금지 규칙 유지)
 - [ ] `$W/pw/p5-foot.mjs` — 푸터 측정(항목 높이, `scrollWidth`, 링크 색)
 - [ ] `$W/pw/p5-support.mjs` — 지원 페이지 구조(앵커 순서, `dt` 수, 헤더/푸터 링크)
 - [ ] check-site 7번 가드 양성·음성 대조 기록

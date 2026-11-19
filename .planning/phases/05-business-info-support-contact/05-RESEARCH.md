@@ -570,6 +570,7 @@ git log -S"$ADDR" --format=%h --abbrev=12 origin/main -- . ':(exclude).planning'
 git log -S"$ADDR" --reverse --format=%h --abbrev=12 origin/main -- . ':(exclude).planning' | head -n 1
 ```
 // 이번 세션 기준 `git log -S"$ADDR" -- . ':(exclude).planning'`은 빈 출력, `.planning` 포함 전체는 11개 커밋 [VERIFIED: 이번 세션 실행]. `README.md`·`CLAUDE.md`는 사이트에서 빠지지만 이 확인은 `.planning` 밖 전부를 보므로 더 엄격합니다. D-21 문서 갱신 때 `CLAUDE.md`에 주소를 적지 않고 `_data/company.yml`의 키로 가리킵니다.
+// 계획 반영 메모: 게이트 시점의 확인(05-10·05-11)은 위 예시의 `origin/main` 대신 기록한 `PUSH1_SHA`에 고정하고, 푸시 뒤 확인(05-12·05-15)은 푸시한 해시에 고정합니다. 움직이는 `origin/main`은 게이트 푸시 뒤 G를 담으므로, 고정해야 뒤에 다시 돌려도 판정이 같습니다.
 
 ### 8. 사업자 값 누출 확인 (값을 화면·기록에 찍지 않음)
 ```bash
@@ -603,18 +604,23 @@ rm -f "$W/vals"
 | A6 | 값 누출 확인의 짧은 값 오탐 | Code Example 8 | 낮음 — 0이 아니면 사람이 확인 |
 | A7 | 따옴표 없는 다른 숫자 꼴의 YAML 해석 | Pattern 1 | 낮음 — 「모두 큰따옴표」 규칙으로 피함 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **FAQ의 `/data-deletion/` 링크와 현재 삭제 안내의 「설정 → 계정 삭제」 불일치**
    - What we know: 앱은 「설정 → 내 계정 → 회원탈퇴」, 현재 라이브 삭제 안내는 「설정 → 계정 삭제」(임시 게시본, Phase 6에서 재작성).
    - What's unclear: 게이트가 Phase 6보다 먼저 열리면 며칠간 두 페이지 문구가 어긋남.
    - Recommendation: FAQ는 앱 코드대로 쓰고, 불일치를 Phase 6 입력으로 기록. 또는 게이트 커밋과 같은 푸시에 Phase 6을 맞추는 것은 범위가 커지므로 권하지 않음. 사용자 확인 사항.
+   - RESOLVED: `05-CONTEXT.md` D-16 「참고 (Phase 6 입력)」 — FAQ는 앱 코드대로 쓰고, 두 페이지 문구 차이는 Phase 6 재작성에서 맞춘다.
 2. **`updated` 날짜 기준**
    - What we know: D-12는 「페이지 커밋 날짜」. 보류 브랜치의 H1은 게이트보다 며칠 이를 수 있음.
    - Recommendation: 게이트 커밋 G에서 공개 날짜로 씀(라이브에 처음 오르는 날과 같게). 사용자 확인 사항.
+   - RESOLVED: `05-CONTEXT.md` D-12 「보충」 — `updated`는 게이트 커밋 날짜(라이브에 처음 오르는 날)다. `05-11-PLAN.md`의 날짜 커밋 G0가 게이트 날에 넣는다.
 3. **푸터 구분 기호의 줄바꿈 위치** — Pattern 3 선택지 1~4 중 선택(UI-SPEC 또는 D-10 승인 때).
+   - RESOLVED: `05-05-PLAN.md` Task 4의 D-10 승인 checkpoint에서 사용자가 선택지 1~3 가운데 하나를 고르고(`SEPARATOR=opt<n>`), 1·3이면 `05-06-PLAN.md`가 값 커밋 전에 토큰 커밋 S를 더한다. 선택지 4는 D-07 「줄 묶음」 모양을 바꾸므로 그 checkpoint에서 고르지 않는다.
 4. **FAQ `dl` 간격** — `.rp-doc dd + dt` 규칙 추가(시각 커밋) 또는 항목마다 `dl` 하나. 값(12px 등)은 UI-SPEC.
+   - RESOLVED: `05-CONTEXT.md` D-16 「보충」 — 질문·답 한 쌍마다 `<dl>` 하나를 두고, 쌍 사이 간격은 기존 `section > * + *` 12px가 준다. CSS는 바꾸지 않는다.
 5. **DNS 진행 상태** — 권한 있는 네임서버에 MX·SPF·`google-site-verification` 1줄이 이미 있음. Workspace 인증 TXT와 Search Console TXT는 같은 접두어라 1줄이 어느 쪽인지 알 수 없음(USER-TASKS 기대: 1~2줄). Workspace를 다른 방법으로 인증했는지 사용자 확인이 필요. D-06의 「변경 전」 기록은 CONTEXT D-01(오늘 아침 0건)을 쓰고, 「변경 후」를 지금 값으로 기록.
+   - RESOLVED: `05-CONTEXT.md` D-01 「정정」 — 사용자가 작업 3까지 끝냈고, TXT가 1줄인 것은 Workspace 인증 값과 Search Console 인증 값이 같기 때문이다. 「변경 전」은 D-01의 0건 확인, 「변경 후」는 실행 시점의 권한 있는 네임서버 결과로 기록한다(`05-09-PLAN.md`). 작업 7 「확인됨」은 실행 때 사용자 보고로 받는다(`05-09-PLAN.md`, 아직이면 `05-14-PLAN.md`).
 
 ## Environment Availability
 
@@ -652,7 +658,7 @@ rm -f "$W/vals"
 ### Phase Requirements → Test Map
 | Req ID / SC | Behavior | Test Type | Automated Command | File Exists? |
 |--------|----------|-----------|-------------------|-------------|
-| BIZ-02 (M1) | 빈 슬롯+템플릿이 네 문서 출력을 바꾸지 않음 | 바이트 비교 | `build base <BASE>; build c1 <CAND>; diff -r "$W/base/site" "$W/c1/site"` 빈 출력 | ❌ Wave 0 (`$W=$TMPDIR/rp-p5`, `lib.sh` 복사) |
+| BIZ-02 (M1) | 빈 슬롯+템플릿이 네 문서 출력을 바꾸지 않음 | 바이트 비교 | `build base <BASE>; build c1 <CAND>; diff -r "$W/base/site" "$W/c1/site"` 빈 출력 | ❌ Wave 0 (`$W`는 `05-01-PLAN.md` 「scratch_contract」의 저장소 옆 경로, `lib.sh` 복사) |
 | BIZ-02 | 빈 값·null·키 없음은 행 없음, 부분 값은 그 항목만 | 스크래치 변형 빌드 | 스크래치 사본에서 `_data/company.yml`만 바꿔 `build_src`, 푸터 블록 추출 후 행·구분 기호 수 확인(이번 세션 v.sh와 같은 꼴) | ❌ Wave 0 |
 | M2 (CSS) | 출력 차이가 `<style>` 안 두 줄뿐 | diff 행 머리 | `diff "$W/c1/site/$f" "$W/c2/site/$f" \| grep -E '^[0-9]'` → `57a58,59`(랜딩)·`47a48,49`(법적 3종) | ❌ Wave 0 |
 | BIZ-01 / SC3 | 값 커밋 뒤 네 문서 푸터에 행이 있음, 값은 기록하지 않음 | grep 개수 | 푸터 블록에서 `<span>상호`·`<span>대표자`·`<span>사업자등록번호`·`<p>주소` 각 1개 × 4문서 | ❌ |
@@ -679,7 +685,7 @@ rm -f "$W/vals"
 - **Phase gate:** 위 표 전부 + 두 엔진 × 375/1280 캡처를 사용자에게 보임(값은 `.planning`에 남기지 않음)
 
 ### Wave 0 Gaps
-- [ ] `$TMPDIR/rp-p5/lib.sh` — Phase 4 `lib.sh`를 복사해 `W`만 바꿈 (절대 경로 금지 규칙 유지)
+- [ ] `$W/lib.sh` (`$W` 위치는 `05-01-PLAN.md` 「scratch_contract」, 임시 폴더 밖) — Phase 4 `lib.sh`를 복사해 `W`만 바꿈 (절대 경로 금지 규칙 유지)
 - [ ] `$W/pw/p5-foot.mjs` — 푸터 측정(항목 높이, `scrollWidth`, 링크 색), `p5-support.mjs` — 지원 페이지 구조(앵커 순서, `dt` 수, 헤더/푸터 링크)
 - [ ] check-site 7번 가드 양성·음성 대조 기록
 - [ ] Playwright는 Phase 4 스크래치 재사용(없으면 고정 버전 재설치 checkpoint)

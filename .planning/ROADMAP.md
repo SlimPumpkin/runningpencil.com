@@ -226,7 +226,57 @@ Plans:
   3. 모든 페이지 푸터에 사업자등록증과 같은 표기의 상호·대표자·사업자등록번호·주소와 지원 이메일이 보이고, 값이 없는 항목은 자리표시 없이 행 자체가 없다
   4. 운영자가 `_data` 파일 하나만 고치면(전화번호를 넣는 경우 포함) 푸터와 지원 페이지에 바로 반영되고, 전화번호는 지금 값이 없어 어디에도 보이지 않는다
   5. `/support/` 맨 위에 「러닝펜슬」이 있고, 그 아래에서 지원 이메일과 응답 안내, 공개 코스 신고 방법, FAQ(운영 주체, 위치를 수집하는 시점, 계정 삭제 방법, 공개 코스 신고)를 찾을 수 있으며, 헤더·푸터에서 지원 페이지로 갈 수 있다
-**Plans**: TBD
+**Plans**: 15 plans
+
+Plans:
+**Wave 1**
+- [ ] 05-01-PLAN.md — 기준 커밋·운영 동일 빌드·검증 기록과 공통 규칙(tracer), Playwright 재설치 승인 checkpoint, p5-foot·p5-support 도구 기준 판정
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 05-02-PLAN.md — 스크래치 설계 시험: 원형 슬롯·푸터·지원 페이지 빈 값 바이트 동일(tracer, A5)과 가짜 값 열한 경우 행렬
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 05-03-PLAN.md — M1 빈 슬롯·푸터 템플릿(출력 불변, D-03 ①), M2 「공통」 CSS 두 줄(시각), 두 엔진 화면과 음성 대조
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 05-04-PLAN.md — M3 check-site 7번 가드(지원 페이지 연락처·링크, A4)와 시험 객체 양성·음성 대조, 실제 pre-push 훅 거부 확인
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 05-05-PLAN.md — 가짜 값 후보·캡처 파이프라인 시험(tracer), 사업자 값 받기 checkpoint, 실제 값 후보 판정·구분 기호 선택지 캡처, D-10 one-way 승인 checkpoint
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 05-06-PLAN.md — 값 커밋 M4(필요하면 구분 기호 커밋 S), 첫 푸시 후보 → SHA 승인 → 푸시·라이브 확인 (D-03 ②)
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 05-07-PLAN.md — 사업자 정보 쪽 문서(D-21): 원본 맵·이름 표·연구 Pattern 1, 두 CLAUDE.md·재생성, README·STATE
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 05-08-PLAN.md — 보류 브랜치 p5-support-hold(별도 worktree): H1 지원 페이지, H2 기대 제목, H3 헤더·푸터 링크, 모두 「7번만 실패」
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 05-09-PLAN.md — DNS 변경 전후 dig·HTTPS 기록, 작업 7 Search Console 확인 보고 checkpoint (SITE-03, 아직이면 05-14로 넘겨 이메일 게이트를 막지 않음)
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 05-10-PLAN.md — 게이트 사전 점검(시험 cherry-pick), 작업 4 수신 시험 표 checkpoint, 4/4 확인 기록(이메일 게이트)
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 05-11-PLAN.md — 보류 묶음 cherry-pick·게이트 날짜 G0·이메일 G를 한 번에, G 출력·화면·주소 이력 판정
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 05-12-PLAN.md — 게이트 푸시: 후보 → SHA 승인 → 푸시·다섯 URL·두 엔진 라이브 확인
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 05-13-PLAN.md — 지원 쪽 문서(D-21)·앵커 규칙·두 CLAUDE.md, 보류 worktree 정리(브랜치 ref는 로컬에 남김)
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [ ] 05-14-PLAN.md — 마지막 DNS·HTTPS 재확인(tracer), 작업 5 보내기 설정 보고 checkpoint(05-09에서 넘어온 작업 7 포함, SITE03 닫기), D-06 단계 완료 표
+
+**Wave 15** *(blocked on Wave 14 completion)*
+- [ ] 05-15-PLAN.md — 마지막 문서 푸시와 성공 기준 1~5 라이브 재판정
+
+**Cross-cutting constraints:** <!-- gsd:generated -->
+- 사람이 그 SHA를 보고 승인한 뒤에만 그 SHA 하나가 원격 main에 나갔다
+
 **UI hint**: yes
 **External gates**:
 - 이메일 게이트: 외부 주소 4곳(Gmail·네이버·iCloud·Outlook)의 수신 시험이 통과하기 전에는 지원 이메일을 `_data`에 넣지 않습니다. 그 전에 배포하는 `/support/`는 연락처 구간 전체를 조건부로 감쌉니다(빈 「문의:」 문장 금지). App Store Support URL 같은 콘솔 등록도 게이트가 열린 뒤에 합니다.
