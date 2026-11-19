@@ -748,3 +748,58 @@ da940757106e build: 점검 7번 항목 추가 (지원 페이지 연락처와 /su
 b7e2dcd0de13 style: 푸터 사업자 줄을 항목 단위로 줄바꿈하고 푸터 링크 색을 정함
 bc934fb9555e refactor: 사업자 정보 사실값 슬롯과 푸터 행 템플릿 추가 (값 없음, 출력 불변)
 ```
+
+## 05-06 첫 푸시 라이브 확인
+
+사용자가 Task 2에서 `push 57e56b07f2ab`로 답했습니다(이 푸시 한 번에만 씀). 푸시 전에 05-01 「스크래치 재확인」(가)~(마)가 그대로였고 `$W/m4/TREE`가 `PUSH1_CANDIDATE` 트리와 같아 다시 만든 것은 없습니다. 원격 main을 새로 받아 본 값이 `PUSH1_PREV`와 같았고, 훅이 부르는 작업 트리 `scripts/check-site.sh`·`.githooks/pre-push`가 후보와 같았습니다. `git push origin "${FULL}:refs/heads/main"`(전체 해시) 한 번으로 내보냈고 훅이 통과했습니다. `--no-verify`·force push는 쓰지 않았습니다.
+
+PUSH1_SHA=57e56b07f2ab
+
+```
+OK origin unchanged = push1-prev
+OK hook files = push1-cand
+check-site: 통과 (커밋 57e56b07f2ab, jekyll 3.10.0)
+   84a5d91..57e56b0  57e56b07f2ab5b33d767185ee676069c96213cab -> main
+```
+
+배포 완료(`pages_wait`, Pages 빌드 기록 `builds/latest`가 이 커밋·built·오류 없음):
+
+```
+OK 빌드 57e56b07f2ab built 2026-11-19T04:38:08Z
+```
+
+라이브 네 문서(`live live1 <PUSH1_SHA> "$W/m4/site"`, `?cb=<PUSH1_SHA>`)가 200·기대 제목이고 로컬 M4 빌드와 바이트가 같습니다. 라벨 수는 `$W/live1/` 네 문서의 `footblock`에서 셌습니다(값은 찍지 않음). D-11대로 랜딩 출력도 공유 푸터 때문에 바뀌었고 제목은 그대로입니다.
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다 bytes=same
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 bytes=same
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 bytes=same
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 bytes=same
+OK live labels trade=1 rep=1 bizno=1 addr=1 email=0 phone=0 docs=4
+```
+
+두 엔진 화면(`node "$W/pw/p5-foot.mjs" https://runningpencil.com '?cb=57e56b07f2ab'`, 종료 코드 0):
+
+```
+OK chromium 375 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 375 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 375 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 375 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK chromium 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 375 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 / rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
+OK webkit 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
+PASS foot
+```
+
+이미 공개된 사업자 값·주소는 되돌려도 검색 캐시와 아카이브에 남습니다(D-10 one-way). 되돌리기는 필요 없었습니다.
+
+LIVE_PUSH1=OK
