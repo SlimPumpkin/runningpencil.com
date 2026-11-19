@@ -244,7 +244,6 @@ None yet.
 ### Blockers/Concerns
 
 사용자 외부 작업(단계를 막음):
-- 가비아 DNS 1차 방문과 Workspace: 작업 0~4와 작업 7은 끝남(이메일 게이트 2026-11-19 통과, Search Console 확인됨 2026-11-19). 남은 것: 작업 5 보내기 설정(05-14), 작업 6 DKIM(Phase 10)
 - 가비아 DNS 2차 방문(DKIM, 절차는 `.planning/baseline/USER-TASKS.md` 작업 6. 작업 시점은 Phase 5 무렵) → Phase 10 (Apple 릴레이 답장의 전제. 이메일 게이트는 DKIM을 기다리지 않음)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
 

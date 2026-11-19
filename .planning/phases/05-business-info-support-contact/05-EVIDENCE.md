@@ -1342,3 +1342,32 @@ OK site-clean 05-14-t1 632e5ff61d6a
 ```
 
 DNS_FINAL=OK
+
+Task 2·3. 사용자가 작업 5(지원 주소로 보내기 설정) 결과를 「작업 5 끝남, From 선택 가능, 보낸사람 표시=지원 주소」 한 줄로 보고했습니다. 결과는 Gmail 작성 화면과 외부 계정 화면에서만 보이므로 이 보고로 판정합니다. 외부 계정 주소·계정 이메일·메일 본문은 받지도 적지도 않았습니다. 작업 7(Search Console 도메인 속성 확인)은 05-09에서 이미 닫혀 있어(`SC_VERIFIED=OK`, `SC_DATE=2026-11-19`, `SITE03=OK`) 이번에 다시 받지 않았고 그 표식도 다시 적지 않습니다.
+
+근거: 사용자 보고(작업 5). From 선택 가능, 외부 계정에서 보낸 사람이 지원 주소
+
+TASK5=OK
+
+D-06 단계 완료 조건(`05-CONTEXT.md` D-06). 근거 표식은 모두 이 기록에 이미 있는 줄이고, 괄호 안은 그 줄이 있는 계획 구간입니다.
+
+| 조건 | 결과 | 근거 표식 |
+|---|---|---|
+| 게이트 열림 | 충족 | `RECEIVE_TEST=4/4`·`GATE_OPEN=OK` (05-10) |
+| 사업자 값이 라이브에 있음 | 충족 | `LIVE_PUSH1=OK` (05-06) |
+| 이메일 값이 라이브에 있음 | 충족 | `LIVE_PUSH2=OK` (05-12) |
+| Search Console 도메인 속성 확인됨 (SITE-03, 작업 7) | 충족 | `SC_VERIFIED=OK`·`SC_DATE=2026-11-19`·`SITE03=OK` (05-09) |
+| 변경 전후 dig에 MX·SPF 1개·Search Console TXT | 충족 | `DNS_BEFORE A=4 MX=0 TXT=0 (CONTEXT D-01, 2026-11-19 아침)`·`DNS_AFTER=OK` (05-09), `DNS_FINAL=OK` (05-14) |
+| DNS 변경 뒤 HTTPS 200 | 충족 | `DNS_FINAL=OK` (05-14 `OK https / HTTP/2 200`·`OK https /support/ HTTP/2 200`) |
+| 지원 주소로 보내기 설정 (작업 5) | 충족 | `TASK5=OK` (05-14) |
+| DKIM (작업 6, 참고 행) | 완료를 막지 않음(Phase 10) | `dkim=0` (05-14 dns-final) |
+
+일곱 행이 모두 충족입니다. DKIM은 0줄이지만 D-06대로 완료를 막지 않고, 작업 6은 Phase 10(Apple 릴레이 답장의 전제)에서 합니다.
+
+PHASE5_RECORD=OK
+
+STATE Blockers에서 05-13이 고친 가비아 DNS 1차 방문·Workspace 줄(작업 5가 남았다는 줄)을 지웠습니다. DKIM 줄(가비아 DNS 2차 방문, 작업 6 → Phase 10)과 Apple Developer 줄(Phase 10)은 남겼습니다. STATE 구조 점검(`state.validate`)은 오류·경고 없음. Claude는 DNS·Gmail·Search Console을 바꾸지 않았고 사이트 파일도 건드리지 않았습니다.
+
+```
+OK site-clean 05-14-t3 0e154aa74533
+```
