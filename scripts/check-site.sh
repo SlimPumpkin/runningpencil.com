@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 여섯 가지를 확인한다.
+# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 일곱 가지를 확인한다.
 #   1. 빌드가 성공한다
 #   2. 빌드 결과에 내부 파일이 없다
 #   3. 기존 URL 문서 4개가 있고 <title>이 기대값과 같다
 #   4. 출력 HTML에 처리되지 않은 Liquid({%, {{)가 없다
 #   5. 출력 HTML에 Tailwind Play CDN(cdn.tailwindcss.com, tailwind.config)이 없다
 #   6. 랜딩 출력(index.html)에 출시 범위 밖 기능 이름(포인트·굿즈·코스북)이 없다
+#   7. 지원 페이지(/support/)가 있으면 연락처(mailto)가 있고, /support/ 링크가 있으면 그 페이지가 있다 (이메일 게이트)
 # 사용법: scripts/check-site.sh          작업 트리를 빌드해 점검한다
 #         scripts/check-site.sh <커밋>   그 커밋의 추적 파일만 내보내 빌드해 점검한다 (pre-push 훅이 이렇게 부른다)
 # macOS 기본 /bin/bash 3.2에서도 돌도록 연관 배열·mapfile을 쓰지 않는다.
@@ -109,6 +110,21 @@ if [ -f "$DEST/index.html" ]; then
         u10=$(printf '%s\n' "$u10_hits" | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | grep -c .)
         [ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
     fi
+fi
+
+# ── 7. 지원 페이지와 연락처 (이메일 게이트, Phase 5 D-04) ──
+# 게이트 전에는 /support/ 문서도 그리로 가는 링크도 없으므로 이 항목은 그냥 지나간다.
+# 보류 묶음의 커밋이 main에 섞이면(연락처 없는 지원 페이지, 페이지 없는 링크) 여기서 푸시가 멈춘다.
+if [ -f "$DEST/support/index.html" ]; then
+    grep -qF 'href="mailto:' "$DEST/support/index.html" \
+        || problem '지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)'
+fi
+# 6번과 같은 이유로 grep 종료 코드 2 이상은 「못 찾음」이 아니라 실패로 센다.
+sup_links=$(grep -rlF 'href="/support/' --include='*.html' "$DEST"); sup_rc=$?
+if [ "$sup_rc" -gt 1 ]; then
+    problem "점검 7번 grep이 실패했습니다 (종료 코드 ${sup_rc})"
+elif [ -n "$sup_links" ] && [ ! -f "$DEST/support/index.html" ]; then
+    problem "지원 페이지 없이 /support/ 링크가 있습니다: $(printf '%s ' ${sup_links//$DEST/})"
 fi
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
