@@ -691,3 +691,20 @@ OK webkit 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
 OK webkit 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
 PASS foot
 ```
+
+## 05-05 승인
+
+Task 4(D-10 one-way, blocking-human)의 답은 **approve-opt2**입니다. 사용자가 사업자등록증과 푸터 표기를 대조했고(글자까지 같음), 구분 기호는 선택지 2(`&nbsp;· `, 지금 템플릿 그대로)로 정했습니다. 템플릿을 바꾸는 커밋은 없습니다. 값과 푸터 글은 적지 않습니다(D-02).
+
+- 이 승인은 시도 1의 후보(`HOLD1_C4_CAND`)를 빌드한 푸터 글과 캡처 열두 장을 보고 대화에서 준 것이고, 오케스트레이터가 시도 2에 전달했습니다. 시도 2의 후보는 그 후보와 바이트가 같은 것으로 확인한 뒤에만 이 답을 적용했습니다. (a) 후보의 `_data/company.yml` blob이 시도 1 후보의 blob과 같음, (b) 두 후보의 `.planning/` 밖 트리가 같음(`git diff --quiet` 종료 코드 0), (c) Task 3 verify 종료 코드 0이고 세 선택지의 p5-foot 출력이 시도 1과 바이트가 같음(모두 `PASS foot`, sepLead 0).
+- 승인은 05-06의 값 커밋과 첫 푸시로 넘어가는 것까지입니다. 푸시 자체는 05-06에서 그 SHA로 따로 승인받습니다.
+- 작업 트리 `_data/company.yml`은 고친 채(스테이징 안 함) 남깁니다. 05-06 Task 1이 이 값으로 M4를 만듭니다.
+
+```
+OK d10 same-as-reviewed blob=1 site-tree=1 foot=3
+```
+
+D10_APPROVED=OK
+SEPARATOR=opt2
+USER_MATCH=OK
+D10_DATE=2026-11-19
