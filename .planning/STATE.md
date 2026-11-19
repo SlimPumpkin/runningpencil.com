@@ -1,43 +1,43 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 05
-current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
-status: verifying
-stopped_at: Completed 05-15-PLAN.md
-last_updated: "2026-11-19T19:03:30.037Z"
+current_phase: 6
+current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
+status: planning
+stopped_at: Phase 5 complete, ready to plan Phase 6
+last_updated: "2026-11-19T20:07:06.011Z"
 last_activity: 2026-11-20
-last_activity_desc: Phase 05 execution started
-state_head: 3186dafd664095a8185eded83eba998f710b37a4
+last_activity_desc: Phase 5 complete, transitioned to Phase 6
+state_head: d91d9ea9859ddd60fbb7b93000da976924f54909
 progress:
   total_phases: 10
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 57
   completed_plans: 57
-  percent: 40
+  percent: 50
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-19)
+See: .planning/PROJECT.md (updated 2026-11-20)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 05 — 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
+**Current focus:** Phase 6 — 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 
 ## Current Position
 
-Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 15 of 15
-Status: Phase complete — ready for verification
-Last activity: 2026-11-20 — Phase 05 execution started
+Phase: 6 — 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-11-20 — Phase 5 complete, transitioned to Phase 6
 
-Progress: [████░░░░░░] 40%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 42
+- Total plans completed: 57
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -49,6 +49,7 @@ Progress: [████░░░░░░] 40%
 | 02 | 10 | - | - |
 | 03 | 9 | - | - |
 | 04 | 13 | - | - |
+| 5 | 15 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: -
@@ -240,6 +241,7 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-13: 지원 쪽 문서(D-21)는 게이트 푸시 라이브 확인 뒤에 고쳤고 주소는 support_email 키와 이름 표로만 가리킨다. 보류 worktree는 git cherry 세 줄 모두 - 확인 뒤 지웠고 브랜치 ref p5-support-hold는 로컬에 남긴다(단계 검증 뒤 사용자가 지움)
 - [Phase 05]: 05-14: 마지막 DNS(A 4·Google MX 1·SPF 1·SC TXT 1·DKIM 0)와 /·/support/ HTTPS 200, 작업 5 보고(TASK5=OK)로 D-06 단계 완료 표 일곱 행을 모두 충족으로 기록했다 (PHASE5_RECORD=OK). 작업 7은 05-09 SITE03을 인용, DKIM은 참고 행으로 Phase 10
 - [Phase 05]: 05-15: 사용자가 승인한 SHA e0f233169329 하나만 원격 main에 푸시했고(사이트 출력은 G 그대로), 배포 완료 뒤 다섯 URL과 Phase 5 성공 기준 1~5를 라이브 근거로 다시 판정해 모두 OK (LIVE_PUSH3=OK, PHASE5_SC=OK). 이후 문서 커밋은 다음 단계 첫 푸시 때 나간다
+- [Phase 05]: UAT 9/9 통과(2026-11-20). 9번 결정 (b): BIZ-02·BIZ-03은 푸터·지원 페이지 범위로 줄이고, 법적 문서 범위는 BIZ-05(Phase 6)·BIZ-06(Phase 7)·BIZ-07(Phase 8)로 나눠 각 단계 Requirements 줄과 성공 기준에 넣음 (`99021d5`)
 
 ### Pending Todos
 
@@ -252,7 +254,7 @@ None yet.
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
 
 사용자·법률 결정(Phase 1에서 결정 목록으로 넘김):
-- U11 사업자 값과 영문 법인명 → Phase 5·8·9 (U12는 결정됨: Google Workspace 사용자 별칭 도메인, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`)
+- U11 영문 법인명 → Phase 9. 국문 사업자 값은 Phase 5에서 받아 `_data/company.yml`에 있음 (U12는 결정됨: Google Workspace 사용자 별칭 도메인, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`)
 - U3 소상공인 해당, U5 Email/Password 노출 → Phase 7 / U6 탈퇴 후 코스 처리 → Phase 6·8
 - U7 14세 미만 정책 → Phase 7·8 / U2 위치정보법 분류, U8 네이버 지도 고지 → Phase 8
 - U9 Meta 비즈니스 인증, U13 Google 브랜드 검증 → Phase 10
@@ -267,6 +269,13 @@ Phase 4 후속:
 - [Phase 04] 04-09 사용자 예외(D-20): 랜딩 ③ 완주 결과 캡처는 원본에서 앱의 뱃지 창이 NAVER 로고를 덮은 채로 04-10·04-11에서 공개될 예정(SDK 가이드 위험은 사용자가 받아들임). 앱에서 로고 위치(logoAlign·logoMargin)나 뱃지 창 위치를 고치면 ③만 다시 찍어 교체 (단계를 막지 않는 후속)
 - [Phase 04] `deferred-items.md`의 원본 맵 정리 2건이 open: CONCERNS.md 랜딩 크기·줄 수(「72KB, 586줄」), TESTING.md에 `images/app/`과 「실제 앱 화면」 구간 점검 항목 없음. 단계 전환 때 Acknowledged Gaps로 기록(04-VERIFICATION.md). 다음 원본 맵 갱신이나 `/gsd-map-codebase` 때 고침
 
+Phase 5 후속:
+- [Phase 05] 법적 문서 세 곳(삭제 안내·처리방침·위치약관)의 사업자 정보·연락처는 `_data/company.yml`에서 읽음 → Phase 6·7·8 성공 기준(BIZ-05·06·07)
+- [Phase 05] 지원 FAQ의 계정 삭제 경로와 라이브 `/data-deletion/`(임시 게시본)이 다름 → Phase 6 DEL-04에서 맞춤
+- [Phase 05] 코드 리뷰 처분 7건 open (`05-REVIEW-DISPOSITION.md`): WR-01 check-site 7번 mailto 확인이 공유 푸터에도 걸림, WR-02 어두운 푸터 포커스 테두리 대비 약 2.1:1, WR-03·IN-01~04. UI 감사: `/support/#report`로 바로 열면 지원 이메일이 화면 밖, 좁은 화면에서 「고객 지원」은 푸터에서만 닿음
+- [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
+- [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
+
 ## Deferred Items
 
 Items acknowledged and deferred at milestone close, most recent first:
@@ -277,6 +286,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T19:03:29.363Z
-Stopped at: Completed 05-15-PLAN.md
+Last session: 2026-11-19T20:08:26Z
+Stopped at: Phase 5 complete (UAT 9/9), ready to plan Phase 6
 Resume file: None

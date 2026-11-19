@@ -28,7 +28,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Jekyll 공유 셸 도입 (Shared Shell Refactor)** - 공통 블록을 한 곳으로 모으되 사이트 출력은 그대로 둔다 (completed 2026-11-16)
 - [x] **Phase 3: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)** - Tailwind Play CDN을 정적 CSS로 바꾸되 모양은 그대로 둔다 (completed 2026-11-17)
 - [x] **Phase 4: 홈페이지 서비스 소개 정정 (Landing Content Fix)** - 앱에 없는 기능 설명을 빼고 실제 앱 화면을 보여 준다 (completed 2026-11-19)
-- [ ] **Phase 5: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)** - 푸터 사업자 정보, `/support/`, 실제로 받히는 지원 이메일(이메일 게이트)
+- [x] **Phase 5: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)** - 푸터 사업자 정보, `/support/`, 실제로 받히는 지원 이메일(이메일 게이트) (completed 2026-11-20)
 - [ ] **Phase 6: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)** - 앱 없이 웹에서 삭제를 요청하는 경로와 삭제·보존 데이터 안내
 - [ ] **Phase 7: 개인정보처리방침 재작성 (Privacy Policy Rewrite)** - 데이터 목록 기준의 처리방침(위탁·국외 이전·보호책임자·제공자별 수신 항목)
 - [ ] **Phase 8: 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms)** - 약관 재작성, 위치약관 신설, 법적 페이지 정식 게시
@@ -226,7 +226,7 @@ Plans:
   3. 모든 페이지 푸터에 사업자등록증과 같은 표기의 상호·대표자·사업자등록번호·주소와 지원 이메일이 보이고, 값이 없는 항목은 자리표시 없이 행 자체가 없다
   4. 운영자가 `_data` 파일 하나만 고치면(전화번호를 넣는 경우 포함) 푸터와 지원 페이지에 바로 반영되고, 전화번호는 지금 값이 없어 어디에도 보이지 않는다
   5. `/support/` 맨 위에 「러닝펜슬」이 있고, 그 아래에서 지원 이메일과 응답 안내, 공개 코스 신고 방법, FAQ(운영 주체, 위치를 수집하는 시점, 계정 삭제 방법, 공개 코스 신고)를 찾을 수 있으며, 헤더·푸터에서 지원 페이지로 갈 수 있다
-**Plans**: 15/15 plans executed
+**Plans**: 15/15 plans complete
 
 Plans:
 **Wave 1**
@@ -412,7 +412,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 13/13 | Complete    | 2026-11-19 |
-| 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 15/15 | In Progress | - |
+| 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 15/15 | Complete    | 2026-11-20 |
 | 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 0/TBD | Not started | - |
 | 7. 개인정보처리방침 재작성 (Privacy Policy Rewrite) | 0/TBD | Not started | - |
 | 8. 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms) | 0/TBD | Not started | - |
