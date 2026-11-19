@@ -1009,3 +1009,24 @@ OK site-clean 05-09-t3 65a997a7da5f
 ```
 
 SITE03=OK
+
+## 05-10 게이트 사전 점검
+
+Task 1 (tracer). 수신 시험을 기다리기 전에 메인 체크아웃 `main`에서 읽기 전용으로 확인했습니다. 스크래치 재확인 결과 `$W/lib.sh` 함수 열 개, Playwright 1.59.1, 두 점검 스크립트, `$W/base/TREE`(= `BASE_SHA` 트리), `$W/m4/TREE`(= `PUSH1_SHA` 트리), `$W/h3/TREE`(= `H3_SHA` 트리)가 그대로라 다시 만든 것이 없습니다.
+
+- 원격: `git fetch -q origin main` 뒤 `origin/main`이 `PUSH1_SHA` 그대로입니다.
+- 로컬 main: `build pre HEAD`의 출력이 `$W/m4/site`와 `diff -r` 빈 출력입니다(PUSH1 뒤로는 문서 커밋만 있음).
+- 보류 브랜치: `HOLD_BASE..p5-support-hold`가 H1·H2·H3 세 커밋 그대로이고, `origin/main`의 조상이 아니며 원격 브랜치·upstream이 없습니다. H3를 그 커밋의 스크립트로 점검하면 종료 코드 1, `실패 — 1건`, 문제는 7번 연락처 문구 하나입니다.
+- 시험 cherry-pick: 임시 worktree `$W/wt-pickdry`(detached, 바탕은 지금 `main` 끝)에서 `HOLD_BASE..p5-support-hold`를 충돌 없이 옮겼고, 그 끝을 `build pickdry`로 빌드한 출력이 `$W/h3/site`와 `diff -r` 빈 출력입니다. worktree는 `git worktree remove --force`로 지웠고, 시험 커밋을 담은 ref는 없습니다(`git for-each-ref --contains` 빈 출력).
+
+```
+OK origin = push1
+OK main site = push1
+OK hold commits 3
+OK hold not-ancestor
+OK h3 only7
+OK pick-dry clean same-as-h3
+OK site-clean 05-10-t1 6c88ed81b8ca
+```
+
+GATE_PREFLIGHT=OK
