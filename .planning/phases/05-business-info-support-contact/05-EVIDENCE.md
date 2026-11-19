@@ -154,3 +154,144 @@ PROTO_MATRIX=OK
 ```
 OK site-clean 05-02-t2 3056bc8b20f1
 ```
+
+## 05-03 M1
+
+05-02 원형의 두 blob(`PROTO_DATA_BLOB`, `PROTO_FOOTER_BLOB`)을 `git cat-file blob`으로 그대로 꺼내 `_data/company.yml`, `_includes/footer.html`에 두고 이 두 파일만 스테이징했습니다. 브랜치에 붙지 않는 후보(`commit-tree`)로 점검·빌드한 뒤 같은 인덱스를 커밋했습니다(D-03 커밋 ①). 커밋 트리는 후보 빌드 `$W/c1/TREE`와 같습니다.
+
+- 기준 빌드(`$W/base/site`)와 M1 빌드(`$W/c1/site`)의 `diff -r`이 빈 출력입니다. 네 문서가 바이트까지 같고 출력 파일 목록도 같습니다 (BIZ-02, T-05-06).
+- 슬롯의 값은 모두 `""`이고, 푸터는 `.size > 0`으로만 판정합니다.
+
+```
+check-site: 통과 (커밋 c6fcd907cabe, jekyll 3.10.0)
+OK c1 diff-r empty
+```
+
+M1_SHA=bc934fb9555e
+M1_SAME=OK
+
+## 05-03 M2
+
+「공통」 CSS(`_includes/css/common.css`)의 `.rp-foot-legal` 줄 바로 다음에 한 줄 규칙 두 개(`.rp-foot-legal span { display: inline-block; }`, `.rp-foot-legal a { color: #FAFAF7; text-decoration: underline; }`)를 넣고 이 파일만 시각 커밋으로 남겼습니다. `#FAFAF7`은 푸터 메뉴 링크가 이미 쓰는 색이라 hex 색 집합은 그대로이고, 파일 끝 줄바꿈 없음도 그대로입니다. 커밋 트리는 후보 빌드 `$W/c2/TREE`와 같습니다.
+
+- M1 빌드(`$W/c1/site`)와 M2 빌드(`$W/c2/site`)의 차이는 네 문서 모두 `<style>` 안 두 줄 추가뿐이고, 출력 파일 목록은 같습니다. 값이 비어 있어 화면에 보이는 것은 바뀌지 않습니다.
+
+```
+check-site: 통과 (커밋 881c211e2a91, jekyll 3.10.0)
+HUNKS index=57a58,59 legal=47a48,49 47a48,49 47a48,49
+OK c2 files same
+```
+
+M2_SHA=b7e2dcd0de13
+M2_HUNKS=OK
+
+## (보류 1) 05-03 화면
+
+사유: M2 + 가짜 값(`$W/yml/all.yml`) 측정이 375px 여덟 줄에서 `split`으로 실패해 `FOOT_LAYOUT=OK`를 적지 않고 멈췄습니다. 실패의 원인은 CSS가 아니라 시험 값과 판정 기준이 서로 맞지 않는 데 있습니다. 05-02가 사양대로 만든 `all.yml`의 가짜 상호(40자가 넘음)는 「상호 …」 항목 하나만으로 375px 줄 폭(335px)보다 깁니다(줄바꿈 없는 폭 417px). `inline-block` 상자는 이럴 때 상자 안에서 줄을 바꾸므로(RESEARCH Pattern 3이 `nowrap` 대신 고른 이유) 높이가 두 줄(42px)이 되고, `p5-foot.mjs`의 `split` 판정(한 줄 높이의 1.5배 초과)에 걸립니다. 가로 넘침을 만들지 않고서는 어떤 CSS로도 이 판정을 통과할 수 없습니다. 이 계획 안에서 CSS를 고치는 커밋, 시험 값 교체, 판정 완화는 하지 않았고 M1·M2도 고치지 않았습니다(이력 수정 금지). 시험 값, `split` 판정, must-have 3 가운데 무엇을 고칠지는 계획을 다시 세울 때 정합니다.
+
+c2f: M2 + 가짜 값(`all.yml`). 375px 여덟 줄이 `split span0`(가짜 상호 항목)으로 실패, 1280px 여덟 줄은 통과(sepLead=0). 캡처 네 장은 `$W/cap/c2f/`에 있습니다.
+
+```
+FAIL chromium 375 / split span0 lines=1 h=42 lh=21
+FAIL chromium 375 /privacy-policy/ split span0 lines=1 h=42 lh=21
+FAIL chromium 375 /terms/ split span0 lines=1 h=42 lh=21
+FAIL chromium 375 /data-deletion/ split span0 lines=1 h=42 lh=21
+OK chromium 1280 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+FAIL webkit 375 / split span0 lines=1 h=42 lh=21
+FAIL webkit 375 /privacy-policy/ split span0 lines=1 h=42 lh=21
+FAIL webkit 375 /terms/ split span0 lines=1 h=42 lh=21
+FAIL webkit 375 /data-deletion/ split span0 lines=1 h=42 lh=21
+OK webkit 1280 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+FAIL foot
+```
+
+원인 측정: 같은 `c2f` 빌드를 다시 띄워(다시 빌드하지 않음) 375px `/`에서 항목마다 잠깐 `white-space: nowrap`으로 잰 폭(natural)과 그 `p`의 `clientWidth`(line)를 비교했습니다(스크래치 `$W/pw/p503-diag.mjs`, 글 내용은 찍지 않음). 넘치는 항목은 span0 하나뿐이고, 가로 넘침은 없으며 링크 색·밑줄은 기대값입니다.
+
+```
+DIAG chromium 375 span0 natural=417 line=335 h=42 fits=0
+DIAG chromium 375 span1 natural=82 line=335 h=21 fits=1
+DIAG chromium 375 span2 natural=171 line=335 h=21 fits=1
+DIAG chromium 375 span3 natural=160 line=335 h=21 fits=1
+DIAG chromium 375 span4 natural=122 line=335 h=21 fits=1
+DIAG chromium 375 scrollWidth=375 innerWidth=375
+DIAG chromium 375 link color=rgb(250, 250, 247) deco=underline
+DIAG webkit 375 span0 natural=417 line=335 h=42 fits=0
+DIAG webkit 375 span1 natural=82 line=335 h=21 fits=1
+DIAG webkit 375 span2 natural=171 line=335 h=21 fits=1
+DIAG webkit 375 span3 natural=160 line=335 h=21 fits=1
+DIAG webkit 375 span4 natural=122 line=335 h=21 fits=1
+DIAG webkit 375 scrollWidth=375 innerWidth=375
+DIAG webkit 375 link color=rgb(250, 250, 247) deco=underline
+```
+
+c2f-fit: 대조 시험. M2 트리에 `all.yml`에서 가짜 상호만 한 줄에 들어가는 길이(「가상시험상호 주식회사」)로 줄인 값(`$W/t3-fit.yml`, `$W/yml/` 밖)을 넣어 새 이름 `c2f-fit`, 포트 4520으로 빌드했습니다. 16줄 모두 통과했고 375px sepLead도 0입니다. 실패가 너무 긴 항목 하나에서만 나온다는 근거입니다.
+
+```
+OK chromium 375 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 375 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 375 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 375 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 375 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 375 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 375 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 375 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+PASS foot
+```
+
+c1f: M1 + 가짜 값(`all.yml`), CSS 없음. 음성 대조(판정이 아니라 참고 기록). 링크가 기본 파란색(`rgb(0, 0, 238)`)이라 열여섯 곳 모두 `badLink`로 잡히고, `inline-block`이 없어 375px에서 상호·사업자등록번호 항목이 두 줄 상자로 나뉩니다.
+
+```
+FAIL chromium 375 / split span0 lines=2 h=36 lh=21
+FAIL chromium 375 / split span2 lines=2 h=36 lh=21
+FAIL chromium 375 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 375 /privacy-policy/ split span0 lines=2 h=36 lh=21
+FAIL chromium 375 /privacy-policy/ split span2 lines=2 h=36 lh=21
+FAIL chromium 375 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 375 /terms/ split span0 lines=2 h=36 lh=21
+FAIL chromium 375 /terms/ split span2 lines=2 h=36 lh=21
+FAIL chromium 375 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 375 /data-deletion/ split span0 lines=2 h=36 lh=21
+FAIL chromium 375 /data-deletion/ split span2 lines=2 h=36 lh=21
+FAIL chromium 375 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 / split span0 lines=2 h=36 lh=21
+FAIL webkit 375 / split span2 lines=2 h=36 lh=21
+FAIL webkit 375 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 /privacy-policy/ split span0 lines=2 h=36 lh=21
+FAIL webkit 375 /privacy-policy/ split span2 lines=2 h=36 lh=21
+FAIL webkit 375 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 /terms/ split span0 lines=2 h=36 lh=21
+FAIL webkit 375 /terms/ split span2 lines=2 h=36 lh=21
+FAIL webkit 375 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 /data-deletion/ split span0 lines=2 h=36 lh=21
+FAIL webkit 375 /data-deletion/ split span2 lines=2 h=36 lh=21
+FAIL webkit 375 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL foot
+```
+
+M1·M2 커밋과 그 표식(`M1_SHA`·`M1_SAME`·`M2_SHA`·`M2_HUNKS`)은 두 task verify를 다시 돌려 통과한 그대로 두었습니다. 보류 규칙은 「이번 시도의 표식에 `HOLD1_`을 붙이고 다음 실행은 Task 1부터」이지만, M1·M2는 이미 `main`에 있고 이력을 고칠 수 없어 Task 1을 처음부터 다시 할 수 없으므로 머리를 붙이지 않았습니다. 다시 세우는 계획에서 이 처리를 정합니다. 커밋은 푸시하지 않았습니다.
+
+```
+OK site-clean 05-03-t3 b7e2dcd0de13
+```
