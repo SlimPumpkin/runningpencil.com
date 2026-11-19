@@ -2,7 +2,7 @@
 # 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 일곱 가지를 확인한다.
 #   1. 빌드가 성공한다
 #   2. 빌드 결과에 내부 파일이 없다
-#   3. 기존 URL 문서 4개가 있고 <title>이 기대값과 같다
+#   3. 기존 URL 문서 4개와 지원 페이지(/support/)가 있고 <title>이 기대값과 같다
 #   4. 출력 HTML에 처리되지 않은 Liquid({%, {{)가 없다
 #   5. 출력 HTML에 Tailwind Play CDN(cdn.tailwindcss.com, tailwind.config)이 없다
 #   6. 랜딩 출력(index.html)에 출시 범위 밖 기능 이름(포인트·굿즈·코스북)이 없다
@@ -18,7 +18,8 @@ JEKYLL_VERSION='jekyll 3.10.0'
 EXPECTED_TITLES='index.html|러닝펜슬 - 달리고 걷는 길이 아트가 됩니다
 privacy-policy/index.html|개인정보처리방침 - 러닝펜슬
 terms/index.html|서비스 이용약관 - 러닝펜슬
-data-deletion/index.html|데이터 삭제 안내 - 러닝펜슬'
+data-deletion/index.html|데이터 삭제 안내 - 러닝펜슬
+support/index.html|고객 지원 - 러닝펜슬'
 # 빌드 결과에 있으면 안 되는 경로 (D-13). 원본 조각(_includes·_layouts)과 설정 파일도 포함한다.
 FORBIDDEN='CLAUDE.md README.md Gemfile Gemfile.lock vendor .planning prepare scripts .githooks _includes _layouts _config.yml'
 
