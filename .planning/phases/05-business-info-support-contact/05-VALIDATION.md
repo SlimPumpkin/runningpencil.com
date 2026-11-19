@@ -3,10 +3,11 @@ phase: "5"
 slug: "business-info-support-contact"
 # status lifecycle: draft (seeded by plan-phase) → validated (set by validate-phase §6)
 # audit-milestone §5.5 distinguishes NOT-VALIDATED (draft) from PARTIAL (validated + nyquist_compliant: false) (#2117)
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-19"
+validated: "2026-11-20"
 ---
 
 # Phase 5 — Validation Strategy
@@ -45,26 +46,26 @@ created: "2026-11-19"
 
 | Req / 기준 | Behavior | Test Type | Automated Command | File Exists | Status |
 |------------|----------|-----------|-------------------|-------------|--------|
-| BIZ-02 (M1) | 빈 슬롯 + 템플릿이 네 문서 출력을 바꾸지 않음 | 바이트 비교 | `build base <BASE>; build c1 <CAND>; diff -r "$W/base/site" "$W/c1/site"` → 빈 출력 | ❌ W0 | ⬜ pending |
-| BIZ-02 | 빈 값·null·키 없음은 행 없음, 부분 값은 그 항목만, 구분 기호가 매달리지 않음 | 스크래치 변형 빌드 | 스크래치 사본에서 `_data/company.yml`만 바꿔 `build_src`, 푸터 블록의 행·구분 기호 수 확인 | ❌ W0 | ⬜ pending |
-| M2 (CSS) | 출력 차이가 `<style>` 안 추가 줄뿐 | diff 행 머리 | `diff "$W/c1/site/$f" "$W/c2/site/$f" \| grep -E '^[0-9]'` → 기대 행 머리만 | ❌ W0 | ⬜ pending |
-| BIZ-01 / SC3 | 값 커밋 뒤 네 문서 푸터에 사업자 행이 있음 (값은 기록하지 않음) | grep 개수 | 푸터 블록에서 상호·대표자·사업자등록번호·주소 라벨 각 1개 × 4문서 | ❌ | ⬜ pending |
-| BIZ-01 (D-07) | 375px에서 항목 중간 끊김 없음, 가로 넘침 없음, 푸터 링크 색 | Playwright | `span` 높이 ≤ 한 줄(예외: 상자가 하나이고 그 항목의 줄바꿈 없는 폭이 `p` 줄 폭 + 1px보다 길면 상자 안 줄바꿈을 허용하고 `NOTE … longItem` 줄로만 남김. 여러 줄에 걸친 상자는 언제나 실패. 2026-11-19 사용자 결정), `scrollWidth == 375`, `getComputedStyle(a).color` 기대값 (Chromium·WebKit) | ❌ W0 | ⬜ pending |
-| BIZ-03 / SC4 | `phone`만 채우면 푸터·`#contact`에 전화 행, 비우면 어디에도 없음 | 스크래치 변형 | 출력 전체 `grep -c '전화'` → 빈 값 0 | ❌ | ⬜ pending |
-| SC4 | `_data` 한 파일만 고쳐 반영 | git diff | 값 커밋 `git diff --name-only <부모> <커밋>` = `_data/company.yml` 하나 | — | ⬜ pending |
-| SUP-02 / SC1 | 게이트 전 주소 비공개, 게이트 커밋이 처음 | git | RESEARCH Code Example 7 (주소는 NAMES.md에서 읽음, 사이트 파일만 `git log -S`) | — | ⬜ pending |
-| SUP-02 / SC1 | 수신 시험 네 행 모두 받은편지함 | manual | 사용자가 넘긴 표를 Claude가 확인, 「4/4 도착」만 기록 | manual-only | ⬜ pending |
-| D-04 | 보류 묶음이 게이트 전 원격의 조상이 아님 | git | `! git merge-base --is-ancestor p5-support-hold origin/main` && `test -z "$(git branch -r --contains p5-support-hold)"` | — | ⬜ pending |
-| D-04 가드 | 연락처 없는 `/support/`·페이지 없는 링크를 훅이 막음 | 양성·음성 대조 | 기준 커밋 `check-site` 통과 / 보류 H1 커밋 `check-site`가 7번 항목으로 실패 | ❌ W0 | ⬜ pending |
-| SUP-01 / SC5 | `/support/` h1에 「러닝펜슬」, 제목 「고객 지원 - 러닝펜슬」, 이메일·응답 안내 | check-site 3번 + grep | `EXPECTED_TITLES` 줄, `grep -c '러닝펜슬 고객 지원'`, `#contact` 안 `mailto:` 1개 | ❌ | ⬜ pending |
-| SUP-03 / SC5 | `#report`에 적을 내용 목록 (앱 화면에 보이는 정보만) | grep | `id="report"` 구간 `li` 개수, 「만든 사람」 0 | ❌ | ⬜ pending |
-| SUP-04 / SC5 | FAQ 네 쌍, 운영 주체가 `_data` 값 | grep + 비교 | `dt` 4개, 운영 주체 `dd` 안 상호가 푸터 상호와 같은지 (기록은 같음/다름) | ❌ | ⬜ pending |
-| SC5 | 헤더·푸터에서 `/support/`로 갈 수 있음 | grep + Playwright | 네 문서(+지원 페이지) 모두 `href="/support/"` 2개, 1280px 헤더 링크 보임·375px 푸터 링크 보임 | ❌ | ⬜ pending |
-| D-13 | 앵커 순서 `contact` → `report` → `faq` | grep 순서 | `grep -o 'section id="[a-z]*"'` 출력이 정확히 세 줄 그 순서 | ❌ | ⬜ pending |
-| SC2 / SITE-03 | MX·SPF 1개·Search Console TXT, HTTPS 200, Search Console 확인됨 | dig + curl + manual | `dig +short @ns1.gabia.co.kr runningpencil.com MX`, TXT의 `v=spf1` 1개·`google-site-verification` ≥1, `curl -sI https://runningpencil.com/` → 200. 「확인됨」은 사용자 보고(작업 7) | 반 manual | ⬜ pending |
-| D-06 | 작업 5(보내기 설정) 끝남 | manual | 사용자 한 줄 보고 | manual-only | ⬜ pending |
-| 매 푸시 | 기존 세 URL 200·제목, 라이브 바이트 | curl | Phase 4와 같은 라이브 확인(`?cb=<SHA>`), 라이브 `/`가 후보 빌드와 같은지 | — | ⬜ pending |
-| D-02 | 사업자 값이 `.planning`·커밋 메시지에 없음 | grep 개수 | RESEARCH Code Example 8 | — | ⬜ pending |
+| BIZ-02 (M1) | 빈 슬롯 + 템플릿이 네 문서 출력을 바꾸지 않음 | 바이트 비교 | `build base <BASE>; build c1 <CAND>; diff -r "$W/base/site" "$W/c1/site"` → 빈 출력 | ✅ | ✅ green |
+| BIZ-02 | 빈 값·null·키 없음은 행 없음, 부분 값은 그 항목만, 구분 기호가 매달리지 않음 | 스크래치 변형 빌드 | 스크래치 사본에서 `_data/company.yml`만 바꿔 `build_src`, 푸터 블록의 행·구분 기호 수 확인 | ✅ | ✅ green |
+| M2 (CSS) | 출력 차이가 `<style>` 안 추가 줄뿐 | diff 행 머리 | `diff "$W/c1/site/$f" "$W/c2/site/$f" \| grep -E '^[0-9]'` → 기대 행 머리만 | ✅ | ✅ green |
+| BIZ-01 / SC3 | 값 커밋 뒤 네 문서 푸터에 사업자 행이 있음 (값은 기록하지 않음) | grep 개수 | 푸터 블록에서 상호·대표자·사업자등록번호·주소 라벨 각 1개 × 4문서 | ✅ | ✅ green |
+| BIZ-01 (D-07) | 375px에서 항목 중간 끊김 없음, 가로 넘침 없음, 푸터 링크 색 | Playwright | `span` 높이 ≤ 한 줄(예외: 상자가 하나이고 그 항목의 줄바꿈 없는 폭이 `p` 줄 폭 + 1px보다 길면 상자 안 줄바꿈을 허용하고 `NOTE … longItem` 줄로만 남김. 여러 줄에 걸친 상자는 언제나 실패. 2026-11-19 사용자 결정), `scrollWidth == 375`, `getComputedStyle(a).color` 기대값 (Chromium·WebKit) | ✅ | ✅ green |
+| BIZ-03 / SC4 | `phone`만 채우면 푸터·`#contact`에 전화 행, 비우면 어디에도 없음 | 스크래치 변형 | 출력 전체 `grep -c '전화'` → 빈 값 0 | ✅ | ✅ green |
+| SC4 | `_data` 한 파일만 고쳐 반영 | git diff | 값 커밋 `git diff --name-only <부모> <커밋>` = `_data/company.yml` 하나 | — | ✅ green |
+| SUP-02 / SC1 | 게이트 전 주소 비공개, 게이트 커밋이 처음 | git | RESEARCH Code Example 7 (주소는 NAMES.md에서 읽음, 사이트 파일만 `git log -S`) | — | ✅ green |
+| SUP-02 / SC1 | 수신 시험 네 행 모두 받은편지함 | manual | 사용자가 넘긴 표를 Claude가 확인, 「4/4 도착」만 기록 | manual-only | ✅ green |
+| D-04 | 보류 묶음이 게이트 전 원격의 조상이 아님 | git | `! git merge-base --is-ancestor p5-support-hold origin/main` && `test -z "$(git branch -r --contains p5-support-hold)"` | — | ✅ green |
+| D-04 가드 | 연락처 없는 `/support/`·페이지 없는 링크를 훅이 막음 | 양성·음성 대조 | 기준 커밋 `check-site` 통과 / 보류 H1 커밋 `check-site`가 7번 항목으로 실패 | ✅ | ✅ green |
+| SUP-01 / SC5 | `/support/` h1에 「러닝펜슬」, 제목 「고객 지원 - 러닝펜슬」, 이메일·응답 안내 | check-site 3번 + grep | `EXPECTED_TITLES` 줄, `grep -c '러닝펜슬 고객 지원'`, `#contact` 안 `mailto:` 1개 | ✅ | ✅ green |
+| SUP-03 / SC5 | `#report`에 적을 내용 목록 (앱 화면에 보이는 정보만) | grep | `id="report"` 구간 `li` 개수, 「만든 사람」 0 | ✅ | ✅ green |
+| SUP-04 / SC5 | FAQ 네 쌍, 운영 주체가 `_data` 값 | grep + 비교 | `dt` 4개, 운영 주체 `dd` 안 상호가 푸터 상호와 같은지 (기록은 같음/다름) | ✅ | ✅ green |
+| SC5 | 헤더·푸터에서 `/support/`로 갈 수 있음 | grep + Playwright | 네 문서(+지원 페이지) 모두 `href="/support/"` 2개, 1280px 헤더 링크 보임·375px 푸터 링크 보임 | ✅ | ✅ green |
+| D-13 | 앵커 순서 `contact` → `report` → `faq` | grep 순서 | `grep -o 'section id="[a-z]*"'` 출력이 정확히 세 줄 그 순서 | ✅ | ✅ green |
+| SC2 / SITE-03 | MX·SPF 1개·Search Console TXT, HTTPS 200, Search Console 확인됨 | dig + curl + manual | `dig +short @ns1.gabia.co.kr runningpencil.com MX`, TXT의 `v=spf1` 1개·`google-site-verification` ≥1, `curl -sI https://runningpencil.com/` → 200. 「확인됨」은 사용자 보고(작업 7) | 반 manual | ✅ green |
+| D-06 | 작업 5(보내기 설정) 끝남 | manual | 사용자 한 줄 보고 | manual-only | ✅ green |
+| 매 푸시 | 기존 세 URL 200·제목, 라이브 바이트 | curl | Phase 4와 같은 라이브 확인(`?cb=<SHA>`), 라이브 `/`가 후보 빌드와 같은지 | — | ✅ green |
+| D-02 | 사업자 값이 `.planning`·커밋 메시지에 없음 | grep 개수 | RESEARCH Code Example 8 | — | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -72,11 +73,11 @@ created: "2026-11-19"
 
 ## Wave 0 Requirements
 
-- [ ] `$W/lib.sh` — Phase 4 `lib.sh`를 복사해 `W`만 05-01 「scratch_contract」 식으로 바꿈 (절대 경로 금지 규칙 유지)
-- [ ] `$W/pw/p5-foot.mjs` — 푸터 측정(항목 높이, `scrollWidth`, 링크 색)
-- [ ] `$W/pw/p5-support.mjs` — 지원 페이지 구조(앵커 순서, `dt` 수, 헤더/푸터 링크)
-- [ ] check-site 7번 가드 양성·음성 대조 기록
-- [ ] Playwright는 Phase 4 스크래치 재사용 (없으면 고정 버전 재설치 checkpoint)
+- [x] `$W/lib.sh` — Phase 4 `lib.sh`를 복사해 `W`만 05-01 「scratch_contract」 식으로 바꿈 (절대 경로 금지 규칙 유지)
+- [x] `$W/pw/p5-foot.mjs` — 푸터 측정(항목 높이, `scrollWidth`, 링크 색)
+- [x] `$W/pw/p5-support.mjs` — 지원 페이지 구조(앵커 순서, `dt` 수, 헤더/푸터 링크)
+- [x] check-site 7번 가드 양성·음성 대조 기록
+- [x] Playwright는 Phase 4 스크래치 재사용 (없으면 고정 버전 재설치 checkpoint)
 
 ---
 
@@ -93,11 +94,24 @@ created: "2026-11-19"
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 60s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 60s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** validated 2026-11-20. 계획 verify와 영구 명령을 HEAD `95cbc2747126`에서 다시 돌린 결과는 다음과 같다.
+- 계획 15개의 `<automated>` verify 39개(05-01 81행의 `<automated>`는 규칙 문장 안 언급이라 명령이 아님)를 저장소 루트에서 `bash -c`로 다시 돌려 39개 모두 rc=0. 시점 조건으로 대체된 항목은 없다. 실행 뒤 작업 트리는 깨끗하다
+- `scripts/check-site.sh HEAD` 통과 (7항목, jekyll 3.10.0), `bash -n scripts/check-site.sh` 통과, `core.hooksPath=.githooks`, `scripts/check-site.sh`·`.githooks/pre-push` 모두 100755
+- 푸시 `57e56b07f2ab`(PUSH1), `2bd47891b837`(PUSH2, 게이트), `e0f233169329`(PUSH3)의 라이브 판정은 `LIVE_PUSH1=OK`·`LIVE_PUSH2=OK`·`LIVE_PUSH3=OK`, 단계 성공 기준 라이브 재판정은 `PHASE5_SC=OK`
+
+행별 근거 표식: M1 바이트 동일 `M1_SAME=OK`, 변형 빌드(빈 값·null·키 없음·부분 값·전화) `PROTO_EMPTY=OK`·`PROTO_MATRIX=OK`, M2 `M2_HUNKS=OK`, 375px 푸터 `FOOT_LAYOUT=OK`(구분 방식 `SEPARATOR=opt2`), 7번 가드 `GUARD7=OK`·`HOOK7=OK`(양성 `POS7`, 음성 `NEG7_LINK`·`NEG7_PAGE`), 보류 묶음 `HOLD_ONLY7=OK`·`HOLD_UI=OK`·`PICK_SAME=OK`·`HOLD_WT_REMOVED=OK`, 게이트 `GATE_PREFLIGHT=OK`·`GATE_CAND=OK`·`GATE_OPEN=OK`, DNS `DNS_AFTER=OK`·`DNS_FINAL=OK`·`SITE03=OK`. Manual-Only 네 행은 사용자 보고로 판정했다: 외부 4곳 수신 시험 `RECEIVE_TEST=4/4`, Search Console 「확인됨」 `SC_VERIFIED=OK`, 작업 5 보내기 설정 `TASK5=OK`, 사업자 값 대조 `D10_APPROVED=OK`·`USER_MATCH=OK`. Wave 0 도구(`$W/lib.sh`, `pw/p5-foot.mjs`, `pw/p5-support.mjs`, Playwright 재사용 `PW_VERSION`·`PW_BROWSERS`, `TOOLS_BASE=OK`)는 스크래치에 그대로 있다.
+
+## Validation Audit 2026-11-20
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
