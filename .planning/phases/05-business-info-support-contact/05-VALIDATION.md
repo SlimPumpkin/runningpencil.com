@@ -49,7 +49,7 @@ created: "2026-11-19"
 | BIZ-02 | 빈 값·null·키 없음은 행 없음, 부분 값은 그 항목만, 구분 기호가 매달리지 않음 | 스크래치 변형 빌드 | 스크래치 사본에서 `_data/company.yml`만 바꿔 `build_src`, 푸터 블록의 행·구분 기호 수 확인 | ❌ W0 | ⬜ pending |
 | M2 (CSS) | 출력 차이가 `<style>` 안 추가 줄뿐 | diff 행 머리 | `diff "$W/c1/site/$f" "$W/c2/site/$f" \| grep -E '^[0-9]'` → 기대 행 머리만 | ❌ W0 | ⬜ pending |
 | BIZ-01 / SC3 | 값 커밋 뒤 네 문서 푸터에 사업자 행이 있음 (값은 기록하지 않음) | grep 개수 | 푸터 블록에서 상호·대표자·사업자등록번호·주소 라벨 각 1개 × 4문서 | ❌ | ⬜ pending |
-| BIZ-01 (D-07) | 375px에서 항목 중간 끊김 없음, 가로 넘침 없음, 푸터 링크 색 | Playwright | `span` 높이 ≤ 한 줄, `scrollWidth == 375`, `getComputedStyle(a).color` 기대값 (Chromium·WebKit) | ❌ W0 | ⬜ pending |
+| BIZ-01 (D-07) | 375px에서 항목 중간 끊김 없음, 가로 넘침 없음, 푸터 링크 색 | Playwright | `span` 높이 ≤ 한 줄(예외: 상자가 하나이고 그 항목의 줄바꿈 없는 폭이 `p` 줄 폭 + 1px보다 길면 상자 안 줄바꿈을 허용하고 `NOTE … longItem` 줄로만 남김. 여러 줄에 걸친 상자는 언제나 실패. 2026-11-19 사용자 결정), `scrollWidth == 375`, `getComputedStyle(a).color` 기대값 (Chromium·WebKit) | ❌ W0 | ⬜ pending |
 | BIZ-03 / SC4 | `phone`만 채우면 푸터·`#contact`에 전화 행, 비우면 어디에도 없음 | 스크래치 변형 | 출력 전체 `grep -c '전화'` → 빈 값 0 | ❌ | ⬜ pending |
 | SC4 | `_data` 한 파일만 고쳐 반영 | git diff | 값 커밋 `git diff --name-only <부모> <커밋>` = `_data/company.yml` 하나 | — | ⬜ pending |
 | SUP-02 / SC1 | 게이트 전 주소 비공개, 게이트 커밋이 처음 | git | RESEARCH Code Example 7 (주소는 NAMES.md에서 읽음, 사이트 파일만 `git log -S`) | — | ⬜ pending |
