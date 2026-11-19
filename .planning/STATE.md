@@ -227,7 +227,7 @@ None yet.
 ### Blockers/Concerns
 
 사용자 외부 작업(단계를 막음):
-- 가비아 DNS 1차 방문(Google Workspace 도메인 인증 TXT·MX·SPF 1개, Search Console TXT. 기존 레코드는 보존, 절차는 `.planning/baseline/USER-TASKS.md`)과 메일 수신 시험 → Phase 5 (이메일 게이트, Phase 6·7 커밋의 전제)
+- 가비아 DNS 1차 방문과 Workspace 작업 0~3은 끝남(2026-11-19 사용자 확인, 권한 있는 네임서버에 MX 1개·SPF 1개·google-site-verification 1줄). 남은 것: 작업 4 외부 4곳 수신 시험(이메일 게이트), 작업 5 보내기 설정, 작업 7 Search Console 확인 → Phase 5
 - 가비아 DNS 2차 방문(DKIM, 절차는 `.planning/baseline/USER-TASKS.md` 작업 6. 작업 시점은 Phase 5 무렵) → Phase 10 (Apple 릴레이 답장의 전제. 이메일 게이트는 DKIM을 기다리지 않음)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
 
@@ -245,7 +245,6 @@ Phase 3에서 넘어온 것:
 
 Phase 4 후속:
 - [Phase 04] 04-09 사용자 예외(D-20): 랜딩 ③ 완주 결과 캡처는 원본에서 앱의 뱃지 창이 NAVER 로고를 덮은 채로 04-10·04-11에서 공개될 예정(SDK 가이드 위험은 사용자가 받아들임). 앱에서 로고 위치(logoAlign·logoMargin)나 뱃지 창 위치를 고치면 ③만 다시 찍어 교체 (단계를 막지 않는 후속)
-- [Phase 04] (해소, 2026-11-19 확인) 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`)은 원격 `main`(`7876c5b`)에 들어갔고 로컬 `main`과 같음. 라이브 `/`에 「강아지런」·`7.8 km`가 보이고 「댕댕런」·`8.3 km`는 0건(curl). 「코스 그리기」 목업과 「달려 보기」 칩을 눈으로 한 번 보는 일은 기록이 없어 남김
 - [Phase 04] `deferred-items.md`의 원본 맵 정리 2건이 open: CONCERNS.md 랜딩 크기·줄 수(「72KB, 586줄」), TESTING.md에 `images/app/`과 「실제 앱 화면」 구간 점검 항목 없음. 단계 전환 때 Acknowledged Gaps로 기록(04-VERIFICATION.md). 다음 원본 맵 갱신이나 `/gsd-map-codebase` 때 고침
 
 ## Deferred Items
