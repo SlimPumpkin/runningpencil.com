@@ -1325,3 +1325,20 @@ DOCS2_STALE=OK
 ```
 OK site-clean 05-13-t3 2c9f8230217f
 ```
+
+## 05-14 작업 5와 단계 완료 조건
+
+Task 1 (tracer). 2026-11-19에 05-09 Task 1과 같은 방식으로 권한 있는 네임서버 `ns1.gabia.co.kr`에 질의를 명령에 직접 써서 다시 물었습니다(A, MX, 루트 TXT, `google._domainkey` TXT). 출력은 스크래치 `$W/dns14/`에 받고 줄 수와 종류만 셌습니다. 토큰·TXT 값·IP 주소는 적지 않습니다. 이어 `curl -sI`의 첫 줄로 `/`와 `/support/`의 HTTPS 응답을 봤습니다.
+
+- A 4줄, MX `1 smtp.google.com.` 하나, 루트 TXT 2줄(SPF 1줄과 `google-site-verification` 1줄)로 05-09 「변경 후」와 같습니다.
+- DKIM(`google._domainkey`)은 0줄입니다. 작업 6(Phase 10) 전이라 기대대로이고 이 단계를 막지 않습니다(D-06).
+- Claude는 DNS를 바꾸지 않았고 사이트 파일도 건드리지 않았습니다.
+
+```
+OK dns-final ns1.gabia.co.kr A=4 MX=1 mx_google=1 spf=1 gsv=1 dkim=0
+OK https / HTTP/2 200
+OK https /support/ HTTP/2 200
+OK site-clean 05-14-t1 632e5ff61d6a
+```
+
+DNS_FINAL=OK
