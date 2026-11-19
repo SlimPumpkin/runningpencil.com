@@ -96,3 +96,61 @@ TOOLS_BASE=OK
 ```
 OK site-clean 05-01-t3 2db88d9a199f
 ```
+
+## 05-02 원형
+
+기준 커밋(`BASE_SHA`)에 원형 세 파일(`_data/company.yml` 빈 슬롯, `_includes/footer.html` 사업자·주소·이메일/전화 줄, `support/index.html` 지원 페이지)을 얹은 시험용 커밋 객체를 `mkobj`로 만들었습니다. 이 객체는 어떤 ref에도 붙이지 않았고 푸시하지 않습니다. 저장소 사이트 파일은 고치지 않았습니다.
+
+- 슬롯은 RESEARCH Code Example 2 그대로입니다(키 여섯 개, 모든 값 `""`).
+- 푸터는 저장소 파일 19행(운영 안내) 다음에 RESEARCH Code Example 1의 블록을 넣고, 구분 기호 세 곳을 `&nbsp;· `(줄 끝 고정)로 바꾸고 사업자 줄 `<p>`의 클래스 속성을 뺀 것입니다. 파일 끝 줄바꿈은 없습니다.
+- 지원 페이지는 front matter 다섯 줄(`layout`·`title`·`description`·`eyebrow`·`heading`)뿐이고 날짜·검색 제외 키와 「임시 게시본」 끝 안내는 없습니다. `#contact`·`#report`는 `support_email` 조건 안에, 운영 주체 FAQ는 `trade_name` 조건 안에, 신고 FAQ는 `support_email` 조건 안에 있습니다.
+- 빈 값 빌드에서 네 문서는 기준과 바이트가 같고, 출력 파일은 기준에 `support/index.html` 하나만 더해졌습니다. 지원 페이지는 `#faq` 구간과 `dl` 두 개만 그립니다.
+
+PROTO_OBJ=68b96890f7f8
+PROTO_DATA_BLOB=7989606c0d747bcaeb23eb7108aac27760515096
+PROTO_FOOTER_BLOB=c64c74a6581c832e0c9fce31cc2caae33f117c0e
+PROTO_SUPPORT_BLOB=3c561223f005c7ccb3d2d742c66e8398162884f5
+
+```
+check-site: 통과 (커밋 68b96890f7f8, jekyll 3.10.0)
+OK proto same=4 extra=support/index.html
+OK proto support title=고객 지원 - 러닝펜슬 h1=러닝펜슬 고객 지원 ids=faq dl=2 robots=0 updated=0
+OK proto source elements=a dd dl dt h2 li p section strong ul attrs=<a href= <section id=
+```
+
+PROTO_EMPTY=OK
+
+```
+OK site-clean 05-02-t1 3056bc8b20f1
+```
+
+## 05-02 행렬
+
+원형 객체(`PROTO_OBJ`)에 `_data/company.yml`만 바꿔 열한 경우를 빌드했습니다(`variant v-<경우>`, 파일 없음은 `variant v-nofile … -`). 시험 값은 모두 가짜 값이고(지원 주소 자리는 `example.invalid` 도메인), 값 파일은 스크래치 `$W/yml/`에만 있습니다. 판정 줄은 스크래치 `$W/matrix.sh <경우>`가 찍은 그대로이고 값 내용은 찍지 않습니다. 열한 경우 모두 계획 때 정한 기대 줄과 같았습니다.
+
+- 값이 없는 네 경우(빈 문자열·null·키 없음·파일 없음)는 네 문서가 기준과 바이트까지 같고, 지원 페이지는 `#faq`와 `dl` 두 개만 그립니다 (BIZ-02).
+- 부분 값에서 구분 기호 수는 「있는 항목 수 − 1」입니다 (`trade-bizno` sep=1, `rep`·`trade`·`phone`·`email` sep=0, `all` sep=3) (D-08).
+- 「전화」는 전화번호가 있는 경우(`all`·`phone`)에만 생기고, 다섯 문서 푸터가 모두 같습니다(footsame=5) (BIZ-03).
+- `#contact`·`#report`는 이메일 값이 있을 때(`all`·`email`)만 생기고 순서는 contact → report → faq입니다. FAQ `dl` 수는 2 + (상호 있음) + (이메일 있음)입니다 (SUP-01·SUP-03·SUP-04).
+- `A&B <x>`는 다섯 문서 푸터와 FAQ 여섯 곳에서 모두 이스케이프되어 나오고 날 글자는 0곳입니다 (T-05-05).
+
+```
+OK matrix empty same=4 ids=faq dl=2
+OK matrix null same=4 ids=faq dl=2
+OK matrix nokeys same=4 ids=faq dl=2
+OK matrix nofile same=4 ids=faq dl=2
+OK matrix all p=6 span=5 sep=3 mailto=1 phone=1 ids=contact,report,faq dl=4 supmailto=2 supphone=2 footsame=5
+OK matrix rep p=4 span=1 sep=0 mailto=0 phone=0 ids=faq dl=2 supmailto=0 supphone=0 footsame=5
+OK matrix trade-bizno p=4 span=2 sep=1 mailto=0 phone=0 ids=faq dl=3 supmailto=0 supphone=0 footsame=5
+OK matrix phone p=4 span=1 sep=0 mailto=0 phone=1 ids=faq dl=2 supmailto=0 supphone=1 footsame=5
+OK matrix email p=4 span=1 sep=0 mailto=1 phone=0 ids=contact,report,faq dl=3 supmailto=2 supphone=0 footsame=5
+OK matrix trade p=4 span=1 sep=0 mailto=0 phone=0 ids=faq dl=3 supmailto=0 supphone=0 footsame=5
+OK matrix escape p=4 span=1 sep=0 mailto=0 phone=0 ids=faq dl=3 supmailto=0 supphone=0 footsame=5 esc=6 raw=0
+OK matrix all order=contact<report<faq
+```
+
+PROTO_MATRIX=OK
+
+```
+OK site-clean 05-02-t2 3056bc8b20f1
+```
