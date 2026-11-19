@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-05-PLAN.md
-last_updated: "2026-11-19T04:23:38.059Z"
+stopped_at: Completed 05-06-PLAN.md
+last_updated: "2026-11-19T04:41:04.914Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: db138f394d00280daa04bb457fc63014ddfdb4b8
+state_head: d9d508d5b2e5bef46459857853f5c9c96d8630b5
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 47
+  completed_plans: 48
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 6 of 15
-Status: Executing Phase 05
+Plan: 7 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -106,6 +106,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P03 | 20min | 3 tasks | 7 files |
 | Phase 05 P04 | 13 min | 2 tasks | 2 files |
 | Phase 05 P05 | 9min | 4 tasks | 2 files |
+| Phase 05 P06 | 8min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -217,6 +218,7 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-04: 문서의 점검 항목 수(여섯→일곱)는 05-07이 고침. SUP-01·SUP-02는 ready-ids blocked라 완료 처리 안 함
 - [Phase 05]: 05-05: D-10 승인 approve-opt2(사업자등록증 표기 전체, 구분 기호 &nbsp;· 그대로). 보류 1 뒤 시도 2의 후보 C4_CAND=fef24cd83cfb가 시도 1 후보와 blob·사이트 트리·p5-foot 출력이 같음을 확인한 뒤에만 적용. 값은 작업 트리 _data/company.yml에만 있고 커밋 안 함(05-06이 M4로 커밋), 후보는 refs/p5-scratch/c4-cand에만 있음
 - [Phase 05]: 05-05: 실제 값에서는 375px에서도 첫 줄이 한 줄에 들어가 세 구분 기호 선택지의 측정(sepLead 0)이 같다. webkit 375 선택지 2 첫 캡처만 한 번 흔들렸고 다시 찍으면 같음(기록만)
+- [Phase 05]: 05-06: 첫 사이트 푸시 PUSH1_SHA=57e56b07f2ab(M1~M4, 사업자 정보 푸터)를 승인받은 그대로 내보냈고 라이브가 로컬 M4 빌드와 바이트가 같음(LIVE_PUSH1=OK). 되돌리기 없음
 
 ### Pending Todos
 
@@ -256,6 +258,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T04:17:53.914Z
-Stopped at: Completed 05-05-PLAN.md
+Last session: 2026-11-19T04:41:04.416Z
+Stopped at: Completed 05-06-PLAN.md
 Resume file: None
