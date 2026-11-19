@@ -992,3 +992,20 @@ OK site-clean 05-09-t1 73b5852fc23a
 ```
 
 DNS_AFTER=OK
+
+## 05-09 Search Console
+
+Task 2·3. 사용자가 작업 7(Search Console 도메인 속성 확인) 결과를 「작업 7 끝남, 도메인 속성 확인됨」과 날짜 한 줄로 보고했습니다. 「확인됨」 상태는 사용자 계정 안에서만 보이므로 이 보고로 판정합니다. 계정·TXT 값은 적지 않습니다. Claude는 DNS·Search Console을 바꾸지 않았고, 사이트 파일과 보류 브랜치도 건드리지 않았습니다.
+
+근거: 사용자 보고(작업 7). TXT는 05-09 DNS의 gsv 줄
+
+날짜 메모: 아래 날짜는 사용자가 보고한 그대로입니다. 이 날짜는 CONTEXT D-01의 2026-11-19 아침 관찰(TXT 0줄)보다 하루 앞섭니다.
+
+SC_VERIFIED=OK
+SC_DATE=2026-11-18
+
+```
+OK site-clean 05-09-t3 65a997a7da5f
+```
+
+SITE03=OK
