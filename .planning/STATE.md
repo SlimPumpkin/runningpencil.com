@@ -226,7 +226,7 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-07: 연구 문서 Pattern 2 본문 문장 규칙의 blank 비교도 .size > 0으로 고침(계획은 Pattern 1만 적었고 verify가 문서 전체 0건을 요구). CONVENTIONS 「사실값 슬롯 (_data/company.yml)」 절이 뒤 단계 _data 참조 규칙의 원본
 - [Phase 05]: 05-08: 보류 묶음 H1·H2·H3는 로컬 브랜치 p5-support-hold에만 두고(푸시·upstream 없음), 게이트(05-11)에서 32afecdddd20..p5-support-hold를 cherry-pick한다
 - [Phase 05]: 05-09: 작업 7 「확인됨」 보고로 SITE03=OK를 05-09에서 세움. 05-14는 SITE03=OK 갈래로 감
-- [Phase 05]: 05-09: SC_DATE는 사용자 보고 그대로 2026-11-18. D-01 아침 관찰(TXT 0줄)보다 하루 앞선다는 메모만 남기고 까닭은 추측하지 않음
+- [Phase 05]: 05-09: SC_DATE=2026-11-19. 처음 보고(2026-11-18)가 D-01 아침 관찰(TXT 0줄)보다 앞서 다시 확인했고 사용자가 19일로 정정함. 정정 이력은 EVIDENCE 날짜 메모에 있음
 
 ### Pending Todos
 

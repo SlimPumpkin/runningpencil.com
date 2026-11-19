@@ -11,7 +11,7 @@ requires:
     provides: "05-08의 HOLD_UI=OK(Task 1 precondition), CONTEXT D-01의 2026-11-19 아침 dig 관찰(변경 전 기록), 사용자 작업 0~3 완료(가비아 DNS의 MX·SPF·google-site-verification TXT)"
 provides:
   - "05-EVIDENCE.md `## 05-09 DNS`: DNS_BEFORE 줄, 권한 있는 네임서버·공개 리졸버 판정 줄, HTTPS 200, site-clean 기록, DNS_AFTER=OK (개수와 종류만)"
-  - "05-EVIDENCE.md `## 05-09 Search Console`: 사용자 보고 근거 줄, 날짜 메모, SC_VERIFIED=OK, SC_DATE=2026-11-18, site-clean 기록, SITE03=OK"
+  - "05-EVIDENCE.md `## 05-09 Search Console`: 사용자 보고 근거 줄, 날짜 메모, SC_VERIFIED=OK, SC_DATE=2026-11-19, site-clean 기록, SITE03=OK"
 affects: [05-10, 05-14, 05-15]
 
 # Actuals (#2632)
@@ -37,7 +37,7 @@ key-files:
 
 key-decisions:
   - "작업 7 보고가 「확인됨」이라 05-09에서 SITE03=OK를 세웠다. 05-14는 SC_PENDING 갈래 없이 SITE03=OK가 있는 쪽 precondition으로 간다"
-  - "SC_DATE는 사용자가 보고한 날짜(2026-11-18)를 그대로 적었다. 이 날짜는 CONTEXT D-01의 2026-11-19 아침 관찰(TXT 0줄)보다 하루 앞선다는 메모만 EVIDENCE에 남기고, 까닭은 추측해서 적지 않았다"
+  - "SC_DATE는 2026-11-19다. 사용자가 처음에 2026-11-18로 보고했으나 CONTEXT D-01의 2026-11-19 아침 관찰(TXT 0줄)보다 앞서 다시 확인을 받았고, 사용자가 2026-11-19로 정정했다. 정정 이력은 EVIDENCE 날짜 메모에 남겼다"
 
 patterns-established:
   - "체크포인트 뒤 이어 실행할 때도 task 구간마다 `OK site-clean <계획>-t<n> <12자리>` 줄을 그 자리에서 찍어 적는다"
@@ -54,14 +54,14 @@ coverage:
         status: pass
     human_judgment: false
   - id: D2
-    description: "Search Console이 runningpencil.com 도메인 속성을 「확인됨」으로 표시한다는 사용자 보고(작업 7, 2026-11-18)가 기록되고 SITE03=OK가 섰다"
+    description: "Search Console이 runningpencil.com 도메인 속성을 「확인됨」으로 표시한다는 사용자 보고(작업 7, 2026-11-19)가 기록되고 SITE03=OK가 섰다"
     requirement: "SITE-03"
     verification:
       - kind: other
         ref: "05-09-PLAN.md Task 3 <verify> (exit 0)"
         status: pass
     human_judgment: true
-    rationale: "Search Console의 「확인됨」 상태는 사용자 계정 안에서만 보이므로 기록은 사용자 보고에 기댄다. verify는 기록 꼴만 본다. 보고 날짜가 D-01 아침 관찰보다 하루 앞서므로 사용자가 날짜를 다시 확인할 수 있다"
+    rationale: "Search Console의 「확인됨」 상태는 사용자 계정 안에서만 보이므로 기록은 사용자 보고에 기댄다. verify는 기록 꼴만 본다. 처음 보고 날짜(2026-11-18)가 D-01 아침 관찰보다 앞서 사용자가 다시 확인했고 2026-11-19로 정정했다"
 
 # Metrics
 duration: 1h 54m
@@ -70,7 +70,7 @@ completed: 2026-11-19
 
 # Phase 5 Plan 09: DNS 증거와 Search Console 확인 Summary
 
-**권한 있는 네임서버·공개 리졸버 dig로 MX(Google 하나)·SPF 한 줄·Search Console TXT·보존 레코드·HTTPS 200을 값 없이 기록하고, 작업 7 「확인됨」 사용자 보고(2026-11-18)로 SITE-03을 닫음**
+**권한 있는 네임서버·공개 리졸버 dig로 MX(Google 하나)·SPF 한 줄·Search Console TXT·보존 레코드·HTTPS 200을 값 없이 기록하고, 작업 7 「확인됨」 사용자 보고(2026-11-19)로 SITE-03을 닫음**
 
 ## Performance
 
@@ -83,13 +83,13 @@ completed: 2026-11-19
 ## Accomplishments
 
 - `## 05-09 DNS`: 변경 전 줄(CONTEXT D-01 아침 관찰)과 변경 후 판정 줄을 남겼습니다. 권한 있는 네임서버에서 A 4, MX 1(Google), TXT 2(SPF 1, gsv 1), `www`는 GitHub Pages, challenge 1, DKIM 0이고, 공개 리졸버도 MX 1·SPF 1·gsv 1입니다. HTTPS는 `HTTP/2 200`입니다. `DNS_AFTER=OK`.
-- `## 05-09 Search Console`: 사용자 보고 「작업 7 끝남, 도메인 속성 확인됨」을 근거 줄로 적고 `SC_VERIFIED=OK`, `SC_DATE=2026-11-18`, `SITE03=OK`를 세웠습니다. 날짜가 D-01 아침 관찰보다 하루 앞선다는 메모를 같은 구간에 적었습니다.
+- `## 05-09 Search Console`: 사용자 보고 「작업 7 끝남, 도메인 속성 확인됨」을 근거 줄로 적고 `SC_VERIFIED=OK`, `SC_DATE=2026-11-19`, `SITE03=OK`를 세웠습니다. 처음 보고 날짜(2026-11-18)를 사용자가 2026-11-19로 정정한 이력을 같은 구간 날짜 메모에 적었습니다.
 - 작업 7이 이 계획에서 닫혔으므로 05-14는 Search Console 보고를 다시 받지 않아도 됩니다.
 
 ## Task Commits
 
 1. **Task 1: DNS 변경 후 기록과 HTTPS 확인 (tracer)** - `65a997a7da5f` (docs)
-2. **Task 2: 작업 7 결과 받기 (checkpoint:human-action, blocking-human)** - 커밋 없음. 사용자 답 「작업 7 끝남, 도메인 속성 확인됨. 2026-11-18」
+2. **Task 2: 작업 7 결과 받기 (checkpoint:human-action, blocking-human)** - 커밋 없음. 사용자 답 「작업 7 끝남, 도메인 속성 확인됨. 2026-11-18」, 뒤에 날짜를 「19일로 바꿔」로 정정
 3. **Task 3: 작업 7 보고 기록, SITE-03 닫음** - `15fad96ef4ee` (docs)
 
 **Plan metadata:** 이 SUMMARY 커밋과 STATE·ROADMAP·REQUIREMENTS 기록 커밋
@@ -109,7 +109,7 @@ completed: 2026-11-19
 ## Decisions Made
 
 - 작업 7 「확인됨」 갈래로 Task 3의 1~2번을 실행했습니다. `SC_PENDING=OK`는 적지 않았습니다.
-- `SC_DATE`는 사용자 보고 그대로 2026-11-18입니다. 이 날짜는 CONTEXT D-01의 2026-11-19 아침 관찰(TXT 0줄)보다 하루 앞섭니다. 까닭은 적지 않았고 날짜도 바꾸지 않았습니다. 사용자가 날짜를 다시 확인해 다르면 05-14 단계 완료 표 전에 바로잡으면 됩니다.
+- `SC_DATE`는 2026-11-19입니다. 처음 보고는 2026-11-18이었으나 CONTEXT D-01의 2026-11-19 아침 관찰(TXT 0줄)보다 앞서 사용자에게 다시 확인을 받았고, 사용자가 2026-11-19로 정정했습니다.
 
 ## Deviations from Plan
 
