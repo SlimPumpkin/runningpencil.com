@@ -177,7 +177,7 @@ None - 외부 서비스 설정이 필요 없다.
 - FOUND 커밋 `bc934fb9555e`, `b7e2dcd0de13`, `e8b8364`, `3bfc1cbe1128` (모두 HEAD의 조상)
 - 05-03 Task 1·2·3 `<automated>` verify exit 0 (보정한 계획 파일에서 꺼내 bash로 실행)
 - Task 1 acceptance: `.size > 0` 8줄, `&nbsp;· ` 3곳, `!= blank|!= empty` 0, 슬롯 값 모두 빈 값, 푸터 끝 줄바꿈 없음. Task 2 acceptance: 두 규칙 각 1, CSS 끝 줄바꿈 없음
-- `<verification>`: `git log --format=%h 2db88d9a199f..b7e2dcd0de13 -- . ':(exclude).planning'` = `b7e2dcd`, `bc934fb` 두 줄. 05-EVIDENCE.md에 `$HOME` 문자열·`/private/var`·`/Users/` 0건
+- `<verification>`: `git log --format=%h 2db88d9a199f..b7e2dcd0de13 -- . ':(exclude).planning'` = `b7e2dcd`, `bc934fb` 두 줄. 05-EVIDENCE.md 누출 검사(홈 경로 문자열, 임시 폴더 실제 경로, 사용자 폴더 경로) 0건
 
 ---
 *Phase: 05-business-info-support-contact*
