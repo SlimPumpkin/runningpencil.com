@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-11-19T02:34:21.043Z"
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-11-19T02:55:42.745Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 2774a40fc298daa1399db5b0733113ef0bfdac0f
+state_head: 3ac8f554f9ee379cebd3babcdeb830d37af22a3a
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 44
+  completed_plans: 45
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 3 of 15
-Status: Executing Phase 05
+Plan: 4 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -103,6 +103,7 @@ Progress: [████░░░░░░] 40%
 | Phase 04 P13 | 10min | 3 tasks | 2 files |
 | Phase 05 P01 | 18 min | 3 tasks | 2 files |
 | Phase 05 P02 | 8min | 2 tasks | 2 files |
+| Phase 05 P03 | 20min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -207,6 +208,9 @@ Recent decisions affecting current work:
 - [Phase 05]: p5-foot.mjs split 판정은 getClientRects 상자 수가 아니라 줄 수로 셈 (Chromium의 상자 없는 inline span 오탐)
 - [Phase 05]: 05-02: 원형 세 파일(슬롯·&nbsp;· 푸터·지원 페이지)을 ref 없는 시험 객체로 빌드해 빈 값 네 문서 바이트 동일과 가짜 값 열한 경우 행렬을 확인했다. 05-03·05-04·05-08은 EVIDENCE의 PROTO_*_BLOB을 그대로 꺼내 쓴다
 - [Phase 05]: 05-02: 요구사항 BIZ-02·BIZ-03·SUP-01·SUP-03·SUP-04는 완료 처리하지 않음(스크래치 설계 시험만, ready-ids 모두 blocked)
+- [Phase 05]: 05-03: p5-foot split 판정 보정(사용자 결정) — 여러 줄 span은 언제나 split, 상자 하나인 span은 줄바꿈 없는 폭이 p 줄 폭 + 1px보다 길 때만 상자 안 줄바꿈 허용하고 NOTE longItem 줄로 남김. 시험 값 all.yml은 그대로
+- [Phase 05]: 05-03: 보류 1 재개는 Task 3만 다시 함(05-01 Task 1부터 규칙의 사용자 승인 예외, 이력 수정 금지). M1·M2 표식은 HOLD1_ 머리 없이 유지
+- [Phase 05]: 05-03: D-07은 한 줄에 들어가는 항목에 그대로 지켜지고, 줄보다 긴 항목 하나는 자기 상자 안에서 줄을 바꿈(사용자 승인). 가로 넘침 없음
 
 ### Pending Todos
 
@@ -246,6 +250,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T02:25:19.453Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-11-19T02:55:42.250Z
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None
