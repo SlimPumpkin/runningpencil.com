@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-08-PLAN.md
-last_updated: "2026-11-19T05:25:51.537Z"
+stopped_at: Completed 05-09-PLAN.md
+last_updated: "2026-11-19T07:21:47.342Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: c25eb4ea7c0e92017c77bc6a923ab2d64d5da015
+state_head: 84a30ca317363c75e85e2eb8b13d1ca4ad9af68e
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 50
+  completed_plans: 51
   percent: 40
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 9 of 15
+Plan: 10 of 15
 Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
@@ -109,6 +109,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P06 | 8min | 3 tasks | 2 files |
 | Phase 05 P07 | 15min | 3 tasks | 11 files |
 | Phase 05 P08 | 10min | 3 tasks | 6 files |
+| Phase 05 P09 | 1h 54m | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -224,6 +225,8 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-07: 사업자 정보 쪽 문서 커밋 셋(f39c726f6461 원본 맵·이름 표·연구, a37b1245702b 두 CLAUDE.md, 6856f78d7f97 README·STATE). 생성기 임시 사본 시험에서 stack·conventions·architecture만 바뀌어 출력 지정·자동 옵션 없이 재생성. 열두 개 문서 옛 문장·로컬 경로·사업자 값 0줄(DOCS1_STALE=OK). 푸시 안 함(05-12가 함께 실음)
 - [Phase 05]: 05-07: 연구 문서 Pattern 2 본문 문장 규칙의 blank 비교도 .size > 0으로 고침(계획은 Pattern 1만 적었고 verify가 문서 전체 0건을 요구). CONVENTIONS 「사실값 슬롯 (_data/company.yml)」 절이 뒤 단계 _data 참조 규칙의 원본
 - [Phase 05]: 05-08: 보류 묶음 H1·H2·H3는 로컬 브랜치 p5-support-hold에만 두고(푸시·upstream 없음), 게이트(05-11)에서 32afecdddd20..p5-support-hold를 cherry-pick한다
+- [Phase 05]: 05-09: 작업 7 「확인됨」 보고로 SITE03=OK를 05-09에서 세움. 05-14는 SITE03=OK 갈래로 감
+- [Phase 05]: 05-09: SC_DATE는 사용자 보고 그대로 2026-11-18. D-01 아침 관찰(TXT 0줄)보다 하루 앞선다는 메모만 남기고 까닭은 추측하지 않음
 
 ### Pending Todos
 
@@ -262,6 +265,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T05:25:51.028Z
-Stopped at: Completed 05-08-PLAN.md
+Last session: 2026-11-19T07:21:46.412Z
+Stopped at: Completed 05-09-PLAN.md
 Resume file: None
