@@ -1159,3 +1159,130 @@ PASS foot
 
 ADDR_FIRST=4ea25de8d80e
 GATE_CAND=OK
+
+## 05-12 게이트 푸시 후보
+
+Task 1 (tracer). 메인 체크아웃 `main`에서 작업 트리·인덱스가 깨끗하고 `gh auth status`가 0인 것을 확인한 뒤 후보를 점검했습니다. 스크래치 재확인 결과 `$W/lib.sh` 함수 열 개, Playwright 1.59.1, 두 점검 스크립트, `$W/base/TREE`(= `BASE_SHA` 트리), `$W/g/TREE`(= `G_SHA` 트리), `$W/m4/TREE`(= `PUSH1_SHA` 트리)가 그대로라 다시 만든 것이 없습니다. 후보는 지금 HEAD(05-11 기록과 Wave 12 시작 STATE 커밋까지)이고, 아무것도 푸시하지 않았습니다.
+
+1. `git fetch` 뒤 원격 main이 `PUSH1_SHA` 그대로이고 후보의 조상입니다. 범위는 커밋 29개입니다.
+2. 범위: (a) `.planning/` 밖에서 바뀐 파일은 여덟 개이고, 그 가운데 `.claude/CLAUDE.md`·`CLAUDE.md`·`README.md`는 사이트에 출력되지 않는 문서(05-07)입니다. (b) 문서를 뺀 사이트 커밋은 H1′ `ebb6b1abc1ba`, H2′ `00db937e5195`, H3′ `070015974299`, G0 `3ee770068923`, G `4ea25de8d80e` 다섯입니다. (c) 후보의 사이트 파일(문서 제외)이 G와 같습니다. (d) 지원 주소는 이름 표에서 변수로만 읽었고 찍지 않았습니다. 원격 main(`PUSH1_SHA`) 사이트 이력에 주소가 없고, 범위에서 주소를 처음 더한 사이트 커밋이 G입니다. (e) 값 누출: 범위의 `.planning` diff와 커밋 메시지에서 0건, `.planning/` 전체 `git grep` 종료 코드 1(0건), `BASE_SHA..HEAD` 커밋 메시지 0건. 범위 커밋 메시지에 지원 주소도 0건입니다. (f) G0의 `updated`가 게이트 날(2026-11-19)이고 오늘과 같아 날짜 NOTE 줄은 없습니다.
+3. 실제 푸시 경로: 훅을 돌릴 때 작업 트리의 `scripts/check-site.sh`·`.githooks/pre-push`가 후보와 같았고, 표준 입력만 준 `.githooks/pre-push`가 후보를 통과시켰습니다.
+
+PUSH2_CANDIDATE=2bd47891b837
+PUSH2_PREV=57e56b07f2ab
+
+```
+OK origin unchanged = push1
+OK site files 8
+OK site commits 5
+OK cand site = g
+OK addr origin=0 first-in-range=G
+vals filled=4 emitted=3 excluded=1
+leak range .planning=0 messages=0
+OK hook files = push2-cand
+OK hook push2-cand pass
+check-site: 통과 (커밋 2bd47891b837, jekyll 3.10.0)
+OK site-clean 05-12-t1 2bd47891b837
+```
+
+범위의 사이트 커밋(문서 제외, 새 것부터):
+
+```
+4ea25de8d80e feat: 지원 이메일 공개 (이메일 게이트 통과)
+3ee770068923 feat: 고객 지원 페이지에 최종 업데이트 날짜 표시 (게이트 날)
+070015974299 feat: 헤더와 푸터에 고객 지원 링크 추가
+00db937e5195 build: 점검 3번 기대 제목에 /support/ 추가
+ebb6b1abc1ba feat: 고객 지원 페이지 /support/ 추가 (연락처는 이메일 값이 있을 때만 그림)
+```
+
+## 05-12 게이트 푸시 라이브 확인
+
+사용자가 Task 2에서 `push`로 답했습니다(승인 SHA `2bd47891b837` = `PUSH2_CANDIDATE`, 이 푸시 한 번에만 씀). 푸시 전에 `$W/g/TREE`가 `G_SHA` 트리와 같았고 `p5-support.mjs`·`p5-foot.mjs`가 그대로라 다시 만든 것은 없습니다. 원격 main을 새로 받아 본 값이 `PUSH2_PREV`와 같았고, 훅이 부르는 작업 트리 `scripts/check-site.sh`·`.githooks/pre-push`가 후보와 같았습니다. `git push origin "${FULL}:refs/heads/main"`(전체 해시) 한 번으로 내보냈고 훅이 통과했습니다. `--no-verify`·force push는 쓰지 않았습니다.
+
+PUSH2_SHA=2bd47891b837
+
+```
+OK origin unchanged = push2-prev
+OK hook files = push2-cand
+check-site: 통과 (커밋 2bd47891b837, jekyll 3.10.0)
+   57e56b0..2bd4789  2bd47891b837115b83d73c4ab45797057f4cdc93 -> main
+```
+
+배포 완료(`pages_wait`, Pages 빌드 기록 `builds/latest`가 이 커밋·built·오류 없음):
+
+```
+OK 빌드 2bd47891b837 built 2026-11-19T09:58:19Z
+```
+
+라이브 다섯 문서(`live live2 <PUSH2_SHA> "$W/g/site"`, `?cb=<PUSH2_SHA>`)가 200·기대 제목이고 로컬 G 빌드와 바이트가 같습니다. 이메일 행 수는 `$W/live2/` 다섯 문서의 `footblock`에서 `<span>이메일 <a href="mailto:`를 세었습니다(주소는 찍지 않음).
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다 bytes=same
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 bytes=same
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 bytes=same
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 bytes=same
+OK HTTP /support/ 200 title=고객 지원 - 러닝펜슬 bytes=same
+OK live footer email=1 docs=5
+```
+
+두 엔진 화면: `node "$W/pw/p5-support.mjs" https://runningpencil.com '?cb=2bd47891b837'`(종료 코드 0). 375에서 `hdr=0`은 헤더 nav가 860px 이하에서 숨는 설계대로이고 05-11 로컬 판정과 같습니다.
+
+```
+OK chromium 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK chromium 375 / supportlinks=2
+OK chromium 375 /privacy-policy/ supportlinks=2
+OK chromium 375 /terms/ supportlinks=2
+OK chromium 375 /data-deletion/ supportlinks=2
+OK chromium 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK chromium 1280 / supportlinks=2
+OK chromium 1280 /privacy-policy/ supportlinks=2
+OK chromium 1280 /terms/ supportlinks=2
+OK chromium 1280 /data-deletion/ supportlinks=2
+OK webkit 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK webkit 375 / supportlinks=2
+OK webkit 375 /privacy-policy/ supportlinks=2
+OK webkit 375 /terms/ supportlinks=2
+OK webkit 375 /data-deletion/ supportlinks=2
+OK webkit 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK webkit 1280 / supportlinks=2
+OK webkit 1280 /privacy-policy/ supportlinks=2
+OK webkit 1280 /terms/ supportlinks=2
+OK webkit 1280 /data-deletion/ supportlinks=2
+PASS support
+```
+
+`node "$W/pw/p5-foot.mjs" https://runningpencil.com '?cb=2bd47891b837'`(종료 코드 0):
+
+```
+OK chromium 375 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+PASS foot
+```
+
+원격 이력: `git fetch` 뒤 원격 main 사이트 이력(`.planning/` 제외)에서 지원 주소를 처음 더한 커밋이 G `4ea25de8d80e`입니다(주소는 이름 표에서 변수로만 읽었고 찍지 않음).
+
+```
+OK live addr first=G
+```
+
+이미 공개된 지원 주소는 되돌려도 검색 캐시와 아카이브에 남습니다(D-04 costly). 되돌리기는 필요 없었습니다.
+
+LIVE_PUSH2=OK
