@@ -1053,3 +1053,109 @@ GATE_HEAD=e378e6854388
 RECEIVE_TEST=4/4
 GATE_DATE=2026-11-19
 GATE_OPEN=OK
+
+## 05-11 게이트 커밋
+
+Task 1 (tracer). 메인 체크아웃 `main`에서 게이트 기록 커밋(`GATE_OPEN=OK`)이 HEAD의 조상이고 `GATE_PREFLIGHT=OK`가 있으며 작업 트리·인덱스가 깨끗하고 원격 main이 `PUSH1_SHA`인 것을 확인한 뒤, cherry-pick부터 G까지 멈추지 않고 이어서 했습니다. 스크래치 재확인 결과 `$W/lib.sh` 함수 열 개, Playwright 1.59.1, 두 점검 스크립트, `$W/base/TREE`(= `BASE_SHA` 트리), `$W/h3/TREE`(= `H3_SHA` 트리)가 그대로라 다시 만든 것이 없습니다.
+
+1. `git cherry-pick <HOLD_BASE>..p5-support-hold`가 충돌 없이 H1′ `ebb6b1abc1ba`, H2′ `00db937e5195`, H3′ `070015974299`를 `main` 끝에 더했습니다. `git cherry main p5-support-hold` 세 줄이 모두 `-`입니다.
+2. `build pick HEAD`(H3′)의 출력이 `$W/h3/site`와 `diff -r` 빈 출력입니다(보류 브랜치에서 한 판정이 그대로 유효).
+3. G0은 `support/index.html` front matter의 `heading:` 다음에 `updated:` 한 줄(게이트 날 `2026년 11월 19일`)만 더한 커밋입니다. 후보로 먼저 점검한 뒤 같은 인덱스를 커밋했고(트리가 후보와 같음), 그 커밋의 스크립트로 점검하면 종료 코드 1, `실패 — 1건`, 문제는 7번 연락처 문구 하나입니다.
+4. G는 `_data/company.yml`의 `support_email` 한 줄만 바꾼 커밋입니다(`--numstat` `1 1`). 값은 이름 표에서 변수로만 읽어 `sed` 치환에 썼고 화면·기록·커밋 메시지에 적지 않았습니다.
+5. 후보를 `scripts/check-site.sh`로 점검해 일곱 항목이 통과한 뒤 같은 인덱스를 커밋했습니다(트리가 후보와 같음). G를 그 커밋의 스크립트로 다시 점검해도 통과입니다.
+6. `git fetch` 뒤 원격 main은 `PUSH1_SHA` 그대로입니다(이 계획은 푸시하지 않음).
+
+```
+OK cherry all-applied 3
+OK pick same-as-h3
+check-site: 지원 페이지에 연락처(mailto)가 없습니다: 이메일 게이트 전의 /support/는 배포하지 않습니다 (D-04)
+check-site: 실패 — 1건 (커밋 3ee770068923)
+OK g0 only7
+check-site: 통과 (커밋 4ea25de8d80e, jekyll 3.10.0)
+OK origin unchanged = push1
+OK site-clean 05-11-t1 4ea25de8d80e
+```
+
+PICK_SAME=OK
+G0_SHA=3ee770068923
+G_SHA=4ea25de8d80e
+
+## 05-11 게이트 판정
+
+Task 2. 메인 체크아웃 `main`에서 G를 `build g <G_SHA>`로 빌드해(`$W/g/TREE` = G 트리) 출력 수·두 엔진 화면·지원 주소 이력·게이트 기록 순서를 판정했습니다. 지원 주소는 이름 표에서 변수로만 읽었고, 아래 출력과 이 기록에 주소가 없습니다(도구 출력은 스크래치 파일에 받아 주소 0건을 확인한 뒤 붙임).
+
+1. 다섯 문서(`index.html`, 법적 3종, `support/index.html`)의 `footblock`마다 이메일 행(`mailto:`)이 하나씩입니다. 출력 전체에 「전화」가 없습니다(BIZ-03).
+2. 지원 페이지는 `section id`가 contact → report → faq, `<dl>` 넷, `#contact` 안 `mailto:` 하나, `최종 업데이트: ` 한 줄(게이트 날), `name="robots"` 없음이고, 「영업일 기준 3일 안에 답장합니다」 문장이 있습니다.
+3. 다섯 문서 모두 `/support/` 링크가 헤더·푸터 두 곳입니다. 주소가 든 출력 파일은 다섯 문서 다섯 개입니다.
+4. 화면(`serve g 4511`): `p5-support.mjs`와 `p5-foot.mjs` 모두 종료 코드 0입니다. 1280px은 헤더·푸터 지원 링크가 모두 보이고, 375px은 헤더 메뉴가 숨어 푸터 링크만 보입니다. 푸터 링크 색·밑줄과 줄 나뉨도 통과입니다.
+5. 이력: `git fetch` 뒤 원격 main이 아직 `PUSH1_SHA`입니다. `PUSH1_SHA`의 사이트 파일 이력(`.planning/` 제외)에 주소가 없고, 로컬 이력에서 주소를 처음 더한 사이트 커밋이 G입니다. 게이트 기록 커밋(`GATE_OPEN=OK`를 처음 더한 커밋)이 G의 조상입니다.
+6. 값 누출 점검: `vals filled=4 emitted=3 excluded=1`, (a) `.planning` 0건(종료 코드 1), (b) `BASE_SHA..HEAD` 커밋 메시지 0건, (c) 작업 트리 `.planning` diff 0건. 이 기록에 지원 주소·로컬 경로 0건.
+
+```
+OK g footer email=1 docs=5
+OK g phone=0
+OK g support ids=contact,report,faq dl=4 mailto-contact=1 updated=1 robots=0
+OK g support reply-3days
+OK g supportlinks index=2 privacy-policy=2 terms=2 data-deletion=2 support=2
+OK g addr files=5
+OK addr origin=0
+OK addr first=G
+OK g after gate-record
+vals filled=4 emitted=3 excluded=1
+leak a=0 b=0 c=0
+```
+
+지원 페이지·링크 두 엔진 화면(`node "$W/pw/p5-support.mjs" http://127.0.0.1:4511`, 종료 코드 0):
+
+```
+OK chromium 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK chromium 375 / supportlinks=2
+OK chromium 375 /privacy-policy/ supportlinks=2
+OK chromium 375 /terms/ supportlinks=2
+OK chromium 375 /data-deletion/ supportlinks=2
+OK chromium 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK chromium 1280 / supportlinks=2
+OK chromium 1280 /privacy-policy/ supportlinks=2
+OK chromium 1280 /terms/ supportlinks=2
+OK chromium 1280 /data-deletion/ supportlinks=2
+OK webkit 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK webkit 375 / supportlinks=2
+OK webkit 375 /privacy-policy/ supportlinks=2
+OK webkit 375 /terms/ supportlinks=2
+OK webkit 375 /data-deletion/ supportlinks=2
+OK webkit 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK webkit 1280 / supportlinks=2
+OK webkit 1280 /privacy-policy/ supportlinks=2
+OK webkit 1280 /terms/ supportlinks=2
+OK webkit 1280 /data-deletion/ supportlinks=2
+PASS support
+```
+
+푸터 두 엔진 화면(`node "$W/pw/p5-foot.mjs" http://127.0.0.1:4511`, 종료 코드 0):
+
+```
+OK chromium 375 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 375 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK chromium 1280 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 375 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 / rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /terms/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /data-deletion/ rows=6 spans=4 seps=2 links=1 sepLead=0
+OK webkit 1280 /support/ rows=6 spans=4 seps=2 links=1 sepLead=0
+PASS foot
+```
+
+ADDR_FIRST=4ea25de8d80e
+GATE_CAND=OK
