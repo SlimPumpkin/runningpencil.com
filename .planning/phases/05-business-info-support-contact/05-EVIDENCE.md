@@ -1030,3 +1030,26 @@ OK site-clean 05-10-t1 6c88ed81b8ca
 ```
 
 GATE_PREFLIGHT=OK
+
+## 05-10 이메일 게이트
+
+Task 3. 사용자가 작업 4 「수신 시험 기록 양식」 표를 대화로 넘겼고, Claude가 네 행(Gmail·네이버·iCloud·Outlook)에 모두 도착 시각이 있고 스팸함 여부가 「X」(받은편지함 도착)인지 확인했습니다. 표의 보낸 사람 주소·메일 본문·시각은 이 기록에 옮기지 않습니다(USER-TASKS 작업 4).
+
+4/4 도착 (Gmail·네이버·iCloud·Outlook, 모두 받은편지함). 근거: 사용자가 넘긴 작업 4 기록 표. 보낸 사람 주소·시각은 적지 않음
+
+1차 시험 2/4 (iCloud·Outlook 스팸함, 두 메일 모두 SPF·DKIM·DMARC PASS) → 운영자 Gmail에 지원 주소 수신 메일 스팸 방지 필터 추가 뒤 재시험 4/4
+
+- 1차 시험에서 iCloud·Outlook에서 보낸 두 통이 받은편지함이 아니라 스팸함에 들어갔습니다. 사용자가 Gmail 「원본 보기」로 두 통의 인증 결과를 확인했고 SPF·DKIM·DMARC가 모두 PASS였습니다(보낸 서비스 쪽 도메인의 인증입니다. 05-09의 `dkim=0`은 우리 도메인의 DKIM이라 다른 항목입니다). 라우팅과 인증은 정상이었고, Gmail 받는 쪽의 스팸 분류였습니다.
+- 사용자가 운영자 Gmail 계정에 필터(조건: 받는 사람이 지원 주소, 동작: 「스팸함으로 보내지 않음」)를 만든 뒤 네 서비스에서 다시 보냈고, 그 재시험 표가 위의 4/4입니다. 이 필터는 저장소 밖 운영 설정이고 사이트 파일은 바뀌지 않았습니다. 필터 때문에 지원 주소로 오는 실제 스팸도 받은편지함에 들어옵니다.
+- 게이트 시점 확인: `git fetch -q origin main` 뒤 `origin/main`이 `PUSH1_SHA` 그대로입니다. 지원 주소는 NAMES.md에서 변수로만 읽었고(화면에 찍지 않음), `PUSH1_SHA`의 사이트 파일 이력(`.planning/` 제외)에서 `git log -S` 0건입니다. `GATE_HEAD`는 이 기록을 쓰기 직전의 HEAD이고 그 사이트 파일에도 주소가 없습니다(`git grep` 종료 코드 1). 이 구간을 담는 문서 커밋(게이트 기록 커밋)의 사이트 파일은 `GATE_HEAD`와 같습니다.
+
+```
+OK origin at gate = push1
+OK addr push1=0
+OK site-clean 05-10-t3 e378e6854388
+```
+
+GATE_HEAD=e378e6854388
+RECEIVE_TEST=4/4
+GATE_DATE=2026-11-19
+GATE_OPEN=OK
