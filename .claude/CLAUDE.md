@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | 영문 서비스명 RunningPencil | Phase 9 영문판(`/en/`), 콘솔·스토어의 영어 표시명 | 결정됨. 현재 사이트 본문에는 한국어 이름만 있습니다 | 영문판과 콘솔·스토어에서 같은 이름을 써야 합니다. 이전 방침을 뒤집음 | `.planning/baseline/NAMES.md`, `.planning/PROJECT.md` Key Decisions |
 | 지원 이메일 공개 | Phase 5 이메일 게이트(외부 4곳 수신 시험 통과) 뒤. 푸터, `/support/`, 법적 문서 | 결정됨. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 사이트(HTML·`_data`)에는 아직 없고 `.planning/` 문서에만 있습니다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있습니다 | Google Play 웹 삭제 요청, App Store Support URL, 처리방침의 보호책임자 연락처에 연락 수단이 필요합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/USER-TASKS.md` |
-| 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | 결정됨. 값은 사용자가 주기 전이라 어디에도 없습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present) | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
+| 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | Phase 5에서 적용됨. 모든 페이지 푸터에 있고 값은 `_data/company.yml` 한 곳에만 있습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present). 영문 표기는 Phase 9 | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
 | 한국어 + 영어 제공 | Phase 9 (`/en/` 아래 영문판) | 결정됨. 현재 페이지는 모두 한국어(`lang="ko"`)입니다 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/URLS.md` |
 | Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 3까지 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`)로 그립니다. 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
 | 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
@@ -61,7 +61,7 @@
 - JavaScript (vanilla, 라이브러리 없음) - `index.html`의 `<head>` 짧은 스크립트(`rp-pin` 부여)와 `</body>` 앞 인라인 스크립트(스크롤 단계, 달려 보기 데모, `rp-ready`)
 - SVG (인라인) - 로고·아이콘·지도 그림, `index.html` `<body>` 맨 위 숨은 `<svg><defs>` + `<use href="#…">`; `favicon/favicon.svg`
 - WebP (래스터) - 랜딩 「실제 앱 화면」 캡처 `images/app/screen-{draw,run,badge}-{564,846}.webp` (sRGB, 메타데이터 없음, 564w·846w)
-- YAML - `_config.yml` (Jekyll 설정)과 페이지 front matter (랜딩 `layout: none`, 법적 3종 `layout: legal` + 제목·설명 등)
+- YAML - `_config.yml` (Jekyll 설정), `_data/company.yml` (사실값 슬롯)과 페이지 front matter (랜딩 `layout: none`, 법적 3종 `layout: legal` + 제목·설명 등)
 - JSON - `favicon/site.webmanifest`
 
 ## Runtime
@@ -91,8 +91,9 @@
 - 환경변수·`.env` 없음 (서버 처리 없음)
 - 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 법적 페이지는 `<meta name="robots" content="noindex">`
 - `_config.yml` - `url: "https://runningpencil.com"`과 열 항목 `exclude`(`CNAME`, `CLAUDE.md`, `README.md`, `.planning/`, `Gemfile`, `Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 사용자 `exclude`는 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 새 마크다운 문서나 루트 파일·폴더는 여기에 모두 적는다
+- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트 뒤에 채운다
 - `Gemfile` / `Gemfile.lock` - 로컬 빌드용 gem 고정 (위 「로컬 빌드 전용 gem」)
-- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음)
+- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음)
 - `.githooks/pre-push` - `main` 푸시마다 `scripts/check-site.sh`를 부른다. 켜기: `git config core.hooksPath .githooks` (클론마다 한 번)
 - `CNAME` - `runningpencil.com`
 - `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시), `.planning/state.json`·`.planning/ui-reviews/`(GSD 상태 요약·UI 감사 캡처), Jekyll 로컬 빌드 산출물과 gem 위치 `_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`
@@ -117,11 +118,14 @@
 - 페이지마다 디렉터리 하나에 `index.html` 하나를 둔다 (pretty URL): `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`. 디렉터리 이름은 kebab-case 영어로 쓴다.
 - 에셋은 `favicon/` 아래에 kebab-case와 크기 접미사로 둔다: `favicon-96x96.png`, `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`.
 - include는 `_includes/` 아래 kebab-case `.html`로 두고 (`head-links.html`, `header.html`, `footer.html`), CSS 조각은 `_includes/css/*.css`로 둔다 (`_includes/css/common.css`, `_includes/css/legal.css`). 레이아웃은 `_layouts/legal.html` 하나다. 레이아웃 이름에 `default`·`page`·`home`·`post`를 쓰지 않는다 (운영 테마의 레이아웃과 충돌한다).
+- 사실값 슬롯은 `_data/company.yml` 한 파일이다 (사업자 정보·연락처 값). `_`로 시작하는 폴더라 사이트에 출력되지 않으므로 `_config.yml`의 `exclude`에 적지 않는다.
+
 ### CSS classes
 
 - 직접 만든 클래스에는 모두 `rp-` 접두사를 붙이고 kebab-case로 쓴다: `.rp-wrap`, `.rp-head-in`, `.rp-brand-tile`, `.rp-foot-legal`, `.rp-scrolly`, `.rp-phone`, `.rp-grid`.
 - 랜딩 「실제 앱 화면」 구간(`#screens`)의 클래스는 `.rp-shots-sec`(구간)·`.rp-shots`(띠)·`.rp-shot`(한 장)·`.rp-shot-frame`(흑연 폰 테두리)·`.rp-shot-cap`(캡션)·`.rp-shots-credit`(지도 출처)이다. 스크립트가 쓰지 않는 이름이다. 이 구간의 폰 테두리는 `.rp-phone`을 다시 쓰지 않는다 (`.rp-phone`은 좁은 화면과 낮은 창 높이의 `zoom` 규칙에 묶여 있다).
 - 부모-자식 관계는 접미사로 나타낸다 (BEM과 비슷하지만 `__`/`--`는 쓰지 않는다): `.rp-foot` → `.rp-foot-in` → `.rp-foot-top` / `.rp-foot-brand` / `.rp-foot-nav`.
+- 푸터 사업자 줄의 항목은 `.rp-foot-legal` 안 `<span>` 하나씩이다. `.rp-foot-legal span`(`display: inline-block`)이 좁은 화면에서 항목 단위로 줄을 바꾸고, `.rp-foot-legal a`(글자색 `#FAFAF7`, 밑줄)가 푸터 안 링크 모양이다. 둘 다 「공통」(`_includes/css/common.css`)에 있다.
 - 상태 클래스는 `is-` 접두사를 쓰고 JS에서만 바꾼다: `is-on` (보임/켜짐), `is-s0`·`is-s1`·`is-s2` (세 가지 이유의 단계).
 - 문서 전체 모드 클래스는 `<html>`에 `rp-` 접두사로 붙인다: `rp-pin` (스크롤 고정 모드, `<head>` 스크립트가 첫 그리기 전에 붙임), `rp-ready` (`load` 뒤 부드러운 스크롤 켜기).
 
@@ -147,7 +151,7 @@
 - JS 문자열은 작은따옴표, HTML 속성은 큰따옴표로 쓴다.
 
 ### Linting
-- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 여섯이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10). `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 일곱이다: 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트). `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 ## CSS / Styling Patterns
 
 ### `<style>` 블록 구획 (주석 머리 `/* ── 이름 ── */`)
@@ -264,10 +268,21 @@
 - 현재 페이지는 모두 `<html lang="ko">`이고 본문은 한국어다 (2026-11 기준). Phase 9에서 `/en/` 아래에 영문판(`lang="en"`)이 생기고, 그 뒤로는 한국어와 영어를 함께 제공한다.
 - 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
+- 모든 페이지 푸터에 사업자 정보 줄(상호·대표자·사업자등록번호)과 주소 줄이 있고 값은 `_data/company.yml`에 있다 (Phase 5). 운영 안내·저작권 문장은 그대로다.
 - 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 이메일 게이트(Phase 5) 뒤 공개하는 지원 이메일 하나로 한다. 현재는 문의 채널이 없다 (2026-11 기준).
 - 현재 사이트에는 지원 이메일이 없다 (2026-11 기준). 이메일 게이트(Phase 5: 외부 4곳 수신 시험 통과)가 열리면 지원 이메일을 푸터, 지원 페이지, 법적 문서에 넣는다. 그전에는 주소를 HTML·`_data`에 넣지 않는다. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)이고, 사이트(HTML·`_data`)에는 없고 `.planning/` 문서에만 있다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있다. HTML·`_data`에 넣지 않는 규칙은 사이트 노출만 막는다.
 - 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
 - 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다. 마크다운 문서뿐 아니라 사이트에 올리지 않을 새 루트 파일·폴더도 `exclude`에 적는다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰기 때문이다.
+
+### 사실값 슬롯 (_data/company.yml)
+
+- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 이후 지원 페이지·법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
+- 판정은 `site.data.company.<키>.size > 0`만 쓴다. blank·empty 비교는 로컬 Jekyll 3.10.0(Liquid 4.0.4)에서 값이 없어도 늘 참이라 쓰지 않는다. 값이 없는 키는 행·항목째 그리지 않는다 (render-if-present). 「추후 기재」 같은 자리표시는 쓰지 않는다.
+- 여러 값을 함께 볼 때는 `or`로만 잇는다. 한 조건에 `and`와 섞지 않는다 (Liquid는 괄호 없이 오른쪽부터 묶는다).
+- 출력은 모두 `| escape`를 붙인다. 값 바로 뒤에 조사를 붙이지 않는다 (값에 따라 조사가 달라진다).
+- 값은 모두 큰따옴표로 감싸고, 값이 없으면 `""`로 둔다. 공백만 넣지 않는다 (공백도 `.size > 0`이 참이다).
+- 사업자 값은 `.planning/` 문서와 커밋 메시지에 적지 않는다 (저장소 공개, Phase 5 D-02). 문서에서는 키 이름으로만 가리킨다.
+
 ## Commit Messages
 - Conventional Commits, prefix는 영어, 제목은 한국어 (`git log`). 예는 아래 두 줄이다.
 - 예: `feat: 티저 랜딩 새 디자인 적용, 법적 페이지·파비콘 개편`
@@ -283,7 +298,7 @@
 - 호스팅: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 `_layouts`·`_includes`로 페이지를 조립해 정적 파일로 서빙한다. `_config.yml`은 `url`과 `exclude`를 둔다. 커스텀 도메인은 `CNAME` → runningpencil.com.
 - 페이지 4개: 티저 랜딩 `index.html` (vanilla CSS + inline JS), 개인정보처리방침 `privacy-policy/index.html`, 이용약관 `terms/index.html`, 데이터 삭제 안내 `data-deletion/index.html`. 법적 페이지 3종은 정적 CSS(`_includes/css/legal.css`) + 「공통」 `.rp-*` CSS.
 - include로 공유: 네 페이지가 `_includes/head-links.html`(글꼴·파비콘 링크), `_includes/css/common.css`(「공통」 CSS), `_includes/header.html`(랜딩은 `home=true`), `_includes/footer.html`을 부른다. 법적 3종은 `_layouts/legal.html` + front matter로 그려지고, 랜딩은 `layout: none`에 include 네 줄을 쓴다.
-- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
+- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름·지원 페이지 연락처)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
 - 외부 CDN: Pretendard (jsDelivr)만. 모든 페이지의 CSS는 Tailwind 없이 직접 쓴 CSS를 `<style>`에 인라인한다 (Tailwind Play CDN은 Phase 3에서 제거).
 - 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`), `images/app/` (랜딩 「실제 앱 화면」 구간의 앱 화면 캡처 WebP).
 - 위치 표기: `index.html` 안의 위치는 줄 번호 대신 고정점(그 파일에 한 번만 나오는 문자열: include 태그, 구획 머리 주석, 함수 이름 등)으로 적는다. 줄이 밀려도 `grep -n -F '고정점' index.html`로 찾는다. 다른 파일(`_layouts/legal.html`, `_includes/…`)의 줄 번호는 그대로 둔다.
@@ -297,7 +312,7 @@
 | head 링크 | Pretendard 글꼴 `<link>`, 파비콘·매니페스트 링크 (네 페이지 공통) | `_includes/head-links.html` (`index.html`의 `{% include head-links.html %}`, `_layouts/legal.html:14`에서 include) |
 | 「공통」 CSS 묶음 | 바탕·글꼴·`.rp-wrap`·헤더(`.rp-head`,`.rp-brand`,`.rp-nav`)·푸터(`.rp-foot-*`) | `_includes/css/common.css` (`index.html`의 `{% include css/common.css %}`, `_layouts/legal.html:16`의 `<style>` 안에서 include) |
 | 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`) | `_includes/header.html` (`index.html`의 `{% include header.html home=true %}`, `_layouts/legal.html:23`) |
-| 푸터 | 약관 링크 3개, 운영 안내, 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html`의 `{% include footer.html %}`, `_layouts/legal.html:40`) |
+| 푸터 | 약관 링크 3개, 운영 안내, 사업자 정보 줄(상호·대표자·사업자등록번호)·주소 줄(`_data/company.yml`), 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html`의 `{% include footer.html %}`, `_layouts/legal.html:40`) |
 | 법적 레이아웃 | 법적 3종의 `<head>`·카드 머리(eyebrow·제목)·본문 틀(`.rp-doc`). `<style>`에 「공통」과 법적 페이지 CSS를 include. `noindex`·`updated`는 값이 있을 때만 출력, 제목은 `heading`이 없으면 `title` | `_layouts/legal.html` (`:18`에서 `_includes/css/legal.css` include) |
 | 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 앱 화면 띠, 반응형 | `index.html` `<style>`의 `/* ── 랜딩 전용 ── */`부터 `</style>`까지 |
 | 실제 앱 화면 구간 | 제목·「출시 준비 중」 딱지·캡처 세 장(흑연 폰 테두리 `.rp-shot-frame`)·캡션·지도 출처(「지도 © NAVER Corp.」), 좁은 화면 가로 밀기(`scroll-snap`, 스크립트 없음) | `index.html` `#screens`, `images/app/*.webp` |
@@ -307,7 +322,8 @@
 | 법적 페이지 CSS | Preflight 대체(`html`)·레이아웃(`body`·`main`)·`.rp-legal-*` 카드 껍데기·`.rp-doc` 본문 규칙(클래스 없는 요소)·표 감싸개 스크롤 그림자, 768px(`min-width`) 카드 안쪽 여백 | `_includes/css/legal.css` (「법적 페이지 전용」) |
 | 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `_includes/css/legal.css:9` |
 | Jekyll 설정 | 사이트 정식 주소 `url`, 저장소 문서·빌드 파일이 사이트에 공개되지 않게 하는 열 항목 `exclude` | `_config.yml` |
-| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음 | `scripts/check-site.sh` + `.githooks/pre-push` |
+| 사실값 슬롯 | 사업자 정보·연락처 값 한 곳. 값이 없는 키는 그리지 않음 (`.size > 0`) | `_data/company.yml` |
+| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음 | `scripts/check-site.sh` + `.githooks/pre-push` |
 ## Pattern Overview
 - **Overall:** 빌드 시점 조립(Jekyll include·레이아웃) 정적 멀티 페이지 사이트. 런타임 서버 없음. 페이지별 스크립트·스타일은 여전히 그 HTML 안에 인라인이다
 ### Key Characteristics

@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |---|---|---|---|---|
 | 영문 서비스명 RunningPencil | Phase 9 영문판(`/en/`), 콘솔·스토어의 영어 표시명 | 결정됨. 현재 사이트 본문에는 한국어 이름만 있습니다 | 영문판과 콘솔·스토어에서 같은 이름을 써야 합니다. 이전 방침을 뒤집음 | `.planning/baseline/NAMES.md`, `.planning/PROJECT.md` Key Decisions |
 | 지원 이메일 공개 | Phase 5 이메일 게이트(외부 4곳 수신 시험 통과) 뒤. 푸터, `/support/`, 법적 문서 | 결정됨. 주소의 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 사이트(HTML·`_data`)에는 아직 없고 `.planning/` 문서에만 있습니다. 저장소가 공개라 `.planning/` 문서의 주소는 GitHub에서 누구나 볼 수 있습니다 | Google Play 웹 삭제 요청, App Store Support URL, 처리방침의 보호책임자 연락처에 연락 수단이 필요합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/USER-TASKS.md` |
-| 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | 결정됨. 값은 사용자가 주기 전이라 어디에도 없습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present) | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
+| 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | Phase 5에서 적용됨. 모든 페이지 푸터에 있고 값은 `_data/company.yml` 한 곳에만 있습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present). 영문 표기는 Phase 9 | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
 | 한국어 + 영어 제공 | Phase 9 (`/en/` 아래 영문판) | 결정됨. 현재 페이지는 모두 한국어(`lang="ko"`)입니다 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/URLS.md` |
 | Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 3까지 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`)로 그립니다. 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
 | 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
@@ -39,6 +39,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 빌드는 GitHub Pages 내장 Jekyll(운영 3.10.0)이 배포할 때 `_layouts`·`_includes`로 페이지를 조립하는 것입니다. 로컬도 `Gemfile`로 Jekyll 3.10.0을 고정합니다 (Homebrew Ruby 4.x, gem은 저장소 안 `vendor/bundle`). `package.json`·번들러·린터·테스트는 없고, 푸시 전 점검은 `scripts/check-site.sh`입니다.
 - front matter가 없는 파일은 Jekyll이 그대로 복사하고, front matter가 있는 파일(지금 네 페이지 모두)은 Liquid를 거쳐 나갑니다.
 - `_config.yml`은 Jekyll 설정입니다. 사이트 정식 주소 `url`과 사이트에 올리지 않을 파일 목록 `exclude`를 둡니다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 파일은 모두 적어야 합니다 (마크다운 문서, `Gemfile`·`Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 점(`.`)이나 밑줄(`_`)로 시작하는 항목은 원래 출력되지 않습니다. 마크다운 문서나 새 루트 파일·폴더를 추가하면 `exclude`도 확인합니다.
+- `_data/company.yml`은 사실값 슬롯입니다 (상호·대표자·사업자등록번호·주소·지원 이메일·전화). 사업자 정보·연락처는 이 파일 한 곳에서만 고치고, 값이 없는 키는 화면에 그리지 않습니다(`site.data.company.<키>.size > 0`로 판정). 값은 `.planning/` 문서와 커밋 메시지에 적지 않습니다. 지원 이메일은 이메일 게이트(Phase 5) 뒤에 채웁니다.
 - `CNAME` 파일이 GitHub Pages의 사용자 지정 도메인(`runningpencil.com`) 매핑을 담당합니다 — 도메인 변경 시 이 파일을 수정해야 합니다.
 - 이 저장소는 GitHub 조직 `SlimPumpkin` 아래의 **프로젝트 사이트**입니다 (조직 사이트 슬롯은 `slimpumpkin.github.io`가 이미 사용). 커스텀 도메인이 연결되지 않으면 `slimpumpkin.github.io/<repo>/` 하위 경로로 서빙되므로, 모든 절대 경로(`/favicon/...`, `/terms/`)는 커스텀 도메인 연결을 전제로 합니다.
 
@@ -56,7 +57,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `_includes/head-links.html` — `<head>`의 글꼴 링크와 파비콘·매니페스트 링크
 - `_includes/css/common.css` — `<style>` 맨 위의 「공통」 묶음 (바탕색, 글꼴, `.rp-wrap`, 헤더 `.rp-head`·`.rp-brand`·`.rp-nav`, 푸터 `.rp-foot-*` 스타일)
 - `_includes/header.html` — 헤더 마크업. `home=true`를 주면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`)를, 없으면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`)를 냅니다
-- `_includes/footer.html` — 푸터 마크업
+- `_includes/footer.html` — 푸터 마크업 (약관 링크, 운영 안내, `_data/company.yml`의 사업자 줄·주소 줄, 저작권, 출처)
 
 랜딩(`index.html`)은 레이아웃 없이(`layout: none`) 이 include 네 곳을 직접 씁니다. 헤더는 `{% include header.html home=true %}`로 부릅니다.
 
@@ -111,7 +112,7 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
 - **다크 모드 없음.** 달려 보기 구간과 푸터만 의도적으로 어두운 바탕입니다.
 - **로고·아이콘·지도 그림은 모두 인라인 SVG**입니다. 예외는 「실제 앱 화면」 구간의 앱 화면 캡처 WebP(`images/app/`)뿐입니다. 랜딩에서 여러 번 쓰는 도형(코스 선, 지도, 아이콘, 히어로 캐릭터)은 `<body>` 맨 위의 숨은 `<svg><defs>`에 모아 두고 `<use href="#…">`로 씁니다. 헤더·푸터의 로고는 법적 페이지에 `<defs>`가 없으므로 `<use>` 없이 `_includes/header.html`·`_includes/footer.html` 안에 그대로 넣습니다.
 - **「실제 앱 화면」 구간**(id `screens`)은 `#demo`와 `#get` 사이에 있습니다. 제목 옆에 「출시 준비 중」 딱지가 있고, 앱 화면 캡처 세 장을 흑연 폰 테두리(`.rp-shot-frame`)에 담아 캡션과 함께 보여 줍니다. 「세 가지 이유」의 `.rp-phone`은 좁은 화면 `zoom` 규칙에 묶여 있어 이 구간에서 다시 쓰지 않습니다. 좁은 화면(860px 이하)에서는 스크립트 없이 CSS `scroll-snap`으로 미는 가로 띠가 됩니다. 구간에는 `z-index: 1`과 둥근 아래 모서리가 있고, 바로 아래 `.rp-get`이 음수 위 margin으로 그 모서리 밑으로 들어갑니다. 스크립트는 이 구간의 이름(`screens`, `rp-shots*`)을 쓰지 않습니다.
-- **푸터**에는 약관 링크 3개, 운영 안내 문장, 저작권, 경로 데이터 출처 표기가 있습니다. 「경로 데이터 © OpenStreetMap contributors」는 랜딩에 그린 강아지런 코스 선이 OpenStreetMap 기반 경로 데이터에서 나온 것이라 넣었습니다. 「실제 앱 화면」 구간의 캡처에 네이버 지도가 보이므로, 그 출처(「지도 © NAVER Corp.」)는 구간 바로 아래에 적고 법적 페이지와 함께 쓰는 공유 푸터에는 넣지 않습니다.
+- **푸터**에는 약관 링크 3개, 운영 안내 문장, 사업자 정보 줄(상호·대표자·사업자등록번호, 좁은 화면에서는 항목 단위로 줄바꿈)과 주소 줄, 저작권, 경로 데이터 출처 표기가 있습니다. 「경로 데이터 © OpenStreetMap contributors」는 랜딩에 그린 강아지런 코스 선이 OpenStreetMap 기반 경로 데이터에서 나온 것이라 넣었습니다. 「실제 앱 화면」 구간의 캡처에 네이버 지도가 보이므로, 그 출처(「지도 © NAVER Corp.」)는 구간 바로 아래에 적고 법적 페이지와 함께 쓰는 공유 푸터에는 넣지 않습니다.
 - **이메일 수집 폼 없음.** 정적 호스팅이라 서버 처리가 불가능해 의도적으로 뺐고, 앞으로도 만들지 않습니다. 현재 사이트에는 지원 이메일이 없습니다 (2026-11 기준). 이메일 게이트(Phase 5)가 열리면 지원 이메일을 푸터·지원 페이지·법적 문서에 넣습니다. 그전에는 주소를 HTML·`_data`에 넣지 않습니다.
 
 ## Assets
@@ -131,4 +132,4 @@ scripts/check-site.sh                          # 푸시 전 점검. 커밋을 �
 
 ## Deploy
 
-`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. CI가 없으므로 `main` 푸시가 곧 배포입니다. `main`으로 푸시할 때 pre-push 훅(`.githooks/pre-push`)이 `scripts/check-site.sh <푸시할 커밋>`을 돌려 빌드 성공, 빌드 결과에 내부 파일이 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid가 없음, 출력 HTML에 Tailwind Play CDN이 없음, 랜딩 출력에 포인트·굿즈·코스북이 없음을 확인합니다. 하나라도 실패하면 푸시가 멈춥니다. 훅은 `git config core.hooksPath .githooks`로 켜야 동작하고, 급하면 `git push --no-verify`로 건너뛸 수 있습니다.
+`main` 브랜치에 푸시하면 GitHub Pages가 자동 배포합니다. CI가 없으므로 `main` 푸시가 곧 배포입니다. `main`으로 푸시할 때 pre-push 훅(`.githooks/pre-push`)이 `scripts/check-site.sh <푸시할 커밋>`을 돌려 빌드 성공, 빌드 결과에 내부 파일이 없음, 기존 URL 문서 4개의 제목, 처리되지 않은 Liquid가 없음, 출력 HTML에 Tailwind Play CDN이 없음, 랜딩 출력에 포인트·굿즈·코스북이 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음을 확인합니다. 하나라도 실패하면 푸시가 멈춥니다. 훅은 `git config core.hooksPath .githooks`로 켜야 동작하고, 급하면 `git push --no-verify`로 건너뛸 수 있습니다.
