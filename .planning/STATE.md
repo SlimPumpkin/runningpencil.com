@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-11-19T01:48:09.187Z"
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-11-19T02:08:42.252Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 9527edc28b9e3fcfac4af3248cf21eea586d1412
+state_head: 4ab11666f77a40e7a3fa781543bc923e53e95456
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 42
+  completed_plans: 43
   percent: 40
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 1 of 15
-Status: Executing Phase 05
+Plan: 2 of 15
+Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
 Progress: [████░░░░░░] 40%
@@ -101,6 +101,7 @@ Progress: [████░░░░░░] 40%
 | Phase 04 P11 | 21min | 3 tasks | 9 files |
 | Phase 04 P12 | 6min | 3 tasks | 8 files |
 | Phase 04 P13 | 10min | 3 tasks | 2 files |
+| Phase 05 P01 | 18 min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -201,6 +202,8 @@ Recent decisions affecting current work:
 - [Phase 04]: 04-12: 「모두 인라인 SVG, 외부 이미지 없음」 규칙을 「그림은 인라인 SVG, 예외는 images/app/ 앱 화면 캡처 WebP」로 바꿔 원본 맵 다섯 개와 두 CLAUDE.md에 적음(D-24). 캡처 속 네이버 지도 출처는 구간 아래 「지도 © NAVER Corp.」만, 공유 푸터에는 넣지 않음. 문서 커밋 fa90e3cb8cd1·5c6451b2debf·426174db1045, 생성기 사본 시험 뒤 .claude/CLAUDE.md 재생성(stack·conventions·architecture만 바뀜), 열 개 문서 옛 문장·로컬 경로 0줄(DOCS2_STALE=OK). 푸시 안 함(04-13)
 - [Phase 04]: 04-13: 사용자가 승인한 문서 푸시 SHA 9cc14903adbd 하나만 푸시했고(9506236..9cc1490), 라이브에서 Phase 4 성공 기준 1~3을 다시 돌려 모두 OK(PHASE4_SC=OK). 승인은 이 푸시로 다 썼고 d6d6d56 이후 docs 커밋은 로컬에만 있다
 - [Phase 04]: 코드 리뷰 다섯 번(마지막 clean) 뒤 재검증 보고서의 사람 확인 8건이 04-UAT.md(8/8 pass)와 문구까지 같아, 2026-11-19 verify-work 재개에서 보고서 status만 passed로 바꾸고 단계 전환함. UAT 1~5번은 라이브 9cc1490에서 봤고, `9cc1490` 이후 리뷰 수정(코스 이름 「강아지런」, 목업·칩 `7.8 km`, 대체 글)은 자동 확인만 거쳤고 아직 푸시 전
+- [Phase 05]: Phase 5 판정 도구 Playwright 1.59.1·pngjs 7.0.0을 사용자 승인(install, 브라우저 포함) 뒤 pnpm frozen-lockfile로 스크래치 $W/pw에만 설치함. Phase 5 동안 같은 버전·같은 경로 재설치 포함
+- [Phase 05]: p5-foot.mjs split 판정은 getClientRects 상자 수가 아니라 줄 수로 셈 (Chromium의 상자 없는 inline span 오탐)
 
 ### Pending Todos
 
@@ -240,6 +243,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-18T16:12:51.087Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-business-info-support-contact/05-CONTEXT.md
+Last session: 2026-11-19T02:08:41.787Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None
