@@ -137,24 +137,25 @@ runningpencil.com/
 **When to use:** 사실값이 늦게 도착하는 모든 곳 (푸터, 처리방침 보호책임자, 지원 페이지 연락처, 삭제 안내의 웹 요청 경로).
 **Trade-offs:** 구조 작업과 값 수집을 분리해 각자 배포할 수 있습니다. 대신 "값이 다 들어왔는가"를 사람이 확인해야 합니다. 콘솔 제출 체크리스트에 "필수 슬롯이 모두 채워졌는지"를 넣습니다.
 
-**Example (실행해 보지 않은 스케치):** Liquid에서는 `nil`·`false`만 거짓이고 빈 문자열 `""`은 참입니다. 그래서 `{% if c.biz_no %}`로 쓰면 `biz_no: ""`일 때 빈 행이 그려집니다. `!= blank`로 비교하거나, 모르는 값은 키를 null로 둡니다.
+**Example (실행해 보지 않은 스케치):** Liquid에서는 `nil`·`false`만 거짓이고 빈 문자열 `""`은 참입니다. 그래서 `{% if c.biz_no %}`로 쓰면 `biz_no: ""`일 때 빈 행이 그려집니다. `.size > 0`로 판정합니다 (빈 문자열·null·키 없음이 모두 거짓).
 ```liquid
 {%- comment -%} _includes/footer.html — 값이 있는 행만 그린다 {%- endcomment -%}
 {%- assign c = site.data.company -%}
 <div class="rp-foot-legal">
-  {%- if c.biz_name_ko != blank and c.ceo_ko != blank %}<p>상호 {{ c.biz_name_ko }} · 대표 {{ c.ceo_ko }}</p>{% endif -%}
-  {%- if c.biz_no != blank %}<p>사업자등록번호 {{ c.biz_no }}</p>{% endif -%}
-  {%- if c.address_ko != blank %}<p>{{ c.address_ko }}</p>{% endif -%}
-  {%- if c.support_email != blank %}<p>문의 <a href="mailto:{{ c.support_email }}">{{ c.support_email }}</a></p>{% endif -%}
+  {%- if c.biz_name_ko.size > 0 %}{% if c.ceo_ko.size > 0 %}<p>상호 {{ c.biz_name_ko }} · 대표 {{ c.ceo_ko }}</p>{% endif %}{% endif -%}
+  {%- if c.biz_no.size > 0 %}<p>사업자등록번호 {{ c.biz_no }}</p>{% endif -%}
+  {%- if c.address_ko.size > 0 %}<p>{{ c.address_ko }}</p>{% endif -%}
+  {%- if c.support_email.size > 0 %}<p>문의 <a href="mailto:{{ c.support_email }}">{{ c.support_email }}</a></p>{% endif -%}
   <p>© 슬림펌킨 · 경로 데이터 © OpenStreetMap contributors</p>
 </div>
 ```
+2026-11-19 Phase 5 연구: 로컬 Jekyll 3.10.0 / Liquid 4.0.4에서 blank 비교는 값이 없어도 늘 참이라 고쳤다 (05-RESEARCH Pattern 1)
 
 ### Pattern 2: 이메일 게이트 (Email Gate)
 
 **What:** 지원 이메일은 **사용자가 메일 라우팅으로 실제 수신을 확인한 뒤에만** `company.yml`에 넣습니다. 이 값 하나가 네 곳(푸터, `/support/` 연락처, `/data-deletion/`의 웹 삭제 요청 경로, 처리방침 보호책임자 연락처)을 동시에 엽니다.
 **When to use:** 이메일 공개 시점. 콘솔에 Support URL·삭제 URL을 등록하는 것도 이 게이트 뒤입니다.
-**본문 문장 규칙:** render-if-present는 푸터 행뿐 아니라 본문 문장에도 적용해야 합니다. "아래 이메일로 삭제를 요청할 수 있습니다: ___"처럼 이메일을 참조하는 문장은 게이트가 닫힌 동안 구멍 난 채 렌더됩니다. 둘 중 하나를 지킵니다. (a) 이메일을 참조하는 **조항·문단 전체**를 `{% if site.data.company.support_email != blank %}`로 감쌉니다. (b) 그 페이지의 커밋을 게이트가 열릴 때까지 보류합니다. 처리방침의 보호책임자 연락처처럼 법적으로 빠지면 안 되는 조항은 (b)를 권장합니다. 조항이 통째로 빠진 처리방침이 라이브에 오르는 것도 피해야 하기 때문입니다.
+**본문 문장 규칙:** render-if-present는 푸터 행뿐 아니라 본문 문장에도 적용해야 합니다. "아래 이메일로 삭제를 요청할 수 있습니다: ___"처럼 이메일을 참조하는 문장은 게이트가 닫힌 동안 구멍 난 채 렌더됩니다. 둘 중 하나를 지킵니다. (a) 이메일을 참조하는 **조항·문단 전체**를 `{% if site.data.company.support_email.size > 0 %}`로 감쌉니다 (Pattern 1과 같은 판정, 2026-11-19 고침). (b) 그 페이지의 커밋을 게이트가 열릴 때까지 보류합니다. 처리방침의 보호책임자 연락처처럼 법적으로 빠지면 안 되는 조항은 (b)를 권장합니다. 조항이 통째로 빠진 처리방침이 라이브에 오르는 것도 피해야 하기 때문입니다.
 **Trade-offs:** 메일이 안 오는 주소가 심사자에게 노출되는 일을 막습니다. `/support/`와 삭제 안내의 웹 경로는 게이트가 열리기 전까지 "구조만 배포된" 상태이므로 콘솔에 등록하지 않습니다.
 
 ### Pattern 3: 문서 키로 언어판 짝짓기 (Translation Pairing by doc_key)

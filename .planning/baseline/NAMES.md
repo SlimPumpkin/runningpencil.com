@@ -12,16 +12,16 @@
 | 영문 서비스명 | RunningPencil | 예 | 영문판(`/en/`), 스토어·로그인 동의 화면의 영어 표시명 | D-18, D-20, `.planning/PROJECT.md` Key Decisions. 앱의 영어 앱 이름도 같다 (앱 `lib/l10n/app_en.arb:4`의 `appTitle`) |
 | 운영사 표기(현행) | 슬림펌킨 | 예 | 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체 | D-18 |
 | 도메인 | `runningpencil.com` | 예 | 사이트 주소, 콘솔의 도메인 칸 (`.planning/baseline/URLS.md`) | D-18 |
-| 지원 이메일 | `support@runningpencil.com` | `.planning/` 문서에만 | `_data/company.yml` (Phase 5에서 확정, 이메일 게이트 뒤) | D-19 |
-| 사업자등록증 그대로의 상호 | (빈칸) | 아니요 | `_data/company.yml` (Phase 5에서 확정) | D-18, U11 |
-| 대표자 | (빈칸) | 아니요 | `_data/company.yml` (Phase 5에서 확정) | D-18, U11 |
-| 사업자등록번호 | (빈칸) | 아니요 | `_data/company.yml` (Phase 5에서 확정) | D-18, U11 |
-| 주소 | (빈칸) | 아니요 | `_data/company.yml` (Phase 5에서 확정) | D-18, U11 |
-| 영문 법인명 | (빈칸) | 아니요 | `_data/company.yml` (Phase 5에서 확정), Phase 9 영문판 | D-18, U11 |
+| 지원 이메일 | `support@runningpencil.com` | `.planning/` 문서에만 | `_data/company.yml`의 `support_email` (이메일 게이트 뒤) | D-19 |
+| 사업자등록증 그대로의 상호 | (빈칸) | 아니요 | `_data/company.yml`의 `trade_name` | D-18, U11 |
+| 대표자 | (빈칸) | 아니요 | `_data/company.yml`의 `representative` | D-18, U11 |
+| 사업자등록번호 | (빈칸) | 아니요 | `_data/company.yml`의 `biz_reg_no` | D-18, U11 |
+| 주소 | (빈칸) | 아니요 | `_data/company.yml`의 `address` | D-18, U11 |
+| 영문 법인명 | (빈칸) | 아니요 | `_data/company.yml`에 Phase 9에서 키를 더함, Phase 9 영문판 | D-18, U11 |
 | 스토어 개발자 이름 | (빈칸) | 아니요 | Phase 6 삭제 안내 (DEL-02) | D-18 |
-| 전화번호 | (빈칸, 이번에는 공개하지 않음) | 아니요 | `_data/company.yml` (Phase 5에서 확정, 칸만 마련) | U1, BIZ-03 |
+| 전화번호 | (빈칸, 이번에는 공개하지 않음) | 아니요 | `_data/company.yml`의 `phone` (칸만, U1) | U1, BIZ-03 |
 
-- 「들어갈 곳」의 `_data/company.yml`은 Phase 5에서 확정할 자리입니다. 파일 경로와 키 이름은 그 단계에서 정하고, 이 표에서는 고정하지 않습니다.
+- 「들어갈 곳」은 Phase 5에서 정했습니다: 파일 `_data/company.yml`, 키는 위 표. 값은 이 표에 적지 않고 사이트 파일에만 둡니다.
 - 지원 이메일 주소의 정본은 이 표입니다. 주소는 `.planning/` 문서에만 적고, 이메일 게이트(Phase 5)가 열리기 전에는 HTML·`_data`에 넣지 않습니다 (D-19).
 
 ## 표시명 규칙

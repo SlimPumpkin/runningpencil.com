@@ -26,11 +26,13 @@ runningpencil.com/
 │       └── legal.css          # 「법적 페이지 전용」 CSS (토큰·Preflight 대체·.rp-legal-*·.rp-doc)
 ├── _layouts/
 │   └── legal.html             # 법적 3종 레이아웃 (head·「공통」+legal.css include·카드 틀)
+├── _data/
+│   └── company.yml            # 사실값 슬롯 (사업자 정보·연락처, 값이 없는 키는 그리지 않음)
 ├── favicon/                   # 파비콘·앱 아이콘·웹 매니페스트
 ├── images/
 │   └── app/                   # 「실제 앱 화면」 캡처 WebP (564w·846w)
 ├── scripts/
-│   └── check-site.sh          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름)
+│   └── check-site.sh          # 푸시 전 점검 (빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름·지원 페이지 연락처)
 ├── .githooks/
 │   └── pre-push               # main 푸시마다 check-site.sh 실행 (git config core.hooksPath .githooks)
 ├── Gemfile                    # 로컬 빌드용 gem (jekyll = 3.10.0 고정)

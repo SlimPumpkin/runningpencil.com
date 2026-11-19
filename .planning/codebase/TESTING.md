@@ -9,7 +9,7 @@ last_mapped_at: 2026-11-14
 ## Test Framework
 
 **Runner:**
-- 자동 점검 하나: `scripts/check-site.sh`. 운영과 같은 Jekyll 3.10.0으로 빌드해 여섯 가지를 본다. 빌드 성공, `_site`에 내부 파일이 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`이 기대값과 같음, 처리되지 않은 Liquid(`{%`, `{{`)가 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10).
+- 자동 점검 하나: `scripts/check-site.sh`. 운영과 같은 Jekyll 3.10.0으로 빌드해 일곱 가지를 본다. 빌드 성공, `_site`에 내부 파일이 없음, 기존 URL 문서 4개(`index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`)의 `<title>`이 기대값과 같음, 처리되지 않은 Liquid(`{%`, `{{`)가 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트).
 - `.githooks/pre-push` 훅이 `main` 푸시마다 이 스크립트를 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번). 실패하면 푸시가 멈춘다.
 - 그 밖의 테스트 러너, CI, HTML validator는 없다 (`package.json` 없음). 전역 규칙의 「커밋 전 린터 실행」은 이 스크립트로 갈음한다.
 - Config: 기대 제목과 금지 경로는 `scripts/check-site.sh` 맨 위 한 곳에 있다
