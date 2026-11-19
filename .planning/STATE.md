@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 05
 current_phase_name: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)
 status: executing
-stopped_at: Completed 05-09-PLAN.md
-last_updated: "2026-11-19T07:21:47.342Z"
+stopped_at: Completed 05-10-PLAN.md
+last_updated: "2026-11-19T09:19:09.242Z"
 last_activity: 2026-11-19
 last_activity_desc: Phase 05 execution started
-state_head: 84a30ca317363c75e85e2eb8b13d1ca4ad9af68e
+state_head: 9e3b9be2d0cc89d39c5be6d52bfdb4a915a869ed
 progress:
   total_phases: 10
   completed_phases: 4
   total_plans: 57
-  completed_plans: 51
+  completed_plans: 52
   percent: 40
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-19)
 ## Current Position
 
 Phase: 05 (사업자 정보와 지원 연락 경로 (Business Info & Support Contact)) — EXECUTING
-Plan: 10 of 15
+Plan: 11 of 15
 Status: Ready to execute
 Last activity: 2026-11-19 — Phase 05 execution started
 
@@ -110,6 +110,7 @@ Progress: [████░░░░░░] 40%
 | Phase 05 P07 | 15min | 3 tasks | 11 files |
 | Phase 05 P08 | 10min | 3 tasks | 6 files |
 | Phase 05 P09 | 1h 54m | 3 tasks | 1 files |
+| Phase 05 P10 | 1h 43m | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -227,6 +228,8 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-08: 보류 묶음 H1·H2·H3는 로컬 브랜치 p5-support-hold에만 두고(푸시·upstream 없음), 게이트(05-11)에서 32afecdddd20..p5-support-hold를 cherry-pick한다
 - [Phase 05]: 05-09: 작업 7 「확인됨」 보고로 SITE03=OK를 05-09에서 세움. 05-14는 SITE03=OK 갈래로 감
 - [Phase 05]: 05-09: SC_DATE=2026-11-19. 처음 보고(2026-11-18)가 D-01 아침 관찰(TXT 0줄)보다 앞서 다시 확인했고 사용자가 19일로 정정함. 정정 이력은 EVIDENCE 날짜 메모에 있음
+- [Phase 05]: 05-10: 이메일 게이트를 2026-11-19에 열었다(GATE_OPEN=OK). 근거는 작업 4 재시험 4/4(Gmail·네이버·iCloud·Outlook 모두 받은편지함). 게이트 시점 원격 main = PUSH1, PUSH1 사이트 이력·GATE_HEAD 사이트 파일에 지원 주소 0건. 게이트 기록 커밋 9e3b9be2d0cc
+- [Phase 05]: 05-10: 1차 수신 시험 2/4(iCloud·Outlook 스팸함, 보낸 쪽 SPF·DKIM·DMARC PASS) 뒤 사용자가 운영자 Gmail에 지원 주소 수신 메일 스팸 방지 필터를 만들고 재시험 4/4. 저장소 밖 운영 설정이고 실제 스팸도 받은편지함에 들어오는 대가가 있음
 
 ### Pending Todos
 
@@ -235,7 +238,7 @@ None yet.
 ### Blockers/Concerns
 
 사용자 외부 작업(단계를 막음):
-- 가비아 DNS 1차 방문과 Workspace 작업 0~3은 끝남(2026-11-19 사용자 확인, 권한 있는 네임서버에 MX 1개·SPF 1개·google-site-verification 1줄). 남은 것: 작업 4 외부 4곳 수신 시험(이메일 게이트), 작업 5 보내기 설정, 작업 7 Search Console 확인 → Phase 5
+- 가비아 DNS 1차 방문과 Workspace 작업 0~3은 끝남(2026-11-19 사용자 확인, 권한 있는 네임서버에 MX 1개·SPF 1개·google-site-verification 1줄). 작업 7 Search Console 확인은 05-09, 작업 4 외부 4곳 수신 시험(이메일 게이트)은 05-10에서 끝남(재시험 4/4). 남은 것: 작업 5 보내기 설정 → Phase 5 (05-14)
 - 가비아 DNS 2차 방문(DKIM, 절차는 `.planning/baseline/USER-TASKS.md` 작업 6. 작업 시점은 Phase 5 무렵) → Phase 10 (Apple 릴레이 답장의 전제. 이메일 게이트는 DKIM을 기다리지 않음)
 - Apple Developer에 지원 메일 발신 도메인 등록, 릴레이 답장 시험 → Phase 10
 
@@ -265,6 +268,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T07:21:46.412Z
-Stopped at: Completed 05-09-PLAN.md
+Last session: 2026-11-19T09:19:08.694Z
+Stopped at: Completed 05-10-PLAN.md
 Resume file: None

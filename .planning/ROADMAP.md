@@ -226,7 +226,7 @@ Plans:
   3. 모든 페이지 푸터에 사업자등록증과 같은 표기의 상호·대표자·사업자등록번호·주소와 지원 이메일이 보이고, 값이 없는 항목은 자리표시 없이 행 자체가 없다
   4. 운영자가 `_data` 파일 하나만 고치면(전화번호를 넣는 경우 포함) 푸터와 지원 페이지에 바로 반영되고, 전화번호는 지금 값이 없어 어디에도 보이지 않는다
   5. `/support/` 맨 위에 「러닝펜슬」이 있고, 그 아래에서 지원 이메일과 응답 안내, 공개 코스 신고 방법, FAQ(운영 주체, 위치를 수집하는 시점, 계정 삭제 방법, 공개 코스 신고)를 찾을 수 있으며, 헤더·푸터에서 지원 페이지로 갈 수 있다
-**Plans**: 9/15 plans executed
+**Plans**: 10/15 plans executed
 
 Plans:
 **Wave 1**
@@ -257,7 +257,7 @@ Plans:
 - [x] 05-09-PLAN.md — DNS 변경 전후 dig·HTTPS 기록, 작업 7 Search Console 확인 보고 checkpoint (SITE-03, 아직이면 05-14로 넘겨 이메일 게이트를 막지 않음)
 
 **Wave 10** *(blocked on Wave 9 completion)*
-- [ ] 05-10-PLAN.md — 게이트 사전 점검(시험 cherry-pick), 작업 4 수신 시험 표 checkpoint, 4/4 확인 기록(이메일 게이트)
+- [x] 05-10-PLAN.md — 게이트 사전 점검(시험 cherry-pick), 작업 4 수신 시험 표 checkpoint, 4/4 확인 기록(이메일 게이트)
 
 **Wave 11** *(blocked on Wave 10 completion)*
 - [ ] 05-11-PLAN.md — 보류 묶음 cherry-pick·게이트 날짜 G0·이메일 G를 한 번에, G 출력·화면·주소 이력 판정
@@ -409,7 +409,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 2. Jekyll 공유 셸 도입 (Shared Shell Refactor) | 10/10 | Complete    | 2026-11-16 |
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 13/13 | Complete    | 2026-11-19 |
-| 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 9/15 | In Progress | - |
+| 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 10/15 | In Progress | - |
 | 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 0/TBD | Not started | - |
 | 7. 개인정보처리방침 재작성 (Privacy Policy Rewrite) | 0/TBD | Not started | - |
 | 8. 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms) | 0/TBD | Not started | - |
