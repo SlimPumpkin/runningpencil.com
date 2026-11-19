@@ -465,7 +465,7 @@ check-site: 실패 — 1건 (커밋 432a214f884d)
 
 HOOK7=OK
 
-## 05-05 시험 실행
+## (보류 1) 05-05 시험 실행
 
 실제 사업자 값을 받기 전에, Task 3이 실제 값으로 돌릴 파이프라인을 가짜 값으로 끝까지 돌렸습니다. 저장소 사이트 파일과 인덱스는 건드리지 않았습니다.
 
@@ -475,7 +475,7 @@ HOOK7=OK
 - 선택지 빌드 `dryo1`·`dryo2`·`dryo3`은 `$W/dry/src`를 복사해 `_includes/footer.html`의 구분 기호 토큰 `&nbsp;· ` 세 곳을 각각 ` · `(선택지 1), 그대로(선택지 2), ` ·&nbsp;`(선택지 3)로 바꾼 것입니다. 바꾼 뒤 옛 토큰 0곳·새 토큰 3곳, 선택지 2의 템플릿과 출력은 `dry`와 바이트가 같습니다. 포트 4506~4508로 띄워 `p5-foot.mjs … --shot "$W/cap/dryo<n>"`을 돌렸고, 캡처는 `$W/cap/dryo<n>/<엔진>-<폭>.png`입니다.
 - 세 선택지 모두 375px sepLead가 1이고 1280px은 0입니다. 가짜 상호(줄 폭보다 긴 항목, `NOTE … longItem`)가 상자 안에서 줄을 바꾸는 모양이라 세 선택지가 같게 나왔습니다. 실제 값에서의 위치는 Task 3 측정과 캡처로 봅니다(기록만, 실패 아님).
 
-DRY_OBJ=f7e64b9e2d4d
+HOLD1_DRY_OBJ=f7e64b9e2d4d
 
 ```
 check-site: 통과 (커밋 f7e64b9e2d4d, jekyll 3.10.0)
@@ -517,13 +517,15 @@ OK webkit 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
 PASS foot
 ```
 
-DRY_RUN=OK
+HOLD1_DRY_RUN=OK
 
 ```
 OK site-clean 05-05-t1 bf00e3e05173
 ```
 
-## 05-05 값 후보
+## (보류 1) 05-05 값 후보
+
+사유: Task 4 fix-values — 사용자가 주소 공개 범위를 줄이기로 함(값은 다음 실행 Task 2에서 다시 받음).
 
 사용자가 대화로 준 사업자 값 네 개(상호·대표자·사업자등록번호·주소)를 작업 트리 `_data/company.yml`의 네 칸에만 넣었습니다. `support_email`·`phone`은 빈 값 그대로입니다. 값과 푸터 글은 이 기록에 적지 않습니다(D-02). 건수와 판정 줄만 남깁니다.
 
@@ -534,9 +536,9 @@ OK site-clean 05-05-t1 bf00e3e05173
 - 선택지 빌드 `d10o1`·`d10o2`·`d10o3`은 `$W/c4/src`를 복사해 `_includes/footer.html`의 구분 기호 토큰 `&nbsp;· ` 세 곳을 각각 ` · `(선택지 1), 그대로(선택지 2), ` ·&nbsp;`(선택지 3)로 바꾼 것입니다. 선택지 1·3은 옛 토큰 0곳·새 토큰 3곳, 선택지 2의 템플릿과 출력은 `c4`와 바이트가 같습니다. 포트 4506~4508로 띄워 `p5-foot.mjs … --shot "$W/cap/d10o<n>"`을 돌렸고 서버는 모두 내렸습니다. 캡처는 `$W/cap/d10o<n>/<엔진>-<폭>.png`입니다.
 - 실제 값에서는 375px에서도 첫 줄 세 항목이 한 줄에 들어가 줄이 바뀌지 않습니다. 그래서 세 선택지 모두 두 엔진·두 폭에서 sepLead가 0이고, 세 선택지의 p5-foot 출력은 줄마다 같으며(`cmp`), 같은 엔진·폭의 캡처 PNG도 세 선택지가 바이트까지 같습니다. 선택지는 첫 줄이 바뀌는 더 좁은 화면이나 값이 바뀔 때만 모양이 갈립니다(기록만, 실패 아님).
 
-VALUES_RECEIVED=OK
+HOLD1_VALUES_RECEIVED=OK
 
-C4_CAND=4d5e90c0402b
+HOLD1_C4_CAND=4d5e90c0402b
 
 ```
 vals filled=4 emitted=3 excluded=1
@@ -571,4 +573,10 @@ OK webkit 1280 /privacy-policy/ rows=5 spans=3 seps=2 links=0 sepLead=0
 OK webkit 1280 /terms/ rows=5 spans=3 seps=2 links=0 sepLead=0
 OK webkit 1280 /data-deletion/ rows=5 spans=3 seps=2 links=0 sepLead=0
 PASS foot
+```
+
+Task 4(D-10 승인)의 답이 fix-values여서 이 시도를 보류로 끝냈습니다. 작업 트리 `_data/company.yml`을 `git restore --source=HEAD --staged --worktree`로 HEAD와 같게 되돌렸고, 스크래치 ref `refs/p5-scratch/c4-cand`를 `git update-ref -d`로 지웠습니다. 후보 객체(`HOLD1_C4_CAND`)는 어떤 ref에도 붙지 않은 로컬 객체로만 남고 푸시하지 않습니다. SUMMARY는 만들지 않았고, 다음 실행은 05-05 Task 1부터 다시 합니다.
+
+```
+OK site-clean 05-05-hold 63ae5850a662
 ```
