@@ -1286,3 +1286,42 @@ OK live addr first=G
 이미 공개된 지원 주소는 되돌려도 검색 캐시와 아카이브에 남습니다(D-04 costly). 되돌리기는 필요 없었습니다.
 
 LIVE_PUSH2=OK
+
+## 05-13 지원 쪽 문서와 정리
+
+게이트 푸시의 라이브 확인(`LIVE_PUSH2=OK`) 뒤에 지원 쪽 문서를 고쳤습니다(D-21 시점). 문서 커밋은 푸시하지 않았고 05-15 문서 푸시가 함께 싣습니다.
+
+Task 1 (tracer). 원본 맵 여섯 개(STACK·CONVENTIONS·ARCHITECTURE·TESTING·STRUCTURE·CONCERNS)와 이름 표를 지금 코드대로 고쳤습니다: `support/index.html`(고객 지원, 법적 레이아웃, 앵커 `#contact`·`#report`·`#faq`), 헤더·푸터 「고객 지원」 링크와 푸터 nav 이름 「약관 및 지원」, 푸터 이메일 행, 점검 3번 다섯 문서, 페이지 수 다섯. 지원 이메일 부재·문의 채널 부재 문장은 게이트 뒤 상태(`support_email` 키, 정본은 이름 표)로 바꿨고, CONVENTIONS 「법적 본문 작성 규칙」에 앵커 규칙을 맨 위 단계 글머리로 더했습니다(`legal.css`는 고치지 않음). 커밋 전에 `.claude/CLAUDE.md`를 저장소 밖 임시 사본으로 생성기에 돌려, 앵커 규칙·「고객 지원」·「약관 및 지원」 문장이 생성 구간에 옮겨지고 바뀐 줄이 stack·conventions·architecture 블록 안에만 있으며(방침 구간과 project·skills·workflow·profile 블록 그대로) 다시 돌려도 같은 결과임을 확인했습니다. 일곱 원본 맵의 옛 문장 0줄, 커밋 전 작업 트리 check-site 통과, 값 누출 점검 (c) 0건(`vals filled=4 emitted=3 excluded=1`), 원본 맵의 지원 주소 0건, 추가 줄의 로컬 경로 0건.
+
+DOCS_MAPS2_SHA=7d227dfa66c3
+
+Task 2. 두 CLAUDE.md 방침 표의 「지원 이메일 공개」 행 현재 상태 칸을 「Phase 5에서 적용됨 (이메일 게이트 2026-11-19 통과) …」로 같은 글자로 고쳤습니다(다른 칸·행 그대로). 루트 본문에는 Pages 표의 `support/index.html` 행, 헤더·푸터 include 줄과 「Architecture / styling notes」 푸터 글머리의 「고객 지원」 링크·nav 이름 「약관 및 지원」·이메일 행, 지원 페이지도 같은 법적 레이아웃이라는 문장, 페이지 수 다섯(모든 페이지), 「이메일 수집 폼 없음」 단락의 게이트 뒤 상태, Deploy의 「기존 URL 문서 4개와 지원 페이지의 제목」을 넣었습니다. 지원 주소는 어느 CLAUDE.md에도 적지 않았습니다(두 CLAUDE.md·README 0건). `.claude/CLAUDE.md`는 저장소 밖 임시 사본으로 생성기를 먼저 돌려 바뀐 줄이 stack·conventions·architecture 블록뿐이고 방침 구간과 project·skills·workflow·profile 블록이 그대로임을 확인한 뒤 저장소에서 출력 지정·자동 옵션 없이 다시 만들었습니다. 다시 만든 파일은 시험 사본과 같고, 한 번 더 돌린 결과와도 바이트가 같습니다. 두 사본의 방침 구간이 같습니다. 커밋 전 작업 트리 check-site 통과, 값 누출 점검 (c) 0건(스테이징한 전체 diff 기준).
+
+OK generator blocks only
+OK regenerated
+DOCS_CLAUDE2_SHA=e994aecf8117
+
+Task 3. 보류 정리: `git cherry main p5-support-hold`의 세 줄이 모두 `-`(보류 묶음 세 커밋이 모두 `main`에 cherry-pick됨)인 것을 확인한 뒤, `$HOLD_WT`에 고친 것·추적하지 않는 파일이 없음(`status --porcelain --ignored` 빈 출력)을 보고 메인 체크아웃에서 `git worktree remove`(강제 옵션 없음)와 `git worktree prune`을 했습니다. 브랜치 ref `p5-support-hold`는 지우지 않았습니다(앞 계획 verify가 다시 돌 수 있고 원본 커밋이 gc로 사라지지 않게). `git fetch` 뒤 보류 브랜치가 원격 main의 조상이 아니고 원격에 없으며 upstream이 없음을 다시 확인했습니다. 원격 main은 게이트 푸시 `2bd47891b837` 그대로입니다.
+
+```
+OK cherry all-in-main 3
+OK hold not-ancestor
+```
+
+HOLD_WT_REMOVED=OK
+
+STATE Blockers의 가비아 DNS·Workspace 줄을 「작업 0~4와 작업 7은 끝남(이메일 게이트 2026-11-19 통과, Search Console 확인됨 2026-11-19). 남은 것: 작업 5 보내기 설정(05-14), 작업 6 DKIM(Phase 10)」으로 고쳤습니다(05-09 `SC_VERIFIED=OK`). STATE 구조 점검(`state.validate`)은 오류·경고 없음. 커밋 전 작업 트리 check-site 통과, 값 누출 점검 (c) 0건.
+
+DOCS_MISC2_SHA=2c9f8230217f
+
+훑기. 대상 열 개(`CLAUDE.md`, `.claude/CLAUDE.md`, `README.md`, `.planning/codebase/*.md` 일곱 개)에서 페이지 수를 넷으로 적은 문장, 지원 이메일 부재 문장, 문의 채널 부재 문장, 로컬 경로, 새로 공개되는 사업자 값(`vals filled=4 emitted=3 excluded=1`의 패턴 파일), 두 CLAUDE.md·README의 지원 주소(이름 표에서 변수로만 읽음)를 셌습니다. 모두 0이라 더한 문서 커밋은 없습니다.
+
+```
+OK stale fourpages=0 noemail=0 nochannel=0 localpath=0 leak=0 addr-in-claude=0
+```
+
+DOCS2_STALE=OK
+
+```
+OK site-clean 05-13-t3 2c9f8230217f
+```
