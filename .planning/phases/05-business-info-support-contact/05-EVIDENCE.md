@@ -972,3 +972,23 @@ HOLD_UI=OK
 OK hold not-ancestor
 OK site-clean 05-08-t3 32afecdddd20
 ```
+
+## 05-09 DNS
+
+Task 1 (tracer). 2026-11-19에 권한 있는 네임서버 `ns1.gabia.co.kr`과 공개 리졸버 하나(아래 둘째 판정 줄의 Cloudflare 리졸버)에 질의를 명령에 직접 써서 물었습니다(Pitfall 9·10). 출력은 스크래치 `$W/dns09/`에 받고 줄 수와 종류만 셌습니다. 토큰·TXT 값·IP 주소는 적지 않습니다. 「변경 전」 줄은 CONTEXT D-01의 아침 관찰입니다.
+
+- A 4줄은 모두 GitHub Pages 주소이고(「보존할 기존 레코드」 표와 대조), `www` CNAME은 `slimpumpkin.github.io.`, GitHub Pages challenge TXT는 1줄로 그대로입니다.
+- MX는 `1 smtp.google.com.` 하나입니다. 루트 TXT 2줄은 SPF 1줄과 `google-site-verification` 1줄이고(Workspace·Search Console 인증 값이 같아 한 줄, CONTEXT D-01 정정), SPF 줄은 작업 2 레코드 표의 값과 글자 그대로 같습니다. 공개 리졸버도 같은 개수입니다.
+- DKIM(`google._domainkey`)은 0줄입니다. 작업 6 전이라 기대대로이고 이 단계를 막지 않습니다.
+- 라우터용 A 레코드는 호스트 이름을 저장소에 적지 않으므로 Claude가 묻지 않았습니다(사용자 작업 0 메모로 대조).
+- Claude는 DNS·Search Console을 바꾸지 않았고, 사이트 파일과 보류 브랜치도 건드리지 않았습니다.
+
+```
+DNS_BEFORE A=4 MX=0 TXT=0 (CONTEXT D-01, 2026-11-19 아침)
+OK dns ns1.gabia.co.kr A=4 MX=1 mx_google=1 TXT=2 spf=1 gsv=1 www=github-pages ghchallenge=1 dkim=0
+OK dns 1.1.1.1 MX=1 spf=1 gsv=1
+OK https / HTTP/2 200
+OK site-clean 05-09-t1 73b5852fc23a
+```
+
+DNS_AFTER=OK
