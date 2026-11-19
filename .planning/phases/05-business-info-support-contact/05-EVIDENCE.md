@@ -295,3 +295,109 @@ M1·M2 커밋과 그 표식(`M1_SHA`·`M1_SAME`·`M2_SHA`·`M2_HUNKS`)은 두 ta
 ```
 OK site-clean 05-03-t3 b7e2dcd0de13
 ```
+
+## 05-03 화면
+
+c1f: M1 + 가짜 값, CSS 없음 (음성 대조, 아래 두 번째 출력). c2f: M2 + 가짜 값(`$W/yml/all.yml`, 첫 번째 출력). 두 빌드는 다시 만들지 않고 보류 1 때의 것을 다시 띄웠습니다(`$W/c2f/TREE` = M2 트리, `$W/c1f/TREE` = M1 트리, 두 `YML` = `all.yml` 해시 앞 12자리).
+
+사용자 결정 (2026-11-19, 보류 1 checkpoint 답):
+
+- split 판정 보정: 항목 하나의 줄바꿈 없는 폭이 줄 폭보다 길 때만 그 항목이 자기 상자 안에서 줄을 바꾸는 것을 허용합니다. 여러 줄에 걸친 상자의 split, overflow, 링크 색 판정은 그대로입니다. 시험 값 `all.yml`은 바꾸지 않았습니다. 스크래치 도구 `$W/pw/p5-foot.mjs`, 05-01 도구 사양 (a), 05-03 Task 3 문구, 05-VALIDATION BIZ-01 (D-07) 행을 함께 고쳤습니다(문서 커밋 3bfc1cbe1128).
+- M1·M2 표식(`M1_SHA`·`M1_SAME`·`M2_SHA`·`M2_HUNKS`)은 `HOLD1_` 머리 없이 그대로 둡니다. M1·M2 커밋과 `## (보류 1) 05-03 화면` 구간은 고치지 않았습니다.
+- 보류 규칙 예외(사용자 승인): 05-01 「다음 실행은 그 계획 Task 1부터 다시 한다」를 이번 재개에는 적용하지 않고 Task 3만 다시 했습니다. Task 1의 전제(`_data`가 저장소에 없음)는 M1 커밋으로 이미 참이 아니고, 이력 수정은 금지이기 때문입니다. 커밋은 푸시하지 않았습니다.
+
+도구 회귀: 고친 `p5-foot.mjs`를 기준 빌드(`$W/base`, 포트 4501)에서 다시 돌린 결과입니다(다시 돌린 기준 판정이라 머리 `regen `을 붙임). 05-01 Task 3 verify 두 명령도 다시 돌려 exit 0이었습니다.
+
+```
+regen OK chromium 375 / rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 375 /privacy-policy/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 375 /terms/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 375 /data-deletion/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 1280 / rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 1280 /privacy-policy/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 1280 /terms/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK chromium 1280 /data-deletion/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 375 / rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 375 /privacy-policy/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 375 /terms/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 375 /data-deletion/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 1280 / rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 1280 /privacy-policy/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 1280 /terms/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen OK webkit 1280 /data-deletion/ rows=3 spans=0 seps=0 links=0 sepLead=0
+regen PASS foot
+```
+
+c2f: 16줄 모두 통과, 마지막 줄 `PASS foot`. 375px 여덟 줄 앞에 가짜 상호 항목(span0)의 `NOTE … longItem` 정보 줄이 있습니다(줄바꿈 없는 폭 417px > 줄 폭 335px, 상자 안 줄바꿈 허용, 실패 아님). 1280px에는 `NOTE` 줄이 없고 sepLead=0입니다. 375px sepLead는 1입니다(기록만 합니다. 구분 기호 모양은 05-05 D-10 checkpoint에서 사용자가 고릅니다). 캡처 네 장은 `$W/cap/c2f/`에 다시 찍었습니다.
+
+```
+NOTE chromium 375 / longItem span0 natural=417 line=335
+OK chromium 375 / rows=6 spans=5 seps=3 links=1 sepLead=1
+NOTE chromium 375 /privacy-policy/ longItem span0 natural=417 line=335
+OK chromium 375 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=1
+NOTE chromium 375 /terms/ longItem span0 natural=417 line=335
+OK chromium 375 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=1
+NOTE chromium 375 /data-deletion/ longItem span0 natural=417 line=335
+OK chromium 375 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=1
+OK chromium 1280 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK chromium 1280 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+NOTE webkit 375 / longItem span0 natural=417 line=335
+OK webkit 375 / rows=6 spans=5 seps=3 links=1 sepLead=1
+NOTE webkit 375 /privacy-policy/ longItem span0 natural=417 line=335
+OK webkit 375 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=1
+NOTE webkit 375 /terms/ longItem span0 natural=417 line=335
+OK webkit 375 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=1
+NOTE webkit 375 /data-deletion/ longItem span0 natural=417 line=335
+OK webkit 375 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=1
+OK webkit 1280 / rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /privacy-policy/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /terms/ rows=6 spans=5 seps=3 links=1 sepLead=0
+OK webkit 1280 /data-deletion/ rows=6 spans=5 seps=3 links=1 sepLead=0
+PASS foot
+```
+
+c1f: 종료 코드 1, 마지막 줄 `FAIL foot`. 열여섯 곳 모두 `badLink`(기본 파란색 `rgb(0, 0, 238)`)로 잡히고, 375px에서는 `inline-block`이 없는 보통 inline `span`이 두 줄에 걸쳐(`lines=2`) `split`으로 잡힙니다. 예외가 진짜 끊김을 삼키지 않는다는 근거입니다. `NOTE` 줄은 없습니다.
+
+```
+FAIL chromium 375 / split span0 lines=2 h=36 lh=21
+FAIL chromium 375 / split span2 lines=2 h=36 lh=21
+FAIL chromium 375 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 375 /privacy-policy/ split span0 lines=2 h=36 lh=21
+FAIL chromium 375 /privacy-policy/ split span2 lines=2 h=36 lh=21
+FAIL chromium 375 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 375 /terms/ split span0 lines=2 h=36 lh=21
+FAIL chromium 375 /terms/ split span2 lines=2 h=36 lh=21
+FAIL chromium 375 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 375 /data-deletion/ split span0 lines=2 h=36 lh=21
+FAIL chromium 375 /data-deletion/ split span2 lines=2 h=36 lh=21
+FAIL chromium 375 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL chromium 1280 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 / split span0 lines=2 h=36 lh=21
+FAIL webkit 375 / split span2 lines=2 h=36 lh=21
+FAIL webkit 375 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 /privacy-policy/ split span0 lines=2 h=36 lh=21
+FAIL webkit 375 /privacy-policy/ split span2 lines=2 h=36 lh=21
+FAIL webkit 375 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 /terms/ split span0 lines=2 h=36 lh=21
+FAIL webkit 375 /terms/ split span2 lines=2 h=36 lh=21
+FAIL webkit 375 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 375 /data-deletion/ split span0 lines=2 h=36 lh=21
+FAIL webkit 375 /data-deletion/ split span2 lines=2 h=36 lh=21
+FAIL webkit 375 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 / badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 /privacy-policy/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 /terms/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL webkit 1280 /data-deletion/ badLink a0 color=rgb(0, 0, 238) deco=underline
+FAIL foot
+```
+
+FOOT_LAYOUT=OK
+
+```
+OK site-clean 05-03-t3 3bfc1cbe1128
+```
