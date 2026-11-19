@@ -1371,3 +1371,99 @@ STATE Blockers에서 05-13이 고친 가비아 DNS 1차 방문·Workspace 줄(�
 ```
 OK site-clean 05-14-t3 0e154aa74533
 ```
+
+## 05-15 마지막 문서 푸시
+
+Task 1 (tracer). 메인 체크아웃 `main`에서 작업 트리·인덱스가 깨끗하고 `gh auth status`가 0인 것을 확인한 뒤 후보를 점검했습니다. 스크래치 재확인 결과 `$W/lib.sh` 함수 열 개, Playwright 1.59.1, 두 점검 스크립트, `$W/base/TREE`(= `BASE_SHA` 트리), `$W/proto-support.html`, `$W/g/TREE`(= `G_SHA` 트리)가 그대로라 다시 만든 것이 없습니다. 후보는 지금 HEAD(05-14 기록과 Wave 15 시작 STATE 커밋까지)이고, 아무것도 푸시하지 않았습니다.
+
+1. `git fetch` 뒤 원격 main이 `PUSH2_SHA` 그대로이고 후보의 조상입니다. 범위는 커밋 13개입니다.
+2. 후보의 사이트 파일(문서 제외)이 G와 같습니다. `.planning/` 밖에서 바뀐 파일은 `.claude/CLAUDE.md`·`CLAUDE.md` 둘이고 둘 다 사이트에 출력되지 않는 문서(05-13)입니다. 문서를 뺀 사이트 커밋은 범위에 0개입니다.
+3. 값 누출: 범위의 `.planning` diff와 커밋 메시지에서 0건, `.planning/` 전체 `git grep` 종료 코드 1(0건), `BASE_SHA..HEAD` 커밋 메시지 0건. 지원 주소는 이름 표에서 변수로만 읽었고 찍지 않았습니다. 범위 커밋 메시지에 주소 0건이고, 범위에서 더해진 줄 가운데 주소가 든 줄은 이름 표(정본, 원격에 이미 있음)의 한 줄뿐입니다.
+4. 실제 푸시 경로: 훅을 돌릴 때 작업 트리의 `scripts/check-site.sh`·`.githooks/pre-push`가 후보와 같았고, 표준 입력만 준 `.githooks/pre-push`가 후보를 통과시켰습니다.
+
+PUSH3_CANDIDATE=e0f233169329
+PUSH3_PREV=2bd47891b837
+
+```
+OK origin unchanged = push2
+OK cand3 site = g
+vals filled=4 emitted=3 excluded=1
+leak range .planning=0 messages=0
+OK hook files = push3-cand
+OK hook push3-cand pass
+check-site: 통과 (커밋 e0f233169329, jekyll 3.10.0)
+OK site-clean 05-15-t1 e0f233169329
+```
+
+## 05-15 성공 기준 라이브 재판정
+
+사용자가 Task 2에서 `push`로 답했습니다(승인 SHA `e0f233169329` = `PUSH3_CANDIDATE`, 이 푸시 한 번에만 씀). 푸시 직전에 원격 main을 새로 받아 본 값이 `PUSH3_PREV`와 같았고, HEAD가 후보였으며, 훅이 부르는 작업 트리 `scripts/check-site.sh`·`.githooks/pre-push`가 후보와 같았습니다. `git push origin "${FULL}:refs/heads/main"`(전체 해시) 한 번으로 내보냈고 훅이 통과했습니다. `--no-verify`·force push는 쓰지 않았습니다. 작업 트리의 이 기록(Task 1 구간)은 커밋하지 않은 채라 이 푸시에 실리지 않았습니다.
+
+PUSH3_SHA=e0f233169329
+
+```
+OK origin unchanged = push3-prev
+OK hook files = push3-cand
+check-site: 통과 (커밋 e0f233169329, jekyll 3.10.0)
+   2bd4789..e0f2331  e0f2331693292d3fdeaf48d6a864a3670eca7dbe -> main
+```
+
+배포 완료(`pages_wait`, Pages 빌드 기록 `builds/latest`가 이 커밋·built·오류 없음):
+
+```
+OK 빌드 e0f233169329 built 2026-11-19T18:58:35Z
+```
+
+라이브 다섯 문서(`live live3 <PUSH3_SHA> "$W/g/site"`, `?cb=<PUSH3_SHA>`)가 200·기대 제목이고 로컬 G 빌드와 바이트가 같습니다. 이 푸시는 문서만 실었으므로 사이트 출력은 게이트 푸시 때와 같습니다.
+
+```
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다 bytes=same
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 bytes=same
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 bytes=same
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 bytes=same
+OK HTTP /support/ 200 title=고객 지원 - 러닝펜슬 bytes=same
+```
+
+LIVE_PUSH3=OK
+
+성공 기준 1~5 (ROADMAP Phase 5). 지원 주소는 이름 표에서 변수로만 읽었고, 사업자 값과 함께 찍지 않았습니다.
+
+- SC1: `git fetch` 뒤 원격 main 사이트 이력(`.planning/` 제외)에서 주소를 처음 더한 커밋이 G `4ea25de8d80e`이고, 게이트 기록 커밋(`GATE_OPEN=OK`를 처음 더한 커밋 `9e3b9be2d0cc`)이 G의 조상입니다.
+- SC2: `DNS_FINAL=OK`(05-14)와 `SC_VERIFIED=OK`(05-09)가 있고, 라이브 `/`가 HTTPS 200입니다.
+- SC3: `$W/live3/` 다섯 문서의 `footblock`마다 라벨 「상호」·「대표자」·「사업자등록번호」 `<span>`, 「주소」 `<p>`, 「이메일」 `mailto:` 행이 하나씩 있습니다(건수만 셈).
+- SC4: 값 커밋 M4 `57e56b07f2ab`와 G가 바꾼 파일이 각각 `_data/company.yml` 하나이고, `$W/live3/` 출력 전체에 「전화」가 0건입니다.
+- SC5: `node "$W/pw/p5-support.mjs" https://runningpencil.com '?cb=e0f233169329'`(종료 코드 0, 출력 전체 아래). 네 문서(`/`·법적 3종)가 두 엔진 × 두 폭 모두 `supportlinks=2`(16줄)이고, `/support/` 1280 줄이 두 엔진 모두 `hdr=1 ftr=1`입니다. 375에서 `hdr=0`은 헤더 nav가 860px 이하에서 숨는 설계대로입니다(05-12와 같음).
+
+```
+OK sc1 addr-first=G gate-record-ancestor=1
+OK sc2 dns-final=1 sc-verified=1 https=200
+OK sc3 labels trade=1 rep=1 bizno=1 addr=1 email=1 docs=5
+OK sc4 m4-files=1 g-files=1 phone=0
+OK sc5 support=PASS links=2x4 self-hdr=1 self-ftr=1
+```
+
+```
+OK chromium 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK chromium 375 / supportlinks=2
+OK chromium 375 /privacy-policy/ supportlinks=2
+OK chromium 375 /terms/ supportlinks=2
+OK chromium 375 /data-deletion/ supportlinks=2
+OK chromium 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK chromium 1280 / supportlinks=2
+OK chromium 1280 /privacy-policy/ supportlinks=2
+OK chromium 1280 /terms/ supportlinks=2
+OK chromium 1280 /data-deletion/ supportlinks=2
+OK webkit 375 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=0 ftr=1 anchor=ok
+OK webkit 375 / supportlinks=2
+OK webkit 375 /privacy-policy/ supportlinks=2
+OK webkit 375 /terms/ supportlinks=2
+OK webkit 375 /data-deletion/ supportlinks=2
+OK webkit 1280 support ids=contact,report,faq mailto=1 dl=4 dt=4 hdr=1 ftr=1 anchor=ok
+OK webkit 1280 / supportlinks=2
+OK webkit 1280 /privacy-policy/ supportlinks=2
+OK webkit 1280 /terms/ supportlinks=2
+OK webkit 1280 /data-deletion/ supportlinks=2
+PASS support
+```
+
+PHASE5_SC=OK
