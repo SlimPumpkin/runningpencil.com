@@ -296,7 +296,47 @@ Plans:
   3. 앱 안 삭제 경로가 실제 메뉴 이름 「회원탈퇴」로 안내되고, 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내가 있다
   4. `/data-deletion/#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`이 각각 해당 제공자 섹션으로 바로 이동한다
   5. 삭제 안내의 사업자 정보와 연락처(지원 이메일 포함)는 `_data/company.yml`에서 읽고 본문에 값을 직접 쓰지 않아, 그 파일만 고치면 반영된다. 값이 없는 선택 항목(전화 등)은 자리표시 없이 표시되지 않는다
-**Plans**: TBD
+**Plans**: 13 plans
+
+Plans:
+**Wave 1**
+- [ ] 06-01-PLAN.md — 기준 커밋·운영 동일 빌드·앱 상태 탐침과 공통 규칙(tracer), Playwright 재설치 승인 checkpoint, p6-deletion 도구 음성·양성 대조
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 06-02-PLAN.md — 데이터 목록의 기준 시점 오류 정정(연결 해제 여섯 제공자, 기록 삭제 화면, 익명 약관 기록)과 결정 목록·ROADMAP 게이트 기록
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 06-03-PLAN.md — 앱 작업 게이트: 요청서(tracer), installation ID 결정, D-05 앱 작업과 U2 결론 blocking 사용자 작업
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 06-04-PLAN.md — 앱 작업 코드 확인(tracer), 해시 rate_limits 상한 결정(D-33 ③), 데이터 목록 재기준(D-06)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 06-05-PLAN.md — 운영자 삭제 요청 처리 절차(작업 13: 10일 상한, 대체 본인 확인, Meta 삭제 요청)
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 06-06-PLAN.md — 지워짐/남음 대조표(tracer), 익명 계정 문장(D-33 ①), prod 값 없는 기간과 표 범위(D-33 ②)
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 06-13-PLAN.md — 대조표 확정·기간 문구(PERIOD) 고정과 데이터 목록 반영(tracer), 표 밖 문장 근거와 목록 문서 커밋(원고보다 먼저, D-33)
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 06-07-PLAN.md — 원고를 시험 객체로 끝까지 판정(tracer), 가짜 값 변형, 글·표·앵커 승인
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 06-08-PLAN.md — 가짜 값 시험 실행(tracer), 스토어 개발자 이름 값 받기(D-33 ④), 실제 값 미리보기
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 06-09-PLAN.md — 값 커밋 S1·재작성 커밋 S2 후보 판정(tracer), 값·SHA 승인, fast-forward·푸시·라이브 확인
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 06-10-PLAN.md — check-site 6번 확장·8번 삭제 안내 가드 build 커밋과 양성·음성 대조, 훅 경로
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 06-11-PLAN.md — 원본 맵·두 CLAUDE.md(재생성)·이름 표·데이터 목록 「확인할 것」·README 문서 커밋
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 06-12-PLAN.md — 가드·문서 푸시 후보 판정(tracer), SHA 승인, 푸시·라이브 출력 불변 확인
 **UI hint**: no
 **External gates**: 이메일 게이트(Phase 5)가 열린 뒤에 커밋합니다. 웹 삭제 요청 경로가 이메일에 달려 있어, 경로가 빠진 삭제 안내를 라이브에 올리지 않기 위해서입니다. U6(탈퇴 후 공개 코스 유지, 비공개 코스 처리)이 결정돼야 합니다.
 **Research flag**: 부분. Meta Data Deletion Instructions의 내용 기준을 확인합니다. 나머지 사실은 Phase 1 데이터 목록을 씁니다.

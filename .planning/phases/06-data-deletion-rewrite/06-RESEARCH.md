@@ -771,19 +771,21 @@ Ground Rule(리팩터·시각·내용 분리, 사이트 커밋 → 승인 → �
 | A12 | Facebook ASID로 uid를 찾는 방법(운영자 도구) | M-5 | Meta 삭제 요청 처리 불가 |
 | A13 | Firestore PITR을 켜면 보존 기간이 7일 | 대조표 구간 H | prod에서 켤 때 표 행의 기간 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **D-05 앱 작업은 언제 들어오는가**
+계획 단계(2026-11-20)에서 다섯 질문 모두 계획이 처리하는 자리를 정했다. 사용자 결정이 필요한 것은 blocking checkpoint로 두었고 계획자가 대신 고르지 않았다.
+
+1. **D-05 앱 작업은 언제 들어오는가** — RESOLVED: `06-03-PLAN.md` Task 3(blocking `checkpoint:human-action`)이 앱 작업 해시·항목별 경로·U2 결론을 받을 때까지 단계를 멈추고, `06-04-PLAN.md` Task 1이 코드로 확인한다. 운영자 도구의 형태·범위는 앱 쪽 재량이고(06-03 Task 1 요청서 ③), 메일 경로의 연결 해제 문장은 D-32대로 도구 범위와 상관없이 참인 문장으로 쓴다.
    - What we know: 2026-11-20 앱 HEAD `21d5c86c`에 없음.
    - What's unclear: 일정, 운영자 도구의 형태(스크립트/함수)와 범위(제공자 연결 해제 포함 여부).
    - Recommendation: 계획 첫 체크포인트로 두고, 도구 범위가 정해지면 C-3 메일 경로 문장을 다시 봄.
-2. **「남는 데이터」의 공개 코스 기간 표현**
+2. **「남는 데이터」의 공개 코스 기간 표현** — RESOLVED: `06-06-PLAN.md` Task 3 물음 (b)(blocking `checkpoint:decision`)에서 사용자가 문구를 정하고(`PUBLIC_COURSE_PERIOD`), `06-13-PLAN.md`가 원고보다 먼저 데이터 목록 공개 코스 행에 적는다. 약관(Phase 8)은 같은 목록 사실을 따른다.
    - What we know: 코드상 기한 없음, 본인은 탈퇴 전 삭제 가능.
    - What's unclear: 「서비스를 운영하는 동안」 같은 표현을 사용자가 받아들이는지, 약관(Phase 8)과의 일치.
    - Recommendation: G-B 묶음에서 함께 확인.
-3. **installation ID 행** (대조표 E): 계정 데이터로 볼지, 앱에서 삭제 호출을 더할지.
-4. **소개 문단을 `section` 밖에 둘지** (본문 골격): CONVENTIONS 수정 여부.
-5. **check-site B1에 개발자 이름 비어 있음 검사를 넣을지** (D-20 재량).
+3. **installation ID 행** (대조표 E): 계정 데이터로 볼지, 앱에서 삭제 호출을 더할지. — RESOLVED: `06-03-PLAN.md` Task 2(blocking `checkpoint:decision`, 앱 작업 전)에서 사용자가 keep-out 또는 app-delete를 고른다(`INSTALL_ID`). app-delete면 앱 작업 ⑦이 되고, keep-out이면 설명 문장 여부를 `06-06-PLAN.md` Task 3 물음 (f)에서 정한다.
+4. **소개 문단을 `section` 밖에 둘지** (본문 골격): CONVENTIONS 수정 여부. — RESOLVED: `06-07-PLAN.md` assumptions가 (가) 최상위 `<p>` 하나로 정했고(D-16), `06-11-PLAN.md` Task 1·2가 CONVENTIONS와 두 CLAUDE.md 규칙에 한 줄을 더한다. `legal.css` 머리 주석은 출력 바이트 때문에 이 단계에서 고치지 않고 후속으로 넘긴다(06-07 assumptions에 이유).
+5. **check-site B1에 개발자 이름 비어 있음 검사를 넣을지** (D-20 재량). — RESOLVED: 넣는다. `06-10-PLAN.md` Task 1이 점검 8번에 삭제 안내 본문의 「러닝펜슬(개발자 」 소개 문단 검사를 넣어, 개발자 이름 값이 비면(소개 문단이 숨으면) 푸시가 멈춘다(음성 시험 `neg8-dev`).
 
 ## Sources
 
