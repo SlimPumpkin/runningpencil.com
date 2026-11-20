@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-11-20T02:13:09.133Z"
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-11-20T02:25:03.382Z"
 last_activity: 2026-11-20
 last_activity_desc: Phase 06 execution started
-state_head: 497d7223a17b8138cb2f6fbfb7a1698fa75597e9
+state_head: 812bc09c985e8994259eccbc59f59b32caa684e7
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 58
+  completed_plans: 59
   percent: 50
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 2 of 13
-Status: Executing Phase 06
+Plan: 3 of 13
+Status: Ready to execute
 Last activity: 2026-11-20 — Phase 06 execution started
 
 Progress: [█████░░░░░] 50%
@@ -118,6 +118,7 @@ Progress: [█████░░░░░] 50%
 | Phase 05 P14 | 8h (사용자 대기 포함) | 3 tasks | 3 files |
 | Phase 05 P15 | 11min | 3 tasks | 1 files |
 | Phase 06 P01 | 32min | 3 tasks | 2 files |
+| Phase 06 P02 | 25 min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -244,6 +245,8 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-15: 사용자가 승인한 SHA e0f233169329 하나만 원격 main에 푸시했고(사이트 출력은 G 그대로), 배포 완료 뒤 다섯 URL과 Phase 5 성공 기준 1~5를 라이브 근거로 다시 판정해 모두 OK (LIVE_PUSH3=OK, PHASE5_SC=OK). 이후 문서 커밋은 다음 단계 첫 푸시 때 나간다
 - [Phase 05]: UAT 9/9 통과(2026-11-20). 9번 결정 (b): BIZ-02·BIZ-03은 푸터·지원 페이지 범위로 줄이고, 법적 문서 범위는 BIZ-05(Phase 6)·BIZ-06(Phase 7)·BIZ-07(Phase 8)로 나눠 각 단계 Requirements 줄과 성공 기준에 넣음 (`99021d5`)
 - [Phase 06]: 06-01: 기준 BASE_SHA=89f659a5fdca(= 원격 main e0f233169329의 .planning 밖 트리), 앱 APP_BASE=a5db31953e1e(runs-delete-callers=0, D-25 차단 상태)를 기록했다. Playwright 1.59.1은 사용자 승인(install, 2026-11-20, Phase 6 동안 같은 버전·같은 경로 재설치 포함) 뒤 스크래치에만 설치했고, p6-deletion.mjs가 기준에서 FAIL, 양성 시험 객체에서 두 엔진·두 폭 PASS다
+- [Phase 06]: 06-02: 데이터 목록 기준 시점 정정 — 연결 해제는 여섯 제공자(건너뛸 수 있음, Apple Android 미확인), 기준 커밋 앱에 기록 삭제 화면 없음, 익명 계정은 확인한 경로 안에서 users/{uid} 쓰기를 찾지 못함 (INV_FIX_SHA ea0a0d7355d1, 기준 앱 커밋 그대로)
+- [Phase 06]: 06-02: U6-가·U6-나·N3 결정됨, U2와 D-05 앱 작업 묶음(①②③⑤⑥)이 Phase 6 커밋을 막음 — 결정 목록과 ROADMAP External Gates에 기록 (DEC_SHA ef3e0073b7b2)
 
 ### Pending Todos
 
@@ -288,6 +291,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-20T02:08:48.546Z
-Stopped at: Completed 06-01-PLAN.md
+Last session: 2026-11-20T02:25:02.791Z
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None
