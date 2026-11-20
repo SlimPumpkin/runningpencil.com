@@ -3,10 +3,10 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-02-PLAN.md
+stopped_at: "06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ①②③⑤⑥과 U2 결론 보고를 기다림"
 last_updated: "2026-11-20T02:30:44.119Z"
 last_activity: 2026-11-20
-last_activity_desc: Phase 06 execution started
+last_activity_desc: 06-03 Task 3(앱 작업 보고) 대기
 state_head: 2bdedf391e750aa4049d13c79556c30a556b6acb
 progress:
   total_phases: 10
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
 Plan: 3 of 13
 Status: Executing Phase 06
-Last activity: 2026-11-20 — Phase 06 execution started
+Last activity: 2026-11-20 — 06-03 Task 3(앱 작업 보고) 대기
 
 Progress: [█████░░░░░] 50%
 
@@ -292,5 +292,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-11-20T02:25:02.791Z
-Stopped at: Completed 06-02-PLAN.md
-Resume file: None
+Stopped at: 06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ①②③⑤⑥과 U2 결론 보고를 기다림
+Resume file: .planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md (## 06-03 앱 작업 요청, ## 06-03 결정)
