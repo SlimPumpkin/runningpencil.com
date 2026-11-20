@@ -29,6 +29,8 @@
 3. 고친 뒤 이 머리의 기준 앱 커밋을 그때의 앱 HEAD로 올리고, 행 번호도 새 커밋 기준으로 고칩니다.
 4. `config/dev.json`은 앱 저장소가 추적하지 않는 로컬 설정 파일이라 `git diff`에 나오지 않습니다. 재확인 때마다 파일을 직접 다시 엽니다. 이 목록은 그 파일에서 `enabledAuthProviders`와 `emailDelivery` 두 키만 인용합니다.
 
+2026-11-20 정정 (Phase 6 연구): 기준 커밋 `3afb2085` 시점에 이미 있던 오류(구간 D·G 연결 해제 대상, 구간 C 기록 삭제, 구간 A·H 익명 약관 기록)를 고쳤다. 기준 앱 커밋은 그대로이고, D-05 앱 작업 뒤 재기준은 따로 한다.
+
 ## 근거로 삼은 경로
 
 앱 저장소 기준 경로입니다. 표의 근거 칸과 본문 문장에서 근거로 쓴 경로를 모두 적습니다.
@@ -95,6 +97,15 @@
 - `docs/guide.md`
 - `lib/core/firebase/firebase_options_prod.dart`
 - `lib/core/firebase/firebase_options_stg.dart`
+- `lib/features/settings/data/disconnect/disconnect_steps.dart`
+- `lib/features/settings/data/disconnect/disconnect_step.dart`
+- `lib/features/settings/data/disconnect/server_disconnect_step.dart`
+- `lib/features/settings/data/disconnect/google_disconnect_step.dart`
+- `lib/features/settings/data/disconnect/apple_disconnect_step.dart`
+- `lib/features/settings/data/disconnect/naver_disconnect_step.dart`
+- `lib/features/settings/data/disconnect/line_disconnect_step.dart`
+- `lib/features/settings/presentation/withdrawal_disconnect_notifier.dart`
+- `lib/features/runs/data/run_repository.dart`
 
 ## 읽는 법
 
@@ -151,11 +162,11 @@
 | `identity_index/{provider}:{providerUserId}` (필드 `firebaseUid`, `provider`, `providerUserId`, `linkedAt`, `lastSeenAt`) | 계정 | 로그인 제공자 회원번호와 서버 시각 (Functions가 기록, 클라이언트 접근 차단) | 제공자 계정과 앱 계정을 잇는 색인 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴까지 | 탈퇴 시 `deleteUserAccount`가 `firebaseUid`가 같은 문서를 모두 삭제 | `functions/src/auth/identity_index.ts:1095-1101`, `firestore.rules:290-292`, `functions/src/auth/delete_user_account.ts:313-334` |
 | Storage `users/{uid}/` 아래 프로필 사진 (이미지 형식, 5MB 이하, 본인만 읽기) | 프로필 | 사용자가 고른 사진 (정식 사용자만 올림) | 직접 고른 프로필 사진 | Storage 기본 버킷 `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev CLI, 2026-11-15 조회. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지. 지운 객체는 소프트 삭제로 7일 보관 (근거: dev CLI, 2026-11-15 조회) | 탈퇴 시 `deleteUserAccount`가 `users/{uid}/` 아래 객체를 모두 삭제. 실패하면 탈퇴를 멈추고 다시 시도할 수 있음 | `storage.rules:12-19`, `functions/src/auth/delete_user_account.ts:211-215`, `functions/src/auth/delete_user_account.ts:134-141` |
 | Email/Password 계정의 이메일·비밀번호 (Firebase Authentication이 보관) | 계정 | 사용자 입력 | 이메일 로그인. 가입 화면 노출 여부는 결정 목록 U5 | Firebase Authentication, 미국 (공식 문서) | Google (Firebase·GCP) | 있음. 미국 (Firebase Authentication은 미국 데이터센터에서만 운영, 공식 문서) | 삭제 요청까지. 삭제 뒤 180일 안에 라이브·백업에서 제거 (공식 문서) | 탈퇴 시 `deleteUserAccount`가 Auth 계정을 삭제 | `lib/features/auth/data/auth_repository.dart:305`, `lib/features/auth/data/auth_repository.dart:368`, `functions/src/auth/delete_user_account.ts:279` |
-| 익명 계정 (uid와 그 계정의 `termsAccepted`) | 계정 | 익명 로그인 (uid만 받음) | 가입 전 둘러보기. 코스·기록·뱃지 쓰기는 막힘 | Firebase Authentication, 미국 (공식 문서). `termsAccepted`는 Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | Auth 레코드는 있음. 미국 (공식 문서). `termsAccepted`는 미확인 (prod 리전에 따름. 결정 목록 「prod 리전」) | 기한 없음. 익명 계정 자동 정리가 dev에서 꺼져 있음 (근거: dev 설정 기록(문서)) | 미확인 (익명 사용자에게 탈퇴 메뉴가 보이는지 확인하지 못함. 결정 목록 N3) | `docs/kit-fork.md:445`, `firestore.rules:41-45`, `firestore.rules:322`, `firestore.rules:351`, `firestore.rules:428` |
+| 익명 계정 (uid) | 계정 | 익명 로그인 (uid만 받음) | 가입 전 둘러보기. 코스·기록·뱃지 쓰기는 막힘 | Firebase Authentication, 미국 (공식 문서) | Google (Firebase·GCP) | Auth 레코드는 있음. 미국 (공식 문서) | 기한 없음. 익명 계정 자동 정리가 dev에서 꺼져 있음 (근거: dev 설정 기록(문서)) | 탈퇴 메뉴에 갈 수 없음(익명 사용자는 「내 계정」에서 설정으로 되돌려짐, `lib/core/router/auth_guard.dart:265-269`). 자동 정리는 dev에서 꺼져 있음 | `docs/kit-fork.md:445`, `firestore.rules:41-45`, `firestore.rules:322`, `firestore.rules:351`, `firestore.rules:428`, `lib/core/router/auth_guard.dart:265-269`, `lib/features/terms/presentation/terms_notifier.dart:19-24`, `firestore.rules:377-381` |
 
 - 클라이언트가 쓸 수 있는 `users/{uid}` 키는 `termsAccepted`, `signUpProviderId`, `customPhotoUrl` 세 개뿐입니다. 나머지 필드는 Functions(Admin SDK)만 씁니다 (`firestore.rules:48-50`).
 - `termsAccepted.marketing`으로 마케팅 정보 수신 동의를 받습니다 (`lib/l10n/app_ko.arb:192`). 마케팅 푸시를 실제로 보내는 기능은 확인하지 못했습니다 (「미확인」. 배포된 푸시 함수는 시험용 `sendTestPush`뿐입니다, `functions/src/index.ts:82`). 결정 목록 N4로 넘깁니다.
-- 익명 계정 행: `firestore.rules:41-42`의 주석은 익명 계정이 30일 뒤 지워진다고 적지만, 이는 자동 정리를 켠 경우의 설명입니다. dev에서는 자동 정리가 꺼져 있습니다 (`docs/kit-fork.md:445`, 근거: dev 설정 기록(문서)).
+- 익명 계정 행: 익명 사용자의 약관 동의는 기기 안 `SharedPreferences`에만 저장한다(`lib/features/terms/presentation/terms_notifier.dart:19-24`). 확인한 경로(익명 로그인, 약관 미러, 가입 기록, 프로필 사진, `mirrorAccountEmail`) 안에서는 앱이 익명 계정의 `users/{uid}`를 쓰는 곳을 찾지 못했다. 규칙은 익명의 생성을 허용하므로(`firestore.rules:377-381`) 「쓸 수 있다」와 「앱이 쓴다」를 구분한다. `firestore.rules:41-42` 주석의 30일 삭제는 자동 정리를 켠 경우의 설명이다.
 
 ## B. 로그인 제공자별 수신 항목
 
@@ -178,11 +189,11 @@
 
 | 항목 | 범주 | 출처 | 목적 | 저장 위치(리전) | 수탁자 | 국외 이전 | 보유 기간 | 삭제 방식 | 근거 |
 |---|---|---|---|---|---|---|---|---|---|
-| `runs/{runId}.path` (GPS 궤적, 인코딩 문자열 100,000자 이하) | 위치 기록 | 기기 GPS (기록 중) | 달린 기록의 경로 보관과 표시 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지 | 탈퇴 시 `cleanupUserData`가 삭제. 본인이 기록을 지울 수 있음 | `firestore.rules:236`, `firestore.rules:347-353`, `functions/src/running_pencil/cleanup_user_data.ts:42-56` |
-| `runs/{runId}`의 나머지 필드 (`userId`, `courseId`, `courseTitle`, `policyVersion`, `startedAt`, `endedAt`, `durationSeconds`, `distanceMeters`, `startCheckpointIndex`, `direction`, `movingSeconds`, `isCompleted`, `checkpointHitRatio`) | 위치 기록 | 기록 중 기기가 계산한 값 (시각은 기기 시각) | 달린 기록(시간, 거리, 완주 여부) 보관과 표시 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지 | 탈퇴 시 `cleanupUserData`가 삭제. 본인이 기록을 지울 수 있음 | `firestore.rules:231-257`, `firestore.rules:347-353`, `functions/src/running_pencil/cleanup_user_data.ts:42-56` |
+| `runs/{runId}.path` (GPS 궤적, 인코딩 문자열 100,000자 이하) | 위치 기록 | 기기 GPS (기록 중) | 달린 기록의 경로 보관과 표시 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴까지 (앱 화면으로 본인이 지울 수 없음, 기준 커밋) | 탈퇴 시 `cleanupUserData`가 삭제. 규칙은 본인 삭제를 허용함(`firestore.rules:347-353`). 기준 커밋의 앱에는 기록을 지우는 화면이 없음(`RunRepository.delete` 호출처 없음, `lib/features/runs/data/run_repository.dart:153-157`) | `firestore.rules:236`, `firestore.rules:347-353`, `functions/src/running_pencil/cleanup_user_data.ts:42-56`, `lib/features/runs/data/run_repository.dart:153-157` |
+| `runs/{runId}`의 나머지 필드 (`userId`, `courseId`, `courseTitle`, `policyVersion`, `startedAt`, `endedAt`, `durationSeconds`, `distanceMeters`, `startCheckpointIndex`, `direction`, `movingSeconds`, `isCompleted`, `checkpointHitRatio`) | 위치 기록 | 기록 중 기기가 계산한 값 (시각은 기기 시각) | 달린 기록(시간, 거리, 완주 여부) 보관과 표시 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴까지 (앱 화면으로 본인이 지울 수 없음, 기준 커밋) | 탈퇴 시 `cleanupUserData`가 삭제. 규칙은 본인 삭제를 허용함(`firestore.rules:347-353`). 기준 커밋의 앱에는 기록을 지우는 화면이 없음(`RunRepository.delete` 호출처 없음, `lib/features/runs/data/run_repository.dart:153-157`) | `firestore.rules:231-257`, `firestore.rules:347-353`, `functions/src/running_pencil/cleanup_user_data.ts:42-56`, `lib/features/runs/data/run_repository.dart:153-157` |
 | `courses/{courseId}` (`creatorId`, `title`, `polyline`, `waypoints`, `sketchPolyline`, `distanceMeters`, `startPoint`, `bounds`, `badgeTemplateId`, `createdAt`, `updatedAt`, `visibility`, `badgeRotationDegrees`, 공개 전환 때 `publishedAt`) | 코스 | 사용자가 지도에 그린 코스 (찍은 웨이포인트와 맞춘 경로) | 코스 저장. 공개로 바꾸면 다른 사용자에게 보임 (공개 전환은 한 방향) | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 기한 없음. 탈퇴 뒤에도 남음 (공개·비공개 모두) | 탈퇴 시 삭제하지 않음 (공개·비공개 모두). 본인이 탈퇴 전에 코스를 하나씩 지울 수 있음. 결정 목록 U6 | `firestore.rules:192-200`, `firestore.rules:319-333`, `functions/src/running_pencil/cleanup_user_data.ts:17-21`, `lib/features/courses/data/course_repository.dart:327` |
 | `users/{uid}/badges/{courseId}` (`runId`, `earnedAt`, `title`, 코스 모양 사본 `polyline`, `badgeTemplateId`, `badgeRotationDegrees`) | 뱃지 | 코스를 완주했을 때 앱이 기록 | 완주 뱃지 보관과 표시 (코스가 지워져도 뱃지를 그림) | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 탈퇴 또는 본인 삭제까지 | 탈퇴 시 `cleanupUserData`가 삭제. 규칙상 본인 삭제 허용 (앱 화면의 삭제 메뉴는 미확인) | `firestore.rules:269-281`, `firestore.rules:426-434`, `functions/src/running_pencil/cleanup_user_data.ts:64-69` |
-| `region` (courses·runs·badges 공통 선택 필드, 법정동 단위 지역: `kind`, `emdCode`, `sido`, `sigungu`, `emd`, `sidoLabel`, `sigunguLabel`, `dataVersion`) | 위치 기록 | 코스 출발점 좌표로 서버가 판정한 법정동 (`resolveRegion`, `onCourseWritten`) | 코스·기록·뱃지를 지역으로 묶어 보여 줌 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 담긴 문서를 따름 (코스는 기한 없음, 기록·뱃지는 탈퇴 또는 본인 삭제까지) | 담긴 문서를 따름 (코스의 `region`은 탈퇴 시 삭제하지 않음, 기록·뱃지의 `region`은 탈퇴 시 `cleanupUserData`가 삭제) | `firestore.rules:138-152`, `functions/src/running_pencil/region/resolve_region.ts:1-28`, `functions/src/running_pencil/region/on_course_written.ts:1-17` |
+| `region` (courses·runs·badges 공통 선택 필드, 법정동 단위 지역: `kind`, `emdCode`, `sido`, `sigungu`, `emd`, `sidoLabel`, `sigunguLabel`, `dataVersion`) | 위치 기록 | 코스 출발점 좌표로 서버가 판정한 법정동 (`resolveRegion`, `onCourseWritten`) | 코스·기록·뱃지를 지역으로 묶어 보여 줌 | Firestore `asia-northeast3` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 담긴 문서를 따름 (코스는 기한 없음, 기록은 탈퇴까지, 뱃지는 탈퇴 또는 본인 삭제까지) | 담긴 문서를 따름 (코스의 `region`은 탈퇴 시 삭제하지 않음, 기록·뱃지의 `region`은 탈퇴 시 `cleanupUserData`가 삭제) | `firestore.rules:138-152`, `functions/src/running_pencil/region/resolve_region.ts:1-28`, `functions/src/running_pencil/region/on_course_written.ts:1-17` |
 | 기기 안 원시 GPS 로그 `active_run.jsonl` (앱 전용 폴더의 `runs/` 아래 파일 하나) | 위치 기록 | 기기 GPS (기록 중) | 기록 중인 세션의 원시 위치를 기록 저장 전까지 보관 | 기기 안에만 저장 (서버로 보내지 않음) | 없음 (기기 안) | 해당 없음 (기기 안) | 정상 종료면 저장 직후 삭제. 비정상 종료 때 남는 기간은 미확인 | 정상 종료면 기록 저장 직후 앱이 지움 | `lib/features/runs/application/run_log_store.dart:20`, `lib/features/runs/application/run_log_store.dart:56-57` |
 
 ### 위치를 읽는 세 시점
@@ -205,11 +216,11 @@
 | 장소 검색 `searchPlaces` (검색어, 지도 중심 좌표) | 외부 요청 | 검색어(50자 이하)와 지도 중심 좌표 | 코스 에디터의 장소·주소 검색. Functions 로그에는 uid, 검색어 길이, 결과 건수와 코드만 남음 (검색어·좌표 없음). 결과를 저장하지 않음 | 저장하지 않음. 처리 위치 Cloud Functions `asia-northeast3` (근거: 코드). 네이버클라우드 쪽 저장 여부 미확인 | 네이버클라우드 (NCP Geocoding·Reverse Geocoding, NAVER API HUB 지역검색) | 미확인 (Functions는 prod 리전에 따름, 결정 목록 「prod 리전」. 네이버클라우드 처리 위치 미확인) | Functions는 저장하지 않음. 네이버클라우드 쪽 보유 기간 미확인 | 해당 없음 (Functions는 저장하지 않음). 네이버클라우드 쪽 삭제 방식 미확인 | `functions/src/running_pencil/search_places.ts:1-33`, `functions/src/running_pencil/search_places.ts:790-798`, `functions/src/shared/ncp_maps_params.ts`, `functions/src/shared/naver_api_hub_params.ts`, `functions/src/shared/region.ts:2` |
 | 지역 판정 `resolveRegion` (좌표 1개) | 외부 요청 | 코스 출발점 좌표 1개 | 코스의 지역(법정동) 판정. 외부 호출 없음 (Functions 안의 경계 데이터로 판정). 로그에는 uid, 판정 성공 여부, 소요 시간만 남음 (좌표 없음) | 저장하지 않음. 처리 위치 Cloud Functions `asia-northeast3` (근거: 코드) | Google (Firebase·GCP) | 미확인 (prod 리전에 따름. dev는 서울 리전, 근거: dev. 결정 목록 「prod 리전」) | 저장하지 않음. 판정 결과는 코스의 `region`으로 저장 (구간 C) | 해당 없음 (저장하지 않음) | `functions/src/running_pencil/region/resolve_region.ts:1-28`, `functions/src/shared/region.ts:2` |
 | 네이버 지도 SDK (`flutter_naver_map`) | 외부 요청 | 지도 타일 요청과 클라이언트 ID. 그 밖에 SDK가 보내는 항목은 미확인 | 지도 표시. 앱 임시 문구가 「네이버 지도 SDK 이용 정보가 네이버클라우드에 제공」된다고 적음. 고지 의무는 결정 목록 U8 | 미확인 (네이버클라우드 쪽 처리·저장 위치) | 네이버클라우드 | 미확인 | 미확인 | 미확인 | `pubspec.yaml:78-79`, `lib/l10n/app_ko.arb:197` |
-| 소셜 연결 끊기 (카카오·네이버·Facebook·LINE) | 외부 요청 | 제공자별 토큰·회원번호 | 탈퇴하기 전에 서비스별로 제공자 쪽 앱 연결(권한) 해제. 건너뛸 수 있음 | 저장하지 않음. 처리 위치 Cloud Functions `asia-northeast3` (근거: 코드) | 해당 없음. 카카오·네이버·Facebook·LINE API에 직접 보내는 요청 | 미확인 (각 제공자 API 서버 위치 미확인) | 저장하지 않음. 제공자 쪽 처리는 각 제공자 정책에 따름 (미확인) | 해당 없음 (저장하지 않음) | `functions/src/index.ts:67-76`, `lib/l10n/app_ko.arb:364`, `lib/l10n/app_ko.arb:377`, `functions/src/shared/region.ts:2` |
+| 소셜 연결 끊기 (여섯 제공자) | 외부 요청 | 제공자별 토큰·회원번호 | 탈퇴하기 전에 제공자마다 앱 연결(권한) 해제를 시도. 모든 단계는 건너뛸 수 있음. 방식: 카카오·Facebook은 서버 함수(`disconnectKakaoProvider`·`disconnectFacebookProvider`)가 사용자 로그인 없이 해제. 네이버·LINE은 앱에서 그 제공자로 다시 로그인한 뒤 서버 함수(`disconnectNaverProvider`·`disconnectLineProvider`)가 해제. Google은 다시 로그인한 뒤 앱이 Google 로그인 SDK로 이 앱의 승인을 취소(`GoogleSignIn.disconnect()`). Apple은 재인증 뒤 앱이 Firebase Auth의 폐기 API로 Apple 토큰을 폐기(iOS `revokeTokenWithAuthorizationCode`, Android `revokeAccessToken`). Apple Android 경로가 실제로 연결을 해제하는지는 앱 코드가 실측 전(`[ASSUMED]`)으로 표시해 미확인 | 저장하지 않음. 처리 위치: 카카오·Facebook·네이버·LINE은 Cloud Functions `asia-northeast3` (근거: 코드). Google·Apple은 앱(기기)에서 제공자 API 호출 (Apple은 Firebase Auth 폐기 API를 거침. 그 뒤 처리 위치는 미확인) | 해당 없음. 여섯 제공자(카카오·네이버·Google·Apple·Facebook·LINE) API로 보내는 요청 | 미확인 (각 제공자 API 서버 위치 미확인) | 저장하지 않음. 제공자 쪽 처리는 각 제공자 정책에 따름 (미확인) | 해당 없음 (저장하지 않음) | `lib/features/settings/data/disconnect/disconnect_steps.dart:35-48`, `lib/features/settings/data/disconnect/server_disconnect_step.dart:45-60`, `lib/features/settings/data/disconnect/naver_disconnect_step.dart:79-99`, `lib/features/settings/data/disconnect/line_disconnect_step.dart:75-98`, `lib/features/settings/data/disconnect/google_disconnect_step.dart:48-71`, `lib/features/settings/data/disconnect/apple_disconnect_step.dart:13-19`, `lib/features/settings/data/disconnect/apple_disconnect_step.dart:57-77`, `lib/features/settings/presentation/withdrawal_disconnect_notifier.dart:14`, `functions/src/index.ts:67-76`, `lib/l10n/app_ko.arb:364`, `lib/l10n/app_ko.arb:372`, `lib/l10n/app_ko.arb:377`, `functions/src/shared/region.ts:2` |
 | Cloud Functions 로그의 uid (Cloud Logging) | 외부 요청 | Functions가 호출마다 남기는 로그 | 오류 추적과 운영 확인. 로그에 uid, 결과 코드, 소요 시간이 남음. 이 목록이 확인한 함수(`snapRoute`, `searchPlaces`, `resolveRegion`, `deleteUserAccount`)의 로그에는 좌표·검색어가 없음. 그 밖의 함수 로그 항목은 미확인 | Cloud Logging 기본 로그 버킷, 위치 `global` (근거: dev CLI, 2026-11-15 조회) | Google (Firebase·GCP) | 미확인 (기본 로그 버킷의 위치가 특정 리전이 아닌 `global`. 실제 저장 국가 미확인) | 30일 (기본 로그 버킷 보존 기간, 근거: dev CLI, 2026-11-15 조회) | 앱이 지우지 않음. 기본 로그 버킷 보존 기간(30일)이 지나면 지워짐 | `functions/src/running_pencil/snap_route.ts:535-542`, `functions/src/running_pencil/search_places.ts:790-798`, `functions/src/running_pencil/region/resolve_region.ts:190`, `functions/src/auth/delete_user_account.ts:372-379` |
 
 - 라우터 접속 기록의 가림 처리: 요청 경로의 좌표 구간을 가리고, 라우터 열쇠 헤더를 지우고, 접속 IP는 앞부분만 남깁니다 (`infra/router/Caddyfile:24-41`). 라우터의 호스트 이름과 고정 IP는 이 목록에 적지 않습니다.
-- 소셜 연결 끊기의 요청은 Google이 아니라 각 제공자 API로 갑니다. 이 요청이 제3자 제공인지 같은 법적 구분은 Phase 7에서 합니다.
+- 소셜 연결 끊기의 요청은 Firebase에 저장하지 않고 각 제공자 API로 갑니다 (Google 행도 Firebase·GCP의 처리가 아니라 Google 계정에서 이 앱의 승인을 취소하는 요청입니다). 이 요청이 제3자 제공인지 같은 법적 구분은 Phase 7에서 합니다.
 
 ## E. 기기·알림·분석·크래시
 
@@ -253,7 +264,7 @@
 | `mail` 중 그 사용자 주소가 든 문서 (dev에서는 쓰지 않음) | 삭제하지 않음. 확장 TTL 설정 1일에 맡김 (dev에는 확장 설치 안 됨·TTL 정책 없음, 근거: dev CLI, 2026-11-15 조회) | `functions/src/auth/delete_user_account.ts`, `extensions/firestore-send-email.env:6-8` (탈퇴 함수에 해당 단계 없음) |
 | Analytics·Crashlytics에 붙은 uid | 앱이 삭제 API를 부르지 않음. 서비스의 보존 기간에 따름 (Analytics 미확인, Crashlytics 90일) | `functions/src/auth/delete_user_account.ts`, `functions/src/running_pencil/cleanup_user_data.ts` (해당 호출 없음) |
 | Cloud Functions 로그의 uid | 앱이 지우지 않음. 로그 보존 기간에 따름 (dev 기본 로그 버킷 30일, 근거: dev CLI, 2026-11-15 조회) | `functions/src/auth/delete_user_account.ts:372-379` |
-| 제공자 쪽 앱 연결 (카카오·네이버·Facebook·LINE) | 탈퇴 전에 서비스별로 연결을 끊는 단계가 있음. 건너뛸 수 있음 | `lib/l10n/app_ko.arb:364`, `lib/l10n/app_ko.arb:377` |
+| 제공자 쪽 앱 연결 (여섯 제공자) | 탈퇴 전에 여섯 제공자 모두 연결 해제 단계가 있음. 건너뛸 수 있음. 건너뛰면 사용자가 제공자 설정에서 직접 해제(앱 안내 문구). Apple Android 경로의 해제 여부는 미확인 (구간 D) | `lib/features/settings/data/disconnect/disconnect_steps.dart:35-48`, `lib/l10n/app_ko.arb:364`, `lib/l10n/app_ko.arb:372`, `lib/l10n/app_ko.arb:377` |
 
 - 앱 안 메뉴 이름은 「회원탈퇴」입니다 (`lib/l10n/app_ko.arb:349`).
 - 탈퇴는 5분 안에 다시 로그인한 토큰을 요구합니다 (`functions/src/auth/delete_user_account.ts:171-191`).
@@ -285,7 +296,7 @@
 | 익명 계정 자동 정리 | dev에서 꺼져 있음 (MVP 내내 끔) | dev 설정 기록(문서) | `docs/kit-fork.md:445`, `docs/kit-fork.md:460` |
 
 - prod와 stg 프로젝트는 아직 없고 두 설정 파일은 placeholder이므로, 이 표의 값은 모두 dev 기준입니다 (`lib/core/firebase/firebase_options_prod.dart:2`, `lib/core/firebase/firebase_options_stg.dart:2`, 결정 목록 P1).
-- 익명 계정 자동 정리가 dev에서 꺼져 있어 익명 계정과 그 계정의 약관 동의 기록은 기한 없이 남습니다 (`docs/kit-fork.md:445`, 결정 목록 N3).
+- 익명 계정 자동 정리가 dev에서 꺼져 있어 익명 계정(Auth 레코드)은 기한 없이 남습니다. 확인한 경로 안에서 앱은 익명 계정의 약관 동의를 서버에 쓰지 않습니다(구간 A). (`docs/kit-fork.md:445`, 결정 목록 N3)
 - Google Analytics 보존 기간은 공식 문서에 선택지만 있어 기본값을 적지 않았습니다. Cloud Logging 보존 기간은 dev 프로젝트를 CLI로 조회한 값입니다 (2026-11-15).
 - Firebase Authentication이 미국에서만 운영된다는 사실은 prod 리전과 상관없이 처리방침의 국외 이전 항목에 들어갑니다 (결정 목록 N2).
 
@@ -306,7 +317,7 @@
 | 네이버 지도 SDK가 보내는 항목 | 사용자·약관 확인 (결정 목록 U8) | 네이버 지도 이용약관, SDK 문서 | Phase 7, Phase 8 |
 | Facebook SDK 실제 전송 | 사용자 (절차서 작업 12, 결정 목록 N1) | Meta Events Manager, 병합된 매니페스트 | Phase 7 |
 | 마케팅 푸시 발송 여부 | 사용자 (절차서 작업 12, 결정 목록 N4) | 앱 계획 | Phase 7 |
-| 익명 사용자의 탈퇴 경로 | 사용자 (절차서 작업 12, 결정 목록 N3) | 앱 화면 | Phase 6, Phase 7 |
+| 익명 사용자의 탈퇴 경로 | 사용자 (절차서 작업 12, 결정 목록 N3) | 확인함 (Phase 6 연구, 기준 커밋 코드): 익명 사용자는 회원탈퇴에 갈 수 없음 (`auth_guard.dart:265-269`) | Phase 6, Phase 7 |
 
 ## CLI 조회 기록
 
