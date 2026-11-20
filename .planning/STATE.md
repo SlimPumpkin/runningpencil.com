@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Phase 6 context gathered
-last_updated: "2026-11-20T01:32:26.152Z"
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-11-20T02:08:49.366Z"
 last_activity: 2026-11-20
 last_activity_desc: Phase 06 execution started
-state_head: a5bb3b3085e5f3502a8a55596a88d78d226462c6
+state_head: 567274af32927d8959a6c1fd98436d028a84faa2
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 57
+  completed_plans: 58
   percent: 50
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 1 of 13
-Status: Executing Phase 06
+Plan: 2 of 13
+Status: Ready to execute
 Last activity: 2026-11-20 — Phase 06 execution started
 
 Progress: [█████░░░░░] 50%
@@ -117,6 +117,7 @@ Progress: [█████░░░░░] 50%
 | Phase 05 P13 | 13min | 3 tasks | 11 files |
 | Phase 05 P14 | 8h (사용자 대기 포함) | 3 tasks | 3 files |
 | Phase 05 P15 | 11min | 3 tasks | 1 files |
+| Phase 06 P01 | 32min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -242,6 +243,7 @@ Recent decisions affecting current work:
 - [Phase 05]: 05-14: 마지막 DNS(A 4·Google MX 1·SPF 1·SC TXT 1·DKIM 0)와 /·/support/ HTTPS 200, 작업 5 보고(TASK5=OK)로 D-06 단계 완료 표 일곱 행을 모두 충족으로 기록했다 (PHASE5_RECORD=OK). 작업 7은 05-09 SITE03을 인용, DKIM은 참고 행으로 Phase 10
 - [Phase 05]: 05-15: 사용자가 승인한 SHA e0f233169329 하나만 원격 main에 푸시했고(사이트 출력은 G 그대로), 배포 완료 뒤 다섯 URL과 Phase 5 성공 기준 1~5를 라이브 근거로 다시 판정해 모두 OK (LIVE_PUSH3=OK, PHASE5_SC=OK). 이후 문서 커밋은 다음 단계 첫 푸시 때 나간다
 - [Phase 05]: UAT 9/9 통과(2026-11-20). 9번 결정 (b): BIZ-02·BIZ-03은 푸터·지원 페이지 범위로 줄이고, 법적 문서 범위는 BIZ-05(Phase 6)·BIZ-06(Phase 7)·BIZ-07(Phase 8)로 나눠 각 단계 Requirements 줄과 성공 기준에 넣음 (`99021d5`)
+- [Phase 06]: 06-01: 기준 BASE_SHA=89f659a5fdca(= 원격 main e0f233169329의 .planning 밖 트리), 앱 APP_BASE=a5db31953e1e(runs-delete-callers=0, D-25 차단 상태)를 기록했다. Playwright 1.59.1은 사용자 승인(install, 2026-11-20, Phase 6 동안 같은 버전·같은 경로 재설치 포함) 뒤 스크래치에만 설치했고, p6-deletion.mjs가 기준에서 FAIL, 양성 시험 객체에서 두 엔진·두 폭 PASS다
 
 ### Pending Todos
 
@@ -286,6 +288,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-19T20:46:16.803Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-data-deletion-rewrite/06-CONTEXT.md
+Last session: 2026-11-20T02:08:48.546Z
+Stopped at: Completed 06-01-PLAN.md
+Resume file: None
