@@ -420,3 +420,63 @@ mid1 arb termsDetailPlaceholder ko=1 en=1 ja=1
 ### 관문 상태
 
 06-03 Task 3은 그대로 대기다. 중간 확인이 끝난 것은 ①·②·⑤다. 남은 것은 앱 작업 ③(운영자 삭제 도구)·⑥(위치정보 확인자료)과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 두 가지(U2가 법률 확인 전 초안일 때 진행할지, ⑥이 요청서의 파기 사실을 따르는지)다. ①은 앱 로컬 커밋이고 원격에는 아직 없다.
+
+## 06-03 중간 보고 ⑥ (2026-11-26)
+
+앱 작업 ⑥(위치정보 확인자료 기록)이 끝났다는 보고와, Task 3이 받는 답 가운데 일부를 사용자에게 받아 적었다. Task 3의 보고로는 닫지 않았다. 요청서 ③(운영자 삭제 도구)과 관리도구가 아직 없고, 보고도 ⑥의 세 파기 경로 가운데 운영자 「위치 기록만」은 도구가 없어 확인하지 못했다고 적었기 때문이다. 그래서 이 구간에도 Task 3이 쓰는 표식을 적지 않았다. 앞 구간 「관문 상태」의 남은 항목은 이 구간으로 고쳐 읽는다.
+
+MID6_SEEN=e54b8bdd1a83
+
+### 받은 것
+
+사용자가 2026-11-26에 보낸 네 줄을 옮겼다.
+
+- 앱 커밋 `e54b8bdd1a83`. 기능 커밋은 `ffc1a2437824`·`b0213047e939`·`6776c186eeb2`, 문서는 `docs/location-use-records.md`다.
+- U2 결론: 위치기반서비스사업(위치정보법 제9조 신고). 법령 원문 조사 결과이고 법률 확인을 거치지 않았다.
+- ⑥ 파기 답: 요청서의 파기 사실을 따른다(conform). 앱 기록 삭제와 탈퇴 두 경로는 dev에서 실제로 확인했다. 운영자 「위치 기록만」은 도구가 없어 확인하지 못했고, 같은 트리거가 덮는다.
+- 보존 기간: 184일(어느 날 저장해도 달력 6개월 이상)에 자동 삭제 지연(보통 하루 안)이 더해진다.
+
+받지 않은 것: U2가 법률 확인 전 초안이므로 Task 3은 초안으로 진행할지 기다릴지를 사용자 답으로 받는다. 이번 네 줄에는 그 답이 없다.
+
+### 이 세션이 읽은 것 (탐침)
+
+`git -C "$APP"`의 `rev-parse`·`log`·`merge-base`·`cat-file`·`show`·`grep`·`diff`·`ls-tree`·`status`만 썼고 앱 저장소에 쓰지 않았다. dev 프로젝트는 `gcloud firestore fields ttls list`(조회)만 불렀다. 탐침일 뿐이고 판정은 06-04가 한다.
+
+```
+mid6 head e54b8bdd1a83 origin-main=same clean=yes
+mid6 ancestor 3afb20858257 yes
+mid6 ancestor d6c1a12a35e9 yes
+mid6 commits ffc1a2437824,b0213047e939,6776c186eeb2 in-head=3/3 in-origin=3/3
+mid6 probe e54b8bdd1a83 runs-delete-callers=1 deletion-files-changed=35 rate-limits-in-deletion=6 visibility-in-deletion=4
+mid6 path docs/location-use-records.md present
+mid6 path functions/src/running_pencil/location_use_records/location_use_record.ts present
+mid6 path functions/src/running_pencil/location_use_records/on_run_written.ts present
+mid6 record collection=location_use_records doc-id=runId fields=8 retention-days=184
+mid6 dev-ttl location_use_records.expireAt=ACTIVE rate_limits.expireAt=ACTIVE date=2026-11-26
+mid6 operator-tool none
+```
+
+- 앱 로컬 `main`과 원격 추적 가지가 모두 `e54b8bdd1a83`이다. 앞 구간 ①의 세 커밋도 이 커밋의 조상이라 이제 원격에 있다. 기준 앱 커밋 `3afb20858257`부터의 차이(`functions lib firestore.rules storage.rules config`): `129 files changed, 5797 insertions(+), 688 deletions(-)`.
+- 무엇: 확인자료는 달리기 기록 `runs/{runId}` 1건마다 1건이고 완주·미완주를 가리지 않는다. 필드는 여덟 개다(`uid`, `runId`, `runStartedAt`, `runEndedAt`, `recordedAt`, `collectionMethod`, `purpose`, `expireAt`. `location_use_record.ts:50-67`). 경로·좌표·코스 제목·이메일·이름은 넣지 않는다. 제공 기록은 없다(문서는 남에게 사용자 위치를 넘기는 경로가 없다고 적는다).
+- 어디: Firestore `location_use_records/{runId}`(문서 ID가 runId). 규칙 `firestore.rules:364-366`이 클라이언트의 읽기·쓰기를 본인 것까지 모두 막는다. 쓰는 함수는 2세대 Firestore 트리거 `onRunWritten`(`on_run_written.ts:278-279`, `runs/{runId}`, `retry: true`)이다.
+- 얼마: `LOCATION_USE_RECORD_RETENTION_DAYS = 184`(`location_use_record.ts:31`), `expireAt`은 서버 기록 시각에 184일을 더한 값이다. 지우는 것은 Firestore TTL 정책이고 만료 뒤 삭제까지 지연이 있다(문서: 보통 24시간 안). dev에는 이 정책이 `ACTIVE`다(2026-11-26 조회). prod는 앱 문서 `docs/kit-fork.md` 사람 작업 13번이다.
+- 파기 (a) 앱 기록 삭제: `runs` 문서가 지워지면 `onRunWritten`의 삭제 처리가 그 runId의 확인자료를 지운다(`on_run_written.ts:212`). 생성 처리는 트랜잭션 안에서 `runs` 문서가 아직 있을 때만 쓰므로(132-155행) 기록 직후 삭제가 먼저 처리돼도 확인자료가 남지 않는다.
+- 파기 (b) 회원탈퇴: `cleanupUserData`가 `runs`를 지우면 (a)의 트리거가 기록마다 지우고, 그와 따로 `location_use_records where uid == uid`를 직접 지운다(`cleanup_user_data.ts:124-136`). 실패하면 error 로그(step `location_use_records`)와 「(partial)」 info 로그가 남는다.
+- 파기 (c) 운영자 도구 「위치 기록만」: 도구가 없다. `functions/src`에 운영자 삭제 함수로 보이는 것이 없고, 앱 문서도 「트리거가 덮음 · 미검증」으로 적는다.
+- 앱 문서 `docs/location-use-records.md`(101줄)가 무엇·어디·얼마·파기 경로·dev 실제 확인을 적는다. dev 확인 기록은 run 생성 뒤 3초 안에 확인자료 생김, (a) 삭제 뒤 3초 안에 없어짐, 생성 직후 삭제 3회에 고아 0, (b) 계정 삭제 뒤 7초 안에 run·확인자료·run 없는 확인자료가 모두 없어짐이다.
+- 임시 개요 4항(ko, `termsDetailPlaceholder`)에 「위치 이용 기록(확인자료)은 6개월 보관한 뒤 삭제하며, 탈퇴하거나 기록을 지우면 바로 삭제합니다.」가 더해졌다.
+- 앱 todo: `completed/2026-11-21-location-confirmation-records.md`. `pending/`에 새로 `2026-11-26-location-terms-consent-step.md`, `2026-11-26-location-info-manager-designation.md`, `2026-11-26-location-records-view-and-notice.md`, `2026-11-26-operator-location-access-log.md`가 있다.
+- 확인하지 않은 것: dev 배포와 실제 확인 결과(건수·시간·로그)는 앱 문서에 적힌 그대로다. 시험 코드는 읽지 않았다.
+
+### 뒤 계획이 맞춰야 할 것
+
+- 06-04 Task 1의 ⑥ 확인은 세 경로(회원탈퇴와 운영자 도구 「계정 전체」, 운영자 도구 「위치 기록만」, 앱 기록 삭제)를 모두 코드에서 읽어야 통과한다. 운영자 도구가 없는 지금은 (c)를 코드로 읽을 수 없다. ③이 들어온 뒤에 Task 3 보고를 받는다.
+- 보존 기간은 「184일」이 코드 값이고 사용자 결정은 「6개월」이다(결정 목록 U2, 2026-11-26). 삭제 안내·처리방침·위치약관에 어느 쪽으로 적을지와 TTL 삭제 지연을 어떻게 적을지는 06-06 대조표와 06-07 원고에서 정한다. 탈퇴하거나 기록을 지우면 바로 지우므로, 이 기간은 「남는 데이터」가 아니라 이용 중인 사용자의 보관 기간이다.
+- 데이터 목록에 새 행이 필요하다(06-04 재기준 구간 C의 확인자료 행): `location_use_records/{runId}`, 필드 여덟 개, 서버 전용, 184일과 TTL, 세 파기 경로. Functions 로그 행에는 `location_use_record_written`·`cleanup_user_data_done`의 필드(uid·동작·건수)가 더해진다.
+- prod 전제가 넷이 됐다: 익명 계정 자동 정리(D-26), `rate_limits`의 `expireAt` TTL 정책, App Engine 기본 서비스 계정의 `roles/datastore.user`, `location_use_records`의 `expireAt` TTL 정책(이 구간. 켜지 않으면 확인자료가 기한 없이 남는다). 앱 쪽 목록은 `docs/kit-fork.md`의 「처음 설정」 6번과 사람 작업 13번이다.
+- 탈퇴와 기록 삭제의 파기는 트리거가 한다. `onRunWritten`은 `retry: true`로 다시 시도하고, `cleanupUserData`는 실패하면 로그만 남긴다(앞 구간 ①의 실패 경로 메모와 같다).
+- Phase 7·8이 읽을 것: 확인자료는 처리방침의 개인위치정보 항목과 위치약관의 「확인자료 보유 근거·기간」에 들어간다. 앱의 대기 todo 넷(위치약관 동의 단계, 위치정보관리책임자 지정, 열람·고지 기록, 운영자 열람 기록)은 위치약관(Phase 8) 문장의 전제다.
+
+### 관문 상태
+
+06-03 Task 3은 그대로 대기다. 중간 확인이 끝난 것은 ①·②·⑤·⑥이다. 남은 것은 앱 작업 ③(운영자 삭제 도구)과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 것 가운데 U2 초안으로 진행할지다. ⑥ 파기 답은 두 경로에 대해 받았고, 운영자 도구 경로는 ③이 들어온 뒤 다시 받는다.
