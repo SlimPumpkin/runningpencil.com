@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-04-PLAN.md (익명 행 정정 d7dd8609bcb9 포함. 06-06 전에 계획 수정 필요)
-last_updated: "2026-11-26T11:54:17.101Z"
+stopped_at: Completed 06-05-PLAN.md
+last_updated: "2026-11-26T12:20:14.671Z"
 last_activity: 2026-11-26
 last_activity_desc: Phase 06 execution started
-state_head: a88afe93e562be8ce86b6f6b7b2e6c49f3279255
+state_head: 536a2b29deae3b11862fa6e93b6d77a4bde203b1
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 61
+  completed_plans: 62
   percent: 50
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 5 of 13
+Plan: 6 of 13
 Status: Ready to execute
-Last activity: 2026-11-26 — Completed quick task 261126-rw9: 06-06-PLAN.md를 익명 행 정정(ANON_ROW_FIX_SHA)에 맞춤: 데이터 목록 읽기 시점, Task 2 익명 사실과 rate_limits 확인 문구, 06-RESEARCH C-7 정정 메모, STATE Blockers 줄 닫음
+Last activity: 2026-11-26 — Phase 06 execution started
 
 Progress: [█████░░░░░] 50%
 
@@ -121,6 +121,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P02 | 25 min | 3 tasks | 4 files |
 | Phase 06 P03 | 6일 (앱 작업 대기 포함) | 3 tasks | 3 files |
 | Phase 06 P04 | 16min | 3 tasks | 3 files |
+| Phase 06 P05 | 11min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -257,6 +258,9 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-04: 데이터 목록을 앱 커밋 92e986c3으로 재기준했다(REBASE_SHA aeb6f4461157, 인용 56개 재확인·27개 고침). 탈퇴 정리의 근거는 공유 helper user_data_cleanup.ts로 옮겼고, prod 전제 다섯 가지는 구간 H 아래 「prod 전제 (Phase 6 D-42)」 한곳에만 둔다. 푸시 안 함 — 삭제 안내 본문은 이 재기준한 목록의 사실만 쓴다(Ground Rule, 성공 기준 2). D-33 ①②④와 D-39의 기간·삭제 경로는 쓰지 않았다
 - [Phase 06]: 06-04: 결정 목록 U2는 「결정됨」이 아니라 「초안으로 진행」(법률 확인 전), U6-나는 「앱 반영됨」(낱말은 「공개하지 않은 코스」)으로 고쳤다. 화면 사실: 위치정보 동의만 끄는 설정 없음, 익명에게 열린 새 users 쓰기 없음, 코스 화면은 만든 사람을 표시하지 않음 — D-36·D-39. 06-07 원고의 #location 문장과 「남는 데이터」 표의 근거
 - [Phase 06]: 06-04: 익명 계정에 대해 「서버 문서가 없다」고 쓸 수 없다. 익명 호출을 받는 서버 함수 둘(lookupSignInMethods, sendPasswordResetMail)이 그 uid가 든 rate_limits 기록을 만들고, 익명 사용자는 회원탈퇴에 갈 수 없어 만료 시각과 TTL 정책으로만 지워진다. 찾지 못한 것은 users/{uid} 쓰기뿐이다. 재기준 커밋의 구간 A 익명 행을 별도 문서 커밋 d7dd8609bcb9로 고쳤다(REBASE_SHA aeb6f4461157은 그대로) — 계획이 준 문장을 글자 그대로 커밋한 뒤 계획 끝 점검에서 앱 코드와 다름을 찾음. 데이터 목록은 삭제 안내의 유일한 사실 근거라 확인되지 않은 문장을 남기지 않음
+- [Phase 06]: 06-05: 운영자 삭제 요청 처리 절차를 USER-TASKS 작업 13으로 남겼다(OPS_SHA 0cc0e1767353). 도구 실행은 앱 문서 docs/operator-delete-tool.md(기준 앱 커밋 92e986c3)를 가리키고 절차서는 본인 확인, 범위 고르기(account·records), 답장만 다룬다. 완료 답장은 --apply 실행의 종료 코드 0과 1시간 뒤 재확인(0이어야 하는 키가 모두 0) 뒤에만 보낸다. 계정 삭제 상한은 「요청을 받은 날부터 10일 안」, 「뱃지와 기록 모두 삭제」는 본인 확인 뒤 「지체 없이」 — 사이트의 처리 상한·본인 확인 문장·요청 이름은 심사 제출물이라 운영 절차가 먼저 있어야 원고(06-07)가 지킬 수 있는 문장만 쓴다(D-07, D-29, D-43). dry-run은 개수와 상관없이 종료 코드 0이라 완료 판정을 --apply 종료 코드와 재확인 개수로 나눴다
+- [Phase 06]: 06-05: 탈퇴 정리 실패 로그(cleanup_user_data_failed)를 영업일마다 보고 그 uid를 범위 account로 다시 지우는 일을 절차서 12번에 넣었다(OPS_FAILLOG=included) — 탈퇴 정리는 Auth 삭제 뒤에 도는 트리거라 실패하면 로그만 남고 다시 돌지 않는다. Auth가 없는 uid의 남은 데이터를 지울 수 있는 수단은 운영자 도구뿐이고, 삭제 안내는 탈퇴 때 개인위치정보와 확인자료를 지체 없이 파기한다고 쓴다(DEL-06, D-41, D-43의 계획자 재량)
+- [Phase 06]: 06-05: 절차서에 적지 않고 열어 둔 것: 이메일 없는 계정의 uid를 콘솔에서 찾는 방법, 본인 확인 답장이 10일 안에 오지 않을 때의 처리(법률 확인 범위, RESEARCH A2), Meta 삭제 요청 목록의 식별자로 계정을 찾는 방법(RESEARCH A12), 익명(둘러보기) 계정이 보낸 메일 요청. 대체 본인 확인의 추가 질문 예시는 공개 저장소의 절차서에 있다(사이트에는 나가지 않음) — 계획·D-30·연구·앱 문서에 근거가 없는 처리는 운영자가 지킬 수 없는 절차가 되므로 적지 않았다(계획 prohibition). 06-07 원고는 이 경우들을 약속하는 문장을 쓰지 않는다
 
 ### Pending Todos
 
@@ -308,6 +312,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-26T10:53:40.131Z
-Stopped at: Completed 06-04-PLAN.md (익명 행 정정 d7dd8609bcb9 포함. 06-06 전에 계획 수정 필요)
+Last session: 2026-11-26T12:20:14.091Z
+Stopped at: Completed 06-05-PLAN.md
 Resume file: None
