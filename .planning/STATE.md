@@ -4,10 +4,10 @@ current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
 stopped_at: Completed 06-04-PLAN.md (익명 행 정정 d7dd8609bcb9 포함. 06-06 전에 계획 수정 필요)
-last_updated: "2026-11-26T10:53:40.833Z"
+last_updated: "2026-11-26T11:54:17.101Z"
 last_activity: 2026-11-26
 last_activity_desc: Phase 06 execution started
-state_head: d7dd8609bcb965ff7534ce27a904eca2603eaf91
+state_head: a88afe93e562be8ce86b6f6b7b2e6c49f3279255
 progress:
   total_phases: 10
   completed_phases: 5
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
 Plan: 5 of 13
 Status: Ready to execute
-Last activity: 2026-11-26 — Phase 06 execution started
+Last activity: 2026-11-26 — Completed quick task 261126-rw9: 06-06-PLAN.md를 익명 행 정정(ANON_ROW_FIX_SHA)에 맞춤: 데이터 목록 읽기 시점, Task 2 익명 사실과 rate_limits 확인 문구, 06-RESEARCH C-7 정정 메모, STATE Blockers 줄 닫음
 
 Progress: [█████░░░░░] 50%
 
@@ -291,7 +291,12 @@ Phase 5 후속:
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
 - [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ①(06-06 Task 2), D-33 ②·D-39(06-06 Task 3), D-33 ④(06-08 Task 2). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 물음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
-- [Phase 06] 06-06을 실행하기 전에 06-06-PLAN.md Task 2를 고쳐야 함: 그 계획은 git show REBASE_SHA(aeb6f4461157)의 익명 행을 읽고 action이 사용자에게 「확인한 경로 안에서 앱이 익명 계정의 서버 문서를 쓰는 곳이 없음」·「남는 uid는 Analytics·Crashlytics·로그 행의 기간을 따름」을 보이게 돼 있는데, 앱 코드(92e986c3bb29)에서는 익명 호출이 uid가 든 rate_limits 기록을 만든다(lookupSignInMethods, sendPasswordResetMail. 만료 시각과 TTL 정책으로만 지워짐). 고친 문장은 d7dd8609bcb9의 데이터 목록 구간 A 익명 행, 근거는 06-EVIDENCE 「익명 행 정정 (재기준 커밋 뒤)」. 06-05는 영향 없음
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Status | Directory |
+|---|-------------|------|--------|--------|-----------|
+| 261126-rw9 | 06-06-PLAN.md를 익명 행 정정(ANON_ROW_FIX_SHA)에 맞춤: 데이터 목록 읽기 시점, Task 2 익명 사실과 rate_limits 확인 문구, 06-RESEARCH C-7 정정 메모, STATE Blockers 줄 닫음 | 2026-11-26 | a88afe9 | Verified | [261126-rw9-06-06-plan-md-anon-row-fix-sha-d7dd8609b](./quick/261126-rw9-06-06-plan-md-anon-row-fix-sha-d7dd8609b/) |
 
 ## Deferred Items
 
