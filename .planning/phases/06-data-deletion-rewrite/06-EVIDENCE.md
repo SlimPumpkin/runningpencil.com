@@ -573,3 +573,38 @@ mid3 callable operatorDeleteUserData app-check=enforced timeout-sec=300 admin-cl
 ### 관문 상태
 
 요청서의 앱 작업 ①②③⑤⑥이 모두 앱 로컬 커밋 `92e986c3bb29`에 있다. Task 3을 닫는 데 남은 것은 사용자 답 셋이다: 기준으로 삼을 앱 커밋, U2가 법률 확인 전 초안일 때 진행할지, 세 파기 경로 모두에 대한 ⑥ 파기 답.
+
+## 06-03 앱 작업 보고
+
+사용자가 Task 3(`checkpoint:human-action`, blocking-human)에 답했다 (2026-11-26). 요청서의 앱 작업 ①②③⑤⑥이 앱 커밋에 들어왔고 U2 결론을 받았다. 아래 값은 받은 그대로다. 항목마다 요청서의 사실이 참인지는 06-04 Task 1이 이 커밋의 앱 코드를 읽어 정한다. 이 계획은 앱 저장소에 쓰지 않았다.
+
+APP_WORK_HEAD=92e986c3bb29
+APP_ITEM_1=functions/src/running_pencil/user_data_cleanup.ts,functions/src/running_pencil/cleanup_user_data.ts
+APP_ITEM_2=functions/src/auth/delete_user_account.ts,functions/src/shared/rate_limit.ts,docs/guide.md
+APP_ITEM_3=functions/src/running_pencil/operator/operator_delete_user_data.ts,functions/src/running_pencil/operator/account_deletion_steps.ts,infra/operator/delete_user_data.mjs,docs/operator-delete-tool.md
+APP_ITEM_5=lib/features/runs/domain/record_deletion_targets.dart,lib/features/runs/application/record_deleter.dart,lib/features/courses/presentation/_widgets/course_delete_menu_button.dart,lib/features/settings/presentation/app_settings_sections.dart,lib/l10n/app_ko.arb
+APP_ITEM_6=functions/src/running_pencil/location_use_records/on_run_written.ts,functions/src/running_pencil/location_use_records/location_use_record.ts,docs/location-use-records.md,firestore.rules
+U2_RESULT=위치기반서비스사업(위치정보법 제9조 신고 대상). 사용자가 법령 원문 조사로 정했고 법률 확인을 거치지 않았다
+U2_STATUS=draft
+U2_PROCEED=user-accepted-draft
+DEL06_REPORT=conform
+APP_WORK=reported
+
+- 기준 앱 커밋: 사용자가 `92e986c3bb29`를 골랐다(앱 로컬 `main`의 끝. 물음에 대한 답). 받은 때 이 커밋은 앱 로컬에만 있었고 앱의 원격 추적 가지는 `e54b8bdd1a83`이었다. 06-04는 로컬 앱 저장소 `$APP`에서 읽는다.
+- 항목별 경로의 출처: ①③⑤⑥은 사용자가 넘긴 앱 쪽 보고(위 중간 보고 구간 ①·③·⑤·⑥)가 준 파일과 그 보고가 가리킨 문서다. ②는 사용자가 「kit 저장소에 구현해 두었다」고 알려 와 이 세션이 앱 커밋에서 찾은 파일이다(앱이 킷 v1.0.0-rc.16을 받은 것. 위 중간 보고 ②).
+  - ①은 두 파일을 함께 적었다. 삭제 코드는 `user_data_cleanup.ts`에 있고 탈퇴 정리 트리거 `cleanup_user_data.ts`가 그것을 부른다(③ 작업에서 옮겨 갔다).
+  - ⑤에는 메뉴가 붙은 화면 파일 둘과 한국어 문구 파일을 더했다(06-04가 메뉴 이름을 읽을 곳).
+  - ⑥에는 확인자료 컬렉션을 막는 규칙 파일을 더했다.
+- ③ 운영자 도구의 실행 방법이 적힌 곳: `docs/operator-delete-tool.md`의 「실행 방법」(명령 `node infra/operator/delete_user_data.mjs <dev|prod> <uid> <account|records> [--apply]`, 서버 함수 `operatorDeleteUserData`). 범위 id `account`가 요청서의 「계정 전체」, `records`가 「위치 기록만」이다(같은 문서 「범위 두 가지」).
+- U2: 결론과 확인한 사람은 위 표식 한 줄이다(결정 목록 U2, 2026-11-21과 2026-11-26). 법률 확인을 거치지 않은 초안이라 진행할지를 물었고, 사용자가 초안으로 진행(draft-proceed)을 골랐다. 실행자가 대신 고르지 않았다.
+- ⑥ 파기 답: 세 경로(앱 기록 삭제, 회원탈퇴와 운영자 「계정 전체」, 운영자 「위치 기록만」) 모두에 대해 사용자가 conform을 골랐다. 앞서 운영자 도구가 없을 때 받은 답은 두 경로에 대한 것이었고(위 중간 보고 ⑥), 이 답은 ③이 들어온 뒤 다시 받은 것이다.
+- ⑦은 요청에 들지 않았다(`INSTALL_ID=keep-out`). `APP_ITEM_7`은 적지 않는다.
+- 보고 조건은 「①②③⑤⑥이 들어간 앱 커밋, ③은 서버 함수와 명령」이다(위 「06-03 관문 조건」). 관리 화면은 이 보고에 들지 않는다.
+- 비밀, 토큰, 계정 값은 받지도 적지도 않았다.
+
+받은 경로가 그 커밋에 있는지만 이 세션이 읽기 전용으로 봤다(판정이 아니다. 06-04 Task 1이 다시 한다).
+
+```
+t3 head 92e986c3bb29 descends 3afb20858257
+t3 paths items=5 files=18 exists=18/18 in-diff-since-3afb20858257=18/18
+```
