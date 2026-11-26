@@ -13,6 +13,7 @@ requires:
     provides: "06-01의 스크래치 $W/lib.sh와 공통 규칙, 06-02의 기준 시점 정정(INV_FIX_SHA)·결정 기록(DEC_SHA)"
 provides:
   - "데이터 목록 재기준 커밋 REBASE_SHA=aeb6f4461157: 기준 앱 커밋 92e986c3 (2026-11-26), 바뀐 파일의 인용 56개 재확인(27개 고침), 구간 A·C·D·E·F·G·H의 앱 작업 뒤 사실, 새 행 넷(확인자료 C·G, 해시 rate_limits G, 운영자 삭제 도구 G), 새 절 「### prod 전제 (Phase 6 D-42)」(다섯 가지의 유일한 목록)"
+  - "익명 행 정정 커밋 ANON_ROW_FIX_SHA=d7dd8609bcb9: 재기준 커밋의 구간 A 익명 행에서 「익명 계정의 서버 문서를 쓰는 곳은 없어」를 users/{uid} 문서로 좁히고, 익명 호출이 만드는 uid rate_limits 기록(lookupSignInMethods, sendPasswordResetMail)을 적음. REBASE_SHA는 그대로"
   - "결정 목록: U2 「초안으로 진행」, U6-나 「앱 반영됨」 (같은 커밋)"
   - "06-EVIDENCE.md 구간 `## 06-04 앱 사실`(APP_HEAD, APP_FACTS=OK, RATE_EXPIRY, RECDEL_UNIT, RECDEL_BADGES), `## 06-04 화면 사실`(SCREEN_FACTS=OK, LOC_CONSENT_CONTROL=none-found, ANON_WRITE=none-found, COURSE_CREATOR=hidden), `## 06-04 재기준`(REBASE_SHA, REBASE_CITES)"
   - "스크래치 $W/app-diff.txt (근거 경로 83개의 3afb2085..92e986c3 차이, 6058줄)"
@@ -20,11 +21,11 @@ affects: [06-05, 06-06, 06-13, 06-07, 06-11, phase-07, phase-08]
 
 # Actuals (#2632)
 actuals:
-  tokens: 19721    # chars/4 over 실현된 diff (DATA-INVENTORY·DECISIONS 커밋 + 06-EVIDENCE.md 06-04 세 구간, 78885자. SUMMARY 제외)
+  tokens: 20335    # chars/4 over 실현된 diff (DATA-INVENTORY·DECISIONS 커밋 둘 + 06-EVIDENCE.md 06-04 구간, 81342자. SUMMARY 제외)
   tasks: 3
-  commits: 1       # 측정값: git rev-list --count plan_head_before..HEAD (SUMMARY 작성 시점). EVIDENCE와 이 SUMMARY는 바로 뒤 docs 커밋, STATE·ROADMAP 진행표는 그 뒤 기록 커밋
+  commits: 4       # 측정값: git rev-list --count plan_head_before..plan_head_after (익명 행 정정 뒤 다시 잼). 재기준 aeb6f44, SUMMARY·EVIDENCE b13aa82, STATE·ROADMAP 45439bf, 익명 행 정정 d7dd860. 이 SUMMARY의 고침과 EVIDENCE·STATE 보충은 그 뒤 docs 커밋 하나
 plan_head_before: 1bc5e4a043158ff49a98f1b789e81a28bf80c260
-plan_head_after: aeb6f4461157f5f2cefa1197c3481e3a8d54075c
+plan_head_after: d7dd8609bcb965ff7534ce27a904eca2603eaf91
 
 # Tech tracking
 tech-stack:
@@ -46,6 +47,7 @@ key-decisions:
   - "06-04: 앱 작업 ①②③⑤⑥의 요청 사실이 기준 앱 커밋 92e986c3bb29의 코드에서 모두 참으로 확인됐다. ⑥ 확인자료는 세 경로(앱 기록 삭제, 탈퇴와 운영자 계정 전체 삭제, 운영자 records) 모두에서 파기된다. 앱 HEAD는 d52d13a74f9b로 10커밋 앞서 있지만 바뀐 것은 앱의 계획 문서뿐이라 기준을 옮기지 않았다"
   - "06-04: 데이터 목록을 92e986c3으로 재기준했다(REBASE_SHA aeb6f4461157). 탈퇴 정리의 근거는 공유 helper user_data_cleanup.ts로 옮기고, prod 전제 다섯 가지는 구간 H 아래 「prod 전제 (Phase 6 D-42)」 한곳에만 둔다"
   - "06-04: 결정 목록 U2는 「결정됨」이 아니라 「초안으로 진행」으로 적었다(법률 확인 전). U6-나는 「앱 반영됨」이고 낱말은 「공개하지 않은 코스」다"
+  - "06-04: 익명 계정에 대해 「서버 문서가 없다」고 쓸 수 없다. 익명 호출을 받는 서버 함수 둘이 그 uid가 든 rate_limits 기록을 만들고, 익명 사용자는 탈퇴에 갈 수 없어 만료 시각과 TTL 정책으로만 지워진다. 찾지 못한 것은 users/{uid} 쓰기뿐이다 (정정 커밋 d7dd8609bcb9). 06-06 Task 2의 계획 글자는 실행 전에 고쳐야 한다"
 
 patterns-established:
   - "삭제·보존 사실의 근거는 트리거 파일이 아니라 실제 삭제 코드가 있는 helper(deleteRunningPencilUserData)를 가리키고, 트리거와 운영자 함수는 호출 근거로만 적는다"
@@ -121,8 +123,9 @@ completed: 2026-11-26
 1. **Task 1: 기준 앱 커밋·경로·항목 사실 확인 (tracer)** — 커밋 없음. 고친 파일이 `06-EVIDENCE.md`뿐이고, 06-01 「커밋 분리」 규칙대로 계획 끝 문서 커밋에 들어간다. `OK site-clean 06-04-t1 1bc5e4a04315`. verify exit 0을 두 번 확인한 뒤(tracer 관문) Task 2로 넘어갔다.
 2. **Task 2: 앱 화면 사실 재확인** — 커밋 없음(같은 이유). `OK site-clean 06-04-t2 1bc5e4a04315`
 3. **Task 3: 데이터 목록 재기준과 결정 목록 U2·U6-나** — `aeb6f4461157` (docs. `DATA-INVENTORY.md`·`DECISIONS.md` 둘만)
+4. **계획 끝 점검에서 찾은 익명 행 정정** — `d7dd8609bcb9` (docs. `DATA-INVENTORY.md` 하나. 아래 Deviation 4)
 
-**Plan metadata:** 이 SUMMARY와 `06-EVIDENCE.md`는 바로 뒤 docs 커밋 하나, STATE·ROADMAP 진행표는 그 뒤 기록 커밋으로 들어간다 (06-01~06-03과 같은 순서). 푸시하지 않았다.
+**Plan metadata:** SUMMARY와 `06-EVIDENCE.md`는 `b13aa82`, STATE·ROADMAP 진행표는 `45439bf`로 들어갔다 (06-01~06-03과 같은 순서). 익명 행 정정 뒤 SUMMARY·EVIDENCE·STATE의 보충은 그 뒤 docs 커밋 하나다. 푸시하지 않았다.
 
 ## Files Created/Modified
 
@@ -164,10 +167,26 @@ completed: 2026-11-26
 - **Fix:** 줄 머리(공백 뒤)가 `<automated>`인 줄만 꺼내도록 고쳤다. 계획의 명령 글자는 고치지 않았고, 꺼낸 글자를 첫 줄이 `#!/usr/bin/env bash`인 임시 파일에 그대로 적어 돌렸다.
 - **Files modified:** 없음 (저장소 밖 임시 스크립트)
 
+**4. [Rule 1 - 사실 오류] 구간 A 익명 행의 계획 문장이 앱 코드와 달라 별도 커밋으로 고침**
+- **Found during:** 계획 끝 점검 (Task 3 커밋 뒤)
+- **Issue:** 계획 Task 3 4번 (c)의 문장 「확인한 경로 안에서 앱이 익명 계정의 서버 문서를 쓰는 곳은 없어(앱 코드), Auth 레코드 밖에 남는 것은 Analytics·Crashlytics·Cloud Functions 로그에 붙은 uid이고 각 행의 기간을 따름」을 글자 그대로 커밋했는데, `92e986c3bb29`의 코드는 그렇지 않다. 서버 함수 `lookupSignInMethods`와 `sendPasswordResetMail`은 익명 호출을 받고 그 uid가 든 `rate_limits` 기록을 만든다(`sendTestPush`·`sendVerificationMail`은 익명을 거절한다). Task 2의 `ANON_WRITE`는 정의대로 `users` 문서만 봤다. 계획의 prohibition(확인하지 못한 앱 동작을 목록에 적지 않는다)에 걸린다.
+- **Fix:** 재기준 커밋은 그대로 두고(이력 수정 없음) 그 구절만 고친 문서 커밋을 더했다. 「`users/{uid}` 문서를 쓰는 곳은 찾지 못함」으로 좁히고, 두 함수가 만드는 uid `rate_limits` 기록과 그것이 만료 시각과 TTL 정책으로만 지워진다는 사실, 근거 행 넷을 적었다. 남는 것을 모두 센 표현은 쓰지 않았다. verify와 06-06 precondition이 찾는 문구는 그대로다.
+- **Files modified:** `.planning/baseline/DATA-INVENTORY.md`
+- **Verification:** Task 1·2·3 verify 다시 exit 0, 표 열 수 검사 통과, check-site 통과
+- **Committed in:** `d7dd8609bcb9`
+- **남은 일 (이 계획 밖):** 06-06 Task 2는 `REBASE_SHA`의 목록을 읽고 계획의 action 글자가 같은 틀린 사실을 사용자에게 보이게 돼 있다. 06-06을 실행하기 전에 계획을 고쳐야 한다. 이 계획은 06-06 계획 파일을 고치지 않았다.
+
+**5. [Rule 2 - 근거 보충] 구간 D 로그 행의 더한 문장이 계획 글자와 조금 다름**
+- **Found during:** Task 3
+- **Issue:** 계획의 문장은 「…확인자료 기록, 운영자 삭제 도구의 실행 기록(… Firestore 문서는 만들지 않음, D-44)」인데, 「확인자료 기록」 뒤에 로그 이름과 필드(`location_use_record_written`, uid·동작)를 넣고 「D-44」를 「Phase 6 D-44」로 적었다.
+- **Fix:** 그대로 두었다. verify가 찾는 「운영자 삭제 도구의 실행 기록」은 글자가 같고, 06-05~06-13 계획에 원래 글자를 찾는 곳이 없음을 확인했다.
+- **Files modified:** `.planning/baseline/DATA-INVENTORY.md`
+- **Committed in:** `aeb6f4461157`
+
 ---
 
-**Total deviations:** 3 auto-fixed (Rule 1 하나, Rule 2 하나, Rule 3 하나)
-**Impact on plan:** 범위는 그대로다. 사이트 파일을 고치지 않았고 사용자 결정을 대신하지 않았다.
+**Total deviations:** 5 auto-fixed (Rule 1 둘, Rule 2 둘, Rule 3 하나)
+**Impact on plan:** 범위는 그대로다. 사이트 파일을 고치지 않았고 사용자 결정을 대신하지 않았다. 계획의 truth 가운데 「익명 계정의 서버 문서 쓰기 없음」은 `users` 문서에 대해서만 참이고, 데이터 목록은 그 범위로 고쳐 적었다. 06-06 Task 2의 계획 글자는 실행 전에 고쳐야 한다.
 
 ## Issues Encountered
 
@@ -180,6 +199,7 @@ None - 외부 서비스 설정이 필요하지 않다. prod 전제 다섯 가지
 
 ## 뒤 계획이 알아야 할 것
 
+- **06-06을 실행하기 전에 계획 수정이 필요하다 (06-06 Task 2, D-33 ① 물음):** 그 계획은 `git show <REBASE_SHA>`의 익명 행을 읽고, action이 사용자에게 「확인한 경로 안에서 앱이 익명 계정의 서버 문서를 쓰는 곳이 없음(앱 코드)」과 「남는 uid는 Analytics·Crashlytics·로그 행의 기간을 따름」을 보이도록 적혀 있다. 앱 코드의 사실은 다르다: 익명 사용자가 가입 수단 조회(`lookupSignInMethods`)나 비밀번호 재설정 메일(`sendPasswordResetMail`)을 부르면 그 uid가 든 호출 횟수 제한 기록(`rate_limits`)이 생기고, 익명 사용자는 회원탈퇴에 갈 수 없어 이 기록은 만료 시각(제한 창 60초 끝)과 TTL 정책으로만 지워진다(TTL 정책은 prod 전제 2번). 고친 문장은 `d7dd8609bcb9`의 구간 A 익명 행에 있다. 연구 선택지 (가)의 「기록·코스·뱃지를 서버에 저장하지 않는다」는 규칙이 막는 것이라 그대로 참이다. 06-05는 영향이 없다.
 - **06-05 (운영 절차서):** 도구 실행은 앱 문서 `docs/operator-delete-tool.md`를 가리킨다. 탈퇴 정리 실패 로그 이름은 `cleanup_user_data_failed`(단계 `runs`·`courses`·`location_use_records`·`badges`), 탈퇴 함수의 uid `rate_limits` 정리 실패 로그는 `delete_user_rate_limits_orphan`이다. 운영자 도구는 두 범위 모두 1시간 뒤 같은 명령(dry-run)으로 다시 확인한다. 대체 본인 확인이 쓸 「내 계정」 화면 항목은 데이터 목록 구간 A 표 아래 글머리에 있다.
 - **06-06 Task 2 (D-33 ① 물음):** 앱 문서 `docs/kit-fork.md` 「익명 자동 정리」 절은 MVP 동안 끈다고 적고, 켜 두면 익명 계정의 뱃지도 잃는다고 적는다. 그런데 `AW`의 규칙은 익명 사용자의 뱃지 쓰기를 막는다(`firestore.rules:441`의 `isRegular()`). 같은 절은 dev에서 자동 정리가 켜져 있던 것을 2026-10-27에 껐다고 적는다. 사이트 D-26(prod에서 켬)과 어긋나는 곳이다.
 - **06-06·06-07:** 메뉴 문구와 경로는 데이터 목록 구간 C `runs` 행의 글자를 쓴다. 코스 상세 ⋮의 기록 삭제 항목은 한 번에 하나만 보인다(그 코스 뱃지가 있으면 「뱃지 삭제」, 없으면 「기록 삭제」). 설정의 「데이터 관리」 묶음은 게스트에게 숨긴다.
@@ -195,11 +215,15 @@ None - 외부 서비스 설정이 필요하지 않다. prod 전제 다섯 가지
 
 ## Self-Check: PASSED
 
-- 파일: `.planning/baseline/DATA-INVENTORY.md`, `.planning/baseline/DECISIONS.md`, `.planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md`, 이 SUMMARY 모두 있음
-- 커밋: `aeb6f4461157`이 HEAD의 조상이고 두 baseline 파일만 담음
-- Task 1·2·3 `<verify>`를 계획 끝에 다시 돌려 모두 exit 0
+익명 행 정정 커밋 뒤에 다시 돌린 결과다 (2026-11-26T10:52Z).
+
+- 파일: `.planning/baseline/DATA-INVENTORY.md`, `.planning/baseline/DECISIONS.md`, `.planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md`, 이 SUMMARY 모두 `FOUND`
+- 커밋: `aeb6f44`, `b13aa82`, `45439bf`, `d7dd860` 모두 HEAD의 조상(`git merge-base --is-ancestor`). `aeb6f44`는 두 baseline 파일만, `d7dd860`은 `DATA-INVENTORY.md` 하나만 담음
+- Task 1·2·3 `<verify>`를 정정 커밋 뒤에 다시 돌려 모두 exit 0
 - 계획 `<verification>`: `DEC_SHA..REBASE_SHA` 사이 사이트 파일 커밋 0건, `06-EVIDENCE.md`에 홈 경로·경로 꼴 0건, `.planning/baseline`에 앱 프로젝트 ID 0건
-- acceptance: 옛 기준 커밋 머리 줄 0, prod 전제 절 1, 확인자료 낱말 1 이상, 「공개하지 않은 코스」 6
+- 누출 점검: `1bc5e4a..HEAD`의 더해진 줄과 커밋 메시지에 경로·토큰 꼴, 홈 경로, 앱 프로젝트 ID 0건 (SUMMARY·STATE 포함. 정정 커밋 전 범위에서 쟀고 정정 커밋의 두 baseline·기록 파일은 다시 0건)
+- acceptance: 옛 기준 커밋 머리 줄 0, prod 전제 절 1, 확인자료 낱말 1 이상, 「공개하지 않은 코스」 1 이상
+- 처음 쓴 Self-Check는 SUMMARY 커밋과 기록 커밋이 생기기 전에 적은 것이라 이 결과로 바꿨다
 
 ---
 *Phase: 06-data-deletion-rewrite*

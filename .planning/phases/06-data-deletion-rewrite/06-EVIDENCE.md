@@ -714,3 +714,24 @@ OK site-clean 06-04-t3 aeb6f4461157
 - 「확인할 것」 표와 「CLI 조회 기록」은 인용 행 번호 말고는 고치지 않았다(「확인할 것」의 추적 항목은 06-11이 더한다).
 - 적지 않은 것: 익명 계정 문장을 삭제 안내에 쓸지(D-33 ①), prod 값이 없는 기간의 표기(D-33 ②), 개발자 이름(D-33 ④), 공개 코스의 기간·삭제 경로 약속(D-39). 앱 프로젝트 ID와 앱 문서의 명령 줄도 옮기지 않았다.
 - 결정 목록: 한눈에 보기 U2 상태 「초안으로 진행」, U6-나 상태 「앱 반영됨」. 두 풀이 절에 같은 뜻의 줄을 하나씩 더했다. U2·U6-나 풀이의 「근거」 문단은 결정 전 사실이라 그대로 두었다.
+- 구간 D 로그 행의 더한 문장은 계획의 글자와 조금 다르다: 「확인자료 기록」 뒤에 로그 이름과 필드(`location_use_record_written`, uid·동작)를 넣었고 「D-44」를 「Phase 6 D-44」로 적었다. verify가 찾는 「운영자 삭제 도구의 실행 기록」은 그대로이고, 06-05~06-13 계획에는 원래 글자를 찾는 곳이 없다.
+
+### 익명 행 정정 (재기준 커밋 뒤)
+
+ANON_ROW_FIX_SHA=d7dd8609bcb9
+
+재기준 커밋(`REBASE_SHA`)의 구간 A 익명 행에 계획의 문장 「확인한 경로 안에서 앱이 익명 계정의 서버 문서를 쓰는 곳은 없어(앱 코드), Auth 레코드 밖에 남는 것은 Analytics·Crashlytics·Cloud Functions 로그에 붙은 uid이고 각 행의 기간을 따름」을 글자 그대로 적었는데, 계획 끝 점검에서 `AW`의 코드가 이 문장을 뒷받침하지 않는 것을 찾았다. 별도 문서 커밋으로 그 구절만 고쳤다. `REBASE_SHA`와 그 커밋은 그대로다(이력 수정 없음).
+
+```
+anon-callable lookupSignInMethods anonymous=accepted uid-doc=lookupSignInMethods:<uid> window-sec=60
+anon-callable sendPasswordResetMail anonymous=accepted uid-doc=sendPasswordResetMail:<uid> window-sec=60
+anon-callable sendTestPush anonymous=rejected
+anon-callable sendVerificationMail anonymous=rejected
+check-site: 통과 (작업 트리, jekyll 3.10.0)
+OK site-clean 06-04-anonfix d7dd8609bcb9
+```
+
+- 근거(`AW`): `functions/src/auth/lookup_sign_in_methods.ts:62-63`(익명 사용자도 `request.auth` 조건을 만족), `:121-127`(uid 축 문서 ID). `functions/src/email/send_password_reset_mail.ts:29-31`(익명 허용, `isAnonymousCaller`로 거르지 않음), `:130-137`(uid 축 문서 ID). `functions/src/messaging/send_test_push.ts:312-316`과 `functions/src/email/send_verification_mail.ts:99-103`은 익명 호출을 호출 횟수 제한 기록을 만들기 전에 거절한다.
+- 고친 문장: 익명 계정의 `users/{uid}` 문서를 쓰는 곳은 찾지 못했다. 서버 함수 둘은 익명 호출을 받고 그 uid가 든 `rate_limits` 기록을 만든다. 익명 사용자는 회원탈퇴에 갈 수 없어 이 기록은 만료 시각과 TTL 정책으로만 지워진다. 「Auth 레코드 밖에 남는 것은 …」처럼 남는 것을 모두 센 표현은 쓰지 않았다. verify와 06-06 precondition이 찾는 문구(「자동 정리가 Auth 삭제 트리거」, 「MVP 동안 자동 정리를 끈 채 둔다고 적음」 등)는 그대로다.
+- `ANON_WRITE=none-found`는 정의대로(`3afb2085..AW` 차이에서 익명에게 열린 새 `users` 쓰기) 그대로 참이다. 다만 이 표식은 `users` 문서만 본 것이고 「익명 계정의 서버 문서가 없다」는 뜻이 아니다. uid 축 호출 횟수 제한 기록은 `3afb2085`에도 있던 것이다(`lookupSignInMethods`).
+- 06-06 Task 2는 `REBASE_SHA`의 목록을 읽고, 그 계획의 action 글자가 사용자에게 「확인한 경로 안에서 앱이 익명 계정의 서버 문서를 쓰는 곳이 없음」과 「남는 uid는 Analytics·Crashlytics·로그 행의 기간을 따름」을 보이도록 적혀 있다. 06-06을 실행하기 전에 그 계획을 고쳐야 한다(이 계획은 06-06 계획 파일을 고치지 않았다).

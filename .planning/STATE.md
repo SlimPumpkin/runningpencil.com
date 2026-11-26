@@ -3,11 +3,11 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-04-PLAN.md
-last_updated: "2026-11-26T10:44:07.509Z"
+stopped_at: Completed 06-04-PLAN.md (익명 행 정정 d7dd8609bcb9 포함. 06-06 전에 계획 수정 필요)
+last_updated: "2026-11-26T10:53:40.833Z"
 last_activity: 2026-11-26
 last_activity_desc: Phase 06 execution started
-state_head: b13aa8282cc9d1bbd52becde56de2ffa5a965cac
+state_head: d7dd8609bcb965ff7534ce27a904eca2603eaf91
 progress:
   total_phases: 10
   completed_phases: 5
@@ -256,6 +256,7 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-04: 앱 작업 ①②③⑤⑥의 요청 사실이 기준 앱 커밋 92e986c3bb29의 코드에서 모두 참으로 확인됐다(APP_FACTS=OK). ⑥ 확인자료는 세 경로(앱 기록 삭제, 탈퇴와 운영자 계정 전체 삭제, 운영자 records) 모두에서 파기된다. 앱 HEAD는 d52d13a74f9b로 10커밋 앞서 있지만 바뀐 것은 앱의 계획 문서뿐이라 기준을 옮기지 않았다 — 계획의 멈춤 조건(AW 뒤 커밋이 삭제 관련 경로를 바꿈)에 걸리지 않음. 기준은 D-36대로 사용자가 고른 커밋
 - [Phase 06]: 06-04: 데이터 목록을 앱 커밋 92e986c3으로 재기준했다(REBASE_SHA aeb6f4461157, 인용 56개 재확인·27개 고침). 탈퇴 정리의 근거는 공유 helper user_data_cleanup.ts로 옮겼고, prod 전제 다섯 가지는 구간 H 아래 「prod 전제 (Phase 6 D-42)」 한곳에만 둔다. 푸시 안 함 — 삭제 안내 본문은 이 재기준한 목록의 사실만 쓴다(Ground Rule, 성공 기준 2). D-33 ①②④와 D-39의 기간·삭제 경로는 쓰지 않았다
 - [Phase 06]: 06-04: 결정 목록 U2는 「결정됨」이 아니라 「초안으로 진행」(법률 확인 전), U6-나는 「앱 반영됨」(낱말은 「공개하지 않은 코스」)으로 고쳤다. 화면 사실: 위치정보 동의만 끄는 설정 없음, 익명에게 열린 새 users 쓰기 없음, 코스 화면은 만든 사람을 표시하지 않음 — D-36·D-39. 06-07 원고의 #location 문장과 「남는 데이터」 표의 근거
+- [Phase 06]: 06-04: 익명 계정에 대해 「서버 문서가 없다」고 쓸 수 없다. 익명 호출을 받는 서버 함수 둘(lookupSignInMethods, sendPasswordResetMail)이 그 uid가 든 rate_limits 기록을 만들고, 익명 사용자는 회원탈퇴에 갈 수 없어 만료 시각과 TTL 정책으로만 지워진다. 찾지 못한 것은 users/{uid} 쓰기뿐이다. 재기준 커밋의 구간 A 익명 행을 별도 문서 커밋 d7dd8609bcb9로 고쳤다(REBASE_SHA aeb6f4461157은 그대로) — 계획이 준 문장을 글자 그대로 커밋한 뒤 계획 끝 점검에서 앱 코드와 다름을 찾음. 데이터 목록은 삭제 안내의 유일한 사실 근거라 확인되지 않은 문장을 남기지 않음
 
 ### Pending Todos
 
@@ -290,6 +291,7 @@ Phase 5 후속:
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
 - [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ①(06-06 Task 2), D-33 ②·D-39(06-06 Task 3), D-33 ④(06-08 Task 2). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 물음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
+- [Phase 06] 06-06을 실행하기 전에 06-06-PLAN.md Task 2를 고쳐야 함: 그 계획은 git show REBASE_SHA(aeb6f4461157)의 익명 행을 읽고 action이 사용자에게 「확인한 경로 안에서 앱이 익명 계정의 서버 문서를 쓰는 곳이 없음」·「남는 uid는 Analytics·Crashlytics·로그 행의 기간을 따름」을 보이게 돼 있는데, 앱 코드(92e986c3bb29)에서는 익명 호출이 uid가 든 rate_limits 기록을 만든다(lookupSignInMethods, sendPasswordResetMail. 만료 시각과 TTL 정책으로만 지워짐). 고친 문장은 d7dd8609bcb9의 데이터 목록 구간 A 익명 행, 근거는 06-EVIDENCE 「익명 행 정정 (재기준 커밋 뒤)」. 06-05는 영향 없음
 
 ## Deferred Items
 
@@ -301,6 +303,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-26T10:44:06.944Z
-Stopped at: Completed 06-04-PLAN.md
+Last session: 2026-11-26T10:53:40.131Z
+Stopped at: Completed 06-04-PLAN.md (익명 행 정정 d7dd8609bcb9 포함. 06-06 전에 계획 수정 필요)
 Resume file: None
