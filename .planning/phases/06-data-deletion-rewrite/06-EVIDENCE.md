@@ -512,3 +512,64 @@ mid6 operator-tool none
 ### 관문 상태
 
 06-03 Task 3은 그대로 대기다. 남은 것은 앱 작업 ③ 하나와 Task 3 보고다. 보고에는 앱 커밋, 항목 ①②③⑤⑥의 경로, ③ 실행 방법이 적힌 곳, U2 초안으로 진행할지에 대한 답, 세 파기 경로(운영자 도구 포함)에 대한 ⑥ 파기 답이 들어간다.
+
+## 06-03 중간 보고 ③ (2026-11-26)
+
+앱 작업 ③(운영자 삭제 도구)이 끝났다는 앱 쪽 보고를 받아 적었다. 이것으로 요청서의 ①②③⑤⑥이 모두 앱 커밋에 들어왔다. Task 3은 사용자 답(기준 앱 커밋, U2 초안으로 진행할지, 세 경로에 대한 ⑥ 파기 답)을 받은 뒤 닫으므로 이 구간에도 Task 3이 쓰는 표식을 적지 않았다.
+
+MID3_SEEN=92e986c3bb29
+
+### 보고받은 것
+
+앱 쪽 보고(2026-11-26, 앱 quick 261126-jux)를 옮겼다.
+
+- 범위 이름 짝: `records`는 사이트의 「위치 기록만」이고 기록과 뱃지를 지운다. `account`는 「계정 전체」다.
+- `functions/src/running_pencil/operator/operator_delete_user_data.ts`: callable `operatorDeleteUserData`. 머리 주석에 범위, 호출 조건, 실패 규칙, 감사 로그가 있다. 「계정 전체」가 단건 `deleteUser`와 `deleteUidRateLimitDocs(db, uid)`를 부르는 곳은 `applyAccountScope`다. admin claim을 본 뒤 운영자 Auth 계정을 다시 읽어 비활성, claim 회수, 토큰 폐기를 거부한다.
+- `functions/src/running_pencil/operator/account_deletion_steps.ts`: Kit 탈퇴 단계를 따른 것(Storage `users/{uid}/`, 단건 `getAuth().deleteUser(uid)`, `identity_index`와 `users/{uid}`).
+- `functions/src/running_pencil/user_data_cleanup.ts`: RunningPencil 정리 공유 helper `deleteRunningPencilUserData`(runs 문서 단위 삭제, `location_use_records where uid` 삭제, 뱃지, 공개하지 않은 코스).
+- `functions/src/running_pencil/cleanup_user_data.ts`: 탈퇴 정리 트리거. 삭제 사실의 근거 코드가 이 파일에서 위 helper로 옮겨 갔다(트리거는 helper를 부르고 로그만 남긴다).
+- `infra/operator/delete_user_data.mjs`: 운영자 명령. 기본은 dry-run이고 `--apply` 때 uid를 다시 입력받는다. 종료 코드 0은 모든 단계가 끝났을 때만이다.
+- `docs/operator-delete-tool.md`: 범위, 서버 함수, 실행 방법, 1회 준비, 1시간 뒤 재확인, 제공자 연결 해제 답장 문장. 제공자 연결 해제는 도구가 하지 않는다.
+- `docs/location-use-records.md`: 파기 경로 (c)(운영자 「위치 기록만」)의 방법과 dev 결과. 세 경로 (a) 앱 기록 삭제, (b) 탈퇴와 운영자 「계정 전체」, (c) 운영자 「위치 기록만」이 모두 코드와 dev 실측으로 읽힌다는 보고다.
+- 커밋: 시작 기준 `e54b8bdd1a83`, 작업 `335bf2f98da7`부터 `bba9bde6664f`, 리뷰 수정 일곱(`34c9863eee7d`·`173803a57eb5`·`f8de5018ef5f`·`065ec3ce6919`·`23d9b3d4ea47`·`c019ed09bd3b`·`8ad7a66baa0b`), 검증 뒤 후속 셋(`bc3ec9299964`·`cd9c54ce85c4`·`4b2e847e873e`), dev 확인 기록 `590105935208`.
+
+### 이 세션이 읽은 것 (탐침)
+
+`git -C "$APP"`의 `rev-parse`·`log`·`rev-list`·`merge-base`·`cat-file`·`show`·`grep`·`diff`·`status`만 썼고 앱 저장소에 쓰지 않았다(fetch도 하지 않았다). 탐침일 뿐이고 판정은 06-04가 한다.
+
+```
+mid3 head 92e986c3bb29 origin-main=e54b8bdd1a83 pushed=no clean=yes
+mid3 commits reported=13 in-head=13/13 in-origin=0/13 since-e54b8bdd1a83=20
+mid3 probe 92e986c3bb29 runs-delete-callers=1 deletion-files-changed=35 rate-limits-in-deletion=6 visibility-in-deletion=2
+mid3 path functions/src/running_pencil/operator/operator_delete_user_data.ts present
+mid3 path functions/src/running_pencil/operator/account_deletion_steps.ts present
+mid3 path functions/src/running_pencil/user_data_cleanup.ts present
+mid3 path functions/src/running_pencil/cleanup_user_data.ts present
+mid3 path infra/operator/delete_user_data.mjs present
+mid3 path docs/operator-delete-tool.md present
+mid3 path docs/location-use-records.md present
+mid3 callable operatorDeleteUserData app-check=enforced timeout-sec=300 admin-claim=checked
+```
+
+- 앱 로컬 `main` 끝은 `92e986c3bb29`이고 `e54b8bdd1a83` 뒤로 커밋이 20개다. 원격 추적 가지 `origin/main`은 `e54b8bdd1a83` 그대로라 ③의 커밋은 로컬에만 있다. 기준 앱 커밋 `3afb20858257`부터의 차이(`functions lib firestore.rules storage.rules config`): `133 files changed, 8509 insertions(+), 707 deletions(-)`.
+- `mid3 probe`의 `visibility-in-deletion`이 4에서 2로 줄었다. 삭제 코드가 `cleanup_user_data.ts`에서 `user_data_cleanup.ts`로 옮겨 갔기 때문이다. 06-01 사양의 `appcheck`는 두 삭제 파일만 세므로, 이 두 값은 더는 삭제 사실을 대표하지 않는다.
+- `operator_delete_user_data.ts`(앱 `92e986c3bb29`): 812-813행이 `onCall`(`enforceAppCheck: true`, `timeoutSeconds: 300`), 299행이 `request.auth.token.admin !== true` 거부다. `applyAccountScope`(609행부터)가 `deleteAuthUserOnce`(627행), `deleteIdentityIndexAndUserDoc`(637행), `fcmTokens` `recursiveDelete`(644행), `deleteUidRateLimitDocs(db, uid)`(653행), `deleteRunningPencilUserData`(656행)를 차례로 부른다. `applyRecordsScope`(750행부터)는 `deleteRunningPencilUserData`(755행)를 부른다.
+- `account_deletion_steps.ts`: 85-90행이 Storage `users/${uid}/` 아래를 지우고, 115-123행이 단건 `getAuth().deleteUser(uid)`를 부르며 `auth/user-not-found`는 `already_gone`으로 돌려준다. bulk 삭제 호출은 없다.
+- `user_data_cleanup.ts`: `deleteRunningPencilUserData`(173행부터)가 `runs where userId == uid`(184-186행, `select()`로 ref만), `courses where creatorId == uid`에서 `visibility !== "public"`인 것(201-206행, `select("visibility")`), `location_use_records where uid == uid`(215-217행), `users/{uid}/badges` `recursiveDelete`(227행)를 지운다.
+- `cleanup_user_data.ts`: 1세대 Auth 삭제 트리거(55-58행)가 60행에서 같은 helper를 부르고 로그만 남긴다.
+- `docs/operator-delete-tool.md`(163줄)가 범위 표, 검사 순서 ①~⑥과 거부 사유, 응답과 실패 규칙, 감사 로그 네 종류(Cloud Logging만. 운영자 uid, 대상 uid, 범위, 건수), 실행 방법과 종료 코드, 1회 준비(운영자 계정, admin claim, App Check 디버그 토큰), 1시간 뒤 재확인, 서버가 하지 않는 것, dev 실제 확인 기록 (a)~(h)를 적는다.
+- `docs/location-use-records.md` 53행의 (c) 줄이 「PASS(2026-11-26, quick 261126-jux)」로 바뀌었다.
+- 확인하지 않은 것: dev 배포와 실제 확인 결과는 앱 문서에 적힌 그대로다. 시험 코드와 명령 스크립트 본문 전체는 읽지 않았다.
+
+### 뒤 계획이 맞춰야 할 것
+
+- 06-04가 읽을 근거 경로가 늘었다: 위 일곱 파일과 `functions/src/index.ts`. 탈퇴 때 지워지는 것의 근거는 `cleanup_user_data.ts`가 아니라 `user_data_cleanup.ts`다. 앞 구간 ①·⑥이 적은 `cleanup_user_data.ts` 행 번호는 `d6c1a12a35e9`와 `e54b8bdd1a83` 기준이라 지금과 다르다.
+- 06-05 절차서(USER-TASKS 작업 13)는 도구 실행을 앱 문서 `docs/operator-delete-tool.md`로 가리키고, 본인 확인과 답장만 다룬다. 앱 문서의 답장 문장(「로그인에 쓴 서비스 … 의 연결은 각 서비스 안내에 따라 직접 해제해 주세요.」)과 사이트의 D-32 문장을 맞춘다.
+- 앱 문서는 `records` 뒤에도 계정이 남아 기기에 남은 원시 로그나 오프라인 캐시가 기록을 다시 올릴 수 있다고 적는다(그래서 1시간 뒤 재확인을 둔다). 메일로 받은 위치 기록 삭제 요청을 「지체 없이」 처리한다는 문장(D-12)과 절차서가 이 재확인을 담아야 하는지 06-05·06-07에서 본다.
+- 운영자 실행 로그(운영자 uid, 지운 사용자의 uid, 범위, 건수)는 삭제 뒤에도 Cloud Logging에 남는다. 06-04 재기준의 구간 G와 Functions 로그 행에서 다룬다.
+- prod 전제가 다섯이 됐다: 앞 구간의 넷에 운영자 전용 계정, admin claim, App Check 디버그 토큰 준비가 더해졌다(앱 문서 「1회 준비」, `docs/kit-fork.md` 사람 작업 14번). 준비가 없으면 메일 삭제 요청을 처리할 수 없다.
+- 앱 설계 문서 `docs/superpowers/specs/2026-11-21-admin-tool-design.md` 머리말의 「사이트 06-03 보고 순서」는 아직 2026-11-21 결정(관리도구까지 다 만든 뒤 보고)으로 적혀 있다. 앱 쪽에서 고칠 곳이다.
+
+### 관문 상태
+
+요청서의 앱 작업 ①②③⑤⑥이 모두 앱 로컬 커밋 `92e986c3bb29`에 있다. Task 3을 닫는 데 남은 것은 사용자 답 셋이다: 기준으로 삼을 앱 커밋, U2가 법률 확인 전 초안일 때 진행할지, 세 파기 경로 모두에 대한 ⑥ 파기 답.
