@@ -12,7 +12,7 @@ requires:
   - phase: 06-data-deletion-rewrite
     provides: "06-04의 앱 사실 기록(APP_HEAD=92e986c3bb29, 탈퇴 정리 실패 로그 이름 cleanup_user_data_failed)과 06-01의 공통 규칙·스크래치 lib.sh"
 provides:
-  - "운영자 삭제 요청 처리 절차: .planning/baseline/USER-TASKS.md 「## 작업 13 — 삭제 요청 처리 (운영자)」와 한눈에 보기 행 (문서 커밋 OPS_SHA=0cc0e1767353)"
+  - "운영자 삭제 요청 처리 절차: .planning/baseline/USER-TASKS.md 「## 작업 13 — 삭제 요청 처리 (운영자)」와 한눈에 보기 행 (문서 커밋 OPS_SHA=0cc0e1767353, 6번 권한 실패 문장 한 줄 정정 OPS_FIX_SHA=c331f758992f)"
   - "사이트 원고(06-07)가 맞출 운영 문장: 처리 상한 「요청을 받은 날부터 10일 안」(기산점은 받은 날), 첫 답장 영업일 기준 3일 안, 요청 이름 「뱃지와 기록 모두 삭제」(본인 확인 뒤 「지체 없이」), 제공자 연결 고정 구절 「안내에 따라 직접 해제해 주세요」"
   - "06-EVIDENCE.md 구간 `## 06-05 절차서` (OPS_FAILLOG=included, OPS_SHA, 깨끗함 기록 06-05-t1·t2)"
 affects: [06-06, 06-13, 06-07, 06-11, phase-10]
@@ -117,8 +117,9 @@ completed: 2026-11-26
 
 1. **Task 1: 작업 13의 기본 경로와 한눈에 보기 행 (tracer)** — 커밋 없음. 계획이 절차서를 Task 2에서 「한 문서 커밋」으로 남기라고 정했고(objective, Task 2 8번), Task 2 verify가 그 커밋이 절차서 하나만 담는지 본다. `OK site-clean 06-05-t1 b60d1324544f`. verify exit 0을 두 번 확인한 뒤(tracer 관문) Task 2로 넘어갔다.
 2. **Task 2: 보충 단계와 양식, 절차서 문서 커밋** — `0cc0e1767353` (docs. `.planning/baseline/USER-TASKS.md` 하나, 78줄 더함)
+3. **계획 끝 점검에서 찾은 권한 실패 문장 정정** — `c331f758992f` (docs. `.planning/baseline/USER-TASKS.md` 하나, 한 줄 바꿈. 아래 Deviation 4)
 
-**Plan metadata:** SUMMARY와 `06-EVIDENCE.md`는 계획 끝 문서 커밋 하나로, STATE·ROADMAP 진행표는 그 뒤 커밋으로 들어간다 (06-01~06-04와 같은 순서). 푸시하지 않았다.
+**Plan metadata:** SUMMARY와 `06-EVIDENCE.md`는 `536a2b2`, STATE·ROADMAP 진행표와 SUMMARY 보충(익명 계정의 메일 요청)은 `a04f8de`로 들어갔다 (06-01~06-04와 같은 순서). 권한 실패 문장 정정 뒤 EVIDENCE·SUMMARY의 보충은 그 뒤 docs 커밋 하나다. 푸시하지 않았다.
 
 ## Files Created/Modified
 
@@ -149,7 +150,7 @@ completed: 2026-11-26
 **2. [Rule 2 - 운영 안전] 계획 글자에 문장 넷을 더함**
 - **Found during:** Task 2
 - **Issue:** 위협 표의 mitigate 항목(T-06-13 사칭, T-06-44 부분 실패, T-06-45 탈퇴 정리 실패)을 절차가 실제로 받치려면 운영자가 멈춰야 할 곳이 적혀 있어야 한다.
-- **Fix:** (가) 6번: 권한 문제로 실패하면 다시 돌려도 낫지 않으니 「준비」 줄이 가리키는 목록을 확인한다(앱 문서의 권한 계열 안내). (나) 9번: 이 저장소는 공개이므로 질문 종류는 알려져 있다고 보고 답을 본인만 알 수 있는 값으로 고른다. 계정이 하나로 좁혀지지 않으면 지우지 않고 더 묻는다. (다) 12번: 같은 실패가 탈퇴마다 이어지면 같은 목록의 3번을 확인한다. (라) 14번: Meta 목록의 식별자만 보고 지우지 않는다.
+- **Fix:** (가) 6번: 권한 문제로 실패하면 다시 돌려도 낫지 않는다(앱 문서의 권한 계열 안내. 가리키는 곳은 아래 4번에서 고침). (나) 9번: 이 저장소는 공개이므로 질문 종류는 알려져 있다고 보고 답을 본인만 알 수 있는 값으로 고른다. 계정이 하나로 좁혀지지 않으면 지우지 않고 더 묻는다. (다) 12번: 같은 실패가 탈퇴마다 이어지면 같은 목록의 3번을 확인한다. (라) 14번: Meta 목록의 식별자만 보고 지우지 않는다.
 - **Files modified:** `.planning/baseline/USER-TASKS.md`
 - **Verification:** Task 2 verify exit 0. prod 전제 목록은 여전히 데이터 목록 한곳에만 있고(절차서는 번호로만 가리킴) 다섯 줄을 옮기지 않았다
 - **Committed in:** `0cc0e1767353`
@@ -161,9 +162,17 @@ completed: 2026-11-26
 - **Files modified:** `.planning/baseline/USER-TASKS.md`
 - **Committed in:** `0cc0e1767353`
 
+**4. [Rule 1 - 사실 오류] 6번의 권한 실패 문장이 가리키는 곳을 별도 커밋으로 고침**
+- **Found during:** 계획 끝 점검 (절차서 커밋과 SUMMARY 커밋 뒤)
+- **Issue:** 위 2번 (가)에서 더한 문장이 권한 실패 때 「준비」 줄이 가리키는 prod 전제 목록을 확인하라고 적었다. 앱 문서 「서버 함수」 절의 권한 사례는 운영자 함수 실행 계정의 권한인데, 그 목록의 3번은 탈퇴 정리 함수의 실행 계정이고 5번은 운영자 로그인 계정·claim·디버그 토큰이라 원인이 그 목록에 없을 수 있다. 운영자를 틀린 곳으로 보내는 문장이다.
+- **Fix:** 절차서 커밋은 그대로 두고(이력 수정 없음) 그 한 줄만 고친 문서 커밋을 더했다. 「명령이 「서버 함수 실행 계정의 권한을 확인하세요」라고 안내하면 다시 돌려도 낫지 않습니다. 앱 문서 「서버 함수」 절의 권한 안내를 따릅니다.」
+- **Files modified:** `.planning/baseline/USER-TASKS.md`
+- **Verification:** Task 1 verify 다시 exit 0, Task 2 verify exit 0(`OPS_SHA`의 내용을 읽음), check-site 통과. 뒤 계획 여덟 개가 이 계획에서 읽는 것(표식 `OPS_SHA`, 구간 머리, 작업 13의 사실)에 영향 없음을 계획 파일 검색으로 확인
+- **Committed in:** `c331f758992f` (`OPS_FIX_SHA`)
+
 ---
 
-**Total deviations:** 3 auto-fixed (Rule 1 하나, Rule 2 하나, Rule 3 하나)
+**Total deviations:** 4 auto-fixed (Rule 1 둘, Rule 2 하나, Rule 3 하나)
 **Impact on plan:** 범위는 그대로다. 사이트 파일을 고치지 않았고 사용자 결정을 대신하지 않았다. 더한 문장은 모두 운영자가 멈추거나 확인할 곳을 적은 것이고 공개 사이트의 약속을 늘리지 않는다.
 
 ## Issues Encountered
@@ -204,7 +213,7 @@ None - 이 계획이 요구하는 외부 서비스 설정은 없다. prod에서 
 
 ## Self-Check: PASSED
 
-SUMMARY를 쓰기 직전에 돌린 결과다 (2026-11-26T12:17Z).
+SUMMARY를 쓰기 직전에 돌린 결과다 (2026-11-26T12:17Z). 권한 실패 문장 정정 커밋 `c331f758992f` 뒤에 다시 돌렸다 (2026-11-26T12:24Z): Task 1·2 `<verify>` 모두 exit 0, 커밋 `0cc0e17`·`536a2b2`·`a04f8de`·`c331f75`가 모두 HEAD의 조상, 세 파일 `FOUND`, 작업 13에 `@` 글자 0·옛 상한 0, check-site 통과. frontmatter의 `commits: 1`과 `plan_head_after`는 SUMMARY를 처음 쓸 때 잰 값 그대로다(그 뒤 커밋은 위 Task Commits에 있다).
 
 - 파일: `.planning/baseline/USER-TASKS.md`, `.planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md` 모두 `FOUND`. 이 SUMMARY는 이 Write로 생긴다
 - 커밋: `0cc0e1767353`이 HEAD의 조상이고(`git merge-base --is-ancestor`) `.planning/baseline/USER-TASKS.md` 하나만 담는다. 메시지 끝 줄은 `Co-Authored-By: Claude … <noreply@anthropic.com>` 꼴이다
