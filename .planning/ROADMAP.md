@@ -309,19 +309,19 @@ Plans:
 - [x] 06-03-PLAN.md — 앱 작업 게이트: 요청서(tracer), installation ID 결정, D-05 앱 작업과 U2 결론 blocking 사용자 작업
 
 **Wave 4** *(blocked on Wave 3 completion)*
-- [ ] 06-04-PLAN.md — 앱 작업 코드 확인(tracer), 해시 rate_limits 상한 결정(D-33 ③), 데이터 목록 재기준(D-06)
+- [ ] 06-04-PLAN.md — 앱 작업 사실을 기준 앱 커밋의 코드로 확인(tracer), 앱 화면 사실 재확인, 데이터 목록 재기준(D-06: 확인자료·운영자 도구·코스 단위 기록 삭제, prod 전제 다섯 목록 D-42)과 결정 목록 U2 「초안으로 진행」
 
 **Wave 5** *(blocked on Wave 4 completion)*
-- [ ] 06-05-PLAN.md — 운영자 삭제 요청 처리 절차(작업 13: 10일 상한, 대체 본인 확인, Meta 삭제 요청)
+- [ ] 06-05-PLAN.md — 운영자 삭제 요청 처리 절차(작업 13: 도구 실행은 앱 문서, 개수 확인 → 실제 삭제 → 1시간 뒤 재확인, 10일 상한, 대체 본인 확인, 「뱃지와 기록 모두 삭제」, 탈퇴 정리 실패 재처리)
 
 **Wave 6** *(blocked on Wave 5 completion)*
-- [ ] 06-06-PLAN.md — 지워짐/남음 대조표(tracer), 익명 계정 문장(D-33 ①), prod 값 없는 기간과 표 범위(D-33 ②)
+- [ ] 06-06-PLAN.md — 지워짐/남음 대조표(tracer), 익명 계정 문장(D-33 ①), prod 값 없는 기간과 공개 코스 행·삭제 경로 약속(D-33 ②, D-39), 표 범위
 
 **Wave 7** *(blocked on Wave 6 completion)*
-- [ ] 06-13-PLAN.md — 대조표 확정·기간 문구(PERIOD) 고정과 데이터 목록 반영(tracer), 표 밖 문장 근거와 목록 문서 커밋(원고보다 먼저, D-33)
+- [ ] 06-13-PLAN.md — 대조표 확정, 기간 문구(PERIOD)와 이용 중 보관 기간(INUSE 「6개월」) 고정, 데이터 목록 반영과 prod 전제 덧붙임(tracer)을 원고보다 먼저 문서 커밋(D-33, D-41, D-42)
 
 **Wave 8** *(blocked on Wave 7 completion)*
-- [ ] 06-07-PLAN.md — 원고를 시험 객체로 끝까지 판정(tracer), 가짜 값 변형, 글·표·앵커 승인
+- [ ] 06-07-PLAN.md — 원고를 시험 객체로 끝까지 판정(tracer, D-37~D-41 낱말 판정 포함), 가짜 값 변형, 글·표·앵커 승인
 
 **Wave 9** *(blocked on Wave 8 completion)*
 - [ ] 06-08-PLAN.md — 가짜 값 시험 실행(tracer), 스토어 개발자 이름 값 받기(D-33 ④), 실제 값 미리보기
