@@ -608,3 +608,109 @@ APP_WORK=reported
 t3 head 92e986c3bb29 descends 3afb20858257
 t3 paths items=5 files=18 exists=18/18 in-diff-since-3afb20858257=18/18
 ```
+
+## 06-04 앱 사실
+
+기준 앱 커밋 `AW`(`APP_WORK_HEAD`)의 코드와 앱 문서를 `git -C "$APP"`의 `rev-parse`·`rev-list`·`cat-file`·`merge-base`·`diff`·`show`·`grep`만으로 읽었다. 앱 저장소에 쓰지 않았고 fetch도 하지 않았다. 앱 작업 트리와 앱 HEAD에서는 사실을 읽지 않았다. 앱 HEAD는 해시와 `AW..HEAD` 차이의 파일 이름만 읽어 기준 뒤 이동을 쟀다(재계획 보충 규칙 2번 예외 (가)). 행 번호는 모두 `AW` 기준이다.
+
+APP_HEAD=92e986c3bb29
+RATE_EXPIRY=window-end-ttl
+RECDEL_UNIT=course
+RECDEL_BADGES=with-runs
+APP_FACTS=OK
+
+```
+OK app head descends 3afb2085
+OK app drift d52d13a74f9b commits=10 evidence-paths=0
+OK app item 1 path-in-diff files=2
+OK app item 2 path-in-diff files=3
+OK app item 3 path-in-diff files=4
+OK app item 5 path-in-diff files=5
+OK app item 6 path-in-diff files=4
+OK app item 1 fact nonpublic-deleted public-kept records-keeps-courses
+SRC item1 functions/src/running_pencil/user_data_cleanup.ts:173-177, functions/src/running_pencil/user_data_cleanup.ts:198-208, functions/src/running_pencil/cleanup_user_data.ts:60-64, functions/src/running_pencil/operator/operator_delete_user_data.ts:656-660, functions/src/running_pencil/operator/operator_delete_user_data.ts:755-759
+OK app item 2 fact uid-docs-deleted expire=window-end ttl=policy
+SRC item2 functions/src/shared/rate_limit.ts:25-30, functions/src/shared/rate_limit.ts:66-75, functions/src/shared/rate_limit.ts:103-105, functions/src/shared/rate_limit.ts:185, functions/src/shared/rate_limit.ts:265, functions/src/auth/delete_user_account.ts:403-404, functions/src/running_pencil/operator/operator_delete_user_data.ts:650-654, docs/guide.md:4091-4096, docs/guide.md:4126-4128
+OK app item 3 fact operator-tool scopes=account,records admin-claim app-check dry-run-default no-provider-disconnect
+SRC item3 functions/src/running_pencil/operator/operator_delete_user_data.ts:812-813, functions/src/running_pencil/operator/operator_delete_user_data.ts:299, functions/src/running_pencil/operator/operator_delete_user_data.ts:82-83, infra/operator/delete_user_data.mjs:6-7, infra/operator/delete_user_data.mjs:512-524, docs/operator-delete-tool.md:9-12, docs/operator-delete-tool.md:74-80, docs/operator-delete-tool.md:132
+OK app item 3 log cloud-logging-only
+SRC item3-log functions/src/running_pencil/operator/operator_delete_user_data.ts:44-46, functions/src/running_pencil/operator/operator_delete_user_data.ts:183-187, functions/src/running_pencil/operator/operator_delete_user_data.ts:784-789, functions/src/running_pencil/operator/operator_delete_user_data.ts:852-859, functions/src/running_pencil/operator/operator_delete_user_data.ts:878-888, docs/operator-delete-tool.md:60-69
+OK app item 5 fact course-unit badges-with-runs raw-log-removed
+SRC item5 lib/features/runs/domain/record_deletion_targets.dart:3-6, lib/features/runs/application/record_deleter.dart:47, lib/features/runs/application/record_deleter.dart:49, lib/features/runs/application/record_deleter.dart:65-71
+OK app item 6 fact location-evidence destroyed-on-withdrawal paths=a,b,c retention-days=184
+SRC item6 functions/src/running_pencil/location_use_records/location_use_record.ts:21, functions/src/running_pencil/location_use_records/location_use_record.ts:31, functions/src/running_pencil/location_use_records/location_use_record.ts:50-67, firestore.rules:364-366, functions/src/running_pencil/location_use_records/on_run_written.ts:209-212, functions/src/running_pencil/location_use_records/on_run_written.ts:279-280, functions/src/running_pencil/user_data_cleanup.ts:213-220, functions/src/running_pencil/cleanup_user_data.ts:60-64, functions/src/running_pencil/operator/operator_delete_user_data.ts:656-660, functions/src/running_pencil/operator/operator_delete_user_data.ts:755-759, docs/location-use-records.md:47-53
+OK app cleanup-log event=cleanup_user_data_failed
+SRC cleanup-log functions/src/running_pencil/cleanup_user_data.ts:66-76, functions/src/running_pencil/cleanup_user_data.ts:103-143
+APP_DIFF lines=6058
+OK site-clean 06-04-t1 1bc5e4a04315
+```
+
+- 앱 HEAD 이동: 앱 로컬 `main` 끝은 `d52d13a74f9b`이고 `AW`는 그 조상이다. `AW` 뒤 커밋 10개가 바꾼 파일은 14개이고 모두 앱의 `.planning/`과 `.claude/` 아래 문서다. 삭제 관련 경로(항목별 경로 열여덟 개, `functions`, `lib/features/runs`·`settings`·`courses`, `lib/l10n/app_ko.arb`, `firestore.rules`, `storage.rules`, `infra/operator`, 앱 문서 넷)는 0개다. 기준은 `AW` 그대로다(D-36).
+- ①: `deleteRunningPencilUserData`가 `shouldDeletePrivateCourses`가 참일 때만 `courses where creatorId == uid`를 읽어 `visibility !== "public"`인 문서를 지운다(값이 `private`인 것, `pending`인 것, 값이 없는 것이 모두 해당). 탈퇴 정리 트리거 `cleanupUserData`와 운영자 함수 `applyAccountScope`는 참으로, `applyRecordsScope`는 거짓으로 부른다. `functions/src/index.ts:87`·`96`·`99`가 `cleanupUserData`·`onRunWritten`·`operatorDeleteUserData`를 내보낸다.
+- ②: 접두사 넷(`lookupSignInMethods:`·`sendTestPush:`·`sendVerificationMail:`·`sendPasswordResetMail:`)에 uid를 붙인 문서를 `deleteUidRateLimitDocs`가 batch 하나로 지운다. 부르는 곳은 탈퇴 함수 Step 5와 `applyAccountScope`다. 새 창을 여는 두 곳(`rate_limit.ts:185`·`265`)이 모두 `expireAt`을 `computeExpireAt`(창 시작 초 + 창 길이)로 쓴다. 창 길이 상수는 여섯이고 값은 60이나 600이다(`lookup_sign_in_methods.ts:57`, `send_test_push.ts:65`, `send_verification_mail.ts:55`, `send_password_reset_mail.ts:72`·`79`·`83`). `rate_limit.ts`에는 일수가 없다. 지우는 것은 Firestore TTL 정책이고 앱 문서가 「만료 뒤 보통 24시간 안」, 「보장된 상한이 아님」, 「TTL 정책을 켜지 않은 프로젝트에서는 기한 없이 남음」을 적는다. 탈퇴 함수의 Step 5가 실패하면 탈퇴는 그대로 끝나고 로그 `delete_user_rate_limits_orphan`만 남는다.
+- ③: `operatorDeleteUserData`는 `onCall`(`enforceAppCheck: true`, `timeoutSeconds: 300`)이고 `request.auth.token.admin !== true`면 거부한다. 범위 id는 `account`와 `records` 둘이다. 명령은 먼저 dry-run으로 부르고, `--apply`일 때만 uid를 한 번 더 입력받아 같으면 `dryRun: false`로 다시 부른다. 앱 문서 「서버가 하지 않는 것」이 로그인 제공자 연결 해제를 하지 않는다고 적는다. 로그 이벤트는 넷(`operator_delete_user_data_dry_run`·`_done`·`_failed`·`_rejected`)이고 필드는 운영자 uid, 대상 uid, 범위, dry-run 여부, 건수, 단계 결과 토큰이다(거부 로그에는 대상 uid가 없다). `functions/src/running_pencil/operator/` 아래 코드에는 Firestore 문서를 만들거나 고치는 호출(`set`·`add`·`create`·`update`)이 없다.
+- ⑤: 규칙 주석이 코스 단위(그 코스 뱃지와 그 코스의 내 기록 전부, 완주·미완주 모두)와 「모두 삭제」(내 뱃지 전부와 내 기록 전부)를 적고, 뱃지만 남기거나 기록만 남기는 갈래가 없다고 적는다. `RecordDeleter.deleteTargets`가 기록마다 `RunRepository.delete`, 뱃지마다 `BadgeRepository.delete`를 부르고, 기기에 남은 원시 로그(`active_run.jsonl`)의 runId가 지운 기록 안에 있으면 그 로그를 지운다.
+- ⑥: 확인자료는 `location_use_records/{runId}`이고 필드는 여덟 개(`uid`, `runId`, `runStartedAt`, `runEndedAt`, `recordedAt`, `collectionMethod`, `purpose`, `expireAt`)다. 경로·좌표가 없다. `LOCATION_USE_RECORD_RETENTION_DAYS = 184`. 규칙이 클라이언트 읽기·쓰기를 모두 막는다. 파기 (a) `onRunWritten`(`runs/{runId}`, `retry: true`)의 삭제 처리가 지워진 기록의 확인자료를 지운다. (b) 탈퇴 정리 트리거와 `applyAccountScope`가 `deleteRunningPencilUserData`로 `location_use_records where uid == uid`를 지운다. (c) `applyRecordsScope`가 같은 함수로 같은 쿼리를 지운다. 세 경로 모두 기록 문서도 문서 단위로 지우므로 (a)의 트리거가 함께 돈다.
+- 탈퇴 정리 실패 로그: `cleanupUserData`는 단계(`runs`·`courses`·`location_use_records`·`badges`)가 실패해도 throw하지 않고 error 로그 `cleanup_user_data_failed`(uid, 단계, 오류 코드나 실패 건수)를 남긴다.
+- `appcheck`는 돌리지 않았다(재계획 보충 규칙 3번). `$W/app-diff.txt`는 데이터 목록 「근거로 삼은 경로」 71개와 항목별 경로 18개를 합친 83개 경로의 `3afb2085..AW` 차이이고, 그 가운데 바뀐 파일은 27개다.
+- 앱 쪽 dev 실측(건수·시간)은 다시 재지 않았다. 앱 문서에 적힌 그대로다.
+
+## 06-04 화면 사실
+
+삭제 안내 원고와 운영 절차서가 쓸 앱 화면 사실을 `AW`에서 키와 식으로 다시 찾았다. 연구가 적은 `3afb2085` 시점 행 번호는 쓰지 않았다. 근거 줄은 모두 `AW` 기준 `경로:행`이다. 앱 저장소는 읽기만 했다.
+
+LOC_CONSENT_CONTROL=none-found
+ANON_WRITE=none-found
+COURSE_CREATOR=hidden
+SCREEN_FACTS=OK
+
+```
+OK withdrawal label 회원탈퇴
+OK account screen labels 내 계정,표시 이름,이메일,가입일,가입 수단,연결된 계정
+OK account screen fields email-dash withdrawal-bottom
+SRC account lib/l10n/app_ko.arb:244, lib/l10n/app_ko.arb:85-86, lib/l10n/app_ko.arb:89-91, lib/l10n/app_ko.arb:349, lib/features/settings/presentation/account_screen.dart:66, lib/features/settings/presentation/account_screen.dart:97, lib/features/settings/presentation/account_screen.dart:111, lib/features/settings/presentation/account_screen.dart:125, lib/features/settings/presentation/account_screen.dart:139, lib/features/settings/presentation/account_screen.dart:158, lib/features/settings/presentation/account_screen.dart:175, lib/features/settings/presentation/account_screen.dart:201, lib/features/settings/presentation/_widgets/danger_zone_section.dart:79
+SRC account-photo lib/l10n/app_ko.arb:87, lib/features/settings/presentation/account_screen.dart:107, lib/features/settings/presentation/_widgets/profile_photo_tile.dart:203
+OK menu courseDetailMore 더보기
+OK menu courseDetailDelete 코스 삭제
+OK menu recordDeleteBadgeMenu 뱃지 삭제
+OK menu recordDeleteRecordsMenu 기록 삭제
+OK menu settingsDataSection 데이터 관리
+OK menu settingsDeleteAllRecords 뱃지와 기록 모두 삭제
+OK menu settingsProfilePhotoRemove 올린 사진 삭제
+SRC menu lib/l10n/app_ko.arb:302-303, lib/l10n/app_ko.arb:608-609, lib/l10n/app_ko.arb:619-620, lib/l10n/app_ko.arb:391, lib/features/courses/presentation/_widgets/course_delete_menu_button.dart:83, lib/features/courses/presentation/_widgets/course_delete_menu_button.dart:93-97, lib/features/courses/presentation/_widgets/course_delete_menu_button.dart:101-107, lib/features/settings/presentation/app_settings_sections.dart:32-36, lib/features/runs/presentation/delete_all_records_setting_row.dart:30, lib/features/settings/presentation/_widgets/profile_photo_sheet.dart:95
+SRC menu-course-keep lib/l10n/app_ko.arb:305
+LOC_CONSENT_DIFF files=23 hits=540
+OK location consent control none-found terms-keys=version,service,privacy,marketing,acceptedAt
+SRC loc-consent firestore.rules:56
+SRC course-mine lib/l10n/app_ko.arb:287, lib/features/courses/presentation/_widgets/course_status_marks.dart:95, lib/features/courses/presentation/course_detail_screen.dart:216
+SRC guest-label lib/l10n/app_ko.arb:245
+OK dev.json 18-19 same
+OK site-clean 06-04-t2 1bc5e4a04315
+```
+
+- 회원탈퇴: `settingsWithdrawalLabel`이 「회원탈퇴」다. 경로 「설정 → 내 계정 → 회원탈퇴」는 그대로다.
+- 「내 계정」 화면: 화면 제목이 `settingsAccountSection`이고, 목록의 첫 행이 프로필 사진(`ProfilePhotoTile`, 라벨 `authAccountPhotoUrl` 「프로필 사진」)이다. 그 아래로 표시 이름, 이메일, 가입일, 가입 수단, 연결된 계정 행이 있다. 이메일 값은 `user?.email ?? '-'`라 없으면 「-」로 보인다. 목록의 마지막 항목이 `DangerZoneSection`이고 그 안의 행이 `settingsWithdrawalLabel`을 쓴다. 구간 머리 글자는 `settingsDangerZoneSection` 「Danger zone」(`lib/l10n/app_ko.arb:347`)이다.
+- 메뉴: 코스 상세 ⋮(tooltip 「더보기」)의 「코스 삭제」는 `canDeleteCourse`(내 코스)일 때만 보인다. 그 코스의 내 기록·뱃지 삭제 대상(`recordTargets`)이 있으면 그 코스 뱃지가 있을 때 「뱃지 삭제」, 없을 때 「기록 삭제」 한 항목이 보인다(남의 코스에서도). 설정의 「데이터 관리」 묶음은 `if (!isAnonymous)`로 게스트에게 숨기고, 그 묶음의 행이 「뱃지와 기록 모두 삭제」다. 「올린 사진 삭제」는 프로필 사진 시트의 항목이다. `courseDeleteConfirmBody`는 코스 삭제가 이미 받은 뱃지를 남긴다고 적는다(코스 삭제와 기록 삭제는 다른 일, D-37).
+- 위치정보 동의 설정: (가) 규칙의 `t.keys().hasOnly(` 줄은 하나이고 키는 다섯 개 그대로다. (나) `3afb2085`부터 바뀐 약관·설정·온보딩·문구 파일은 23개다. 그 파일들과 ⑥ 경로의 더해진 줄 가운데 낱말(location, consent, 동의, 철회, 위치)에 걸린 줄은 540이다: ⑥ 서버 코드와 앱 문서 521, 규칙의 `location_use_records` 차단 블록 3, 온보딩 약관 동의 묶음 15, 한국어 문구 1(임시 개요 `termsDetailPlaceholder`). 온보딩에 더해진 필수 확인 행은 만 14세 확인(`signupAgeConfirmation`) 하나뿐이고(`lib/features/onboarding/presentation/app_terms_confirmations.dart:22-25`), 나머지 온보딩 줄은 「행 위치」 같은 낱말이 걸린 것이다. (다) `lib`·`android/app/src`·`ios/Runner`에서 위치정보 동의·철회 이름을 찾은 결과는 일치 없음(종료 코드 1)이다. 위치정보 동의를 끄거나 철회하는 화면 요소는 없다.
+- 익명 쓰기: `3afb2085..AW`에서 규칙 파일의 변화는 `location_use_records` 차단 블록(13줄)뿐이고 `users/{userId}` 규칙은 그대로다(행 번호만 13 밀림). 새로 내보낸 함수는 `onRunWritten`과 `operatorDeleteUserData` 둘이고 둘 다 `users` 문서를 쓰지 않는다(지우거나 읽기만 한다). `lib`에 더해진 줄에는 Firestore 쓰기 호출이 없다. 익명 사용자에게 열린 새 `users` 쓰기는 찾지 못했다.
+- 만든 사람 표시: `lib/features`·`lib/core`·`lib/shared`에 `creatorName`·`creatorNickname`·`publicProfiles` 같은 이름이 없다(일치 없음). 코스 화면은 `creatorId`를 내 코스인지 판정하는 데만 쓰고(`isMine`), 본인 코스에 「내 코스」(`courseMine`) 표시를 붙인다.
+- `config/dev.json`: 두 키가 18·19행에 있고 값이 데이터 목록과 같다. 다른 줄은 읽지 않았고 값은 적지 않았다.
+
+## 06-04 재기준
+
+REBASE_SHA=aeb6f4461157
+
+```
+REBASE_CITES checked=56 fixed=27
+check-site: 통과 (작업 트리, jekyll 3.10.0)
+vals filled=0 emitted=0 excluded=0 leak=skip(no new values)
+OK site-clean 06-04-t3 aeb6f4461157
+```
+
+- 커밋은 `.planning/baseline/DATA-INVENTORY.md`와 `.planning/baseline/DECISIONS.md` 둘만 담는다. 기준 앱 커밋 줄은 `92e986c3` (2026-11-26)이다.
+- 인용 재확인: 데이터 목록 전체에서 `3afb2085..AW` 차이에 든 파일을 가리키는 서로 다른 `경로:행` 인용이 56개였다. 옛 커밋의 그 행 글자를 `AW`에서 그대로 찾아 27개는 행 번호가 같았고 22개는 옮겨 갔다. 글자가 달라졌거나 두 곳에 있어 손으로 다시 본 것이 일곱이고 그 가운데 다섯을 고쳤다(고친 것은 모두 27): `docs/guide.md`의 확장 함수 권한 명령(같은 ⑦ 절의 것), `lookup_sign_in_methods.ts`의 문서 ID 만드는 곳, `cleanup_user_data.ts`의 세 인용. 뒤의 셋은 삭제 코드가 옮겨 간 `user_data_cleanup.ts`(`deleteRunningPencilUserData`)로 옮기고 트리거 `cleanup_user_data.ts`는 호출 근거(60-64행)로만 두었다(D-44). `rate_limit.ts:4-6`과 `app_ko.arb:197`은 글자는 바뀌었지만 같은 행에 같은 사실이 있어 번호를 그대로 두었다.
+- 근거 경로 목록에 열아홉 경로를 더했다(항목별 경로 가운데 목록에 없던 열둘과 화면 사실의 근거 일곱).
+- 계획이 적지 않았지만 같은 사실에 맞춰 함께 고친 칸: 구간 C `region` 행의 삭제 방식 괄호(공개한 코스의 `region`만 남음), 구간 E 표 아래 Analytics 보존 문장, 구간 H 표 아래 Analytics 메모. 구간 E `fcmTokens` 행은 보유 기간 칸의 조회 날짜만 고쳤고, 같은 행 삭제 방식 칸과 구간 G `fcmTokens` 행의 2026-11-15 조회 표기는 그대로 두었다.
+- 「확인할 것」 표와 「CLI 조회 기록」은 인용 행 번호 말고는 고치지 않았다(「확인할 것」의 추적 항목은 06-11이 더한다).
+- 적지 않은 것: 익명 계정 문장을 삭제 안내에 쓸지(D-33 ①), prod 값이 없는 기간의 표기(D-33 ②), 개발자 이름(D-33 ④), 공개 코스의 기간·삭제 경로 약속(D-39). 앱 프로젝트 ID와 앱 문서의 명령 줄도 옮기지 않았다.
+- 결정 목록: 한눈에 보기 U2 상태 「초안으로 진행」, U6-나 상태 「앱 반영됨」. 두 풀이 절에 같은 뜻의 줄을 하나씩 더했다. U2·U6-나 풀이의 「근거」 문단은 결정 전 사실이라 그대로 두었다.
