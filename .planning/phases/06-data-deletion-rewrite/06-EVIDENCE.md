@@ -320,3 +320,45 @@ mid5 arb ja recordDelete=11 settingsDataSection=1 settingsDeleteAllRecords=4
 ### 관문 상태
 
 06-03 Task 3은 그대로 대기다. 남은 것은 앱 작업 ①②③⑥과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 두 가지(U2가 법률 확인 전 초안일 때 진행할지, ⑥이 요청서의 파기 사실을 따르는지)다. U2 결론 자체는 결정 목록(`.planning/baseline/DECISIONS.md` U2)에 2026-11-21과 2026-11-26 날짜로 적혀 있다.
+
+## 06-03 중간 보고 ② (2026-11-26)
+
+사용자가 ②는 kit 저장소에 구현해 두었다고 알려 와서 kit 저장소와 앱 저장소를 읽었다. 앞 구간과 같이 Task 3의 보고가 아니고 Task 3이 쓰는 표식을 적지 않았다. 앞 구간의 「②·③의 상태는 읽지 않음」과 「관문 상태」의 남은 항목은 이 구간으로 고쳐 읽는다.
+
+MID2_SEEN=787e0c5ebffc
+
+### 이 세션이 읽은 것 (탐침)
+
+kit 저장소(스타터 킷 개발 저장소)는 `$KIT`로 적는다. `git -C "$KIT"`와 `git -C "$APP"`의 `rev-parse`·`log`·`merge-base`·`show`·`grep`만 썼고 두 저장소에 쓰지 않았다. dev 프로젝트는 `gcloud firestore fields ttls list`(조회)만 불렀다. 탐침일 뿐이고 판정은 06-04가 한다.
+
+```
+mid2 kit 3bcbfcd0d96f origin-master=same version=1.0.0-rc.16
+mid2 app 787e0c5ebffc kit-merge=57dab41a5f06 in-head=yes version=1.0.0-rc.16
+mid2 same functions/src/shared/rate_limit.ts
+mid2 same functions/src/auth/delete_user_account.ts
+mid2 same docs/guide.md
+mid2 same CHANGELOG.md
+mid2 uid-prefixes=4 delete-call=functions/src/auth/delete_user_account.ts:404
+mid2 window-sec uid=60,600 hash=60,600 max=600
+mid2 dev-ttl rate_limits.expireAt=ACTIVE other-policies=0 date=2026-11-26
+```
+
+- 앱은 2026-11-26에 킷 v1.0.0-rc.16을 받았다(`57dab41a5f06` 「킷 v1.0.0-rc.16 반영」). 위 네 파일은 kit 끝 커밋과 앱 커밋에서 blob이 같다. 그래서 아래 행 번호는 앱 커밋 `787e0c5ebffc` 기준이다.
+- uid가 든 문서: `functions/src/shared/rate_limit.ts:25-30`의 `UID_RATE_LIMIT_DOC_PREFIXES`가 접두사 넷(`lookupSignInMethods:`·`sendTestPush:`·`sendVerificationMail:`·`sendPasswordResetMail:`)을 두고, 같은 파일 66행 `deleteUidRateLimitDocs`가 접두사마다 uid를 붙인 문서를 batch 하나로 지운다. 회원탈퇴 `deleteUserAccount`는 Step 5(`functions/src/auth/delete_user_account.ts:404`)에서 이 함수를 부른다. counter 문서 ID를 만드는 곳은 네 함수 파일뿐이고(`lookup_sign_in_methods.ts`·`send_test_push.ts`·`send_verification_mail.ts`·`send_password_reset_mail.ts`) uid 축은 모두 `buildUidRateLimitDocId`를 거친다.
+- Step 5가 실패해도 탈퇴는 `ok: true`로 끝나고 로그 `delete_user_rate_limits_orphan`만 남는다. 그때 남은 uid 문서와 탈퇴 뒤 다시 생긴 uid 문서는 아래 만료 시각과 TTL 정책이 지운다(같은 파일 머리 주석 116-118행, 159-161행).
+- 해시 문서(IP·이메일 SHA-256 앞 32자): 탈퇴로 지우지 않는다. 모든 counter가 새 창을 열 때 만료 시각 `expireAt`(창이 끝나는 시각)을 쓴다(`rate_limit.ts:103` `computeExpireAt`). 창 길이는 함수 파일의 `*_WINDOW_SEC`이고 60초나 600초다. 해시 축은 `lookupSignInMethodsIp:`(60초), 비밀번호 재설정 메일의 IP(60초)와 이메일(600초), 인증 메일의 이메일(600초)이다.
+- 지우는 것은 Firestore TTL 정책이다. 코드에는 일수가 없다. 앱 문서 `docs/guide.md` 「호출 횟수 제한 기록 정리」(4091행부터)가 켜는 순서(functions 재배포, `expireAt` TTL 정책 켜기, 옛 기록 한 번 지우기)와 한계를 적는다: 「실제 삭제는 만료 뒤 보통 24시간 안에 일어난다」, 「보장된 상한이 아니므로, 삭제 안내에 적을 보존 기간은 여유를 두고 정한다」, 「TTL 정책을 켜지 않은 프로젝트에서는 기록이 기한 없이 남는다」. `CHANGELOG.md`의 1.0.0-rc.16 절에도 같은 사용자 조치가 있다.
+- dev 프로젝트: `rate_limits`의 `expireAt` TTL 정책이 `ACTIVE`다(2026-11-26 조회). dev의 TTL 정책은 이 하나뿐이다. 데이터 목록은 2026-11-15 조회 값(「TTL 정책 없음」)이라 지금과 다르다.
+- 앱 커밋에서 `deleteUidRateLimitDocs`를 부르는 곳은 탈퇴 함수 하나뿐이다. 운영자 도구(③)가 부르는 곳은 아직 없고, Auth 삭제 트리거 `cleanup_user_data.ts`에도 이 단계가 없다.
+- 확인하지 않은 것: dev에 새 functions가 배포됐는지, 만료 시각 없는 옛 기록을 지웠는지(guide 1·3단계).
+
+### 뒤 계획이 맞춰야 할 것
+
+- 06-04 Task 1의 ② 표식 `RATE_HASH_APP`은 값으로 일수나 none을 받는다. 앱이 정한 것은 일수가 아니라 「창 끝 시각에 만료, TTL 정책이 지움(보통 24시간 안, 상한 보장 없음)」이다. 「남는 데이터」 표에 적을 일수(`RATE_HASH_LIMIT_DAYS`)는 CONTEXT D-33 3번대로 사용자가 정한다.
+- 그 문장은 TTL 정책을 켠 프로젝트에서만 참이다. prod 프로젝트는 아직 없으므로(결정 목록 P1) prod를 만들 때 guide의 세 단계를 하는 것이 전제다(D-26 익명 계정 자동 정리와 같은 종류의 prod 설정).
+- 06-04 재기준에서 고칠 데이터 목록 행: 구간 F `rate_limits/{docId}` 행(필드에 `expireAt`, 보유 기간, 삭제 방식), 구간 G 「`rate_limits` 중 uid가 들어간 문서」 행, 구간 H 「Firestore TTL 정책」 행과 dev CLI 조회 날짜.
+- 운영자 도구(③)의 「계정 전체」는 `deleteUidRateLimitDocs`를 불러야 요청서 ③의 「uid `rate_limits`」가 참이 된다(탈퇴 함수 머리 주석 149-150행이 그렇게 적는다).
+
+### 관문 상태
+
+06-03 Task 3은 그대로 대기다. 중간 확인이 끝난 것은 ②와 ⑤다. 남은 것은 앱 작업 ①③⑥과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 두 가지(U2가 법률 확인 전 초안일 때 진행할지, ⑥이 요청서의 파기 사실을 따르는지)다.
