@@ -3,11 +3,11 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: "06-03 완료 (앱 작업 보고 받음, APP_WORK_HEAD=92e986c3bb29, U2 초안 진행, ⑥ conform). 06-04는 실행 전에 계획 수정이 필요함: 06-03-SUMMARY 「Issues Encountered」와 06-EVIDENCE 중간 보고 구간의 「뒤 계획이 맞춰야 할 것」"
-last_updated: "2026-11-26T08:32:24.651Z"
+stopped_at: "06-03 완료, 재계획 입력 준비 완료(2026-11-26: 06-CONTEXT D-34~D-44, 06-RESEARCH 머리 메모, 06-VALIDATION 새 행). 다음은 /gsd-plan-phase 6으로 06-04 이후 다시 짜기. 06-01~06-03 계획과 SUMMARY는 고치지 않음"
+last_updated: "2026-11-26T09:16:39.080Z"
 last_activity: 2026-11-26
-last_activity_desc: 06-03 완료 (앱 작업 보고 받음). 06-04 실행 전 계획 수정 필요
-state_head: 91f0da77567743e141054166909d7bab66617392
+last_activity_desc: 06-03 완료. 재계획 입력 준비(CONTEXT D-34~D-44). 다음은 06-04 이후 다시 짜기
+state_head: 73503a827ad78e1bb7472fa15f3a3335198a9cd0
 progress:
   total_phases: 10
   completed_phases: 5
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
 Plan: 4 of 13
 Status: Ready to execute
-Last activity: 2026-11-26 — 06-03 완료 (앱 작업 보고 받음). 06-04 실행 전 계획 수정 필요
+Last activity: 2026-11-26 — 06-03 완료. 재계획 입력 준비(CONTEXT D-34~D-44). 다음은 06-04 이후 다시 짜기
 
 Progress: [█████░░░░░] 50%
 
@@ -250,6 +250,7 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-02: U6-가·U6-나·N3 결정됨, U2와 D-05 앱 작업 묶음(①②③⑤⑥)이 Phase 6 커밋을 막음 — 결정 목록과 ROADMAP External Gates에 기록 (DEC_SHA ef3e0073b7b2)
 - [Phase 06]: 06-03: 앱 작업 ①②③⑤⑥이 앱 커밋 92e986c3bb29에 들어왔다는 보고를 받아 관문을 닫았다. U2는 법률 확인 전 초안이고 사용자가 초안으로 진행을 골랐다(U2_PROCEED=user-accepted-draft). ⑥ 파기 답은 세 경로 모두 conform. 항목이 참인지는 06-04가 앱 코드로 판정한다 — 사용자 답 셋(기준 앱 커밋, 초안 진행, conform)을 2026-11-26 선택지 물음으로 받음. 실행자가 대신 고르지 않음
 - [Phase 06]: 06-03: Task 3 보고 조건을 「①②③⑤⑥이 들어간 앱 커밋, ③은 서버 함수와 명령」으로 좁혔다(사용자, 2026-11-26). 관리 화면은 뺐고 그 데이터는 기능이 나갈 때 사이트 문서를 함께 고친다. 대기 중 앱 보고 다섯 건은 Task 3 표식 없이 06-EVIDENCE 「06-03 중간 보고」 구간에 적었다 — 앱 쪽이 운영 본부 웹을 지인 배포 뒤로 미뤄 그대로 두면 Phase 6이 그때까지 열리지 않음. 뒤 계획 verify가 줄 머리 표식을 파일 전체에서 읽으므로 중간 기록은 표식 이름을 달리함
+- [Phase 06]: 재계획 전 사용자 결정 셋(2026-11-26): 메일로 받는 일부 삭제의 이름은 「뱃지와 기록 모두 삭제」(「위치 기록만」 대체, D-38), 탈퇴 뒤 남는 해시 rate_limits의 표기 기간은 「7일 안」(D-40), 위치정보 확인자료 보존 기간 표기는 「6개월」(코드 값 184일은 데이터 목록에만, D-41). 06-CONTEXT 「앱 작업 뒤 결정」 D-34~D-44에 앱 사실과 함께 적음 — /gsd-plan-phase 6으로 06-04 이후를 다시 짜기 전에 플래너가 읽을 결정을 잠금. 계획에 차단 체크포인트 셋을 더 만들지 않기 위함. 계획 파일은 고치지 않음
 
 ### Pending Todos
 
@@ -283,7 +284,7 @@ Phase 5 후속:
 - [Phase 05] 코드 리뷰 처분 7건 open (`05-REVIEW-DISPOSITION.md`): WR-01 check-site 7번 mailto 확인이 공유 푸터에도 걸림, WR-02 어두운 푸터 포커스 테두리 대비 약 2.1:1, WR-03·IN-01~04. UI 감사: `/support/#report`로 바로 열면 지원 이메일이 화면 밖, 좁은 화면에서 「고객 지원」은 푸터에서만 닿음
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
-- [Phase 06] 06-04는 실행 전에 계획 수정이 필요함(06-04~06-07 계획과 CONTEXT D-10·D-11·D-14). 지금 계획 그대로는 06-04 Task 1 verify가 멈춤: 메뉴 키 하나 가정(RUN_DELETE_MENU), 해시 rate_limits 일수 가정(RATE_HASH_APP), appcheck 두 값이 삭제 사실을 대표하지 않음. 사용자 결정 셋이 남음: 운영자 도구 「위치 기록만」의 공개 이름과 안내 문장, 해시 rate_limits의 표기 일수, 확인자료 보존 기간을 184일과 6개월 가운데 어느 쪽으로 적을지. prod 전제 다섯(익명 계정 자동 정리, rate_limits TTL, App Engine 서비스 계정 Firestore 권한, location_use_records TTL, 운영자 계정·admin claim·App Check 디버그 토큰)을 06-04·06-05에서 한곳에 모음. 목록은 06-03-SUMMARY 「Issues Encountered」와 06-EVIDENCE 중간 보고 구간
+- [Phase 06] 06-04 이후는 다시 짜야 함(`/gsd-plan-phase 6`). 앱 작업 전에 쓴 06-04~06-13 계획은 지금 사실과 어긋남: 메뉴 키 하나 가정(RUN_DELETE_MENU), 해시 rate_limits 일수 가정(RATE_HASH_APP), appcheck 두 값이 삭제 사실을 대표하지 않음, 범위 이름 「위치 기록만」. 재계획의 입력은 준비됨(2026-11-26): 06-CONTEXT 「앱 작업 뒤 결정」 D-34~D-44(사용자 결정 셋 포함: 「뱃지와 기록 모두 삭제」, 해시 기록 「7일 안」, 확인자료 「6개월」), 06-RESEARCH 머리 메모, 06-VALIDATION 새 행. 남은 미결은 D-33의 1·2·4(익명 계정 문장, prod 값 표기, 개발자 이름 값)와 D-39(탈퇴자의 공개 코스 삭제 경로를 약속할지). prod 전제 다섯은 D-42. 06-01~06-03 계획과 SUMMARY는 고치지 않음(D-34)
 
 ## Deferred Items
 
@@ -295,6 +296,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-26T08:32:04.405Z
-Stopped at: 06-03 완료 (앱 작업 보고 받음, APP_WORK_HEAD=92e986c3bb29, U2 초안 진행, ⑥ conform). 06-04는 실행 전에 계획 수정이 필요함: 06-03-SUMMARY 「Issues Encountered」와 06-EVIDENCE 중간 보고 구간의 「뒤 계획이 맞춰야 할 것」
-Resume file: .planning/phases/06-data-deletion-rewrite/06-03-SUMMARY.md
+Last session: 2026-11-26T09:16:38.471Z
+Stopped at: 06-03 완료, 재계획 입력 준비 완료(2026-11-26: 06-CONTEXT D-34~D-44, 06-RESEARCH 머리 메모, 06-VALIDATION 새 행). 다음은 /gsd-plan-phase 6으로 06-04 이후 다시 짜기. 06-01~06-03 계획과 SUMMARY는 고치지 않음
+Resume file: .planning/phases/06-data-deletion-rewrite/06-CONTEXT.md
