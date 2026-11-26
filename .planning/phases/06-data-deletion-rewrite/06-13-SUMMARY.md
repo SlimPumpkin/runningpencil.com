@@ -146,7 +146,7 @@ completed: 2026-11-26
 1. **Task 1: 대조표 확정과 고정 줄, 목록 덧붙임, 같은 줄 대조 (tracer)** — 커밋 없음. 데이터 목록의 덧붙임은 작업 트리에 두었다가 Task 2 커밋에 들어갔고, 기록은 계획 끝 문서 커밋에 들어간다. `OK site-clean 06-13-t1 5f4f8af3aed0`. verify exit 0을 두 번 확인한 뒤(tracer 관문) Task 2로 넘어갔다.
 2. **Task 2: 표 범위 표시·근거 표시·처리 기한·prod 전제 덧붙임과 문서 커밋** — `a789cf9679ba` (docs. 데이터 목록 하나). `OK site-clean 06-13-t2 a789cf9679ba`.
 
-**Plan metadata:** 계획 output이 「SUMMARY와 `06-EVIDENCE.md`는 같은 문서 커밋」으로 정했다. 그 커밋 해시와 Self-Check, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-01~06-06과 같은 순서). 푸시하지 않는다. 이 문서 커밋들은 06-09의 첫 푸시에 함께 나간다.
+**Plan metadata:** 계획 output이 「SUMMARY와 `06-EVIDENCE.md`는 같은 문서 커밋」으로 정했다. 그 문서 커밋은 `d7450b1f6925`이고, 이 줄의 해시와 Self-Check, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-01~06-06과 같은 순서). 푸시하지 않는다. 이 문서 커밋들은 06-09의 첫 푸시에 함께 나간다.
 
 ## Files Created/Modified
 
@@ -237,6 +237,20 @@ None - 외부 서비스 설정이 필요하지 않다. prod 프로젝트를 만�
 
 - 06-07의 precondition 가운데 이 계획이 만드는 표식(`RETAINED_ROWS`, `DELETED_ITEMS`, `PERIOD_OK`, `INV_DEC_SHA`)이 모두 있고 `INV_DEC_SHA`는 HEAD의 조상이다. 다음 실행 계획은 06-07이다.
 - 막는 것은 없다. 열린 항목은 위 「사용자가 읽어 볼 것」에 있다.
+
+## Self-Check: PASSED
+
+문서 커밋 `d7450b1f6925` 뒤에 확인했다.
+
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-13-SUMMARY.md`
+- FOUND: `.planning/baseline/DATA-INVENTORY.md`
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md`
+- FOUND: `a789cf9679ba` (데이터 목록 문서 커밋, HEAD의 조상)
+- FOUND: `d7450b1f6925` (기록과 SUMMARY 문서 커밋, HEAD의 조상)
+- 커밋된 `06-EVIDENCE.md`에 표식 넷(`RETAINED_ROWS=7`, `DELETED_ITEMS=8`, `PERIOD_OK=9/9`, `INV_DEC_SHA=a789cf9679ba`)이 줄 머리부터 각 한 번 있다.
+- Task 1·2 verify를 문서 커밋 전에 다시 돌려 둘 다 exit 0이었다. 계획 `<verification>` 세 항목도 통과했다(재기준 커밋부터 `INV_DEC_SHA`까지 사이트 파일 커밋 0, 기록의 경로·토큰 꼴 0).
+- `check evaluation-scope --plan 06-13 --commits-only`가 이 브랜치의 커밋 한 개를 돌려줬다(종료 코드 0).
+- 푸시하지 않았다.
 
 ---
 *Phase: 06-data-deletion-rewrite*
