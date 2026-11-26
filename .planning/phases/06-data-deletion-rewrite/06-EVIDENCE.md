@@ -252,3 +252,71 @@ INSTALL_ID=keep-out
 - 근거 사실 (공식 문서): installation ID는 삭제 API를 부를 때까지 남고, 부른 뒤 180일 안에 제거된다. 앱은 지금 삭제 API를 부르지 않는다 (데이터 목록 구간 E의 Remote Config 행, 구간 H의 installation ID 행).
 - 앱 작업 범위: 조건부 항목 ⑦은 이번 앱 작업 요청에 들어가지 않는다. 사용자가 앱 저장소에서 할 작업은 ①②③⑤⑥ 다섯 가지다. 요청서 표의 ⑦ 행은 Task 1 기록이라 지우지 않지만 요청이 아니다 (app-delete를 골랐을 때만 요청에 들어가는 행이다). 06-04는 ⑦을 확인하지 않는다.
 - 뒤 단계로 넘기는 것: 표 밖 설명 문장을 넣을지는 06-06 Task 3 물음 (f)에서, 그 문장은 06-07 원고 승인에서 정한다. 「앱을 지우면 함께 지워진다」는 OS 동작은 확인되지 않은 가정이라 쓰지 않는다.
+
+## 06-03 중간 보고 ⑤ (2026-11-26)
+
+06-03 Task 3의 보고가 아니다. 앱 작업 ⑤(기록 삭제 화면) 하나가 먼저 끝났다는 앱 쪽 중간 보고를 받아 적었다. Task 3 보고는 ①②③⑤⑥과 관리도구가 모두 들어간 앱 커밋으로 한 번에 받는다(사용자 결정 2026-11-21, `.planning/notes/2026-11-21-admin-tool-design.md`). 그래서 이 구간에는 Task 3이 쓰는 표식(앱 작업 커밋, 항목별 경로, U2 진행 답, ⑥ 파기 답, 보고 완료)을 적지 않았고, 06-04는 이 구간의 해시를 기준으로 쓰지 않는다. 아래 사실이 참인지는 그때 06-04가 보고받은 커밋의 코드로 다시 정한다.
+
+MID5_SEEN=787e0c5ebffc
+
+### 보고받은 것
+
+앱 쪽 보고(2026-11-26, 앱 quick 261126-dcc)를 옮겼다. 이 세션이 확인한 것은 다음 절에 따로 적었다.
+
+- 앱 저장소 원격 `main`이 `787e0c5ebffc`다.
+- 개념이 「기록 삭제」에서 뱃지 중심·코스 단위 삭제로 바뀌었다(앱 사용자 결정).
+  - 코스 하나를 지우면 그 코스 뱃지(`users/{uid}/badges/{courseId}`, 있으면)와 그 코스의 내 `runs` 전부(완주·미완주 모두)를 함께 지운다.
+  - 「모두 삭제」는 내 뱃지 전부와 내 `runs` 전부다(지워진 코스, 미완주만 있는 코스, 기록 없이 뱃지만 있는 경우 포함).
+  - 뱃지만 남기거나 기록만 남기는 갈래는 없다. 요청서 ⑤를 낼 때의 두 선택지(뱃지를 남긴다, 기록이 0이면 지운다)는 둘 다 쓰지 않는다.
+  - 코스 삭제(「이미 받은 뱃지는 남아요」)와 다른 이유: 코스 삭제는 만든 사람이 하는 일이고, 이 삭제는 달린 본인이 고르는 일이다.
+- 메뉴 경로(한국어 글자 그대로):
+  - 코스 상세 ⋮ → 「뱃지 삭제」(그 코스 뱃지가 있을 때) / 「기록 삭제」(뱃지가 없을 때)
+  - 설정 → 「데이터 관리」 → 「뱃지와 기록 모두 삭제」
+  - 확인 창은 지울 개수를 숫자로 보이고 「되돌릴 수 없어요」를 담는다. 게스트에게는 둘 다 보이지 않는다(게스트는 기록이 없음).
+- ARB 키: `recordDelete*` 11개, `settingsDataSection`, `settingsDeleteAllRecords*` 4개 (ko·en·ja).
+- 코드 위치: 규칙 주석은 `lib/features/runs/domain/record_deletion_targets.dart` 머리, 삭제 호출은 `lib/features/runs/application/record_deleter.dart`다. 문서마다 `RunRepository.delete`와 `BadgeRepository.delete`를 부르고 batch·쿼리 삭제는 쓰지 않는다(⑥의 서버 트리거가 문서를 한 건씩 받는 모양).
+- 커밋: `0b21ae8e0519`(코스 상세 ⋮), `4ff2a47d83d1`(설정), `5b650ce4af9a`(같은 runId로 기기에 남은 원시 GPS 로그도 함께 지움. 그대로 두면 다음 [시작] 때 지운 기록이 다시 저장되던 경로), `564f76eb06d0`, `131a79baf76f`.
+- 확인: Android·iPhone 실기기에서 확인했다. 미완주 기록을 새로 만들어 「기록 삭제」로 지운 뒤 dev Firestore에서 그 코스의 `runs` 0건을 조회했고, 건수(runs 48, 완주 28, badges 15)가 앱 표시와 같았다.
+- ⑥(위치정보 확인자료)은 아직 구현 전이다.
+- 사이트에 맞춰 달라는 것: 운영자 도구 「위치 기록만」(요청서 ③, D-14)도 같은 규칙을 따라 `runs`를 지우면 그 코스 뱃지를 함께 지운다. 그 이름과 안내 문구가 뱃지 삭제를 담도록 다시 본다. D-11 ②는 이제 참이지만 D-10의 경로 안내는 위 메뉴 이름으로 맞춘다.
+
+### 이 세션이 읽은 것 (탐침)
+
+`git -C "$APP"`의 `rev-parse`·`log`·`merge-base`·`cat-file`·`show`·`grep`·`diff`·`ls-tree`만 썼고 앱 저장소에 쓰지 않았다. 탐침일 뿐이고 판정이 아니다.
+
+```
+mid5 head 787e0c5ebffc origin-main=same clean=yes
+mid5 ancestor 3afb20858257 yes
+mid5 ancestor bfabc3a45d5d yes
+mid5 commits 0b21ae8e0519,4ff2a47d83d1,5b650ce4af9a,564f76eb06d0,131a79baf76f in-head=5/5
+mid5 path lib/features/runs/domain/record_deletion_targets.dart present
+mid5 path lib/features/runs/application/record_deleter.dart present
+mid5 probe 787e0c5ebffc runs-delete-callers=1 deletion-files-changed=32 rate-limits-in-deletion=6 visibility-in-deletion=0
+mid5 arb ko recordDelete=11 settingsDataSection=1 settingsDeleteAllRecords=4
+mid5 arb en recordDelete=11 settingsDataSection=1 settingsDeleteAllRecords=4
+mid5 arb ja recordDelete=11 settingsDataSection=1 settingsDeleteAllRecords=4
+```
+
+- `mid5 probe` 줄은 `$W/lib.sh`의 `appcheck`(06-01 사양)를 그 커밋에 돌린 값이다. 06-03 요청 때(`APP_PRE`)는 호출 0, 바뀐 파일 13, `rate_limits` 0이었다. 호출 1곳은 `record_deleter.dart:47`이고, 같은 파일 49행이 `BadgeRepository.delete(uid:, courseId:)`를 부른다.
+- 기준 앱 커밋 `3afb20858257`부터의 차이(`functions lib firestore.rules storage.rules config`): `121 files changed, 4227 insertions(+), 635 deletions(-)`.
+- 한국어 문구(`lib/l10n/app_ko.arb`): `recordDeleteBadgeMenu` 「뱃지 삭제」, `recordDeleteRecordsMenu` 「기록 삭제」, `settingsDataSection` 「데이터 관리」, `settingsDeleteAllRecords` 「뱃지와 기록 모두 삭제」. 확인 창 본문 네 개(`recordDeleteBadgeBody`·`recordDeleteBadgeOnlyBody`·`recordDeleteRecordsBody`·`settingsDeleteAllRecordsBody`)가 모두 「되돌릴 수 없어요.」로 끝나고, 개수를 받는 세 개는 `{count}`나 `{badgeCount}`·`{runCount}`를 쓴다.
+- 메뉴 키를 쓰는 화면 파일: `lib/features/courses/presentation/_widgets/course_delete_menu_button.dart`, `lib/features/settings/presentation/app_settings_sections.dart`.
+- 규칙 주석(`record_deletion_targets.dart` 머리)이 보고의 삭제 규칙과 같고, 「운영자 삭제 도구 「위치 기록만」(사이트 요청 ③ · 사이트 D-14)도 이 규칙을 따른다」고 적는다.
+- `record_deleter.dart`는 지운 run과 같은 runId의 원시 로그(`active_run.jsonl`)가 기기에 남아 있으면 함께 지운다.
+- 앱 todo(`.planning/todos/`): `completed/2026-11-21-run-record-delete-screen.md`가 있다. `pending/`에 `2026-11-21-withdrawal-delete-private-courses-keep-public.md`(①)와 `2026-11-21-location-confirmation-records.md`(⑥)가 남아 있다.
+- 읽지 않은 것: 화면 코드가 뱃지 유무로 두 메뉴를 가르는 조건과 게스트에게 숨기는 조건, 확인 창이 센 개수와 지우는 목록의 일치, ②·③의 상태. 실기기 확인과 Firestore 건수는 보고받은 그대로다.
+
+### 뒤 계획이 맞춰야 할 것
+
+앱 작업 전에 쓴 계획과 결정이 지금 사실과 다른 곳이다. 이 커밋에서는 계획과 CONTEXT를 고치지 않았다. Task 3 보고가 들어와 06-04로 넘어가기 전에 고친다.
+
+- 06-04 Task 1의 `RUN_DELETE_MENU=<arb 키>`는 키 하나를 가정한다. 실제 메뉴 문구는 셋이고 진입 경로는 둘이다(코스 상세 ⋮의 「뱃지 삭제」 또는 「기록 삭제」, 설정 「데이터 관리」의 「뱃지와 기록 모두 삭제」).
+- 06-04 Task 1의 `RUN_DELETE_BADGES=<keep|delete>`는 delete 쪽이지만 단위가 기록이 아니라 코스다. 기록 하나만 골라 지우는 갈래는 없다. 06-04 재기준 문장 「앱의 기록 삭제 화면(메뉴 …)에서 본인이 지울 수 있음. 지울 때 뱃지는 …대로」(구간 C 기록 두 행)와 뱃지 행의 삭제 칸이 이 단위를 따라야 한다.
+- 데이터 목록 구간 C의 기기 안 원시 GPS 로그 행(「정상 종료면 저장 직후 삭제. 비정상 종료 때 남는 기간은 미확인」)은 `5b650ce4af9a`로 사실이 하나 늘었다(기록을 지울 때 같은 runId의 남은 로그도 지움). 06-04 재기준에서 이 행을 다시 본다.
+- CONTEXT D-10: 일부 삭제 안내의 「기록」 경로는 위 메뉴 이름으로 쓴다. D-11 ②(「앱에서 기록을 지우면 저장된 GPS 궤적이 파기됩니다」)는 뱃지도 함께 지워진다는 사실과 코스 단위라는 사실을 담아야 한다.
+- CONTEXT D-14와 요청서 ③: 요청서는 이미 「뱃지 처리는 ⑤와 같게」라고 적었으므로 요청 사실은 그대로다. 달라지는 것은 범위 이름 「위치 기록만」과 D-11 ③(「위치 기록 일괄 삭제를 요청할 수 있습니다. 계정은 유지됩니다.」)의 안내 문장이다. 메일로 위치 기록 삭제를 요청한 사용자는 뱃지도 모두 잃는다. 이름과 문장은 사용자가 정한다(06-05 절차서, 06-06 대조표, 06-07 원고가 이 이름을 쓴다).
+- ⑥: `record_deleter.dart`가 문서를 한 건씩 지우는 모양은 ⑥의 서버 트리거를 기다리는 것이다. 앱 기록 삭제 때 확인자료가 파기된다는 사실은 ⑥이 들어온 뒤에만 참이다.
+
+### 관문 상태
+
+06-03 Task 3은 그대로 대기다. 남은 것은 앱 작업 ①②③⑥과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 두 가지(U2가 법률 확인 전 초안일 때 진행할지, ⑥이 요청서의 파기 사실을 따르는지)다. U2 결론 자체는 결정 목록(`.planning/baseline/DECISIONS.md` U2)에 2026-11-21과 2026-11-26 날짜로 적혀 있다.

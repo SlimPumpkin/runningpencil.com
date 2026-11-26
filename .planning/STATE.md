@@ -3,7 +3,7 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: "06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ①②③⑤⑥과 U2 결론 보고를 기다림"
+stopped_at: "06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ⑤는 중간 보고를 받음(2026-11-26, 앱 787e0c5ebffc, 06-EVIDENCE 「06-03 중간 보고 ⑤」). 앱 작업 ①②③⑥·관리도구와 Task 3 보고(U2 초안 진행 답, ⑥ 파기 답 포함)를 기다림"
 last_updated: "2026-11-20T02:30:44.119Z"
 last_activity: 2026-11-20
 last_activity_desc: 06-03 Task 3(앱 작업 보고) 대기
@@ -292,5 +292,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-11-20T02:25:02.791Z
-Stopped at: 06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ①②③⑤⑥과 U2 결론 보고를 기다림
-Resume file: .planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md (## 06-03 앱 작업 요청, ## 06-03 결정)
+Stopped at: 06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ⑤는 중간 보고를 받음(2026-11-26, 앱 787e0c5ebffc, 06-EVIDENCE 「06-03 중간 보고 ⑤」). 앱 작업 ①②③⑥·관리도구와 Task 3 보고(U2 초안 진행 답, ⑥ 파기 답 포함)를 기다림
+Resume file: .planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md (## 06-03 앱 작업 요청, ## 06-03 결정, ## 06-03 중간 보고 ⑤)
