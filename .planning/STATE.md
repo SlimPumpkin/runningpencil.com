@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Phase 6 06-04 이후 재계획 완료(2026-11-26, 계획 검사 통과). 다음은 /gsd-execute-phase 6 으로 06-04부터 실행
-last_updated: "2026-11-26T10:14:39.481Z"
+stopped_at: Completed 06-04-PLAN.md
+last_updated: "2026-11-26T10:44:07.509Z"
 last_activity: 2026-11-26
-last_activity_desc: 06-04 이후 재계획 완료(계획 검사 통과). 다음은 06-04 실행
-state_head: 2f993d13d26749a0663ea24552e677fc011b44f6
+last_activity_desc: Phase 06 execution started
+state_head: b13aa8282cc9d1bbd52becde56de2ffa5a965cac
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 60
+  completed_plans: 61
   percent: 50
 ---
 
@@ -27,10 +27,10 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 
 ## Current Position
 
-Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — READY TO EXECUTE
-Plan: 4 of 13
+Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
+Plan: 5 of 13
 Status: Ready to execute
-Last activity: 2026-11-26 — 06-04 이후 재계획 완료(계획 검사 통과). 다음은 06-04 실행
+Last activity: 2026-11-26 — Phase 06 execution started
 
 Progress: [█████░░░░░] 50%
 
@@ -120,6 +120,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P01 | 32min | 3 tasks | 2 files |
 | Phase 06 P02 | 25 min | 3 tasks | 4 files |
 | Phase 06 P03 | 6일 (앱 작업 대기 포함) | 3 tasks | 3 files |
+| Phase 06 P04 | 16min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -252,6 +253,9 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-03: Task 3 보고 조건을 「①②③⑤⑥이 들어간 앱 커밋, ③은 서버 함수와 명령」으로 좁혔다(사용자, 2026-11-26). 관리 화면은 뺐고 그 데이터는 기능이 나갈 때 사이트 문서를 함께 고친다. 대기 중 앱 보고 다섯 건은 Task 3 표식 없이 06-EVIDENCE 「06-03 중간 보고」 구간에 적었다 — 앱 쪽이 운영 본부 웹을 지인 배포 뒤로 미뤄 그대로 두면 Phase 6이 그때까지 열리지 않음. 뒤 계획 verify가 줄 머리 표식을 파일 전체에서 읽으므로 중간 기록은 표식 이름을 달리함
 - [Phase 06]: 재계획 전 사용자 결정 셋(2026-11-26): 메일로 받는 일부 삭제의 이름은 「뱃지와 기록 모두 삭제」(「위치 기록만」 대체, D-38), 탈퇴 뒤 남는 해시 rate_limits의 표기 기간은 「7일 안」(D-40), 위치정보 확인자료 보존 기간 표기는 「6개월」(코드 값 184일은 데이터 목록에만, D-41). 06-CONTEXT 「앱 작업 뒤 결정」 D-34~D-44에 앱 사실과 함께 적음 — /gsd-plan-phase 6으로 06-04 이후를 다시 짜기 전에 플래너가 읽을 결정을 잠금. 계획에 차단 체크포인트 셋을 더 만들지 않기 위함. 계획 파일은 고치지 않음
 - [Phase 06]: 06-04~06-13 재계획(2026-11-26, /gsd-plan-phase 6): 완료된 06-01~06-03은 그대로 두고 열 계획을 그 자리에서 다시 씀(06-04·05·06·13·07은 새로, 06-08~06-12는 부분 수정). 공통 보충 규칙은 06-04 context 「재계획 보충 규칙」에 두고 나머지 계획이 가리킴. 앱 사실은 기준 앱 커밋 92e986c3bb29에서만 읽고, 옛 표식(RUN_DELETE_MENU, RATE_HASH_APP 등)은 쓰지 않음 — 앱 작업 전에 쓴 계획이 06-CONTEXT D-34~D-44와 어긋났음. 계획 검사 blocker 0·warning 0, 결정 반영 41/41, 요구사항 8/8
+- [Phase 06]: 06-04: 앱 작업 ①②③⑤⑥의 요청 사실이 기준 앱 커밋 92e986c3bb29의 코드에서 모두 참으로 확인됐다(APP_FACTS=OK). ⑥ 확인자료는 세 경로(앱 기록 삭제, 탈퇴와 운영자 계정 전체 삭제, 운영자 records) 모두에서 파기된다. 앱 HEAD는 d52d13a74f9b로 10커밋 앞서 있지만 바뀐 것은 앱의 계획 문서뿐이라 기준을 옮기지 않았다 — 계획의 멈춤 조건(AW 뒤 커밋이 삭제 관련 경로를 바꿈)에 걸리지 않음. 기준은 D-36대로 사용자가 고른 커밋
+- [Phase 06]: 06-04: 데이터 목록을 앱 커밋 92e986c3으로 재기준했다(REBASE_SHA aeb6f4461157, 인용 56개 재확인·27개 고침). 탈퇴 정리의 근거는 공유 helper user_data_cleanup.ts로 옮겼고, prod 전제 다섯 가지는 구간 H 아래 「prod 전제 (Phase 6 D-42)」 한곳에만 둔다. 푸시 안 함 — 삭제 안내 본문은 이 재기준한 목록의 사실만 쓴다(Ground Rule, 성공 기준 2). D-33 ①②④와 D-39의 기간·삭제 경로는 쓰지 않았다
+- [Phase 06]: 06-04: 결정 목록 U2는 「결정됨」이 아니라 「초안으로 진행」(법률 확인 전), U6-나는 「앱 반영됨」(낱말은 「공개하지 않은 코스」)으로 고쳤다. 화면 사실: 위치정보 동의만 끄는 설정 없음, 익명에게 열린 새 users 쓰기 없음, 코스 화면은 만든 사람을 표시하지 않음 — D-36·D-39. 06-07 원고의 #location 문장과 「남는 데이터」 표의 근거
 
 ### Pending Todos
 
@@ -285,7 +289,7 @@ Phase 5 후속:
 - [Phase 05] 코드 리뷰 처분 7건 open (`05-REVIEW-DISPOSITION.md`): WR-01 check-site 7번 mailto 확인이 공유 푸터에도 걸림, WR-02 어두운 푸터 포커스 테두리 대비 약 2.1:1, WR-03·IN-01~04. UI 감사: `/support/#report`로 바로 열면 지원 이메일이 화면 밖, 좁은 화면에서 「고객 지원」은 푸터에서만 닿음
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
-- [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ①(06-06 Task 2), D-33 ②·D-39(06-06 Task 3), D-33 ④(06-08 Task 2). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 물음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 근거 경로 변경을 다시 잼). prod 전제 다섯은 D-42
+- [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ①(06-06 Task 2), D-33 ②·D-39(06-06 Task 3), D-33 ④(06-08 Task 2). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 물음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
 
 ## Deferred Items
 
@@ -297,6 +301,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-26T10:14:38.879Z
-Stopped at: Phase 6 06-04 이후 재계획 완료(2026-11-26, 계획 검사 통과). 다음은 /gsd-execute-phase 6 으로 06-04부터 실행
-Resume file: .planning/phases/06-data-deletion-rewrite/06-04-PLAN.md
+Last session: 2026-11-26T10:44:06.944Z
+Stopped at: Completed 06-04-PLAN.md
+Resume file: None
