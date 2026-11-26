@@ -129,7 +129,7 @@ completed: 2026-11-26
 2. **Task 2: 익명 계정 문장 (checkpoint:decision, blocking-human)** — 커밋 없음. 답 `ga`.
 3. **Task 3: prod 값 없는 기간·공개 코스·표 범위 (checkpoint:decision, blocking-human)** — 커밋 없음. 답 `answer`(여섯 물음).
 
-**Plan metadata:** 계획이 「커밋은 계획 끝 문서 커밋 하나」로 정했다(계획 context와 output). 이 SUMMARY와 `06-EVIDENCE.md`가 그 문서 커밋이고, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-01~06-05와 같은 순서). 푸시하지 않는다.
+**Plan metadata:** 계획이 「커밋은 계획 끝 문서 커밋 하나」로 정했다(계획 context와 output). 이 SUMMARY와 `06-EVIDENCE.md`가 그 문서 커밋 `2a5b18f33d2e`이고, STATE·ROADMAP 진행표와 이 SUMMARY의 보충(문서 커밋 해시, `mail` 문장 다듬기, 커밋 뒤 Self-Check)은 그 뒤 docs 커밋으로 들어간다(06-01~06-05와 같은 순서). 푸시하지 않는다.
 
 ## Files Created/Modified
 
@@ -206,7 +206,7 @@ completed: 2026-11-26
 - **(나) 앱 문서 문장 하나가 데이터 목록에 없다.** 앱 문서 `docs/kit-fork.md` 「익명 자동 정리」 절의 「stg·prod 프로젝트를 만들 때 자동 정리가 꺼져 있는지 보고 켜져 있으면 끈다」는 문장이다. 목록에는 「MVP 동안 자동 정리를 끈 채 둔다고 적음」까지만 있다. 06-13은 새 사실을 더하지 않으므로 이 문장을 목록에 넣을지는 정해지지 않았다.
 - **(다) D-26과 앱 문서의 어긋남이 그대로다.** `ga`로 닫은 것은 삭제 안내 문장뿐이다. 사이트 D-26(prod에서 익명 자동 정리를 켬)과 앱 문서(MVP 동안 끔), 데이터 목록 prod 전제 1번은 사용자가 따로 정해야 한다. 둘러보기 계정 자체(Auth 레코드)의 보유 기간은 삭제 안내에 없다.
 - **(라) (c)·(e)·(f)의 Phase 7 인계가 없다.** 06-13 계획이 데이터 목록에 「Phase 7 처리방침에서 다룸」을 적는 것은 (d) `phase7` 하나다. (c) `out`은 「표에서 뺌」만 적히고 (e)·(f) `out`은 표시가 붙지 않는다. App Check 토큰, 기기 안 설정, installation ID를 Phase 7 처리방침에서 다루려면 따로 추적해야 하고, 다룰지는 사용자가 정하지 않았다.
-- **(마) `proposal`의 전제는 prod에서 지켜야 한다.** prod에서 Firestore PITR, 예약 백업, `mail` 대기열 발송을 켜려면 먼저 남는 데이터 표에 행을 더한다. PITR이나 예약 백업을 켜면 `#location`의 「지체 없이 파기」 문장(DEL-06)도 함께 다시 정한다. prod에서 메일을 `mail` 대기열로 보낼지는 정해지지 않았다. 앱은 인증 메일과 비밀번호 재설정 메일을 `mail` 컬렉션에 쓰므로(Phase 1 결정 기록), prod를 만들 때 이 전제를 먼저 확인해야 한다.
+- **(마) `proposal`의 전제는 prod에서 지켜야 한다.** prod에서 Firestore PITR, 예약 백업, `mail` 대기열 발송을 켜려면 먼저 남는 데이터 표에 행을 더한다. PITR이나 예약 백업을 켜면 `#location`의 「지체 없이 파기」 문장(DEL-06)도 함께 다시 정한다. prod에서 메일을 `mail` 대기열로 보낼지는 정해지지 않았다. 앱 코드에는 인증 메일과 비밀번호 재설정 메일을 `mail` 컬렉션으로 보내는 경로가 있고(Phase 1 결정 기록) dev에서는 쓰지 않으므로(대조표 G13 행), prod를 만들 때 이 전제를 먼저 확인해야 한다.
 
 ## User Setup Required
 
@@ -245,6 +245,13 @@ SUMMARY를 쓰기 직전에 돌린 결과다 (2026-11-26T20:19Z). 이 계획의 
 - 누출 점검: `06-EVIDENCE.md`에 경로·토큰 꼴 0건, 홈 경로 0건, 임시 폴더 경로 0건, 더한 줄에 이메일 주소 꼴 0건. `vals filled=0 emitted=0 excluded=0`(새 값 없음, 점검 건너뜀)
 - check-site: 통과 (작업 트리, jekyll 3.10.0)
 - 스텁: 없다(문서 기록만 고침)
+
+문서 커밋 뒤에 다시 돌린 결과다 (2026-11-26T20:24Z). frontmatter의 `commits: 0`과 `plan_head_after`는 SUMMARY를 처음 쓸 때 잰 값 그대로다.
+
+- 커밋: `2a5b18f33d2e`가 HEAD의 조상이고(`git merge-base --is-ancestor`) 이 SUMMARY와 `06-EVIDENCE.md` 두 파일만 담는다. 메시지 끝 줄은 `Co-Authored-By: Claude … <noreply@anthropic.com>` 꼴이고 `Claude-Session:` 줄은 없다(06-04 「재계획 보충 규칙」 5번)
+- 커밋 뒤에도 Task 1 `<verify>` exit 0, 표식 일곱 7/7, `git log 3c5456a72d2a..HEAD -- . ':(exclude).planning'` 빈 출력(사이트 파일을 고친 커밋 없음), 누출 꼴 0건
+- ROADMAP 진행표 6/13(`roadmap.update-plan-progress`), `state.validate`와 `roadmap.validate` 경고 0. `requirements.mark-complete`는 돌리지 않았다(DEL-03은 blocked)
+- 이 보충에서 고친 본문은 두 곳이다: 「Task Commits」의 Plan metadata 문장(문서 커밋 해시), 열린 항목 (마)의 `mail` 문장(「앱이 쓴다」를 「보내는 경로가 있고 dev에서는 쓰지 않는다」로 다듬음)
 
 ---
 *Phase: 06-data-deletion-rewrite*

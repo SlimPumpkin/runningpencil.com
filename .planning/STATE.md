@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-05-PLAN.md
-last_updated: "2026-11-26T12:20:14.671Z"
+stopped_at: Completed 06-06-PLAN.md
+last_updated: "2026-11-26T20:23:10.696Z"
 last_activity: 2026-11-26
 last_activity_desc: Phase 06 execution started
-state_head: 536a2b29deae3b11862fa6e93b6d77a4bde203b1
+state_head: 2a5b18f33d2e43cdd77eb505f0b4c64eccab4829
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 62
+  completed_plans: 63
   percent: 50
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 6 of 13
+Plan: 7 of 13
 Status: Ready to execute
 Last activity: 2026-11-26 — Phase 06 execution started
 
@@ -122,6 +122,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P03 | 6일 (앱 작업 대기 포함) | 3 tasks | 3 files |
 | Phase 06 P04 | 16min | 3 tasks | 3 files |
 | Phase 06 P05 | 11min | 2 tasks | 2 files |
+| Phase 06 P06 | 7h 33m (사용자 대기 포함) | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -261,6 +262,10 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-05: 운영자 삭제 요청 처리 절차를 USER-TASKS 작업 13으로 남겼다(OPS_SHA 0cc0e1767353). 도구 실행은 앱 문서 docs/operator-delete-tool.md(기준 앱 커밋 92e986c3)를 가리키고 절차서는 본인 확인, 범위 고르기(account·records), 답장만 다룬다. 완료 답장은 --apply 실행의 종료 코드 0과 1시간 뒤 재확인(0이어야 하는 키가 모두 0) 뒤에만 보낸다. 계정 삭제 상한은 「요청을 받은 날부터 10일 안」, 「뱃지와 기록 모두 삭제」는 본인 확인 뒤 「지체 없이」 — 사이트의 처리 상한·본인 확인 문장·요청 이름은 심사 제출물이라 운영 절차가 먼저 있어야 원고(06-07)가 지킬 수 있는 문장만 쓴다(D-07, D-29, D-43). dry-run은 개수와 상관없이 종료 코드 0이라 완료 판정을 --apply 종료 코드와 재확인 개수로 나눴다
 - [Phase 06]: 06-05: 탈퇴 정리 실패 로그(cleanup_user_data_failed)를 영업일마다 보고 그 uid를 범위 account로 다시 지우는 일을 절차서 12번에 넣었다(OPS_FAILLOG=included) — 탈퇴 정리는 Auth 삭제 뒤에 도는 트리거라 실패하면 로그만 남고 다시 돌지 않는다. Auth가 없는 uid의 남은 데이터를 지울 수 있는 수단은 운영자 도구뿐이고, 삭제 안내는 탈퇴 때 개인위치정보와 확인자료를 지체 없이 파기한다고 쓴다(DEL-06, D-41, D-43의 계획자 재량)
 - [Phase 06]: 06-05: 절차서에 적지 않고 열어 둔 것: 이메일 없는 계정의 uid를 콘솔에서 찾는 방법, 본인 확인 답장이 10일 안에 오지 않을 때의 처리(법률 확인 범위, RESEARCH A2), Meta 삭제 요청 목록의 식별자로 계정을 찾는 방법(RESEARCH A12), 익명(둘러보기) 계정이 보낸 메일 요청. 대체 본인 확인의 추가 질문 예시는 공개 저장소의 절차서에 있다(사이트에는 나가지 않음) — 계획·D-30·연구·앱 문서에 근거가 없는 처리는 운영자가 지킬 수 없는 절차가 되므로 적지 않았다(계획 prohibition). 06-07 원고는 이 경우들을 약속하는 문장을 쓰지 않는다
+- [Phase 06]: 06-06: 삭제 안내의 지워짐·남음을 재기준 데이터 목록(익명 행 정정 d7dd8609bcb9) 행 단위로 고정했다. 대상 33행(구간 G 17, 구간 E 가운데 G에 없는 4, 구간 H 보존 기간 11, 구간 C 기기 안 원시 GPS 로그 1)을 지워짐 10·남음 5·결정 필요 10·표 밖 8로 나눈 대조표가 06-EVIDENCE 「06-06 대조표」에 있다(TABLE_ROWS=33). 「결정 필요」 10행은 06-13이 사용자 답대로 분류만 바꾼다 — 성공 기준 2가 삭제 안내의 각 항목이 데이터 목록과 일치하기를 요구한다. 대조표가 목록 행과 1:1이어야 원고 승인(06-07)에서 사람이 한 줄씩 대조할 수 있다. 계획 셈 규칙만 따르면 32행이지만 계획의 「표 밖」 목록이 짚은 기기 안 원시 GPS 로그 행을 양쪽에 함께 셌고, 같은 데이터의 보존 값 짝 행(H12·H13·H14·H18)은 「표 밖」으로 두어 두 번 세지 않았다
+- [Phase 06]: 06-06: 익명(둘러보기) 계정 문장은 ga다(D33_C7=ga, 사용자 답 2026-11-26). 삭제 안내에는 자동 삭제 문장을 넣지 않고 「둘러보기에서는 기록·코스·뱃지를 서버에 저장하지 않는다」만 쓴다. 「서버에 아무것도 저장하지 않는다」로 넓혀 쓰지 않는다. 사이트 D-26(prod에서 익명 자동 정리를 켬)과 앱 문서(MVP 동안 끔)의 어긋남, 데이터 목록 prod 전제 1번은 닫히지 않았다 — (가) 문장은 재기준 목록의 사실만으로 참이고 앱 문서와 부딪히지 않는다. 익명 호출이 만든 uid rate_limits 기록과 Analytics·Crashlytics·로그의 uid가 있어 문장을 넓힐 수 없다. 둘러보기 계정 자체(Auth 레코드)의 보유 기간은 삭제 안내에 없다(선택지의 단점으로 보인 것)
+- [Phase 06]: 06-06: D-33 ②·D-39·표 범위 답(사용자, 2026-11-27 한국 시각): prod 값이 없는 행은 연구의 상한 약속 방식 그대로(D33_C8=proposal), 공개 코스 행의 기간 문구는 「서비스를 운영하는 동안」이고 탈퇴한 사람의 공개 코스를 요청으로 지우는 경로·기간은 약속하지 않음(D39_PATH=none), App Check 행은 표에서 뺌(APPCHECK_ROW=out), Firebase Authentication 로그 IP는 Phase 7 처리방침으로(AUTHLOG_ROW=phase7), 기기 안 설정 문장과 installation ID 설명 문장은 넣지 않음(DEVICE_SENTENCE=out, INSTALL_SENTENCE=out) — 사용자가 checkpoint 전체(여섯 물음의 사실과 선택지)를 본 뒤 오케스트레이터에 권고를 물었고, 오케스트레이터가 자기 의견이라고 밝혀 권한 문자열을 「권고안대로」라고 받아들인 답이다. 실행자는 고르거나 권하지 않았다(06-03 INSTALL_ID 결정과 같은 과정). 사용자는 prod에서 메일을 mail 대기열로 보낼지 묻는 물음에 따로 답하지 않아 proposal은 고친 데 없이 그대로다. 과정 전체는 06-EVIDENCE 「06-06 결정」의 「Task 3 답」에 있다
+- [Phase 06]: 06-06: proposal의 전제는 prod에서 지켜야 참이다. prod에서 Firestore PITR, 예약 백업, mail 대기열 발송을 켜려면 먼저 삭제 안내 남는 데이터 표에 행을 더하고, PITR·예약 백업을 켜면 #location의 「지체 없이 파기」 문장(DEL-06)도 함께 다시 정한다. prod에서 메일을 mail 대기열로 보낼지는 정해지지 않았다. App Check 토큰·기기 안 설정·installation ID(c·e·f)를 Phase 7 처리방침에서 다룰지도 정해지지 않았고, 06-13이 목록에 Phase 7 인계를 적는 것은 로그 IP(d) 하나다 — 남는 데이터 표의 기간은 Google Play·Meta 심사에 제출되는 보존 고지다(계획 Task 3 reversibility costly). 상한과 「켜지 않음」 전제는 06-13이 데이터 목록 「prod 전제 (Phase 6 D-42)」 아래에 덧붙이고, 확인은 prod 프로젝트를 만들 때 한다. 앱 코드에는 인증 메일과 비밀번호 재설정 메일을 mail 컬렉션으로 보내는 경로가 있고(Phase 1 기록) dev에서는 쓰지 않으므로(대조표 G13) prod를 만들 때 이 전제를 먼저 본다
 
 ### Pending Todos
 
@@ -294,7 +299,8 @@ Phase 5 후속:
 - [Phase 05] 코드 리뷰 처분 7건 open (`05-REVIEW-DISPOSITION.md`): WR-01 check-site 7번 mailto 확인이 공유 푸터에도 걸림, WR-02 어두운 푸터 포커스 테두리 대비 약 2.1:1, WR-03·IN-01~04. UI 감사: `/support/#report`로 바로 열면 지원 이메일이 화면 밖, 좁은 화면에서 「고객 지원」은 푸터에서만 닿음
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
-- [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ①(06-06 Task 2), D-33 ②·D-39(06-06 Task 3), D-33 ④(06-08 Task 2). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 물음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
+- [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ④(06-08 Task 2) 하나(D-33 ①과 D-33 ②·D-39는 06-06에서 사용자 답으로 닫힘: ga, proposal·「서비스를 운영하는 동안」·삭제 경로 약속 없음·표 범위 넷). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 보였고 답 ga는 삭제 안내 문장만 닫음. 어긋남과 prod 전제 1번은 열려 있음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
+- [Phase 06] 06-06이 넘긴 것(단계를 막지 않음. `06-06-SUMMARY.md` 「열린 항목」): 다음 실행 계획은 06-13(번호와 실행 순서가 다름). prod를 만들 때 볼 것 — `D33_C8=proposal`의 전제(Firestore PITR·예약 백업·`mail` 대기열 발송을 켜려면 먼저 남는 데이터 표에 행을 더함, PITR·예약 백업은 `#location` 「지체 없이 파기」 문장도 다시 정함), prod에서 메일을 `mail` 대기열로 보낼지는 미정. 사용자가 정할 것 — D-26과 앱 문서의 익명 자동 정리 어긋남, App Check 토큰·기기 안 설정·installation ID를 Phase 7 처리방침에서 다룰지(06-13이 목록에 Phase 7 인계를 적는 것은 Firebase Authentication 로그 IP 하나). 앱 문서의 「stg·prod를 만들 때 자동 정리가 꺼져 있는지 보고 켜져 있으면 끈다」 문장은 데이터 목록에 없음. 앱 HEAD는 06-06 첫 실행 때 `a298289b50fa`(기준 뒤 26커밋, 삭제 관련 경로 변경 0, 파일 이름만 읽음)
 
 ### Quick Tasks Completed
 
@@ -312,6 +318,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-26T12:20:14.091Z
-Stopped at: Completed 06-05-PLAN.md
+Last session: 2026-11-26T20:23:10.125Z
+Stopped at: Completed 06-06-PLAN.md
 Resume file: None
