@@ -1058,3 +1058,157 @@ OK site-clean 06-13-t2 a789cf9679ba
 - 커밋 내용으로 다시 한 대조: `PERIOD`·`REASON`·`INUSE` 아홉 줄 모두 `INV_DEC_SHA`의 목록에서 행 낱말과 문구가 같은 줄에 있다.
 - 값 누출 점검: 개발자 이름 키에 값이 없어 건너뛰었다(06-01 「값 누출 점검」의 기대값). 목록에 더한 줄에 주소 꼴 글자(`@`)는 0이다. 커밋 메시지에는 결정 번호와 문서 이름만 있다.
 - 적지 않은 것 (이 계획은 새 결정을 만들지 않는다): App Check 토큰·기기 안 설정·installation ID를 Phase 7 처리방침에서 다룰지, 사이트 D-26과 앱 문서의 익명 자동 정리 어긋남, 앱 문서의 「stg·prod를 만들 때 자동 정리가 꺼져 있는지 보고 켜져 있으면 끈다」 문장. 셋 다 06-06이 열어 둔 그대로다. 연구의 PITR 보존 일수처럼 결정에 없는 값도 적지 않았다.
+
+## 06-07 원고
+
+`/data-deletion/` 원고를 스크래치 `$W/draft/data-deletion.html`에 쓰고, HEAD에 얹은 ref 없는 시험 객체로 check-site, 빌드, 본문 블록 판정, 두 엔진 화면까지 돌렸다. 저장소 작업 트리의 사이트 파일은 고치지 않았고 이 task에서는 커밋하지 않았다. 원고 글은 이 기록에 옮기지 않는다(원고는 06-09 커밋에 들어간다).
+
+DRAFT_CAND=608db1ab928f
+
+- 스크래치 재확인: `$W/lib.sh` 함수 열둘, Playwright 1.59.1, `$W/pw/p6-deletion.mjs`, `$W/base/TREE`가 `BASE_SHA`의 트리와 같고 `$W/base/site/index.html`이 있다. 다시 만든 것이 없어 `REGEN` 줄은 없다.
+- precondition: 06-06·06-13 표식(`D33_C7`, `D33_C8`, `PUBLIC_COURSE_PERIOD`, `D39_PATH`, `APPCHECK_ROW`, `AUTHLOG_ROW`, `DEVICE_SENTENCE`, `INSTALL_SENTENCE`, `RECDEL_UNIT`, `RECDEL_BADGES`, `OPS_SHA`, `DEL06_REPORT`, `LOC_CONSENT_CONTROL`, `RETAINED_ROWS`, `DELETED_ITEMS`, `PERIOD_OK`, `INV_DEC_SHA`)이 모두 있고 `INV_DEC_SHA`가 HEAD의 조상이다.
+- 원고가 읽은 사실의 출처: `INV_DEC_SHA`의 데이터 목록(구간 A 「「내 계정」 화면」 줄·`customPhotoUrl` 행·익명 행, 구간 B, 구간 C, 구간 G, 구간 E·F·H의 「남음」 행), 위 `## 06-13 대조표 확정`의 분류와 고정 줄 아홉, 운영 절차서 작업 13(`OPS_SHA`), 지원 페이지 FAQ의 경로 문자열. 대조표는 다시 나누지 않았다.
+- front matter: `title`·`eyebrow`는 그대로, `heading`은 D-17의 글자, `description`은 새 요약(큰따옴표·꺾쇠·앰퍼샌드 없음), `updated`는 원고를 쓴 날(2026년 11월 27일. 06-09가 재작성 커밋 날짜로 바꾼다). 검색 제외 키와 끝 안내 `footer`는 없다(U14).
+- 조항 순서: 소개 문단(`section` 밖 최상위 `p`, 개발자 이름 값이 있을 때만) → `#request` 삭제 요청 방법 → 처리 기간과 완료 알림 → 지워지는 데이터 → 남는 데이터 → 일부만 지우기 → `#location` 위치정보 동의 철회 → `#google`·`#apple`·`#facebook`·`#kakao`·`#naver`·`#line` → 문의처. id는 여덟 개뿐이다.
+- 남는 데이터 표 일곱 행과 대조표 행: 공개한 코스(G10), 해시 호출 횟수 제한 기록(G12), Analytics(G14), Crashlytics(H11), Firebase Authentication(H9), 지운 프로필 사진의 보관 사본(H17), 서버 로그(G15). 기간 칸은 `PERIOD` 줄의 문구만 담는다. 공개 코스 행의 남는 이유에 `REASON` 줄의 글자가 있다. 지워지는 데이터 목록은 여덟 항목이다(06-13 범주 여덟과 하나씩).
+- 표 밖 문장: `D33_C7=ga`라 표 아래 `aside`에 둘러보기 문장(기록·코스·뱃지를 서버에 저장하지 않는다) 하나만 두었다. `DEVICE_SENTENCE=out`, `INSTALL_SENTENCE=out`이라 기기 안 설정 문장과 installation ID 문장은 없다. 자동 삭제 문장도 없다.
+- 넣지 않은 선택 문장: 계획이 「쓸 수 있다」고 한 기기 안 원시 위치 기록 문장(대조표 C7의 문장 후보)은 넣지 않았다. 목록에 비정상 종료 때 남는 기간이 「미확인」이고, 계정이 남는 삭제에서는 기기에 남은 기록이 다시 올라올 수 있다고 적혀 있어서다(구간 G 표 아래 메모). 넣을지는 승인 때 사용자가 본다.
+- 이메일 값 조건: `#request`의 ② 전체, 처리 기간의 메일 요청 문단, 일부만 지우기의 「메일로는 두 요청만 받는다」 문단, `#location` 3번 항목, 문의처의 이메일 문단은 `support_email` 값이 있을 때만 그려진다. 본문 mailto는 `#request`와 문의처 두 곳이다.
+- `draftreal`(저장소의 `_data/company.yml`로 빌드)에는 개발자 이름 키가 아직 없어 소개 문단이 0이다(06-08이 값을 받기 전 상태). 빌드 기록에 경고·오류는 없다. 승인 자료는 가짜 값 빌드 `d-full`에서만 만든다.
+- 승인 때 사용자가 볼 것 (실행자가 정하지 않음): (1) 지워지는 데이터의 「공개하지 않은 코스(비공개·검수 대기 등)」에서 「검수 대기」는 D-39가 앞으로 생길 상태라고 적은 낱말이다. (2) 제공자 섹션의 받는 항목은 구간 B 행의 글자대로다. 구간 B의 Google·Apple·Facebook 행에는 회원번호가 없고 구간 A `linkedProviders` 행은 제공자 응답의 회원번호를 기록한다고 적는다. (3) `#location` 파기 문장의 「(2~4번)」은 이메일 값이 없는 변형에서 항목이 셋이 되어 번호가 어긋난다(계획 검사 info. 라이브에는 이메일 값이 있다). (4) 둘러보기 문장의 낱말 「둘러보기」와 앱 화면 낱말 「게스트로 이용 중」(`SRC guest-label`)이 다르다(06-06 기록).
+- 판정 도구: `$W/t1-build.sh`(시험 객체, check-site, `draftreal`, 차이 파일, `d-full`), `$W/t1-judge.sh`(본문 블록 판정 일곱 줄). 값은 찍지 않는다.
+
+```
+check-site: 통과 (커밋 608db1ab928f, jekyll 3.10.0)
+OK diff draftreal only=data-deletion/index.html
+OK draft structure ids=request,location,google,apple,facebook,kakao,naver,line figures=1/1 tables=1 retained=7 deleted=8
+OK draft rules class=0 style=0 extra-elements=0 u10=0 robots=0 temp=0 absolute=0 thirtyday=0
+OK draft facts faqpath=1 tenday=1 promptly=2 locinfo=2 evidence=3 evdestroy=1 reply=3 disconnect-links=4 reqphrase=1
+OK draft words nonpublic=1 oldprivate=0 oldscope=0 menus=6 allrec-location=2 sixmonth-location=1 code184=0
+OK draft locconsent inventory=1 draft=1
+OK draft periods 9/9
+OK draft values mailto=2 reqmailto=1 reqli=4 phone=1 dev=1 escaped=ok source-values=0 data-refs=21
+OK chromium 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK chromium 375 anchor request ok
+OK chromium 375 anchor location ok
+OK chromium 375 anchor google ok
+OK chromium 375 anchor apple ok
+OK chromium 375 anchor facebook ok
+OK chromium 375 anchor kakao ok
+OK chromium 375 anchor naver ok
+OK chromium 375 anchor line ok
+OK chromium 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK chromium 1280 anchor request ok
+OK chromium 1280 anchor location ok
+OK chromium 1280 anchor google ok
+OK chromium 1280 anchor apple ok
+OK chromium 1280 anchor facebook ok
+OK chromium 1280 anchor kakao ok
+OK chromium 1280 anchor naver ok
+OK chromium 1280 anchor line ok
+OK webkit 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK webkit 375 anchor request ok
+OK webkit 375 anchor location ok
+OK webkit 375 anchor google ok
+OK webkit 375 anchor apple ok
+OK webkit 375 anchor facebook ok
+OK webkit 375 anchor kakao ok
+OK webkit 375 anchor naver ok
+OK webkit 375 anchor line ok
+OK webkit 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK webkit 1280 anchor request ok
+OK webkit 1280 anchor location ok
+OK webkit 1280 anchor google ok
+OK webkit 1280 anchor apple ok
+OK webkit 1280 anchor facebook ok
+OK webkit 1280 anchor kakao ok
+OK webkit 1280 anchor naver ok
+OK webkit 1280 anchor line ok
+PASS deletion
+OK site-clean 06-07-t1 9cd5f6a5f0b4
+```
+
+- 화면: `d-full`(가짜 값)을 포트 4603에 띄워 `p6-deletion.mjs`를 `--shot "$W/cap/draft"`로 돌렸다. 종료 코드 0, 앵커 서른두 줄은 모두 `ok`이고 `ok-end`는 없다. 캡처 네 장은 `$W/cap/draft/<엔진>-<폭>.png`다.
+- 원고 후보 객체는 어떤 브랜치에도 없다(`git branch -a --contains`가 빈 출력).
+- 고쳐 쓴 횟수: 첫 판정(시험 객체 `3ac83f555329`)이 모두 통과한 뒤 문장을 두 번 다듬어 3번부터 다시 했다. 첫 번째는 `#location` 2번 항목(코스 단위 메뉴와 「뱃지와 기록 모두 삭제」를 나눠 씀)과 확인자료 보관 문장(「서비스를 이용하는 동안에는」을 더함), 두 번째는 공개 코스 행의 남는 이유(목록 글자 「만든 사람의 식별자만 연결」에 맞춤)다. 위 줄은 마지막 후보 `DRAFT_CAND`의 출력이고, 앞 두 시험 객체는 ref 없이 남아 있다.
+- tracer 관문: Task 1 verify를 bash 임시 파일로 두 번 돌려 두 번 모두 exit 0이었다(자동 확인만 있는 verify, `human_verify_mode` end-of-phase). Task 1은 커밋하지 않았다.
+
+## 06-07 변형
+
+`full.yml`(일곱 키 모두 가짜 값)에서 한 곳씩 바꾼 가짜 yml 다섯 개로 `DRAFT_CAND`를 변형 빌드해 본문 블록에서 셌다. 다섯 변형은 빌드만 했고 check-site는 돌리지 않았다(값이 가짜다). 빌드 실패는 없다. 실제 사업자 값·지원 주소·개발자 이름은 쓰지 않았다.
+
+DRAFT_BLOB=b681410f94c5b44600fe0fddd531b4d963371f2b
+
+```
+OK variant nophone intro=1 mailto=2 reqmailto=1 phone=0 contact=1 ids=8
+OK variant nodev intro=0 mailto=2 reqmailto=1 phone=1 contact=1 ids=8
+OK variant noemail intro=1 mailto=0 reqmailto=0 phone=1 contact=1 ids=8
+OK variant empty intro=0 mailto=0 reqmailto=0 phone=0 contact=0 ids=8
+OK variant escape esc=1 raw=0
+OK variant fake-only yml=0 d-full=0
+OK captures draft=4
+OK site-clean 06-07-t2 9cd5f6a5f0b4
+```
+
+- 변형: `nophone`(전화 빈 값), `nodev`(개발자 이름 빈 값), `noemail`(지원 이메일 빈 값), `empty`(일곱 키 모두 빈 값), `escape`(개발자 이름에 꺾쇠·앰퍼샌드·큰따옴표). 값이 없는 항목은 문단째 숨고(전화 문단, 소개 문단, 메일 경로 다섯 곳, 문의처 조항 전체), 앵커 여덟 개는 어느 변형에서도 그대로다. `escape`에서 값은 이스케이프되어 한 번 나오고 원문 태그는 0이다(T-06-18).
+- `OK variant fake-only`: 가짜 yml 폴더 `$W/yml`과 `d-full` 빌드 출력에 실제 도메인 주소가 0건이다(grep 종료 코드 1을 확인. T-06-21).
+- `noemail`에서는 `#location`의 철회 항목이 셋이라 파기 문장의 「(2~4번)」과 번호가 어긋난다(계획 검사 info 그대로. 라이브에는 이메일 값이 있고 06-10 가드가 본문 mailto를 지킨다). 승인 때 함께 보인다.
+- 캡처: Task 1 5번의 네 장(`$W/cap/draft/chromium-375.png`, `chromium-1280.png`, `webkit-375.png`, `webkit-1280.png`)이 마지막 후보의 `d-full` 빌드로 다시 찍혀 있다.
+- 승인 글: `$W/draft/preview.txt`. `d-full` 출력의 제목·설명·h1·업데이트 줄과 본문 블록을 태그를 지운 글로 바꾼 것이다(조항마다 `[#id]`나 `[id 없음]`, 링크는 `[글](주소)`, 표는 행마다 `|`로 나눔). 가짜 값만 들어 있다. 도구는 `$W/t2-variants.sh`, `$W/t2-preview.py`, `$W/t2-fix.sh`다.
+- 승인 대상 고정: `DRAFT_BLOB`은 `$W/draft/data-deletion.html`의 blob이고 `<DRAFT_CAND>:data-deletion/index.html`과 같다. 스크래치 ref `refs/p6-scratch/draft`가 `DRAFT_CAND`를 가리킨다(브랜치·태그가 아니라 푸시되지 않는다). 이 뒤로 원고를 고치지 않았다.
+- 값 누출 점검: `vals filled=0 emitted=0 excluded=0`이라 `leak=skip(no new values)`다(개발자 이름 키에 값이 아직 없다). 이 기록에 `_data/company.yml`의 값은 0건이고 로컬 경로·토큰 꼴도 0건이다.
+- Task 2 verify를 bash 임시 파일로 두 번 돌려 두 번 모두 exit 0이었다. Task 2도 커밋하지 않았다(검증 기록과 SUMMARY는 계획 끝 문서 커밋에 함께 넣는다).
+
+### Task 3 질문 (원고·표·앵커 승인)
+
+Task 3은 사람이 답하는 결정 checkpoint다. 실행자는 아래 자료를 오케스트레이터에 넘기고 멈췄다. 승인 표식과 구간 `06-07 승인`은 사용자 답을 받은 뒤 이어 하는 실행자가 적는다.
+
+- 넘긴 자료: `$W/draft/preview.txt`의 글 전체(조항별, 가짜 값), 캡처 네 장의 경로, 위 `## 06-07 원고`·`## 06-07 변형`의 판정 줄, 앵커 여덟 개(`#request`, `#location`, `#google`, `#apple`, `#facebook`, `#kakao`, `#naver`, `#line`)와 다른 조항(처리 기간과 완료 알림, 지워지는 데이터, 남는 데이터, 일부만 지우기, 문의처)에는 id가 없다는 것.
+- 나란히 보인 대조 (원고 문장과 근거. 근거 글은 `INV_DEC_SHA`의 목록에서 다시 꺼냈다):
+  - 남는 데이터 표 일곱 행 ↔ 06-13 확정본의 「남음」 일곱 행(G10·G12·G14·H11·H9·H17·G15), `PERIOD` 일곱 줄과 `REASON` 한 줄, 목록 구간 G 네 행과 구간 H 세 행의 남는 이유·기간
+  - `#location` 파기 문장 ↔ 목록 구간 C 확인자료 행의 삭제 방식 칸(세 경로에서 지체 없이 파기), `DEL06_REPORT=conform`, 위 `## 06-04 앱 사실`의 ⑥ 코드 확인(`APP_FACTS=OK`)
+  - `#location` 「6개월」 문장 ↔ `INUSE` 줄과 같은 행의 보유 기간 칸(코드 값은 목록에만)
+  - `#location` 「앱에는 위치정보 동의만 따로 끄는 설정이 없습니다」 ↔ 목록 구간 C 표 아래 같은 줄(근거 `firestore.rules:56`, 앱 `92e986c3`)
+  - 「일부만 지우기」와 `#location`의 메뉴 문구 여섯 ↔ 목록 구간 C `runs`·`courses` 행과 구간 A `customPhotoUrl` 행의 삭제 방식 칸, 위 `## 06-04 화면 사실`의 `OK menu` 일곱 줄
+  - 「삭제 요청 방법」의 「내 계정」 화면 낱말 ↔ 목록 구간 A 「「내 계정」 화면」 줄
+  - 요청 이름·처리 기한·첫 답장·본인 확인·제공자 연결 문장 ↔ 운영 절차서 작업 13의 1·2·3·8·9·10·13번과 목록 구간 G 표 아래 처리 기한 메모
+  - `D33_C7=ga`라 둘러보기 문장은 06-06 선택지 (가) 문장에서 끝말만 높임말로 바꾼 것이다(`na`가 아니어서 글자 대조 표식은 없다).
+- 함께 알린 것 (원고에서 계획 글과 다르거나 사용자가 정할 곳):
+  1. 「공개하지 않은 코스(비공개·검수 대기 등)」의 「검수 대기」는 D-39가 앞으로 생길 상태라고 적은 낱말이다(계획이 준 꼴 그대로).
+  2. 제공자 섹션의 받는 항목은 구간 B 행대로다. 구간 B의 Google·Apple·Facebook 행에는 회원번호가 없고 구간 A `linkedProviders` 행은 제공자 응답의 회원번호를 기록한다고 적는다.
+  3. `#location` 파기 문장의 「(2~4번)」과 제공자 섹션·「일부만 지우기」의 「지원 이메일」 낱말은 이메일 값이 없는 변형에서 어긋나거나 주소 없이 남는다(라이브에는 값이 있다).
+  4. 둘러보기 문장의 낱말 「둘러보기」와 앱 화면 낱말 「게스트로 이용 중」이 다르다.
+  5. 계획이 「쓸 수 있다」고 한 기기 안 원시 위치 기록 문장은 넣지 않았다.
+  6. 「일부만 지우기」에서 「메일로는 두 요청만 받는다」 문단을 목록 아래에 두고 이메일 값 조건으로 감쌌다(계획은 목록 앞 문단으로 적었고 조건을 적지 않았다). `#request`·처리 기간·`#location` 3번과 같은 조건이다.
+  7. `#location` 1번의 「이미 저장된 기록은 그대로 남습니다」는 계획의 「파기를 약속하지 않음」을 문장으로 쓴 것이고, 확인자료 보관 문장의 「서비스를 이용하는 동안에는」은 목록의 「이용 중에는」을 풀어 쓴 것이다.
+  8. 375 폭 캡처에서 남는 데이터 표의 기간 칸이 오른쪽에서 잘려 보인다. 표가 `figure` 안에서 가로로 밀리는 모양이고(법적 본문 작성 규칙 D-07) 페이지 가로 넘침 판정은 통과했다.
+  9. 위치정보법에 기대는 문장(철회, 파기, 확인자료)은 법률 확인 전 초안이다(D-36, U2 초안 진행).
+- 실행자는 approve·revise·hold 가운데 어느 것도 고르거나 권하지 않았다. 항목마다 사실과 답이 달라질 조건만 적어 넘겼다.
+
+## 06-07 승인
+
+Task 3(원고 글·남는 데이터 표·공개 앵커 여덟 개 승인, `checkpoint:decision`, gate `blocking-human`)의 답을 적는다. 승인 대상 blob과 ref는 Task 2가 이미 고정했고 이 구간에서 다시 고정하거나 바꾸지 않았다. 원고, 스크래치 산출물, 빌드도 다시 만들지 않았다.
+
+DRAFT_APPROVED=b681410f94c5
+
+- 답: `approve`. 사용자의 답 글 전체가 이 한 낱말이다(이어 하기 지시에 글자 그대로 실려 왔다). `revise`도 `hold`도 아니다. 이 구간은 2026-11-27(한국 시각)에 적었다.
+- 승인한 것: 원고 글, 남는 데이터 표, 공개 앵커 여덟 개(`#request`, `#location`, `#google`, `#apple`, `#facebook`, `#kakao`, `#naver`, `#line`). 위 표식은 `## 06-07 변형`에 있는 원고 blob 표식의 앞 12자리다. 다른 조항에는 id가 없다.
+- 이 승인이 아닌 것: 푸시 승인이 아니다(푸시는 06-09가 그 SHA로 따로 묻는다). 개발자 이름 값도 아직 받지 않았다(06-08). 승인한 원고는 `updated` 한 줄 말고는 바뀌지 않는다(계획 Task 3 context).
+- 답이 나온 과정 (이어 하기 지시가 전한 그대로):
+  1. 오케스트레이터가 checkpoint를 한 메시지로 사용자에게 전했다. `$W/draft/preview.txt`의 글 전체, 남는 데이터 표와 06-13 고정 줄·데이터 목록 행의 나란한 대조, `#location` 문장들과 목록 근거, 메뉴·요청 문구와 목록·운영 절차서 작업 13의 대조, 공개 앵커 여덟 개와 다른 조항에 id가 없다는 것, 판정 줄, 캡처 경로, 앞 실행자가 넘긴 「볼 곳」 메모(이어 하기 지시는 열한 가지라고 적었다. 위 「Task 3 질문」의 「함께 알린 것」은 아홉 줄이다), 위치정보 조항이 법률 확인 전 초안이라는 것(D-36)이다.
+  2. 앞 실행자는 어느 선택지도 고르거나 권하지 않았다.
+  3. 오케스트레이터가 같은 메시지에 따로 이름 붙인 권고 구간을 덧붙였다. 실행자나 연구의 의견이 아니라 오케스트레이터 자신의 의견이라고 밝혔고, 권한 답은 `approve`다. 답이 뒤집힐 조건을 함께 댔다: Google·Apple·Facebook 받는 항목의 회원번호를 첫 게시부터 맞추고 싶으면 `revise`, 위치정보 조항의 법률 확인을 먼저 받고 싶으면 `hold`. 회원번호 항목과 카카오·네이버 문장에 대해서는 확신이 낮다고 밝혔다.
+  4. 사용자는 이 세션에서 권고를 묻지 않았다. 오케스트레이터가 스스로 덧붙인 것이다(06-06 Task 3에서는 사용자가 먼저 권고를 물었다. 그때와 다른 점이다).
+  5. 사용자가 권고가 든 그 메시지를 본 뒤 `approve` 한 낱말로 답했다.
+- 이 답을 읽는 법: 사용자가 낸 답이다. 다만 권고 없이 낸 답이 아니라, 묻지 않은 권고(`approve`)가 붙은 자료를 본 뒤 낸 답이다. 실행자는 고르거나 권하지 않았다(06-01 「사이트 커밋을 막는 것」: 계획자와 실행자는 열린 선택지를 대신 고르지 않는다). 이 구간을 적은 실행자는 답과 위 과정을 이어 하기 지시(오케스트레이터가 전한 글)로 받았고 사용자와 직접 주고받지 않았다.
+- 열린 항목 셋 (사용자 결정이 아니다. 원고는 그대로다): 오케스트레이터는 같은 메시지에서, 답이 `approve` 한 낱말이면 아래 셋을 Phase 7에서 다시 볼 열린 항목으로 적겠다고 알렸고 사용자는 반대하지 않았다.
+  1. 지워지는 데이터의 「공개하지 않은 코스(비공개·검수 대기 등)」에서 「검수 대기」. 데이터 목록 구간 G의 공개하지 않은 코스 행에 같은 낱말이 있다. 06-CONTEXT D-39는 「앞으로 생길 검수 대기」라고 적는다.
+  2. Google·Apple·Facebook 섹션의 받는 항목에 회원번호가 없다. 데이터 목록 구간 B의 세 행은 이메일·이름·사진(Apple은 이메일·이름)만 적고, 구간 A `linkedProviders` 행은 「로그인 제공자 응답의 회원번호」를 기록한다고 적는다. 고치려면 구간 B가 먼저이고 Phase 7 처리방침(PRIV-10)이 같은 표를 쓴다. 앱이 이 세 제공자의 회원번호를 실제로 기록하는지는 이번에 코드에서 확인하지 않았다.
+  3. 카카오·네이버의 연결 해제 안내는 공식 도움말 링크 없이 문장뿐이다. 두 서비스의 실제 메뉴 이름은 확인하지 못했다.
+- 오케스트레이터가 전한 확인 (이 실행자는 다시 확인하지 않았다): 자료를 보이기 전에 원고의 외부 도움말 링크 넷(Google, Apple, Facebook, LINE)이 HTTP 200과 앱 연결 관리·해제에 관한 제목을 돌려줬고, 원고의 기간 문구, 「6개월」, 위치정보 동의 설정 문장, 메뉴 문구, 10일·직접 해제 문장이 `DATA-INVENTORY.md`와 `USER-TASKS.md`에 글자 그대로 있다는 것.
+- 이 실행자가 답을 적기 전에 다시 본 것: Task 1·2 verify를 bash 임시 파일로 돌려 둘 다 exit 0. `refs/p6-scratch/draft`가 원고 후보 객체를 가리키고, 그 객체의 `data-deletion/index.html` blob, `$W/draft/data-deletion.html`의 `git hash-object`, 원고 blob 표식이 모두 같다. 원고 후보 객체는 어떤 브랜치에도 없다. 열린 항목 1·2의 목록 글자(구간 G 행의 「검수 대기」, 구간 B 세 행, 구간 A `linkedProviders` 행)와 D-39의 글자는 직접 읽어 위와 같음을 봤다.
+- 이 계획 동안(`9cd5f6a5f0b4` 뒤) 커밋은 아직 없고, 작업 트리의 사이트 파일과 `_data/company.yml`은 HEAD와 같다. 스테이징한 것도 없다.
+
+```
+OK site-clean 06-07-t3 9cd5f6a5f0b4
+```
