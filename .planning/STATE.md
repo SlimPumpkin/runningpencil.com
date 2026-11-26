@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: "06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ①②③⑤⑥ 모두 중간 확인을 마침(2026-11-26, 앱 로컬 92e986c3bb29. 06-EVIDENCE 「06-03 중간 보고」 ⑤·②·①·⑥·③). Task 3을 닫을 사용자 답 셋(기준 앱 커밋, U2 초안 진행, 세 경로의 ⑥ 파기 답)을 기다림. 관리 화면은 보고 조건에서 뺌(2026-11-26 사용자 결정, 06-EVIDENCE 「06-03 관문 조건」)"
-last_updated: "2026-11-20T02:30:44.119Z"
-last_activity: 2026-11-20
-last_activity_desc: 06-03 Task 3(앱 작업 보고) 대기
-state_head: 2bdedf391e750aa4049d13c79556c30a556b6acb
+stopped_at: "06-03 완료 (앱 작업 보고 받음, APP_WORK_HEAD=92e986c3bb29, U2 초안 진행, ⑥ conform). 06-04는 실행 전에 계획 수정이 필요함: 06-03-SUMMARY 「Issues Encountered」와 06-EVIDENCE 중간 보고 구간의 「뒤 계획이 맞춰야 할 것」"
+last_updated: "2026-11-26T08:32:24.651Z"
+last_activity: 2026-11-26
+last_activity_desc: 06-03 완료 (앱 작업 보고 받음). 06-04 실행 전 계획 수정 필요
+state_head: 91f0da77567743e141054166909d7bab66617392
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 59
+  completed_plans: 60
   percent: 50
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 3 of 13
-Status: Executing Phase 06
-Last activity: 2026-11-20 — 06-03 Task 3(앱 작업 보고) 대기
+Plan: 4 of 13
+Status: Ready to execute
+Last activity: 2026-11-26 — 06-03 완료 (앱 작업 보고 받음). 06-04 실행 전 계획 수정 필요
 
 Progress: [█████░░░░░] 50%
 
@@ -119,6 +119,7 @@ Progress: [█████░░░░░] 50%
 | Phase 05 P15 | 11min | 3 tasks | 1 files |
 | Phase 06 P01 | 32min | 3 tasks | 2 files |
 | Phase 06 P02 | 25 min | 3 tasks | 4 files |
+| Phase 06 P03 | 6일 (앱 작업 대기 포함) | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -247,6 +248,8 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-01: 기준 BASE_SHA=89f659a5fdca(= 원격 main e0f233169329의 .planning 밖 트리), 앱 APP_BASE=a5db31953e1e(runs-delete-callers=0, D-25 차단 상태)를 기록했다. Playwright 1.59.1은 사용자 승인(install, 2026-11-20, Phase 6 동안 같은 버전·같은 경로 재설치 포함) 뒤 스크래치에만 설치했고, p6-deletion.mjs가 기준에서 FAIL, 양성 시험 객체에서 두 엔진·두 폭 PASS다
 - [Phase 06]: 06-02: 데이터 목록 기준 시점 정정 — 연결 해제는 여섯 제공자(건너뛸 수 있음, Apple Android 미확인), 기준 커밋 앱에 기록 삭제 화면 없음, 익명 계정은 확인한 경로 안에서 users/{uid} 쓰기를 찾지 못함 (INV_FIX_SHA ea0a0d7355d1, 기준 앱 커밋 그대로)
 - [Phase 06]: 06-02: U6-가·U6-나·N3 결정됨, U2와 D-05 앱 작업 묶음(①②③⑤⑥)이 Phase 6 커밋을 막음 — 결정 목록과 ROADMAP External Gates에 기록 (DEC_SHA ef3e0073b7b2)
+- [Phase 06]: 06-03: 앱 작업 ①②③⑤⑥이 앱 커밋 92e986c3bb29에 들어왔다는 보고를 받아 관문을 닫았다. U2는 법률 확인 전 초안이고 사용자가 초안으로 진행을 골랐다(U2_PROCEED=user-accepted-draft). ⑥ 파기 답은 세 경로 모두 conform. 항목이 참인지는 06-04가 앱 코드로 판정한다 — 사용자 답 셋(기준 앱 커밋, 초안 진행, conform)을 2026-11-26 선택지 물음으로 받음. 실행자가 대신 고르지 않음
+- [Phase 06]: 06-03: Task 3 보고 조건을 「①②③⑤⑥이 들어간 앱 커밋, ③은 서버 함수와 명령」으로 좁혔다(사용자, 2026-11-26). 관리 화면은 뺐고 그 데이터는 기능이 나갈 때 사이트 문서를 함께 고친다. 대기 중 앱 보고 다섯 건은 Task 3 표식 없이 06-EVIDENCE 「06-03 중간 보고」 구간에 적었다 — 앱 쪽이 운영 본부 웹을 지인 배포 뒤로 미뤄 그대로 두면 Phase 6이 그때까지 열리지 않음. 뒤 계획 verify가 줄 머리 표식을 파일 전체에서 읽으므로 중간 기록은 표식 이름을 달리함
 
 ### Pending Todos
 
@@ -280,6 +283,7 @@ Phase 5 후속:
 - [Phase 05] 코드 리뷰 처분 7건 open (`05-REVIEW-DISPOSITION.md`): WR-01 check-site 7번 mailto 확인이 공유 푸터에도 걸림, WR-02 어두운 푸터 포커스 테두리 대비 약 2.1:1, WR-03·IN-01~04. UI 감사: `/support/#report`로 바로 열면 지원 이메일이 화면 밖, 좁은 화면에서 「고객 지원」은 푸터에서만 닿음
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
+- [Phase 06] 06-04는 실행 전에 계획 수정이 필요함(06-04~06-07 계획과 CONTEXT D-10·D-11·D-14). 지금 계획 그대로는 06-04 Task 1 verify가 멈춤: 메뉴 키 하나 가정(RUN_DELETE_MENU), 해시 rate_limits 일수 가정(RATE_HASH_APP), appcheck 두 값이 삭제 사실을 대표하지 않음. 사용자 결정 셋이 남음: 운영자 도구 「위치 기록만」의 공개 이름과 안내 문장, 해시 rate_limits의 표기 일수, 확인자료 보존 기간을 184일과 6개월 가운데 어느 쪽으로 적을지. prod 전제 다섯(익명 계정 자동 정리, rate_limits TTL, App Engine 서비스 계정 Firestore 권한, location_use_records TTL, 운영자 계정·admin claim·App Check 디버그 토큰)을 06-04·06-05에서 한곳에 모음. 목록은 06-03-SUMMARY 「Issues Encountered」와 06-EVIDENCE 중간 보고 구간
 
 ## Deferred Items
 
@@ -291,6 +295,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-20T02:25:02.791Z
-Stopped at: 06-03 Task 3 대기 (Task 1·2 완료, INSTALL_ID=keep-out, 대기 커밋 c381acb). 앱 작업 ①②③⑤⑥ 모두 중간 확인을 마침(2026-11-26, 앱 로컬 92e986c3bb29. 06-EVIDENCE 「06-03 중간 보고」 ⑤·②·①·⑥·③). Task 3을 닫을 사용자 답 셋(기준 앱 커밋, U2 초안 진행, 세 경로의 ⑥ 파기 답)을 기다림. 관리 화면은 보고 조건에서 뺌(2026-11-26 사용자 결정, 06-EVIDENCE 「06-03 관문 조건」)
-Resume file: .planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md (## 06-03 앱 작업 요청, ## 06-03 결정, ## 06-03 중간 보고 ⑤, ## 06-03 중간 보고 ②, ## 06-03 중간 보고 ①, ## 06-03 중간 보고 ⑥, ## 06-03 관문 조건, ## 06-03 중간 보고 ③)
+Last session: 2026-11-26T08:32:04.405Z
+Stopped at: 06-03 완료 (앱 작업 보고 받음, APP_WORK_HEAD=92e986c3bb29, U2 초안 진행, ⑥ conform). 06-04는 실행 전에 계획 수정이 필요함: 06-03-SUMMARY 「Issues Encountered」와 06-EVIDENCE 중간 보고 구간의 「뒤 계획이 맞춰야 할 것」
+Resume file: .planning/phases/06-data-deletion-rewrite/06-03-SUMMARY.md
