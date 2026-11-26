@@ -926,3 +926,135 @@ INSTALL_SENTENCE=out
 OK task3 markers 7/7 line-start once
 OK site-clean 06-06-t3 3c5456a72d2a
 ```
+
+## 06-13 대조표 확정
+
+06-06 대조표의 「결정 필요」 10행을 06-06의 사용자 답 표식(`D33_C7`, `D33_C8`, `PUBLIC_COURSE_PERIOD`, `D39_PATH`, `APPCHECK_ROW`, `AUTHLOG_ROW`, `DEVICE_SENTENCE`, `INSTALL_SENTENCE`)대로 「남음」이나 「표 밖」으로 바꿨다. 행을 빼거나 더하지 않았다. 이 계획은 새로 정한 것이 없다. 값은 모두 06-04·06-06 표식, 재기준 데이터 목록, `06-06-PLAN.md` Task 3 `<context>`의 (a) 줄(`D33_C8=proposal`의 행별 문구의 유일한 출처)에서 가져왔다.
+
+RETAINED_ROWS=7
+DELETED_ITEMS=8
+
+행 이름과 열은 06-06 대조표와 같다. 「—」는 해당 없음이다.
+
+| 목록 구간·행 | 분류 | 사이트 쪽 자리 | 남는 이유 | 기간 | 의존 |
+|---|---|---|---|---|---|
+| G1 Storage `users/{uid}/` 아래 객체 전부 | 지워짐 | 지워지는 데이터: 직접 올린 프로필 사진 | — | — | 지운 객체의 소프트 삭제 사본은 H17 행이 나른다 (남음) |
+| G2 Firebase Auth 계정 | 지워짐 | 지워지는 데이터: 계정 정보 | — | — | 백업에서 제거되는 기간은 H9 행이 나른다 |
+| G3 `identity_index` 중 `firebaseUid == uid` | 지워짐 | 지워지는 데이터: 계정 정보 | — | — | 없음 |
+| G4 `users/{uid}` 문서 (`termsAccepted`, 연결된 제공자, 이메일 사본 등) | 지워짐 | 지워지는 데이터: 계정 정보 | — | — | 없음 |
+| G5 `users/{uid}/fcmTokens/*` | 지워짐 | 지워지는 데이터: 알림 토큰 | — | — | `D33_C8=proposal`: 「지워짐」으로 쓴다. 삭제가 실패한 경우는 `fcmTokens.expireAt` TTL에 맡기고 prod에서 그 TTL 정책을 켠다 (D-33 ② 추가 전제. 보존 설정 행은 H4) |
+| G6 `runs` 중 `userId == uid` | 지워짐 | 지워지는 데이터: 기록과 GPS 경로 | — | — | prod 전제 3번 |
+| G7 `location_use_records` 중 `uid == uid` (위치정보 확인자료) | 지워짐 | 지워지는 데이터: 위치정보 확인자료 | — | — | 남는 데이터 표에 넣지 않는다 (D-41). 이용 중 보관 「6개월」은 위치정보 조항이 쓴다 (아래 `INUSE` 줄). prod 전제 3번·4번 |
+| G8 `users/{uid}/badges/*` | 지워짐 | 지워지는 데이터: 뱃지 | — | — | prod 전제 3번 |
+| G9 `courses` 중 `creatorId == uid`이고 공개하지 않은 코스 | 지워짐 | 지워지는 데이터: 공개하지 않은 코스 | — | — | D-39. prod 전제 3번 |
+| G10 `courses` 중 `creatorId == uid`이고 공개한 코스 | 남음 | 남는 데이터 표: 공개 코스 | 다른 사용자가 계속 볼 수 있는 공개 코스. 만든 사람의 이름·사진을 표시하지 않음 | 서비스를 운영하는 동안 | D-01, D-39 (`PUBLIC_COURSE_PERIOD`). `COURSE_CREATOR=hidden`. 탈퇴한 사람의 공개 코스를 요청으로 지우는 경로·기간은 약속하지 않는다 (`D39_PATH=none`) |
+| G11 `rate_limits` 중 uid가 들어간 문서 | 지워짐 | 지워지는 데이터: uid가 든 호출 횟수 제한 기록 | — | — | 삭제가 실패하면 만료 시각과 TTL 정책 (prod 전제 2번) |
+| G12 `rate_limits` 중 IP·이메일 해시로 된 문서 | 남음 | 남는 데이터 표: 해시 호출 횟수 제한 기록 | 탈퇴로 찾을 수 없다 (문서 ID가 IP·이메일 해시). 쓰임은 요청 횟수 제한(남용 방지) | 7일 안 | D-40 (사용자 결정). prod 전제 2번 |
+| G13 `mail` 중 그 사용자 주소가 든 문서 | 표 밖 | 이 문서에 쓰지 않는다 (남는 데이터 표에서 뺌) | — | — | `D33_C8=proposal`: prod에서 `mail` 대기열 발송을 켜지 않음을 전제로 표에서 뺀다. 켜려면 표에 행을 먼저 더한다 (D-33 ② 추가 전제). prod에서 메일을 `mail` 대기열로 보낼지는 정해지지 않았다 (06-06 결정) |
+| G14 Analytics·Crashlytics에 붙은 uid | 남음 | 남는 데이터 표: Analytics (이 행은 Analytics 몫을 나르고 Crashlytics 몫은 H11 행이 나른다) | 앱이 삭제 API를 부르지 않는다. 서비스의 보존 기간에 따른다 | 최대 14개월 | D-24. 설정값 미확인. 확인되지 않은 전제(RESEARCH A7): GA4 속성이 360이 아니고 BigQuery 내보내기를 켜지 않음. 06-11이 「확인할 것」으로 넘긴다 |
+| G15 Cloud Functions 로그의 uid | 남음 | 남는 데이터 표: Cloud Functions 로그 | 앱이 지우지 않는다. 로그 보존 기간에 따른다. 탈퇴 정리 실패 로그와 운영자 삭제 도구의 실행 기록도 같은 보존 기간이다 | 최대 30일 | `D33_C8=proposal`의 상한 약속. prod 기본 로그 버킷 보존을 30일 이하로 둔다 (D-33 ② 추가 전제). 목록 값 30일은 dev 값이고 prod 사실이 아니다. 보존 값 행은 H18 |
+| G16 제공자 쪽 앱 연결 (여섯 제공자) | 표 밖 | 제공자 섹션과 요청 방법 조항 | — | — | D-32 |
+| G17 운영자 삭제 도구 (메일 요청) | 표 밖 | 요청 방법 조항과 운영 절차서(작업 13) | — | — | 데이터가 아니라 처리 방법이다. 실행 기록은 G15 행에 든다 |
+| C7 기기 안 원시 GPS 로그 `active_run.jsonl` | 표 밖 | 위치정보 조항 문장 후보: 앱에서 기록을 지우면 함께 지움 | — | — | 기기 안에만 있다. 비정상 종료 때 남는 기간은 목록에 「미확인」이다 |
+| E4 App Check 기기 증명 토큰 | 표 밖 | 이 문서에 쓰지 않는다 (남는 데이터 표에서 뺌) | — | — | `APPCHECK_ROW=out` (앱이 저장하지 않는다). Phase 7 처리방침에서 다룰지는 정해지지 않았다 (06-06 결정) |
+| E5 Remote Config 가져오기 (Firebase installation ID) | 표 밖 | 이 문서에 쓰지 않는다 | — | — | `INSTALL_ID=keep-out`. 표 밖 설명 문장도 넣지 않는다 (`INSTALL_SENTENCE=out`) |
+| E6 기기 안 설정 (`SharedPreferences`) | 표 밖 | 이 문서에 쓰지 않는다 | — | — | `DEVICE_SENTENCE=out` |
+| E7 Facebook SDK 자동 이벤트 | 표 밖 | 이 문서에 쓰지 않는다 (Phase 7) | — | — | 실제 전송 여부 미확인 (결정 목록 N1) |
+| H4 Firestore TTL 정책 (`fcmTokens.expireAt`, `mail`, `rate_limits`, `location_use_records`) | 표 밖 | G5·G13 행과 같은 데이터 (보존 설정) | — | — | `D33_C8=proposal`: `fcmTokens.expireAt` TTL은 prod에서 켠다 (G5). `mail`은 G13 행. `rate_limits`·`location_use_records`의 TTL은 prod 전제 2번·4번으로 정해져 있다 |
+| H9 Firebase Authentication 보존 | 남음 | 남는 데이터 표: Firebase Authentication 백업 | 삭제 요청 뒤 라이브·백업 시스템에서 제거될 때까지 남는다 (공식 문서) | 삭제 뒤 180일 안 | 같은 행의 「로그의 IP는 몇 주」는 표에 넣지 않고 Phase 7 처리방침으로 넘긴다 (`AUTHLOG_ROW=phase7`) |
+| H11 Crashlytics 보존 기간 | 남음 | 남는 데이터 표: Crashlytics (G14 행의 Crashlytics 몫) | 앱이 삭제 API를 부르지 않는다. 서비스의 보존 기간에 따른다 | 90일이 지나면 지우기 시작 | 공식 문서는 지우기 시작하는 시점만 준다 (RESEARCH Pitfall 2) |
+| H12 FCM·Remote Config의 installation ID | 표 밖 | E5 행과 같은 데이터 | — | — | `INSTALL_ID=keep-out`, `INSTALL_SENTENCE=out` |
+| H13 App Check 토큰 | 표 밖 | E4 행과 같은 데이터 (보존 값) | — | — | `APPCHECK_ROW=out` |
+| H14 Google Analytics 보존 기간 | 표 밖 | G14 행과 같은 데이터 (보존 값) | — | — | 기간 「최대 14개월」은 G14 행에 적었다 |
+| H15 Firestore PITR | 표 밖 | 이 문서에 쓰지 않는다 (남는 데이터 표에서 뺌) | — | — | `D33_C8=proposal`: prod에서 켜지 않음을 전제로 표에서 뺀다. 켜려면 표에 행을 먼저 더하고 `#location`의 「지체 없이 파기」 문장도 함께 다시 정한다 (D-33 ② 추가 전제, 06-06 결정) |
+| H16 Firestore 백업 일정 | 표 밖 | 이 문서에 쓰지 않는다 (남는 데이터 표에서 뺌) | — | — | `D33_C8=proposal`: prod에서 예약 백업을 두지 않음을 전제로 표에서 뺀다. 두려면 표에 행을 먼저 더하고 `#location`의 「지체 없이 파기」 문장도 함께 다시 정한다 (D-33 ② 추가 전제, 06-06 결정) |
+| H17 Storage 소프트 삭제 기간 | 남음 | 남는 데이터 표: 지운 프로필 사진의 소프트 삭제 사본 | 지운 프로필 사진(G1)의 소프트 삭제 사본 | 삭제 뒤 최대 7일 | `D33_C8=proposal`의 상한 약속. prod 버킷 소프트 삭제를 기본 7일로 둔다 (D-33 ② 추가 전제). 목록 값 7일은 dev 값이고 prod 사실이 아니다 |
+| H18 Cloud Logging 보존 기간 | 표 밖 | G15 행과 같은 데이터 (보존 값) | — | — | 기간 「최대 30일」은 G15 행에 적었다 |
+| H19 익명 계정 자동 정리 | 표 밖 | 표 밖 문장: 「둘러보기에서는 기록·코스·뱃지를 서버에 저장하지 않는다」 | — | — | `D33_C7=ga`. 자동 삭제 문장은 넣지 않는다. 「서버에 아무것도 저장하지 않는다」로 넓혀 쓰지 않는다 (06-06 결정). 문장의 근거는 목록 구간 A 익명 행과 구간 E `fcmTokens` 행 |
+
+- 분류 수: 지워짐 10, 남음 7, 표 밖 16. 「결정 필요」는 0이다.
+- 바뀐 10행: G15와 H17은 「남음」(상한 약속), G13·H4·H15·H16은 「표 밖」(`D33_C8=proposal`의 「켜지 않음」 전제와 `fcmTokens`를 「지워짐」으로 쓰는 제안), E4는 「표 밖」(`APPCHECK_ROW=out`), E5는 「표 밖」(`INSTALL_SENTENCE=out`), E6은 「표 밖」(`DEVICE_SENTENCE=out`), H19는 「표 밖」(`D33_C7=ga`, 표 밖 문장).
+- 06-06에서 이미 나뉘어 있던 23행은 분류가 그대로다. 「Task 3에서 정한다」고 적었던 칸(G1·G5의 의존, G10의 기간과 의존, H9·H12·H13·H18의 의존)만 답으로 바꿔 적었다.
+- 「남음」 7행은 사이트 남는 데이터 표의 7행과 하나씩 맞는다: 공개 코스(G10), 해시 호출 횟수 제한 기록(G12), Analytics(G14), Cloud Functions 로그(G15), Firebase Authentication 백업(H9), Crashlytics(H11), 지운 프로필 사진의 소프트 삭제 사본(H17). `AUTHLOG_ROW=phase7`이라 H9는 표의 한 행이다(06-06 「06-13이 볼 것」의 어긋남은 없다). 표 행의 이름은 원고(06-07)가 정한다.
+- 지워지는 데이터 범주 여덟 (`DELETED_ITEMS`. 06-06과 같다): 계정 정보(G2·G3·G4), 직접 올린 프로필 사진(G1), 기록과 GPS 경로(G6), 뱃지(G8), 공개하지 않은 코스(G9), 알림 토큰(G5), uid가 든 호출 횟수 제한 기록(G11), 위치정보 확인자료(G7). 범주 이름은 계획의 이름이고 원고의 낱말은 06-07에서 정한다.
+- 새 「남음」 두 행(G15, H17)의 남는 이유는 06-06 대조표의 글자 그대로다.
+- 공개하지 않은 코스(G9)와 확인자료(G7)는 「지워짐」이다 (D-39, D-41).
+
+### 고정 줄
+
+원고(06-07)가 남는 데이터 표와 위치정보 조항에 그대로 쓸 글자다. 꼴은 `PERIOD <행 낱말>|<기간 문구>`, `REASON <행 낱말>|<이유 문구>`, `INUSE <행 낱말>|<문구>`이고, 행 낱말은 그 문구가 적힌 데이터 목록 표 행의 첫 칸에 있는 글자다. `PERIOD`는 「남음」 행마다 하나다.
+
+```
+PERIOD `courses` 중 `creatorId == uid`이고 공개한 코스|서비스를 운영하는 동안
+PERIOD IP·이메일 해시로 된 문서|7일 안
+PERIOD Analytics·Crashlytics에 붙은 uid|최대 14개월
+PERIOD Crashlytics 보존 기간|90일이 지나면 지우기 시작
+PERIOD Firebase Authentication 보존|삭제 뒤 180일 안
+PERIOD Storage 소프트 삭제 기간|삭제 뒤 최대 7일
+PERIOD Cloud Functions 로그의 uid|최대 30일
+REASON courses/{courseId}|만든 사람의 이름·사진을 표시하지 않음
+INUSE location_use_records/{runId}|6개월
+```
+
+- 대조표 행과의 대응: 공개 코스 G10, 해시 문서 G12, Analytics G14, Crashlytics H11, Firebase Authentication 백업 H9, 소프트 삭제 사본 H17, 로그 G15. `REASON` 줄의 행은 구간 C 코스 행이고 `INUSE` 줄의 행은 구간 C 확인자료 행이다.
+- 문구의 출처: 「서비스를 운영하는 동안」은 `PUBLIC_COURSE_PERIOD`, 「7일 안」은 D-40, 「최대 14개월」은 D-24, 「90일이 지나면 지우기 시작」과 「삭제 뒤 180일 안」은 공식 문서 표현(06-06 대조표 H11·H9), 「삭제 뒤 최대 7일」과 「최대 30일」은 `D33_C8=proposal`의 상한 약속 문구, 「만든 사람의 이름·사진을 표시하지 않음」은 06-04가 목록에 적은 글자(`COURSE_CREATOR=hidden`), 「6개월」은 D-41이다.
+- `D33_C7=ga`이므로 「익명 계정 자동 정리」의 `PERIOD` 줄은 없다(`na`일 때만 적는다).
+- `APPCHECK_ROW=out`, `AUTHLOG_ROW=phase7`이므로 그 두 행의 `PERIOD` 줄도 없다.
+
+### 목록 반영과 같은 줄 대조 (작업 트리)
+
+데이터 목록 작업 트리에 아래를 덧붙였다. 원래 글자는 지우거나 바꾸지 않았고(글자 단위 차이에서 지워진 덩어리 0), dev 값 문장은 그대로다. 「행 끝」은 근거(인용) 칸이 아니라 그 행의 서술 칸 끝이다. 이 task에서는 커밋하지 않았다(목록은 Task 2에서 한 문서 커밋으로 남긴다).
+
+- 공개 코스: 구간 G 「공개한 코스」 행 처리 칸 끝과 구간 C 코스 행 보유 기간 칸 끝에 「남는 기간: 서비스를 운영하는 동안 (Phase 6 D-01·D-39, 사용자 결정)」. 앞에 「삭제 안내에 적는」(구간 C는 「삭제 안내에 적는 공개한 코스의」)을 붙여 dev 사실 문장 「기한 없음」과 구별했다.
+- Crashlytics: 구간 E `Firebase Crashlytics` 행 보유 기간 칸과 구간 H 「Crashlytics 보존 기간」 행 값 칸 끝에 「90일이 지나면 지우기 시작 (완료 시점은 공식 문서에 없음, Phase 6 D-33 ② 표기)」. 원래의 「90일」은 그대로다.
+- 상한 약속(「삭제 안내 상한: <문구>. prod 설정이 이 값 이하여야 함 (Phase 6 D-33 ②, 사용자 결정)」): 「삭제 뒤 최대 7일」은 구간 H 「Storage 소프트 삭제 기간」 행과 구간 G Storage 객체 행, 「최대 30일」은 구간 H 「Cloud Logging 보존 기간」 행, 구간 G 로그 행, 구간 D 로그 행.
+- 「켜지 않음」 전제(「prod에서 켜지 않음을 전제로 삭제 안내 표에서 뺌. 켜려면 삭제 안내 표에 행을 먼저 더함 (Phase 6 D-33 ②, 사용자 결정)」): 구간 H 「Firestore PITR」·「Firestore 백업 일정」 행, 구간 G `mail` 행, 구간 F `mail` 행, 구간 H 「Firestore TTL 정책」 행의 `mail` 몫. `mail` 쪽 세 곳은 문장 앞에 「`mail` 대기열 발송은」을 붙였다.
+- `fcmTokens`: 계획에 고정 문장이 없는 갈래라 proposal의 글자(「`fcmTokens`는 「지워짐」으로 쓰고 prod에서 `expireAt` TTL을 켬」)대로 「삭제 안내에는 「지워짐」으로 씀. prod에서 `fcmTokens.expireAt` TTL 정책을 켬을 전제로 함 (Phase 6 D-33 ②, 사용자 결정)」을 구간 G `fcmTokens` 행, 구간 E `fcmTokens` 행, 구간 H 「Firestore TTL 정책」 행에 적었다.
+- 06-04 재기준에 이미 있던 문구(「최대 14개월」, 「7일 안」, 「삭제 뒤 180일 안」, 「6개월」, 「만든 사람의 이름·사진을 표시하지 않음」)는 고친 데 없이 같은 줄 대조가 맞았다.
+- 둘러보기 문장: `D33_C7=ga`라 구간 H 「익명 계정 자동 정리」 행에 삭제 안내 문장을 적지 않았다(`na`일 때만 적는다).
+
+```
+OK table rows = 33
+OK table13 ids same-as-06-06 33/33
+OK table13 classes deleted=10 retained=7 out=16 undecided=0
+OK period `courses` 중 `creatorId == uid`이고 공개한 코스 in-inventory
+OK period IP·이메일 해시로 된 문서 in-inventory
+OK period Analytics·Crashlytics에 붙은 uid in-inventory
+OK period Crashlytics 보존 기간 in-inventory
+OK period Firebase Authentication 보존 in-inventory
+OK period Storage 소프트 삭제 기간 in-inventory
+OK period Cloud Functions 로그의 uid in-inventory
+OK period courses/{courseId} in-inventory
+OK period location_use_records/{runId} in-inventory
+PERIOD_OK=9/9
+OK site-clean 06-13-t1 5f4f8af3aed0
+```
+
+- tracer 관문: Task 1 verify를 bash 임시 파일로 두 번 돌려 두 번 모두 exit 0이었다(자동 확인만 있는 verify, `human_verify_mode` end-of-phase). Task 1은 커밋하지 않았다.
+
+## 06-13 목록 반영
+
+Task 1의 덧붙임에 표 범위 표시, 표 밖 문장의 근거 표시, 처리 기한 메모, prod 전제 덧붙임, 반영 메모를 더해 데이터 목록 하나만 담은 문서 커밋으로 남겼다. 푸시하지 않았다.
+
+INV_DEC_SHA=a789cf9679ba
+
+```
+check-site: 통과 (작업 트리, jekyll 3.10.0)
+vals filled=0 emitted=0 excluded=0 leak=skip(no new values)
+OK inventory append-only removed-chunks=0 table-columns=same
+OK commit files = .planning/baseline/DATA-INVENTORY.md
+OK commit periods 9/9 a789cf9679ba
+OK site-clean 06-13-t2 a789cf9679ba
+```
+
+- 커밋은 `.planning/baseline/DATA-INVENTORY.md` 하나만 담는다(줄 단위로 33줄 더함·20줄 지움: 표 행 20줄에 글을 덧붙였고 새 줄이 13줄이다. 글자 단위 차이에서 지워진 덩어리는 0이고 표 행의 칸 수도 그대로다). 재기준 커밋(`REBASE_SHA`)부터 이 커밋까지 사이트 파일을 고친 커밋은 없다.
+- 기준 앱 커밋 줄, 재확인 규칙의 해시, 06-04가 적은 앱 동작 문장, prod 전제 번호 목록 다섯 줄은 그대로다.
+- 표 범위 표시 (D-33 ②): 구간 E App Check 행 삭제 방식 칸 끝과 구간 H 「App Check 토큰」 행 값 칸 끝에 「앱이 저장하지 않아 삭제 안내 남는 데이터 표에서 뺌 (Phase 6 D-33 ②, 사용자 결정)」(`APPCHECK_ROW=out`). 구간 H 「Firebase Authentication 보존」 행 값 칸 끝에 「로그의 IP 행은 삭제 안내 표에서 빼고 Phase 7 처리방침에서 다룸 (Phase 6 D-33 ②, 사용자 결정)」(`AUTHLOG_ROW=phase7`).
+- 표 밖 문장의 근거: `D33_C7=ga`라 구간 A 익명 행의 「코스·기록·뱃지 쓰기는 막힘」과 구간 E `fcmTokens` 행의 「익명 사용자는 쓸 수 없음」이 그대로 있는지 확인하고(각 1줄), 익명 행 삭제 방식 칸 끝에 두 구절을 짚은 뒤 「(삭제 안내 둘러보기 문장의 근거, Phase 6 D-33 ①)」을 더했다. `DEVICE_SENTENCE=out`, `INSTALL_SENTENCE=out`이라 구간 E 기기 안 설정 행과 Remote Config 행에는 표시를 더하지 않았다.
+- 처리 기한: 구간 G 표 아래 메모의 「탈퇴는 호출 즉시 실행됩니다 …」 글머리 다음에 한 글머리를 더했다. 계정 삭제 요청은 「요청을 받은 날부터 10일 안」(D-29), 「뱃지와 기록 모두 삭제」 요청은 본인 확인 뒤 「지체 없이」(D-12·D-38)이고 `OPS_SHA` 절차서(작업 13)와 같은 기한이다.
+- prod 전제 덧붙임: 「### prod 전제 (Phase 6 D-42)」 번호 목록 다섯 줄 아래에 문단 「D-33 ② 결정에 따른 추가 전제 (Phase 6 D-33 ②):」와 글머리 다섯을 더했다. Storage 기본 버킷 소프트 삭제를 기본값 7일로 둠, 기본 로그 버킷 보존 30일 이하, `fcmTokens`의 `expireAt` TTL 정책 켜기, Firestore PITR을 켜지 않고 예약 백업을 두지 않음, 인증 메일·비밀번호 재설정 메일을 `mail` 대기열로 보내지 않음. 모두 `D33_C8=proposal`의 글자(`06-06-PLAN.md` Task 3 `<context>`의 (a) 줄)에서 왔다. 덧붙일 것이 있으므로 덧붙임 없음 표식은 적지 않았다.
+- 그 글머리에 함께 적은 06-06 기록의 문장 둘: PITR이나 예약 백업을 켜려면 `#location`의 「지체 없이 파기」 문장도 함께 다시 정한다, prod에서 메일을 `mail` 대기열로 보낼지는 정해지지 않았다(둘 다 `## 06-06 결정`의 「이 답으로 닫히지 않은 것」).
+- 반영 메모: 「재확인 규칙」 절의 06-04 재기준 메모 아래에 「남는 데이터 결정 반영 (Phase 6 06-13, D-33): …」 한 줄을 더했다.
+- 커밋 내용으로 다시 한 대조: `PERIOD`·`REASON`·`INUSE` 아홉 줄 모두 `INV_DEC_SHA`의 목록에서 행 낱말과 문구가 같은 줄에 있다.
+- 값 누출 점검: 개발자 이름 키에 값이 없어 건너뛰었다(06-01 「값 누출 점검」의 기대값). 목록에 더한 줄에 주소 꼴 글자(`@`)는 0이다. 커밋 메시지에는 결정 번호와 문서 이름만 있다.
+- 적지 않은 것 (이 계획은 새 결정을 만들지 않는다): App Check 토큰·기기 안 설정·installation ID를 Phase 7 처리방침에서 다룰지, 사이트 D-26과 앱 문서의 익명 자동 정리 어긋남, 앱 문서의 「stg·prod를 만들 때 자동 정리가 꺼져 있는지 보고 켜져 있으면 끈다」 문장. 셋 다 06-06이 열어 둔 그대로다. 연구의 PITR 보존 일수처럼 결정에 없는 값도 적지 않았다.
