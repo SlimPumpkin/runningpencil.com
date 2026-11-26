@@ -362,3 +362,61 @@ mid2 dev-ttl rate_limits.expireAt=ACTIVE other-policies=0 date=2026-11-26
 ### 관문 상태
 
 06-03 Task 3은 그대로 대기다. 중간 확인이 끝난 것은 ②와 ⑤다. 남은 것은 앱 작업 ①③⑥과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 두 가지(U2가 법률 확인 전 초안일 때 진행할지, ⑥이 요청서의 파기 사실을 따르는지)다.
+
+## 06-03 중간 보고 ① (2026-11-26)
+
+앱 작업 ①(탈퇴 때 비공개 코스 삭제)이 끝났다는 앱 쪽 중간 보고를 받아 적었다. 앞 두 구간과 같이 Task 3의 보고가 아니고 Task 3이 쓰는 표식을 적지 않았다. 앞 구간 「관문 상태」의 남은 항목은 이 구간으로 고쳐 읽는다.
+
+MID1_SEEN=d6c1a12a35e9
+
+### 보고받은 것
+
+앱 쪽 보고(2026-11-26, 앱 quick 261126-g7m)를 옮겼다. 보고가 말하는 「D-28 개정」은 앱 저장소의 결정 번호이고 이 저장소 CONTEXT의 D-28(기록 삭제 화면)과 다른 것이다.
+
+- 규칙: 탈퇴하면 기록(`runs`), 뱃지(`users/{uid}/badges`), 공개하지 않은 코스를 지운다. 공개하지 않은 코스는 비공개(`private`), 앞으로 생길 검수 대기(`pending`), `visibility` 값이 없는 코스다. 공개한 코스만 남고, 남은 코스에는 작성자 식별자(`creatorId`)만 연결된다. 이전에는 코스를 공개·비공개 구분 없이 모두 남겼다.
+- 이유: 처음 결정은 모든 코스가 공개이던 때 내린 것이다. 비공개 저장이 생긴 뒤로는 탈퇴한 사람의 비공개 코스(그리다 만 코스, 집 주변 경로일 수 있음)가 아무에게도 보이지 않는 채로 남게 됐다.
+- 구현: `functions/src/running_pencil/cleanup_user_data.ts`(Auth 삭제 트리거 `cleanupUserData`). 커밋 `3709f93b80c2`(함수), `5054fcc43099`(시험), `a91592ff2694`(앱 개인정보 임시 개요 문구). `courses where creatorId == uid`로 조회한 뒤 `visibility === "public"`인 코스만 남긴다. 일부가 실패해도 탈퇴는 끝나고 서버 로그에 「(partial)」이 남는다. 로그에는 uid와 개수만 들어간다.
+- dev 확인(2026-11-26): `cleanupUserData`를 dev에 배포하고 일회용 계정으로 실제 탈퇴했다. 기록 1, 뱃지 1, 공개하지 않은 코스 3건(비공개·검수 대기·`visibility` 없음)이 지워지고 공개 코스는 남았다. dev에 남아 있던 탈퇴자 비공개 코스는 0건이었다.
+- 함께 찾아 고친 문제: 이 함수는 1세대 함수라 App Engine 기본 서비스 계정으로 실행된다. 조직 정책 때문에 그 계정의 권한이 0개였고, dev에서는 그때까지 탈퇴 정리가 한 번도 성공하지 않았다(남은 로그 30회가 모두 `PERMISSION_DENIED`). dev는 그 계정에 `roles/datastore.user`를 줘서 고쳤다. prod를 만들 때도 같은 권한을 줘야 하고, 명령은 앱 저장소 `docs/kit-fork.md` 「처음 설정」 6번에 있다. 운영자 도구 「계정 전체」도 이 트리거를 쓰므로 같은 전제가 걸린다.
+- 앱 안 임시 개요 4항 「보관·삭제」(ko): 「탈퇴하면 기록·뱃지·공개하지 않은 코스를 삭제합니다. 공개한 코스는 남고 작성자 식별자만 연결됩니다.」 en·ja도 같은 뜻으로 바꿨다. 임시 개요이고 확정 문언은 사이트 처리방침에 맞춘다.
+- 사이트에 확인해 달라는 곳: 삭제 안내(지워지는 항목에 「공개하지 않은 코스」, 공개한 코스는 남음), 데이터 목록의 `courses` 행(「공개 코스만 남김(작성자 식별자 연결), 비공개·검수 대기는 삭제」), 처리방침(Phase 7)의 보관·삭제 절, 관리도구의 운영자 「계정 전체」(같은 트리거, prod 권한 전제).
+- 남은 공백: 탈퇴한 사람의 공개 코스는 아무도 고치거나 지울 수 없다(규칙상 만든 사람만 가능). 신고가 오면 운영자가 관리도구에서 지우는 경로가 필요하다. 지금 앱은 코스를 만든 사람을 화면에 보이지 않는다. 나중에 창작자 프로필(`publicProfiles/{uid}`, 닉네임)이 생기면 탈퇴 때 그 정보도 지우고 「탈퇴한 사용자」로 표시할 예정이다.
+- 배포 상태: dev는 배포와 실제 확인을 마쳤고, prod는 아직 없다.
+
+### 이 세션이 읽은 것 (탐침)
+
+`git -C "$APP"`의 `rev-parse`·`log`·`merge-base`·`cat-file`·`show`·`grep`·`diff`·`ls-tree`·`status`만 썼고 앱 저장소에 쓰지 않았다(fetch도 하지 않았다). 탐침일 뿐이고 판정은 06-04가 한다.
+
+```
+mid1 head d6c1a12a35e9 origin-main=787e0c5ebffc pushed=no clean=yes
+mid1 commits 3709f93b80c2,5054fcc43099,a91592ff2694 in-head=3/3 in-origin=0/3
+mid1 probe d6c1a12a35e9 runs-delete-callers=1 deletion-files-changed=33 rate-limits-in-deletion=6 visibility-in-deletion=4
+mid1 arb termsDetailPlaceholder ko=1 en=1 ja=1
+```
+
+- 앱 로컬 `main` 끝은 `d6c1a12a35e9`이고, 원격 추적 가지 `origin/main`은 아직 `787e0c5ebffc`다. 보고된 세 커밋은 로컬에만 있다. Task 3 보고에 쓸 커밋은 그때 다시 받는다.
+- `mid1 probe` 줄은 `$W/lib.sh`의 `appcheck`(06-01 사양)를 돌린 값이다. `visibility-in-deletion`이 0에서 4로 바뀌었다. 기준 앱 커밋 `3afb20858257`부터의 차이(`functions lib firestore.rules storage.rules config`): `123 files changed, 4543 insertions(+), 687 deletions(-)`.
+- `cleanup_user_data.ts`(앱 `d6c1a12a35e9`): 76-79행이 `runs where userId == uid`를, 92-98행이 `courses where creatorId == uid`를 조회해 `visibility !== "public"`인 문서만 삭제 대상으로 넣는다. 138-140행이 `users/{uid}/badges`를 `recursiveDelete`로 지운다. 머리 주석 45-52행이 지우는 것과 남기는 것을 보고와 같게 적는다.
+- 실패 처리(같은 파일 58-66행, 101-133행, 154-169행): 코스 조회나 일부 삭제가 실패해도 throw하지 않는다. error 로그(`cleanup_user_data_failed`, step `runs`·`courses`·`badges`)와 끝의 info 로그(「user data cleaned (partial)」)만 남고, 자동으로 다시 돌지는 않는다. 로그 필드는 uid와 개수다.
+- 이 함수는 1세대 Auth 삭제 트리거다(68-71행). 머리 주석 39-41행은 `deleteUser(uid)` 단건 삭제와 콘솔 삭제가 이 이벤트를 내고, Admin bulk 삭제(`deleteUsers`)는 내지 않는다고 적는다.
+- 공개 범위 값: `firestore.rules`의 규칙은 `private`와 `public`을 쓴다. `pending`은 다음 마일스톤에 검수 요청으로 바뀐다는 주석(317행)에만 나온다.
+- `docs/kit-fork.md` 「처음 설정」(425행부터) 6번이 증상(30회 모두 실패), 원인(1세대 함수 실행 계정의 프로젝트 역할 0개), dev 조치(`roles/datastore.user`, 2026-11-26)를 적는다.
+- 임시 개요 문구는 `lib/l10n/app_{ko,en,ja}.arb`의 `termsDetailPlaceholder` 4항에 있고 ko 글자가 보고와 같다.
+- 앱 todo: `completed/2026-11-21-withdrawal-delete-private-courses-keep-public.md`. `pending/`에는 `2026-11-21-location-confirmation-records.md`(⑥)가 남아 있다.
+- `lib`에서 `creatorName`·`creatorNickname`·`publicProfiles`를 찾으면 일치가 없다(만든 사람 표시가 없다는 보고와 어긋나지 않는다. 화면 코드는 읽지 않았다).
+- 확인하지 않은 것: dev 배포 여부, 실제 탈퇴 결과와 건수, dev 서비스 계정의 역할, 남은 로그 30회. 보고받은 그대로다.
+
+### 뒤 계획이 맞춰야 할 것
+
+- 요청서 ①은 「비공개인 문서」를 지운다고 적었고, 앱은 그보다 넓게 「공개(`public`)가 아닌 것 전부」를 지운다. 요청 사실은 참이다. 삭제 안내와 데이터 목록의 낱말은 「비공개 코스」가 아니라 앱 문구 「공개하지 않은 코스」(비공개·검수 대기·`visibility` 없음)를 따른다(CONTEXT D-04의 예시 「비공개 코스」, 06-04 재기준의 코스 행 문장).
+- 데이터 목록 구간 C 표 아래 메모(「탈퇴 정리 함수는 기록과 뱃지만 지우고 코스는 공개·비공개 모두 건드리지 않습니다」, `cleanup_user_data.ts:17-21`)는 사실과 행 번호가 모두 달라졌다. 06-04 재기준에서 고친다.
+- 탈퇴 때 기록·뱃지·공개하지 않은 코스를 지우는 것은 Auth 계정 삭제 뒤에 도는 트리거이고, 실패하면 로그만 남는다. 「지워진다」는 문장과 위치정보 철회의 「지체 없이 파기」(DEL-06)를 쓸 때 이 실패 경로를 운영 절차(06-05 절차서: 실패 로그를 보고 다시 지우는 일)가 받쳐야 하는지 06-04·06-05에서 본다.
+- 운영자 도구(③) 「계정 전체」가 이 트리거에 기대려면 Auth 사용자를 단건 `deleteUser(uid)`로 지워야 한다(bulk 삭제는 이벤트가 없다).
+- prod 전제가 셋으로 늘었다. 모두 prod 프로젝트를 만들 때 하는 설정이고, 하지 않으면 삭제 안내의 문장이 prod에서 참이 아니다: 익명 계정 자동 정리(D-26), `rate_limits`의 `expireAt` TTL 정책(앞 구간 ②), App Engine 기본 서비스 계정의 `roles/datastore.user`(이 구간. 없으면 탈퇴 정리가 통째로 실패한다). 06-04 재기준이나 06-05 절차서에서 한곳에 모아 적는다.
+- 탈퇴한 사람의 공개 코스는 만든 사람이 없어 아무도 고치거나 지울 수 없다. 「남는 데이터」 표의 공개 코스 행(기간)과 `/support/#report`의 신고 처리 문장이 운영자 삭제 경로(관리도구)와 맞아야 한다.
+- 06-04의 `COURSE_CREATOR` 표식(공개 코스에 만든 사람이 보이는지)은 보고대로면 보이지 않는 쪽이다. 06-04가 화면 코드로 정한다.
+- 처리방침(Phase 7)의 보관·삭제 절은 재기준한 데이터 목록을 따라 같은 규칙으로 쓴다.
+
+### 관문 상태
+
+06-03 Task 3은 그대로 대기다. 중간 확인이 끝난 것은 ①·②·⑤다. 남은 것은 앱 작업 ③(운영자 삭제 도구)·⑥(위치정보 확인자료)과 관리도구, 그리고 Task 3이 사용자 답으로만 받는 두 가지(U2가 법률 확인 전 초안일 때 진행할지, ⑥이 요청서의 파기 사실을 따르는지)다. ①은 앱 로컬 커밋이고 원격에는 아직 없다.
