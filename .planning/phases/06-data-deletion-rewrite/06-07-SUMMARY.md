@@ -140,7 +140,7 @@ completed: 2026-11-26
 2. **Task 2: 가짜 값 변형, 캡처, 승인 글, 승인 대상 고정** — 커밋 없음(같은 규칙). `OK site-clean 06-07-t2 9cd5f6a5f0b4`.
 3. **Task 3: 원고 글·표·앵커 승인** — 커밋 없음(checkpoint). 답 `approve`. `OK site-clean 06-07-t3 9cd5f6a5f0b4`.
 
-**Plan metadata:** 계획 output이 「SUMMARY와 `06-EVIDENCE.md`는 같은 문서 커밋」으로 정했다. 그 커밋 해시와 Self-Check, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-01~06-13과 같은 순서). 푸시하지 않는다. 이 문서 커밋들은 06-09의 첫 푸시에 함께 나간다.
+**Plan metadata:** 계획 output이 「SUMMARY와 `06-EVIDENCE.md`는 같은 문서 커밋」으로 정했다. 그 문서 커밋은 `0255b12b7814`이고, 이 줄의 해시와 Self-Check, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-01~06-13과 같은 순서). 푸시하지 않는다. 이 문서 커밋들은 06-09의 첫 푸시에 함께 나간다.
 
 ## Files Created/Modified
 
@@ -261,6 +261,23 @@ None - 외부 서비스 설정이 필요하지 않다.
 
 - 다음 실행 계획은 06-08이다. 06-08의 precondition 가운데 이 계획이 만드는 것은 모두 있다.
 - 막는 것은 없다. 위치정보 조항은 법률 확인 전 초안으로 승인됐고(D-36), 열린 항목은 위에 있다.
+
+## Self-Check: PASSED
+
+문서 커밋 `0255b12b7814` 뒤에 확인했다.
+
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-07-SUMMARY.md`
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md`
+- FOUND: `0255b12b7814` (기록과 SUMMARY 문서 커밋, HEAD의 조상. 파일 둘만 담음)
+- 커밋된 `06-EVIDENCE.md`에 `DRAFT_APPROVED=b681410f94c5`가 줄 머리부터 한 번 있고, `DRAFT_BLOB`·`DRAFT_CAND`도 줄 머리부터 각 한 번이다.
+- 계획 `<verification>` 세 줄:
+  1. Task 1·2 verify를 승인 기록을 적은 뒤 bash 임시 파일로 다시 돌려 둘 다 exit 0.
+  2. `git rev-parse refs/p6-scratch/draft`의 앞 12자리가 `DRAFT_CAND`(`608db1ab928f`)이고 `git rev-parse "refs/p6-scratch/draft:data-deletion/index.html"`이 `DRAFT_BLOB`이다. 스크래치 원고의 `git hash-object`도 같다.
+  3. `git log 9cd5f6a5f0b4..HEAD -- . ':(exclude).planning'`가 빈 출력이다(이 계획 동안 사이트 파일을 고친 커밋 없음). 원고 후보 객체는 어떤 브랜치에도 없다.
+- 문서 커밋 전 작업 트리 `scripts/check-site.sh` 통과, 값 누출 점검은 `vals filled=0 emitted=0 excluded=0`이라 건너뜀, 두 파일과 커밋 메시지에 경로·토큰 꼴과 홈 경로 0건.
+- `check evaluation-scope --plan 06-07 --commits-only`가 이 브랜치의 커밋 한 개(`0255b12b7814`)를 돌려줬다(종료 코드 0).
+- `requirements.ready-ids`는 여덟 ID 모두 blocked라 요구사항을 닫지 않았다.
+- 푸시하지 않았다.
 
 ---
 *Phase: 06-data-deletion-rewrite*

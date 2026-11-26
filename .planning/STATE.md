@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-13-PLAN.md
-last_updated: "2026-11-26T21:26:18.481Z"
+stopped_at: Completed 06-07-PLAN.md
+last_updated: "2026-11-26T23:20:23.520Z"
 last_activity: 2026-11-27
 last_activity_desc: Phase 06 execution started
-state_head: d7450b1f692584f1418ce72d916b5693b97da04a
+state_head: 0255b12b78147789554e1228be4f66fe5b5c7d4e
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 64
+  completed_plans: 65
   percent: 50
 ---
 
@@ -124,6 +124,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P05 | 11min | 2 tasks | 2 files |
 | Phase 06 P06 | 7h 33m (사용자 대기 포함) | 3 tasks | 1 files |
 | Phase 06 P13 | 15min | 2 tasks | 2 files |
+| Phase 06 P07 | 1h 8m (사용자 대기 포함) | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -270,6 +271,9 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-13: 06-06 대조표의 「결정 필요」 10행을 사용자 답대로 확정했다. 33행 그대로이고 지워짐 10·남음 7·표 밖 16이다(RETAINED_ROWS=7, DELETED_ITEMS=8). 새 「남음」 두 행은 Cloud Functions 로그(「최대 30일」)와 지운 프로필 사진의 소프트 삭제 사본(「삭제 뒤 최대 7일」)이고, 원고가 쓸 문구는 고정 줄 아홉(PERIOD 7·REASON 1·INUSE 1)으로 06-EVIDENCE 「06-13 대조표 확정」에 있다. 이 계획은 새로 정한 것이 없다 — D33_C8=proposal의 상한 약속 두 행이 남는 데이터 표에 들어가 표가 다섯 행에서 일곱 행이 됐다. 「켜지 않음」 전제(PITR·예약 백업·mail), APPCHECK_ROW=out, DEVICE_SENTENCE=out, INSTALL_SENTENCE=out, D33_C7=ga의 여덟 행은 표 밖이다. 두 기간은 prod 사실이 아니라 약속이고 심사에 제출되는 보존 고지라 06-07 원고 승인에서 표와 함께 다시 본다
 - [Phase 06]: 06-13: 삭제 안내가 쓸 기간 문구와 D-33 ①②·D-39 결정을 원고보다 먼저 데이터 목록 문서 커밋 a789cf9679ba(INV_DEC_SHA, 데이터 목록 하나)에 넣었다. 고정 줄 아홉이 그 커밋의 목록에서 모두 행 낱말과 같은 줄에 있다. 06-04 문장, 기준 앱 커밋 줄, prod 전제 번호 다섯 줄은 그대로이고 덧붙이기만 했다. 푸시 안 함(06-09 첫 푸시에 함께 나감) — CLAUDE.md는 법적 본문에 데이터 목록의 사실만 쓰게 하고 ROADMAP 성공 기준 2는 삭제 안내의 각 항목이 목록과 일치하기를 요구한다. 06-06의 결정은 검증 기록에만 있었다. 계획이 「행 끝」이라고만 적은 덧붙임은 근거 칸이 아니라 서술 칸 끝에 두었고, 고정 문장이 없던 fcmTokens 갈래는 proposal 글자대로 「지워짐으로 쓰고 prod에서 expireAt TTL을 켬」을 적었다
 - [Phase 06]: 06-13: prod에서 지켜야 하는 D-33 ② 약속 다섯을 데이터 목록 「prod 전제 (Phase 6 D-42)」 번호 다섯 아래에 덧붙였다: Storage 소프트 삭제 기본값 7일, 기본 로그 버킷 보존 30일 이하, fcmTokens expireAt TTL 켜기, Firestore PITR·예약 백업 없음, mail 대기열 발송 없음. 표 범위는 App Check 두 행에 「표에서 뺌」, Firebase Authentication 보존 행에 「로그의 IP는 Phase 7 처리방침」으로 적었다 — prod 전제의 유일한 자리가 그 절이다(06-04 재계획 보충 규칙 8번). PITR이나 예약 백업을 켜려면 #location 「지체 없이 파기」 문장도 다시 정한다는 것과 prod에서 메일을 mail 대기열로 보낼지 미정이라는 것을 그 글머리에 함께 적었다(06-06 기록의 문장). App Check 토큰·기기 안 설정·installation ID를 Phase 7에서 다룰지와 D-26·앱 문서의 익명 자동 정리 어긋남은 열린 채다
+- [Phase 06]: 06-07: 사용자가 /data-deletion/ 원고 글, 남는 데이터 표(일곱 행), 공개 앵커 여덟 개(#request, #location, #google, #apple, #facebook, #kakao, #naver, #line)를 approve로 승인했다(2026-11-27 한국 시각). 승인한 원고는 blob b681410f94c5(DRAFT_APPROVED)이고 시험 객체 608db1ab928f가 스크래치 ref refs/p6-scratch/draft에 붙어 있다. 다른 조항에는 id가 없다. 푸시 승인이 아니고(06-09가 SHA로 따로 물음), 승인한 원고는 updated 한 줄 말고는 바뀌지 않는다. 위치정보 조항은 법률 확인 전 초안으로 승인됐다(D-36) — 오케스트레이터가 checkpoint 자료 전체(승인 글, 표와 06-13 고정 줄·데이터 목록 행의 대조, #location 문장과 근거, 메뉴·요청 문구와 운영 절차서 작업 13의 대조, 앵커, 판정 줄, 캡처 경로, 볼 곳 메모)를 한 메시지로 보이면서 자기 의견이라고 밝힌 권고(approve, 답이 뒤집힐 조건과 확신이 낮은 두 곳 포함)를 사용자가 묻지 않았는데 덧붙였고, 사용자는 그 메시지를 본 뒤 approve 한 낱말로 답했다. 실행자는 고르거나 권하지 않았다. 기록을 적은 실행자는 답과 과정을 오케스트레이터가 전한 글로 받았다. 과정 전체는 06-EVIDENCE 「06-07 승인」에 있다. 앵커 이름과 보존 고지는 한 번 공개하면 바꾸기 어렵다(계획 Task 3 reversibility costly)
+- [Phase 06]: 06-07: 원고는 승인 전이라 저장소에 넣지 않고 스크래치와 ref 없는 시험 객체로만 판정했다. check-site 통과, 기준 빌드와의 차이 파일은 data-deletion/index.html 하나, 본문 판정 일곱 줄이 모두 기대값(retained=7 deleted=8, 기간 문구 9/9, 메뉴 문구 6, 옛 낱말·U10·검색 제외·임시 표시 0), Chromium·WebKit × 375·1280에서 PASS deletion과 앵커 서른두 줄 ok. 가짜 값 변형 다섯(nophone, nodev, noemail, empty, escape)에서 값이 없는 항목은 문단째 숨고 값은 이스케이프된다. 사이트 파일을 고친 커밋은 없다 — 삭제 안내는 Google Play 계정 삭제 URL과 Facebook Data Deletion Instructions URL로 제출되는 심사 문서라 커밋 전에 글자 단위 승인을 받는다(계획 objective). 재작성 커밋은 06-09가 승인한 blob에서 updated 한 줄만 바꿔 만든다. 계획과 다른 곳 하나: 「메일로는 두 요청만 받는다」 문단을 목록 아래에 두고 지원 이메일 값 조건으로 감쌌다(값이 없으면 주소 없는 문장이 남기 때문. 승인 자료에 따로 보임)
+- [Phase 06]: 06-07: 승인과 함께 열린 항목 셋을 Phase 7에서 다시 본다(사용자 결정이 아니고 원고는 그대로다). ① 「공개하지 않은 코스(비공개·검수 대기 등)」의 「검수 대기」 — 데이터 목록 구간 G에 같은 낱말이 있고 D-39는 앞으로 생길 상태라고 적음. ② Google·Apple·Facebook 섹션의 받는 항목에 회원번호가 없음 — 데이터 목록 구간 B 세 행에는 없고 구간 A linkedProviders 행은 로그인 제공자 응답의 회원번호를 기록한다고 적음. 고치려면 구간 B가 먼저이고 PRIV-10이 같은 표를 씀. 앱이 세 제공자의 회원번호를 실제로 기록하는지는 코드에서 확인하지 않음. ③ 카카오·네이버 연결 해제 안내가 공식 도움말 링크 없이 문장뿐이고 두 서비스의 실제 메뉴 이름은 확인하지 못함 — 오케스트레이터가 승인 자료를 보인 메시지에서 답이 approve 한 낱말이면 이 셋을 열린 항목으로 적겠다고 알렸고 사용자는 반대하지 않았다. 오케스트레이터의 권고는 회원번호 항목과 카카오·네이버 문장에 확신이 낮다고 밝혔다
 
 ### Pending Todos
 
@@ -305,7 +309,8 @@ Phase 5 후속:
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
 - [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). 계획 안 미결 checkpoint: D-33 ④(06-08 Task 2) 하나(D-33 ①과 D-33 ②·D-39는 06-06에서 사용자 답으로 닫힘: ga, proposal·「서비스를 운영하는 동안」·삭제 경로 약속 없음·표 범위 넷). 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 보였고 답 ga는 삭제 안내 문장만 닫음. 어긋남과 prod 전제 1번은 열려 있음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
 - [Phase 06] 06-06이 넘긴 것(단계를 막지 않음. `06-06-SUMMARY.md` 「열린 항목」): 06-13은 끝났음(아래 줄). prod를 만들 때 볼 것 — `D33_C8=proposal`의 전제(Firestore PITR·예약 백업·`mail` 대기열 발송을 켜려면 먼저 남는 데이터 표에 행을 더함, PITR·예약 백업은 `#location` 「지체 없이 파기」 문장도 다시 정함), prod에서 메일을 `mail` 대기열로 보낼지는 미정. 사용자가 정할 것 — D-26과 앱 문서의 익명 자동 정리 어긋남, App Check 토큰·기기 안 설정·installation ID를 Phase 7 처리방침에서 다룰지(06-13이 목록에 Phase 7 인계를 적는 것은 Firebase Authentication 로그 IP 하나). 앱 문서의 「stg·prod를 만들 때 자동 정리가 꺼져 있는지 보고 켜져 있으면 끈다」 문장은 데이터 목록에 없음. 앱 HEAD는 06-06 첫 실행 때 `a298289b50fa`(기준 뒤 26커밋, 삭제 관련 경로 변경 0, 파일 이름만 읽음)
-- [Phase 06] 06-13이 넘긴 것(단계를 막지 않음. `06-13-SUMMARY.md` 「사용자가 읽어 볼 것」): 다음 실행 계획은 06-07(원고). 남는 데이터 표는 일곱 행이고, 더해진 두 행(Cloud Functions 로그 「최대 30일」, 지운 프로필 사진의 소프트 삭제 사본 「삭제 뒤 최대 7일」)은 prod 사실이 아니라 약속이라 원고 승인에서 표와 함께 다시 봄. prod를 만들 때 볼 것은 데이터 목록 「prod 전제 (Phase 6 D-42)」의 번호 다섯과 D-33 ② 추가 전제 다섯. 계획이 글자로 주지 않아 실행자가 proposal 글자대로 쓴 문장 둘(`fcmTokens` 행, prod 추가 전제 글머리)은 사용자가 한 번 읽어 봄. 06-06이 연 항목 셋(prod의 `mail` 대기열 발송, App Check 토큰·기기 안 설정·installation ID의 Phase 7 처리, D-26과 앱 문서의 익명 자동 정리 어긋남)은 그대로 열려 있음. 문서 커밋(`a789cf9679ba` 등)은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
+- [Phase 06] 06-13이 넘긴 것(단계를 막지 않음. `06-13-SUMMARY.md` 「사용자가 읽어 볼 것」): 06-07은 끝났음(아래 줄). 남는 데이터 표는 일곱 행이고, 더해진 두 행(Cloud Functions 로그 「최대 30일」, 지운 프로필 사진의 소프트 삭제 사본 「삭제 뒤 최대 7일」)은 prod 사실이 아니라 약속임(06-07 원고 승인 자료에 표와 함께 보였고 사용자가 approve로 답함). prod를 만들 때 볼 것은 데이터 목록 「prod 전제 (Phase 6 D-42)」의 번호 다섯과 D-33 ② 추가 전제 다섯. 계획이 글자로 주지 않아 실행자가 proposal 글자대로 쓴 문장 둘(`fcmTokens` 행, prod 추가 전제 글머리)은 사용자가 한 번 읽어 봄. 06-06이 연 항목 셋(prod의 `mail` 대기열 발송, App Check 토큰·기기 안 설정·installation ID의 Phase 7 처리, D-26과 앱 문서의 익명 자동 정리 어긋남)은 그대로 열려 있음. 문서 커밋(`a789cf9679ba` 등)은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
+- [Phase 06] 06-07이 넘긴 것(단계를 막지 않음. `06-07-SUMMARY.md` 「열린 항목」·「뒤 계획이 알아야 할 것」): 다음 실행 계획은 06-08(개발자 이름 값 받기). 끝난 계획은 여덟(SUMMARY 8/13)이고 위 「Plan: 8 of 13」은 상태 도구가 넣은 값 그대로임. 06-08이 읽을 것 — `06-EVIDENCE.md`의 `DRAFT_APPROVED`·`DRAFT_BLOB`과 스크래치 ref `refs/p6-scratch/draft`가 모두 있고, 작업 트리의 사이트 파일과 `_data/company.yml`은 HEAD와 같음. 열린 checkpoint는 D-33 ④(스토어 개발자 이름 값, 06-08 Task 2)와 06-09의 푸시 승인. 원고 승인은 푸시 승인이 아님. Phase 7에서 다시 볼 것 셋(사용자 결정이 아니고 승인한 원고는 그대로) — 「공개하지 않은 코스(비공개·검수 대기 등)」의 「검수 대기」(목록 구간 G에 같은 낱말, D-39는 앞으로 생길 상태라고 적음), Google·Apple·Facebook 받는 항목의 회원번호(목록 구간 B 세 행에 없고 구간 A `linkedProviders` 행에는 있음. 고치려면 구간 B가 먼저이고 PRIV-10이 같은 표를 씀. 앱 코드는 이번에 확인하지 않음), 카카오·네이버 연결 해제 안내에 공식 도움말 링크가 없고 실제 메뉴 이름을 확인하지 못함. 승인한 원고의 모양으로 남은 것 — `#location` 「(2~4번)」은 지원 이메일 값이 없는 빌드에서만 번호가 어긋남, 낱말 「둘러보기」와 앱 화면 「게스트로 이용 중」이 다름, 375 폭에서 남는 데이터 표가 `figure` 안에서 가로로 밀림. 위치정보 조항은 법률 확인 전 초안으로 승인됨(D-36). 답이 나온 과정(오케스트레이터가 묻지 않은 권고를 덧붙였고 사용자가 그 뒤 approve로 답함)은 `06-EVIDENCE.md` 「06-07 승인」에 있음. 스크래치(저장소 옆 `-p6-scratch` 폴더)와 `refs/p6-scratch/draft`는 단계 검증 뒤 사용자가 지울 때까지 둠. 문서 커밋 `0255b12b7814` 등은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
 
 ### Quick Tasks Completed
 
@@ -323,6 +328,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-26T21:26:17.924Z
-Stopped at: Completed 06-13-PLAN.md
+Last session: 2026-11-26T23:20:22.888Z
+Stopped at: Completed 06-07-PLAN.md
 Resume file: None

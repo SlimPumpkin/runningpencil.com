@@ -296,7 +296,7 @@ Plans:
   3. 앱 안 삭제 경로가 실제 메뉴 이름 「회원탈퇴」로 안내되고, 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내가 있다
   4. `/data-deletion/#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`이 각각 해당 제공자 섹션으로 바로 이동한다
   5. 삭제 안내의 사업자 정보와 연락처(지원 이메일 포함)는 `_data/company.yml`에서 읽고 본문에 값을 직접 쓰지 않아, 그 파일만 고치면 반영된다. 값이 없는 선택 항목(전화 등)은 자리표시 없이 표시되지 않는다
-**Plans**: 7/13 plans executed
+**Plans**: 8/13 plans executed
 
 Plans:
 **Wave 1**
@@ -321,7 +321,7 @@ Plans:
 - [x] 06-13-PLAN.md — 대조표 확정, 기간 문구(PERIOD)와 이용 중 보관 기간(INUSE 「6개월」) 고정, 데이터 목록 반영과 prod 전제 덧붙임(tracer)을 원고보다 먼저 문서 커밋(D-33, D-41, D-42)
 
 **Wave 8** *(blocked on Wave 7 completion)*
-- [ ] 06-07-PLAN.md — 원고를 시험 객체로 끝까지 판정(tracer, D-37~D-41 낱말 판정 포함), 가짜 값 변형, 글·표·앵커 승인
+- [x] 06-07-PLAN.md — 원고를 시험 객체로 끝까지 판정(tracer, D-37~D-41 낱말 판정 포함), 가짜 값 변형, 글·표·앵커 승인
 
 **Wave 9** *(blocked on Wave 8 completion)*
 - [ ] 06-08-PLAN.md — 가짜 값 시험 실행(tracer), 스토어 개발자 이름 값 받기(D-33 ④), 실제 값 미리보기
@@ -454,7 +454,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 13/13 | Complete    | 2026-11-19 |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 15/15 | Complete    | 2026-11-20 |
-| 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 7/13 | In Progress | - |
+| 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 8/13 | In Progress | - |
 | 7. 개인정보처리방침 재작성 (Privacy Policy Rewrite) | 0/TBD | Not started | - |
 | 8. 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms) | 0/TBD | Not started | - |
 | 9. 영문판 (English Versions) | 0/TBD | Not started | - |
