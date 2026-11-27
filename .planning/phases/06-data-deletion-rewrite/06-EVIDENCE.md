@@ -1581,3 +1581,15 @@ OK hook push2 pass
 OK site-clean 06-12-t1 ae760273bf46
 OK yml = HEAD
 ```
+
+## 06-12 승인
+
+Task 2(둘째 푸시 SHA 승인, `checkpoint:decision`, gate `blocking-human`)의 기록이다. 묻기와 답 받기는 오케스트레이터가 했고, 이 구간은 이어 하기 실행이 오케스트레이터가 전한 내용을 적은 것이다. 값은 이 구간에 없다.
+
+답: push
+
+PUSH2_APPROVED=ae760273bf46
+
+- 물음(오케스트레이터가 전함): 「06-12 둘째 푸시: SHA ae760273bf46(커밋 10개, 점검 스크립트 보강 + 문서)을 원격 main에 푸시할까요? … 이 승인은 이 푸시 한 번에만 씁니다.」
+- 답이 나온 과정(오케스트레이터가 전함): 오케스트레이터가 승인할 SHA `ae760273bf46`, 나갈 커밋 열의 제목(`git log --oneline origin/main..ae760273bf46`), 자기가 따로 다시 본 결과(Task 1 verify exit 0, 원격 main이 그대로 `e9d9443692b4`, `.planning` 밖 범위 파일 넷, 후보 빌드 = S2 빌드, 훅 통과, 개발자 이름 값은 두 CLAUDE.md에 기준 커밋 전부터 있던 줄 1곳씩에만 있어 `leak=skip(no new values)`)를 보였다. 이어 자기 의견이라고 밝힌 권고를 냈다: 푸시. 단서로, 운영 Pages는 github-pages gem 세트로 빌드하므로 라이브 바이트 같음은 Task 3에서야 확인된다는 점을 들었다. 사용자는 선택지 「push (권고)」를 골랐다. 승인한 SHA는 `PUSH2_CANDIDATE`와 같다. 이 승인은 이 푸시 한 번에만 쓴다.
+- 오케스트레이터가 이 실행을 띄우기 직전에 `git fetch` 뒤 원격 main이 `PUSH2_PREV`와 같음을 다시 봤다고 전했다. 이 실행도 Task 3 1번에서 다시 본다.
