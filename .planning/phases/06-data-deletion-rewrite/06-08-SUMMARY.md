@@ -129,7 +129,7 @@ completed: 2026-11-27
 2. **Task 2: 스토어 개발자 이름 값 받기** — 커밋 없음(checkpoint). 대기 중 오케스트레이터가 일시 중지 기록 커밋 둘(`docs(pause)`, 인계 파일 둘만 담음)을 넣었다. 이 계획의 커밋이 아니다.
 3. **Task 3: 값을 작업 트리에만 넣고 미리보기 판정** — 커밋 없음. 값은 커밋하지 않는 것이 계획의 금지 사항이고 기록은 문서 커밋에 들어간다.
 
-**Plan metadata:** 계획 output이 「SUMMARY와 `06-EVIDENCE.md`는 같은 문서 커밋」으로 정했다. 그 문서 커밋의 해시와 커밋 뒤 Self-Check, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-07과 같은 순서). 푸시하지 않는다. 이 문서 커밋들은 06-09의 첫 푸시에 함께 나간다.
+**Plan metadata:** 계획 output이 「SUMMARY와 `06-EVIDENCE.md`는 같은 문서 커밋」으로 정했다. 그 문서 커밋은 `21ead38189b1`이고, 이 줄의 해시와 Self-Check, STATE·ROADMAP 진행표는 그 뒤 docs 커밋으로 들어간다(06-07과 같은 순서). 푸시하지 않는다. 이 문서 커밋들은 06-09의 첫 푸시에 함께 나간다.
 
 ## Files Created/Modified
 
@@ -240,6 +240,24 @@ None - 외부 서비스 설정이 필요하지 않다.
 - 다음 실행 계획은 06-09다. 06-09의 precondition 가운데 이 계획이 만드는 것(`DEV_RECEIVED=OK`, `S2V_CAND`)은 모두 있다.
 - D-33 네 항목이 모두 사용자 답으로 닫혔다(①·②와 D-39는 06-06, ③ 해시 `rate_limits` 기간은 재계획 전 결정 D-40, ④는 이 계획).
 - 막는 것은 없다. 열린 항목은 위에 있다.
+
+## Self-Check: PASSED
+
+문서 커밋 `21ead38189b1` 뒤에 확인했다.
+
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-08-SUMMARY.md`
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-EVIDENCE.md`
+- FOUND: `21ead38189b1` (기록과 SUMMARY 문서 커밋, HEAD의 조상. 파일 둘만 담고 삭제한 파일 없음. `_data/company.yml`은 들어 있지 않음)
+- 커밋된 `06-EVIDENCE.md`에 `DRY_RUN`, `S2V_CAND`, `APPSTORE_NAME`, `DEV_RECEIVED`가 줄 머리부터 각 한 번 있다.
+- 계획 `<verification>` 두 줄:
+  1. Task 1·Task 3 verify를 문서 커밋 뒤 bash 임시 파일로 다시 돌려 둘 다 exit 0(커밋 전 두 번 포함 모두 exit 0).
+  2. `git log <OPS_SHA>..HEAD -- . ':(exclude).planning'`가 빈 출력이다(종료 코드 0). 이 계획 동안 사이트 파일을 고친 커밋이 없다.
+- `refs/p6-scratch/s2v`의 앞 12자리가 `S2V_CAND`(`4505d77840d0`)이고 그 객체는 어떤 브랜치에도 없다(Task 3 verify가 본다).
+- 작업 트리 `_data/company.yml`은 문서 커밋 뒤에도 `git diff --numstat`이 `2 0`이고 스테이징한 것이 없다.
+- 문서 커밋 전 작업 트리 `scripts/check-site.sh` 통과. 새로 쓴 글(값 미리보기 구간, 이 SUMMARY, 커밋 메시지)에서 받은 값이 든 줄 0, 가짜 이름이 든 줄 0, 경로·토큰 꼴과 홈 경로 0건.
+- `check evaluation-scope --plan 06-08 --commits-only`가 이 브랜치의 커밋 한 개(`21ead38189b1`)를 돌려줬다(종료 코드 0).
+- `requirements.ready-ids`는 DEL-02·BIZ-05 둘 다 blocked라 요구사항을 닫지 않았다.
+- 푸시하지 않았다.
 
 ---
 *Phase: 06-data-deletion-rewrite*
