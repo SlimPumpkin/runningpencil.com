@@ -5,12 +5,12 @@
 | 방침 | 적용 단계 | 현재 상태 (2026-11 기준) | 이유 | 출처 |
 |---|---|---|---|---|
 | 영문 서비스명 RunningPencil | Phase 9 영문판(`/en/`), 콘솔·스토어의 영어 표시명 | 결정됨. 현재 사이트 본문에는 한국어 이름만 있습니다 | 영문판과 콘솔·스토어에서 같은 이름을 써야 합니다. 이전 방침을 뒤집음 | `.planning/baseline/NAMES.md`, `.planning/PROJECT.md` Key Decisions |
-| 지원 이메일 공개 | Phase 5 이메일 게이트(외부 4곳 수신 시험 통과) 뒤. 푸터, `/support/`, 법적 문서 | Phase 5에서 적용됨 (이메일 게이트 2026-11-19 통과). 주소는 `_data/company.yml`의 `support_email` 한 곳에서 모든 페이지 푸터와 `/support/`로 나갑니다. 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 법적 문서에는 Phase 6~8에서 넣습니다 | Google Play 웹 삭제 요청, App Store Support URL, 처리방침의 보호책임자 연락처에 연락 수단이 필요합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/USER-TASKS.md` |
+| 지원 이메일 공개 | Phase 5 이메일 게이트(외부 4곳 수신 시험 통과) 뒤. 푸터, `/support/`, 법적 문서 | Phase 5에서 적용됨 (이메일 게이트 2026-11-19 통과). 주소는 `_data/company.yml`의 `support_email` 한 곳에서 모든 페이지 푸터와 `/support/`로 나갑니다. 정본은 이름 표(`.planning/baseline/NAMES.md`)입니다. 삭제 안내에는 Phase 6에서 넣었습니다. 처리방침·약관에는 Phase 7·8에서 넣습니다 | Google Play 웹 삭제 요청, App Store Support URL, 처리방침의 보호책임자 연락처에 연락 수단이 필요합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/USER-TASKS.md` |
 | 사업자 정보 표시 (상호·대표자·사업자등록번호·주소) | Phase 5 (푸터와 `_data` 슬롯), Phase 8·9 | Phase 5에서 적용됨. 모든 페이지 푸터에 있고 값은 `_data/company.yml` 한 곳에만 있습니다. 값이 없는 항목은 행을 숨깁니다 (render-if-present). 영문 표기는 Phase 9 | 카카오 비즈앱 심사가 사업자와 서비스의 관계를 확인합니다 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/NAMES.md` |
 | 한국어 + 영어 제공 | Phase 9 (`/en/` 아래 영문판) | 결정됨. 현재 페이지는 모두 한국어(`lang="ko"`)입니다 | Google·Facebook·Apple·LINE 심사자가 읽을 수 있어야 합니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/baseline/URLS.md` |
 | Jekyll 빌드 전환 | Phase 2 (공유 셸 `_layouts`·`_includes`), Phase 3 (Tailwind CDN을 정적 CSS로) | Phase 3까지 적용됨. 공통 블록(head 링크·「공통」 CSS·헤더·푸터)은 `_includes`와 `_layouts/legal.html`에 한 벌만 있고, 법적 페이지는 외부 스크립트 없이 정적 CSS(`_includes/css/legal.css`)로 그립니다. 로컬은 운영과 같은 Jekyll 3.10.0(`Gemfile`)으로 빌드합니다 | 페이지가 늘수록 복사한 공통 블록이 어긋날 위험이 커집니다. 이전 방침을 뒤집음 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 2·3 |
-| 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 랜딩은 Phase 4에서 제거됨, 법적 문서 본문에는 남아 있음 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
-| 법적 페이지 `noindex` 해제와 「임시 게시본」 문구 삭제 | Phase 6 (삭제 안내), Phase 7 (처리방침), Phase 8 (이용약관). 각 문서를 다시 쓰는 커밋에서 | 결정됨 (U14). 현재 세 문서에 `noindex`와 「임시 게시본」 표시가 있습니다 | 미완성 사이트로 보이면 심사에서 반려될 수 있습니다 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 6·7·8 Notes |
+| 포인트·굿즈·코스북 제거 | Phase 4 (랜딩), Phase 6·7·8 (법적 문서) | 결정됨 (U10). 랜딩은 Phase 4, 삭제 안내는 Phase 6에서 제거됨. 처리방침·약관 본문에는 남아 있음 | 출시 시점 앱에 없는 기능입니다. 심사는 사이트와 앱이 일치하는지 봅니다 | `.planning/PROJECT.md` Key Decisions |
+| 법적 페이지 `noindex` 해제와 「임시 게시본」 문구 삭제 | Phase 6 (삭제 안내), Phase 7 (처리방침), Phase 8 (이용약관). 각 문서를 다시 쓰는 커밋에서 | 결정됨 (U14). 삭제 안내는 Phase 6 재작성 커밋에서 둘 다 지움. 처리방침·약관에는 아직 `noindex`와 임시 표시가 있습니다 | 미완성 사이트로 보이면 심사에서 반려될 수 있습니다 | `.planning/PROJECT.md` Key Decisions, `.planning/ROADMAP.md` Phase 6·7·8 Notes |
 
 ### 작업 규칙
 
@@ -87,11 +87,11 @@
 ## Configuration
 
 - 환경변수·`.env` 없음 (서버 처리 없음)
-- 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 법적 페이지 3종은 `<meta name="robots" content="noindex">` (지원 페이지는 없음)
+- 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 처리방침·약관은 `<meta name="robots" content="noindex">` (삭제 안내·지원 페이지는 없음)
 - `_config.yml` - `url: "https://runningpencil.com"`과 열 항목 `exclude`(`CNAME`, `CLAUDE.md`, `README.md`, `.planning/`, `Gemfile`, `Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 사용자 `exclude`는 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 새 마크다운 문서나 루트 파일·폴더는 여기에 모두 적는다
-- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트(2026-11-19 통과) 뒤 채웠다
+- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화·스토어 개발자 이름, 키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`·`store_developer_name`). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트(2026-11-19 통과) 뒤 채웠다
 - `Gemfile` / `Gemfile.lock` - 로컬 빌드용 gem 고정 (위 「로컬 빌드 전용 gem」)
-- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음)
+- `scripts/check-site.sh` - 푸시 전 점검 여덟 가지 (빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩·삭제 안내 출력(`index.html`, `data-deletion/index.html`)에 포인트·굿즈·코스북·배송지·전자상거래 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음, 삭제 안내(`/data-deletion/`)가 있으면 본문에 요청 경로(mailto)와 개발자 이름 소개 문단이 있고 검색 제외·임시 표시 없음)
 - `.githooks/pre-push` - `main` 푸시마다 `scripts/check-site.sh`를 부른다. 켜기: `git config core.hooksPath .githooks` (클론마다 한 번)
 - `CNAME` - `runningpencil.com`
 - `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시), `.planning/state.json`·`.planning/ui-reviews/`(GSD 상태 요약·UI 감사 캡처), Jekyll 로컬 빌드 산출물과 gem 위치 `_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`
@@ -148,7 +148,7 @@
 - JS 문자열은 작은따옴표, HTML 속성은 큰따옴표로 쓴다.
 
 ### Linting
-- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 일곱이다: 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`와 `support/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트). `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 여덟이다: 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`와 `support/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩·삭제 안내 출력(`index.html`, `data-deletion/index.html`)에 포인트·굿즈·코스북·배송지·전자상거래 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트), 삭제 안내(`/data-deletion/`)가 있으면 본문 블록에 요청 경로(mailto)와 「러닝펜슬(개발자 」 소개 문단이 있고 검색 제외·임시 표시 없음. `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 ## CSS / Styling Patterns
 
 ### `<style>` 블록 구획 (주석 머리 `/* ── 이름 ── */`)
@@ -174,6 +174,8 @@
 ### 법적 본문 작성 규칙 (Phase 6~9가 따름)
 - 법적 문서(처리방침·약관·삭제 안내), 지원 페이지, 이후 영문판의 본문을 쓸 때 지킨다. `_includes/css/legal.css` 맨 위 주석에도 허용 요소 목록이 짧게 있다.
 - 원본은 HTML이다 (`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`, `support/index.html`). Markdown(kramdown)으로 바꾸지 않는다. kramdown은 곧은 따옴표를 굽은 따옴표로 바꾸고 제목에 자동 `id`를 붙인다 (D-01).
+- 문서 맨 앞 소개 문단은 `section` 밖 최상위 `<p>` 하나로 둘 수 있다(삭제 안내, Phase 6). 조항은 그 뒤에 `section`으로 쓴다.
+- `_includes/css/legal.css` 머리 주석에는 이 소개 문단 줄을 아직 넣지 않았다. 주석이 법적 레이아웃 네 페이지 출력에 인라인되어 고치면 다른 문서 출력이 바뀌기 때문이다(Phase 6은 출력을 삭제 안내 하나로 한정). 다음에 `legal.css` 출력을 바꾸는 단계에서 함께 더한다.
 - 조항마다 `<section>` 하나를 두고 첫 자식은 `<h2>`다. 간격은 본문 최상위 자식 사이 32px(`section`끼리, 마지막 `footer` 앞), `section` 안 자식 사이 12px, 목록 항목(`li`) 사이 4px다 (D-02).
 - 앵커 `id`는 `section`에 둔다(예: `/support/`의 `#contact`·`#report`·`#faq`, Phase 6의 `#facebook`). 앱과 콘솔이 이 앵커로 열므로 이름을 바꾸지 않는다 (Phase 5 D-13).
 - 문서 끝 안내는 `<footer>`(위 1px `line` 선, 위 여백 16px, 14px, `muted-2`), 조항 안 보충 설명(예: 표 아래 「※ …」)은 `<aside>`(14px, `muted-2`, 구분선 없음)로 쓴다. 둘 다 클래스가 없다 (D-03).
@@ -211,8 +213,7 @@
 ## Import Organization
 
 ### Order (`<head>`)
-
-- meta (charset, viewport, title, description, `theme-color`, 법적 페이지는 `robots noindex`)
+- meta (charset, viewport, title, description, `theme-color`, 처리방침·약관은 `robots noindex`(Phase 7·8에서 지움). 삭제 안내·지원 페이지는 없음)
 - `{% include head-links.html %}` (Pretendard 글꼴 `<link>`와 파비콘·매니페스트 링크 8줄. jsDelivr `orioncactus/pretendard@v1.3.9`, `/favicon/...`)
 - 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
 - `<style>` — 맨 위에 「공통」(`{% include css/common.css %}`)이 들어오고, 법적 페이지는 그 다음에 `{% include css/legal.css %}`가 들어온다 (`_layouts/legal.html`). 랜딩은 「공통」 다음에 「랜딩 전용」을 바로 쓴다
@@ -265,12 +266,12 @@
 - 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
 - 모든 페이지 푸터에 사업자 정보 줄(상호·대표자·사업자등록번호), 주소 줄, 이메일 행(`mailto:` 링크)이 있고 값은 `_data/company.yml`에 있다 (Phase 5). 푸터 nav(이름 「약관 및 지원」)에는 약관 링크 3개와 「고객 지원」 링크가 있다. 운영 안내·저작권 문장은 그대로다.
-- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 지원 이메일 하나다. 주소는 `_data/company.yml`의 `support_email` 한 곳에 있고 모든 페이지 푸터와 `/support/`에 나온다(Phase 5, 게이트 2026-11-19). 정본은 이름 표(`.planning/baseline/NAMES.md`)다. 주소를 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거친다. 법적 문서에는 Phase 6~8에서 넣는다. 문서(`CLAUDE.md`·README·원본 맵)에는 주소를 글자로 적지 않고 `support_email` 키와 이름 표로 가리킨다.
-- 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 지원 페이지(`/support/`)에는 둘 다 없다. 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
+- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 지원 이메일 하나다. 주소는 `_data/company.yml`의 `support_email` 한 곳에 있고 모든 페이지 푸터와 `/support/`에 나온다(Phase 5, 게이트 2026-11-19). 정본은 이름 표(`.planning/baseline/NAMES.md`)다. 주소를 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거친다. 삭제 안내에는 Phase 6에서 넣었고, 처리방침·약관에는 Phase 7·8에서 넣는다. 문서(`CLAUDE.md`·README·원본 맵)에는 주소를 글자로 적지 않고 `support_email` 키와 이름 표로 가리킨다.
+- 현재 처리방침·약관에는 검색 제외와 임시 표시가 있다 (2026-11 기준). 삭제 안내는 Phase 6 재작성 커밋에서 둘 다 지웠고 지원 페이지에는 원래 없다. 처리방침(Phase 7)·이용약관(Phase 8) 재작성 커밋에서 지운다 (U14).
 - 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다. 마크다운 문서뿐 아니라 사이트에 올리지 않을 새 루트 파일·폴더도 `exclude`에 적는다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰기 때문이다.
 
 ### 사실값 슬롯 (_data/company.yml)
-- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 지원 페이지, 이후 법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
+- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`·`store_developer_name`. `store_developer_name`은 스토어 개발자 이름이고 삭제 안내 소개 문단이 쓴다, DEL-02)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 지원 페이지, 이후 법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
 - 판정은 `site.data.company.<키>.size > 0`만 쓴다. blank·empty 비교는 로컬 Jekyll 3.10.0(Liquid 4.0.4)에서 값이 없어도 늘 참이라 쓰지 않는다. 값이 없는 키는 행·항목째 그리지 않는다 (render-if-present). 「추후 기재」 같은 자리표시는 쓰지 않는다.
 - 여러 값을 함께 볼 때는 `or`로만 잇는다. 한 조건에 `and`와 섞지 않는다 (Liquid는 괄호 없이 오른쪽부터 묶는다).
 - 출력은 모두 `| escape`를 붙인다. 값 바로 뒤에 조사를 붙이지 않는다 (값에 따라 조사가 달라진다).
@@ -292,7 +293,7 @@
 - 호스팅: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 `_layouts`·`_includes`로 페이지를 조립해 정적 파일로 서빙한다. `_config.yml`은 `url`과 `exclude`를 둔다. 커스텀 도메인은 `CNAME` → runningpencil.com.
 - 페이지 5개: 티저 랜딩 `index.html` (vanilla CSS + inline JS), 개인정보처리방침 `privacy-policy/index.html`, 이용약관 `terms/index.html`, 데이터 삭제 안내 `data-deletion/index.html`, 고객 지원 `support/index.html`. 법적 페이지 3종과 지원 페이지는 같은 법적 레이아웃(`_layouts/legal.html`)으로 그리고, 정적 CSS(`_includes/css/legal.css`) + 「공통」 `.rp-*` CSS를 쓴다.
 - include로 공유: 모든 페이지가 `_includes/head-links.html`(글꼴·파비콘 링크), `_includes/css/common.css`(「공통」 CSS), `_includes/header.html`(랜딩은 `home=true`), `_includes/footer.html`을 부른다. 법적 3종과 지원 페이지는 `_layouts/legal.html` + front matter로 그려지고, 랜딩은 `layout: none`에 include 네 줄을 쓴다.
-- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름·지원 페이지 연락처)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
+- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩·삭제 안내 기능 이름·지원 페이지 연락처·삭제 안내 본문)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
 - 외부 CDN: Pretendard (jsDelivr)만. 모든 페이지의 CSS는 Tailwind 없이 직접 쓴 CSS를 `<style>`에 인라인한다 (Tailwind Play CDN은 Phase 3에서 제거).
 - 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`), `images/app/` (랜딩 「실제 앱 화면」 구간의 앱 화면 캡처 WebP).
 - 위치 표기: `index.html` 안의 위치는 줄 번호 대신 고정점(그 파일에 한 번만 나오는 문자열: include 태그, 구획 머리 주석, 함수 이름 등)으로 적는다. 줄이 밀려도 `grep -n -F '고정점' index.html`로 찾는다. 다른 파일(`_layouts/legal.html`, `_includes/…`)의 줄 번호는 그대로 둔다.
@@ -308,6 +309,7 @@
 | 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`). 두 경우 모두 메뉴 끝에 「고객 지원」(`/support/`, 두 경우 모두 절대 경로) | `_includes/header.html` (`index.html`의 `{% include header.html home=true %}`, `_layouts/legal.html:23`) |
 | 푸터 | 약관 링크 3개와 「고객 지원」 링크(`/support/`, nav 이름 「약관 및 지원」), 운영 안내, 사업자 정보 줄(상호·대표자·사업자등록번호)·주소 줄·이메일 행(`_data/company.yml`. 이메일 행은 `support_email` 값이 있을 때만 `mailto:` 링크로, `phone` 값이 있으면 같은 줄에 전화), 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html`의 `{% include footer.html %}`, `_layouts/legal.html:40`) |
 | 법적 레이아웃 | 법적 3종과 지원 페이지의 `<head>`·카드 머리(eyebrow·제목)·본문 틀(`.rp-doc`). `<style>`에 「공통」과 법적 페이지 CSS를 include. `noindex`·`updated`는 값이 있을 때만 출력, 제목은 `heading`이 없으면 `title` | `_layouts/legal.html` (`:18`에서 `_includes/css/legal.css` include) |
+| 삭제 안내 페이지 | 소개 문단(개발자 이름, `store_developer_name` 값이 있을 때만)·요청 방법(`#request`, 앱 회원탈퇴와 지원 이메일)·처리 기간·지워지는/남는 데이터(표)·일부 삭제·위치정보 동의 철회(`#location`)·제공자 섹션 여섯(`#google`·`#apple`·`#facebook`·`#kakao`·`#naver`·`#line`)·문의처. 검색 제외·임시 표시 없음 | `data-deletion/index.html` (layout: legal) |
 | 지원 페이지 | 문의(지원 이메일·응답 안내)·공개 코스 신고·FAQ. 앵커 `#contact`·`#report`·`#faq`는 `section`에 있고 앱·콘솔이 이 앵커로 연다. 연락처·신고 구간과 FAQ 신고 쌍은 support_email 값이 있을 때만, FAQ 운영 주체 쌍은 trade_name 값이 있을 때만. 검색 제외·임시 표시 없음 | `support/index.html` (layout: legal) |
 | 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 앱 화면 띠, 반응형 | `index.html` `<style>`의 `/* ── 랜딩 전용 ── */`부터 `</style>`까지 |
 | 실제 앱 화면 구간 | 제목·「출시 준비 중」 딱지·캡처 세 장(흑연 폰 테두리 `.rp-shot-frame`)·캡션·지도 출처(「지도 © NAVER Corp.」), 좁은 화면 가로 밀기(`scroll-snap`, 스크립트 없음) | `index.html` `#screens`, `images/app/*.webp` |
@@ -318,7 +320,7 @@
 | 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `_includes/css/legal.css:9` |
 | Jekyll 설정 | 사이트 정식 주소 `url`, 저장소 문서·빌드 파일이 사이트에 공개되지 않게 하는 열 항목 `exclude` | `_config.yml` |
 | 사실값 슬롯 | 사업자 정보·연락처 값 한 곳. 값이 없는 키는 그리지 않음 (`.size > 0`) | `_data/company.yml` |
-| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음 | `scripts/check-site.sh` + `.githooks/pre-push` |
+| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩·삭제 안내 출력에 포인트·굿즈·코스북·배송지·전자상거래 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음, 삭제 안내가 있으면 본문에 요청 경로(mailto)와 개발자 이름 소개 문단이 있고 검색 제외·임시 표시 없음 | `scripts/check-site.sh` + `.githooks/pre-push` |
 ## Pattern Overview
 - **Overall:** 빌드 시점 조립(Jekyll include·레이아웃) 정적 멀티 페이지 사이트. 런타임 서버 없음. 페이지별 스크립트·스타일은 여전히 그 HTML 안에 인라인이다
 ### Key Characteristics
@@ -387,7 +389,8 @@
 - 로고는 법적 페이지에 `<defs>`가 없어 `<use>` 없이 인라인 path로 직접 넣는다 (`_includes/header.html:5`, `_includes/footer.html:7`)
 ## Entry Points
 - **`index.html`:** 루트 `/`. 티저 랜딩. `<body id="top">`. front matter `layout: none`.
-- **`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`:** `/privacy-policy/` 등 디렉터리 인덱스 URL. front matter `layout: legal`, `noindex`. 앱 스토어 심사용.
+- **`privacy-policy/index.html`, `terms/index.html`:** `/privacy-policy/` 등 디렉터리 인덱스 URL. front matter `layout: legal`, `noindex`. 앱 스토어 심사용.
+- **`data-deletion/index.html`:** `/data-deletion/`. 계정·데이터 삭제 안내(Google Play 계정 삭제 URL, Facebook Data Deletion Instructions URL `#facebook`). front matter `layout: legal`, `noindex` 없음.
 - **`support/index.html`:** `/support/`. 고객 지원(문의·공개 코스 신고·FAQ, 앵커 `#contact`·`#report`·`#faq`). front matter `layout: legal`, `noindex` 없음. 앱·콘솔·스토어의 지원 URL.
 - **`favicon/site.webmanifest`:** PWA 매니페스트 (theme `#F2B134`).
 ## Architectural Constraints
