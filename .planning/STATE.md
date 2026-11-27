@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-10-PLAN.md
-last_updated: "2026-11-27T03:31:30.442Z"
+stopped_at: Completed 06-11-PLAN.md
+last_updated: "2026-11-27T03:47:31.231Z"
 last_activity: 2026-11-27
 last_activity_desc: Phase 06 execution started
-state_head: b7bf4d4ffec0d2f9e762006bc199f663c3ae8b9a
+state_head: 758604bc5e3c470e3558432daa57b99d82c79ab5
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 68
+  completed_plans: 69
   percent: 50
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 11 of 13
+Plan: 12 of 13
 Status: Ready to execute
 Last activity: 2026-11-27 — Phase 06 execution started
 
@@ -128,6 +128,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P08 | 2h 14m (사용자 대기 포함) | 3 tasks | 1 files |
 | Phase 06 P09 | 20min | 3 tasks | 3 files |
 | Phase 06 P10 | 3 min | 2 tasks | 2 files |
+| Phase 06 P11 | 8min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -284,6 +285,7 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-09: 스토어 공개 등록정보의 개발자 이름 대조와 App Store 판매자 이름=Apple 법인 이름 전제는 미확인으로 Phase 10에 남김
 - [Phase 06]: 06-10: 점검 8번은 삭제 안내 본문 블록(.rp-doc)에 mailto 링크 하나 이상과 「러닝펜슬(개발자 」 소개 문단을 보고, 문서 전체에서 검색 제외·임시 표시가 없음을 본다. 원고 문구를 바꾸는 단계는 이 항목도 함께 고친다
 - [Phase 06]: 06-10: 점검 6번은 랜딩과 삭제 안내 두 출력을 보고 배송지·전자상거래를 더했다. 처리방침·약관은 Phase 7·8이 다시 쓴 뒤 더한다
+- [Phase 06]: 06-11: App Store 표기 차이 행은 APPSTORE_NAME=same이라 데이터 목록 「확인할 것」에 더하지 않음
 
 ### Pending Todos
 
@@ -339,6 +341,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-27T03:31:29.720Z
-Stopped at: Completed 06-10-PLAN.md
+Last session: 2026-11-27T03:47:30.497Z
+Stopped at: Completed 06-11-PLAN.md
 Resume file: None
