@@ -1593,3 +1593,59 @@ PUSH2_APPROVED=ae760273bf46
 - 물음(오케스트레이터가 전함): 「06-12 둘째 푸시: SHA ae760273bf46(커밋 10개, 점검 스크립트 보강 + 문서)을 원격 main에 푸시할까요? … 이 승인은 이 푸시 한 번에만 씁니다.」
 - 답이 나온 과정(오케스트레이터가 전함): 오케스트레이터가 승인할 SHA `ae760273bf46`, 나갈 커밋 열의 제목(`git log --oneline origin/main..ae760273bf46`), 자기가 따로 다시 본 결과(Task 1 verify exit 0, 원격 main이 그대로 `e9d9443692b4`, `.planning` 밖 범위 파일 넷, 후보 빌드 = S2 빌드, 훅 통과, 개발자 이름 값은 두 CLAUDE.md에 기준 커밋 전부터 있던 줄 1곳씩에만 있어 `leak=skip(no new values)`)를 보였다. 이어 자기 의견이라고 밝힌 권고를 냈다: 푸시. 단서로, 운영 Pages는 github-pages gem 세트로 빌드하므로 라이브 바이트 같음은 Task 3에서야 확인된다는 점을 들었다. 사용자는 선택지 「push (권고)」를 골랐다. 승인한 SHA는 `PUSH2_CANDIDATE`와 같다. 이 승인은 이 푸시 한 번에만 쓴다.
 - 오케스트레이터가 이 실행을 띄우기 직전에 `git fetch` 뒤 원격 main이 `PUSH2_PREV`와 같음을 다시 봤다고 전했다. 이 실행도 Task 3 1번에서 다시 본다.
+
+## 06-12 라이브
+
+Task 3(승인한 SHA 하나만 푸시, 배포 완료 뒤 라이브가 바뀌지 않았고 앵커가 그대로 열리는지 확인)의 기록이다. 후보는 이미 `main`에 있는 커밋이라 fast-forward 없이 그 SHA를 그대로 `"${FULL}:refs/heads/main"`으로 푸시했다. 푸시 전 HEAD는 Task 1·2 기록 커밋까지 들어가 후보보다 앞서 있었고, 후보 뒤 커밋은 `.planning/`만 고쳤다(그 기록 커밋은 이 푸시에 들어가지 않았다). 스크래치 재확인에서 다시 만든 것이 없어 `REGEN` 줄은 없다. 판정 도구는 `$W/p612-t3a.sh`(푸시까지, 출력 `$W/p612-t3a.log`)와 `$W/p612-t3b.sh`(배포 대기와 라이브 확인)다. 값은 이 구간에 없다.
+
+OK scratch recheck lib-functions=12 playwright=1.59.1 tool=present base-tree=same
+OK push2 build tree = candidate
+OK precondition t3 gh=ok candidate-ancestor-of-head after=planning-only head=a1b80665035c
+OK hook files = push2
+OK origin = push2-prev
+check-site: 통과 (커밋 ae760273bf46, jekyll 3.10.0)
+PUSH2_SHA=ae760273bf46
+OK 빌드 ae760273bf46 built 2026-11-27T04:14:52Z
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다 bytes=same
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 bytes=same
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 bytes=same
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 bytes=same
+OK HTTP /support/ 200 title=고객 지원 - 러닝펜슬 bytes=same
+OK chromium 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK chromium 375 anchor request ok
+OK chromium 375 anchor location ok
+OK chromium 375 anchor google ok
+OK chromium 375 anchor apple ok
+OK chromium 375 anchor facebook ok
+OK chromium 375 anchor kakao ok
+OK chromium 375 anchor naver ok
+OK chromium 375 anchor line ok
+OK chromium 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK chromium 1280 anchor request ok
+OK chromium 1280 anchor location ok
+OK chromium 1280 anchor google ok
+OK chromium 1280 anchor apple ok
+OK chromium 1280 anchor facebook ok
+OK chromium 1280 anchor kakao ok
+OK chromium 1280 anchor naver ok
+OK chromium 1280 anchor line ok
+OK webkit 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK webkit 375 anchor request ok
+OK webkit 375 anchor location ok
+OK webkit 375 anchor google ok
+OK webkit 375 anchor apple ok
+OK webkit 375 anchor facebook ok
+OK webkit 375 anchor kakao ok
+OK webkit 375 anchor naver ok
+OK webkit 375 anchor line ok
+OK webkit 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK webkit 1280 anchor request ok
+OK webkit 1280 anchor location ok
+OK webkit 1280 anchor google ok
+OK webkit 1280 anchor apple ok
+OK webkit 1280 anchor facebook ok
+OK webkit 1280 anchor kakao ok
+OK webkit 1280 anchor naver ok
+OK webkit 1280 anchor line ok
+PASS deletion
+LIVE_PUSH2=OK
