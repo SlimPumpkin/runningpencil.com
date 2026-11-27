@@ -39,6 +39,11 @@ covered_files:
 covered_digest: "v4:sha256:2273718629bcd5beea23b5e3fdd269a6997c8a553d2e5e0bcc423e553e27b47c"
 behavior_unverified: 0
 overrides_applied: 0
+overrides:
+  - must_have: "푸시 범위의 메시지와 .planning에 개발자 이름 값이 없다"
+    reason: "기준 이후 더한 줄 가운데 같은 글자가 든 줄은 값을 받기 전에 쓴 대조 낱말 1줄뿐이고, 같은 글자는 기준 커밋 전부터 추적 파일에 공개돼 있었다. 받은 값을 새로 적은 줄은 없다"
+    accepted_by: "Woody Moon"
+    accepted_at: "2026-11-27T07:38:51Z"
 decision_coverage:
   honored: 41
   total: 41
