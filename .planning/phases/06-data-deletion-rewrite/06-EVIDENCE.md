@@ -1212,3 +1212,113 @@ DRAFT_APPROVED=b681410f94c5
 ```
 OK site-clean 06-07-t3 9cd5f6a5f0b4
 ```
+
+## 06-08 시험 실행
+
+스토어 개발자 이름 값을 받기 전에, 실제 값으로 돌릴 파이프라인(값 커밋 미리보기 → 재작성 미리보기 → check-site → 빌드 → 소개 문단 → 값 누출 점검)을 가짜 이름으로 끝까지 돌렸다. 저장소 작업 트리의 사이트 파일과 `_data/company.yml`은 고치지 않았고 이 task에서는 커밋하지 않았다. 실제 값은 아직 받지 않았다.
+
+DRY_RUN=OK
+
+- 시작: 2026-11-26T23:46:29Z (한국 시각 2026-11-27 08:46). 계획 시작 때 HEAD는 `da81ae548042`다.
+- 스크래치 재확인: `$W/lib.sh` 함수 열둘, Playwright 1.59.1, `$W/pw/p6-deletion.mjs`, `$W/base/TREE`가 `BASE_SHA`의 트리와 같고 `$W/base/site/index.html`이 있다. 다시 만든 것이 없어 `REGEN` 줄은 없다.
+- precondition: `DRAFT_APPROVED`와 원고 blob 표식이 있고 `refs/p6-scratch/draft`의 `data-deletion/index.html` blob이 그 표식과 같다. 작업 트리의 사이트 파일에 고친 것도 스테이징한 것도 없다.
+- 승인한 원고 사본: `git cat-file blob`으로 `$W/draft/approved.html`에 꺼냈고 `git hash-object`가 원고 blob 표식과 같다.
+- 가짜 개발자 이름: 실행 때 `/dev/urandom`으로 만든 한 줄을 스크래치 `$W/yml/devfake.val`에만 두었다. 화면에 찍지 않았고 이 기록, 계획, 커밋 메시지에 옮기지 않았다. 다시 돌리면 새 값이 된다.
+- `$W/yml/devfake.yml`: `HEAD:_data/company.yml`에 머리 주석 한 줄(맨 위 주석 묶음 끝)과 키 줄 `store_developer_name`(`phone` 줄 다음)을 더한 것이다. 원본과의 차이는 더한 두 줄뿐이고 지운 줄이 없다(Task 3의 `git diff --numstat` 기대 모양과 같다). 키는 일곱 개다.
+- 시험 객체 셋(값 커밋 미리보기 `d38883cab529`, 재작성 미리보기 `d4e52c79a9e4`, 양성 시험 `b7d43df0f727`)은 어떤 ref에도 붙이지 않았다. 양성 시험 파일 `$W/yml/ev-probe.md`와 패턴 파일은 지웠다. `$W/yml/devfake.val`과 `devfake.yml`은 남겼다(Task 3과 verify가 다시 본다).
+- 바이트 비교는 두 site 폴더의 파일을 `cmp`로 하나씩 견줘 다른 파일의 이름만 셌다(`diff -r`는 다른 줄을 찍어 가짜 이름이 화면에 나오므로 쓰지 않았다. 판정은 같다).
+- 값 누출 점검: 음성은 작업 트리 `.planning`의 `git grep`(종료 코드 1, 빈 출력)과 `BASE_SHA..HEAD` 커밋 메시지(종료 코드 0, 일치 0)다. 양성은 이 기록 파일 끝에 가짜 이름 한 줄을 붙인 사본을 HEAD에 얹은 시험 객체에서 같은 패턴 파일로 `git grep`(종료 코드 0, 파일 1)과 `git diff`(종료 코드 0, 일치 줄 1)를 봤다.
+- 작업 트리 `_data/company.yml`: 깨끗함 기록 식은 이 파일을 빼고 보므로 따로 `git diff --quiet HEAD -- _data/company.yml`로 봤다(`OK yml` 줄).
+- 판정 도구: `$W/p608-t1.sh`(출력 `$W/p608-t1.log`). 값은 찍지 않고 건수와 판정 줄만 찍는다.
+
+```
+OK precondition draft-approved blob=ref site-files-unchanged staged=0
+OK scratch recheck lib-functions=12 playwright=1.59.1 tool=present base-tree=same
+OK devfake value lines=1 shape=ok (값은 스크래치에만 있다)
+OK devfake yml added=2 deleted=0 keys=7 parsed-value=file-value
+check-site: 통과 (커밋 d38883cab529, jekyll 3.10.0)
+check-site: 통과 (커밋 d4e52c79a9e4, jekyll 3.10.0)
+OK s1f same
+OK s2f only=data-deletion/index.html dev=1
+vals filled=1 emitted=1 excluded=0
+leak .planning=0 messages=0
+leak-probe hit tree=1 diff=1
+OK dry objects unreferenced s1f=d38883cab529 s2f=d4e52c79a9e4 probe=b7d43df0f727
+OK yml unchanged (작업 트리 = HEAD)
+OK site-clean 06-08-t1 da81ae548042
+```
+
+Task 3이 알아야 할 것 (판정이 아니라 잰 값이다. 재작성 미리보기 `s2f`의 본문 블록에서 줄 수만 셌다):
+
+```
+NOTE s2f doc-lines-with trade_name=1
+NOTE s2f doc-lines-with representative=0
+NOTE s2f doc-lines-with biz_reg_no=0
+NOTE s2f doc-lines-with address=1
+NOTE s2f doc-lines-with support_email=2
+NOTE s2f doc-lines-with phone=empty
+NOTE s2f doc-lines-with 슬림펌킨=1 러닝펜슬=17 slimpumpkin(대소문자 무시)=0 runningpencil(대소문자 무시)=2
+NOTE s2f doc-lines-with RunningPencil=0 SlimPumpkin=0 Slim=0 Pumpkin=0
+NOTE s2f doc-lines-with trade_name-and-슬림펌킨 same-line=1
+NOTE s2f trade_name-line is-intro=0
+NOTE s2f file-lines-with devfake=1 (본문 블록 밖 포함 파일 전체)
+```
+
+- 읽는 법: Task 3의 `dev`는 본문 블록에서 받은 값이 든 줄을 센다(`grep -c -F`, 부분 일치). 본문 블록에는 소개 문단 말고도 상호 값이 든 줄이 하나 있고(그 줄에 「슬림펌킨」도 있다), 「러닝펜슬」이 든 줄이 열일곱이다. 받은 개발자 이름이 상호 값이나 서비스 이름과 같거나 그 줄의 글자에 들어 있는 낱말이면 `dev`가 1보다 크게 나온다. 무작위 가짜 이름에서는 생기지 않는 경우라 이 시험이 보지 못했다.
+- 그 경우 Task 3 verify의 `OK s2v only=data-deletion/index.html dev=1` 줄을 낼 수 없다. 실행자는 판정을 고쳐 맞추지 않고 멈춰 계획의 결함으로 알린다(계획 assumptions 둘째 줄은 같은 경우의 `vals` 쪽, 곧 excluded와 점검 건너뜀만 정했다).
+- tracer 관문: 이 구간을 적은 뒤 Task 1 verify를 bash 임시 파일로 두 번 돌려 둘 다 exit 0이었다. 이 기록 파일에 경로·토큰 꼴과 홈 경로는 0건이고(grep 종료 코드 1), 가짜 이름은 `.planning` 작업 트리 어디에도 없다.
+- 이 구간을 적은 실행은 Task 2(값 받기, `checkpoint:human-action`, gate `blocking-human`)에서 멈췄다. 값은 받지 않았고 `_data/company.yml`은 HEAD 그대로다. 이 기록은 아직 커밋하지 않았다(계획 끝 문서 커밋에 SUMMARY와 함께 들어간다).
+
+## 06-08 값 미리보기
+
+Task 2에서 받은 스토어 개발자 이름 값을 작업 트리 `_data/company.yml`의 새 키 `store_developer_name` 한 줄에만 넣고, 그 값으로 만든 미리보기 객체 둘(값 커밋 미리보기, 재작성 미리보기)을 판정했다. 값은 커밋하지 않았고 스테이징하지도 않았다. 이 구간에는 값이 없다. 건수와 있음/없음만 적는다.
+
+S2V_CAND=4505d77840d0
+APPSTORE_NAME=same
+DEV_RECEIVED=OK
+
+- 실행: 이어 하기 실행자가 Task 3부터 했다. Task 1은 위 `## 06-08 시험 실행` 그대로이고 다시 돌리지 않았다(`$W/p608-t1.sh`도 다시 돌리지 않아 가짜 값과 시험 객체 해시가 그대로다). Task 3 시작은 2026-11-27T01:55:59Z(한국 시각 10:55)다. Task 1 끝(2026-11-26T23:51:25Z)부터 그때까지는 Task 2의 사용자 대기(일시 중지 포함)다.
+- HEAD는 `b2644ec30ad3`이다. Task 1 때의 `da81ae548042` 위에 오케스트레이터의 일시 중지 기록 커밋 둘(`docs(pause)`)이 있고, 둘 다 `.planning` 아래 인계 파일 둘만 담는다. 사이트 출력이 같다는 것은 아래 `OK s1v same`(기준 빌드와 바이트 비교)이 다시 봤다.
+- Task 2 답 (값은 적지 않는다):
+  - Google Play 개발자 이름: 받았다. 한 줄이고 앞뒤 공백이 없다.
+  - App Store 개발자(판매자) 표기가 Google Play와 같은지: `same`.
+- 답이 나온 과정 (이어 하기 지시가 전한 그대로. 값은 빼고 과정만 적는다):
+  1. 사용자가 먼저 Play Console 계정 세부정보 화면(개발자 이름 칸)을 보였다.
+  2. 이어 Apple Developer 「멤버십 세부 사항」 화면을 보였다. 그 시점에는 두 이름이 달랐다.
+  3. 사용자가 Google Play 개발자 이름을 영문 표기로 바꾸기로 정했고, Play Console에서 바꾼 뒤 바뀐 화면을 보였다.
+  4. 오케스트레이터가 바뀐 화면에서 값을 읽고 App Store 쪽을 `same`으로 읽어, 두 가지가 맞는지 사용자에게 물었다. 사용자는 「예」로 답했다.
+- 이 답을 읽는 법: 값과 `same`은 오케스트레이터가 화면에서 읽은 것을 사용자가 「예」로 확인한 것이다. 사용자가 글자로 써 준 값이 아니다. 이 구간을 적은 실행자는 값과 위 과정을 이어 하기 지시(오케스트레이터가 전한 글)로 받았고, 사용자와 직접 주고받지 않았으며 화면도 보지 않았다. 실행자는 값을 고르거나 고치지 않았다.
+- 확인하지 못한 것 (열린 항목, Phase 10 스토어 표시 확인으로 넘긴다):
+  - App Store에 표시되는 판매자 이름이 Apple 쪽 법인(legal entity) 이름과 같다는 것. 확인한 사실이 아니라 오케스트레이터의 기억이다. `APPSTORE_NAME=same`은 이 전제 위의 답이다.
+  - 과정에 나온 화면은 Play Console 계정 세부정보와 Apple Developer 멤버십 화면이다. 두 스토어의 공개 등록정보에 실제로 표시되는 이름은 이 계획에서 보지 않았다(`06-VALIDATION.md` Manual 「스토어 개발자 이름 값이 스토어 표시와 같음」).
+- 값 넣기 (action 1번): 작업 트리 `_data/company.yml`에 Task 1의 `$W/yml/devfake.yml`과 같은 자리에 같은 글자로 두 줄을 더했다(머리 주석 한 줄은 맨 위 주석 묶음 끝, 키 줄은 `phone` 줄 다음). 값 칸을 가린 두 파일이 바이트까지 같다. 값은 큰따옴표 안에 있고 앞뒤 공백이 없다. 키는 일곱 개다. 스테이징하지 않았다.
+- 미리보기 객체 (action 2번): `mkobj`로 HEAD 위에 값 커밋 미리보기 `c5f98e86da21`, 그 위에 재작성 미리보기 `4505d77840d0`을 만들었다. 재작성 미리보기의 `data-deletion/index.html` blob은 승인한 원고 blob 표식과 같고(`$W/draft/approved.html`의 `git hash-object`), `_data/company.yml` blob은 작업 트리 파일과 같다. HEAD와 다른 파일은 그 둘뿐이다. 빌드는 `$W/s1v/`와 `$W/s2v/`에 있다.
+- 바이트 비교는 Task 1처럼 두 site 폴더의 파일을 `cmp`로 하나씩 견줬다(`diff -r`는 다른 줄을 찍어 값이 화면에 나온다). 소개 문단 수는 작업 트리 yml에서 읽은 값을 임시 파일에 두고 본문 블록(`doc`)에서 `grep -c -F -f`로 센 뒤 임시 파일을 바로 지웠다.
+- 계획에 없는 판정 줄 둘: `OK yml shape …`(더한 두 줄의 모양), `OK s2v vs s2f …`. 뒤 줄은 Task 1의 가짜 값 재작성 미리보기 빌드(`$W/s2f/`)와 견준 것이다. 다른 파일이 `data-deletion/index.html` 하나이고 그 파일에서 다른 줄이 한 줄이다. 줄 수만 셌다.
+- 스크래치 ref (action 3번): 판정이 모두 통과한 뒤 `refs/p6-scratch/s2v`를 재작성 미리보기에 붙였다. 값 커밋 미리보기는 그 부모라 함께 남는다. 두 객체는 어떤 브랜치에도 없다(`git branch -a --contains` 빈 출력). 이 ref는 `refs/heads/`·`refs/tags/` 밖이라 푸시되지 않는다. 값이 든 blob은 이 ref 아래 로컬 객체로만 있다.
+- 값 누출 점검 (action 4번): `vals`가 `excluded=1`을 냈다. 06-01 규칙대로 패턴 파일이 비므로 (a)(b)(c)를 건너뛰고 `leak=skip(no new values)`로 적는다(계획 assumptions 둘째 줄의 경우). 그래서 이 값에 대해서는 패턴 파일 점검이 돌지 않았다. 실행자가 따로 센 것은 아래 「계획 끝 점검」 줄에 있다.
+- 판정 도구: `$W/p608-t3.sh`(출력 `$W/p608-t3.log`). 값은 도구 파일에 없고 작업 트리 yml에서만 읽는다. 한 번 돌렸고 첫 실행에서 모두 통과했다(다시 돌리면 `mkobj`가 새 해시를 내므로 다시 돌리지 않는다).
+- 작업 트리: `_data/company.yml`에 커밋하지 않은 두 줄이 남아 있다(06-09가 쓴다). 깨끗함 기록 식은 이 파일을 빼고 본다. 이 계획의 문서 커밋은 `.planning` 경로 둘만 올린다.
+- 계획 끝 점검 (이 구간을 적은 뒤에 했다):
+  - Task 1과 Task 3의 verify를 bash 임시 파일로 돌려 둘 다 exit 0.
+  - `git log <OPS_SHA>..HEAD -- . ':(exclude).planning'`가 빈 출력이다(종료 코드 0). 이 계획 동안 사이트 파일을 고친 커밋이 없다.
+  - 이 기록 파일에 경로·토큰 꼴과 홈 경로는 0건이다(grep 종료 코드 1).
+  - 이 구간에서 값이 든 줄은 0이다(작업 트리 yml에서 읽은 값 한 줄을 임시 패턴 파일로 셈, grep 종료 코드 1, 값은 찍지 않음). 가짜 이름은 `.planning` 작업 트리 어디에도 없다.
+  - 표식 `S2V_CAND`, `APPSTORE_NAME`, `DEV_RECEIVED`는 줄 머리부터 각 한 번이다.
+  - 작업 트리 `scripts/check-site.sh` 통과. 작업 트리에서 HEAD와 다른 사이트 파일은 `_data/company.yml` 하나(더한 두 줄)이고 스테이징한 것이 없다.
+
+```
+OK precondition dry-run=ok approved=blob base-tree=same other-site-files-unchanged staged=0
+OK yml value-in-worktree uncommitted
+OK yml shape added=2 deleted=0 keys=7 lines=devfake-shape quoted=1 trimmed=1 staged=0
+check-site: 통과 (커밋 c5f98e86da21, jekyll 3.10.0)
+check-site: 통과 (커밋 4505d77840d0, jekyll 3.10.0)
+OK preview shape parents=HEAD+2 files=2 yml-blob=worktree draft-blob=approved
+OK s1v same
+OK s2v only=data-deletion/index.html dev=1
+OK s2v vs s2f only=data-deletion/index.html lines=1
+OK preview objects s1v=c5f98e86da21 s2v=4505d77840d0 ref=refs/p6-scratch/s2v branches=0
+vals filled=1 emitted=0 excluded=1
+leak=skip(no new values)
+OK site-clean 06-08-t3 b2644ec30ad3
+```
