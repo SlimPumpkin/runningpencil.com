@@ -18,7 +18,7 @@
 | 사업자등록번호 | (빈칸) | 아니요 | `_data/company.yml`의 `biz_reg_no` | D-18, U11 |
 | 주소 | (빈칸) | 아니요 | `_data/company.yml`의 `address` | D-18, U11 |
 | 영문 법인명 | (빈칸) | 아니요 | `_data/company.yml`에 Phase 9에서 키를 더함, Phase 9 영문판 | D-18, U11 |
-| 스토어 개발자 이름 | (빈칸) | 아니요 | Phase 6 삭제 안내 (DEL-02) | D-18 |
+| 스토어 개발자 이름 | (빈칸) | 아니요 | `_data/company.yml`의 `store_developer_name` (Phase 6 삭제 안내 소개 문단, DEL-02. Phase 9 영문판·Phase 10 체크리스트도 같은 키) | D-18 |
 | 전화번호 | (빈칸, 이번에는 공개하지 않음) | 아니요 | `_data/company.yml`의 `phone` (칸만, U1) | U1, BIZ-03 |
 
 - 「들어갈 곳」은 Phase 5에서 정했습니다: 파일 `_data/company.yml`, 키는 위 표. 값은 이 표에 적지 않고 사이트 파일에만 둡니다.
