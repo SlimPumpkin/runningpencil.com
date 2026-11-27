@@ -1541,3 +1541,43 @@ OK home-path 0
 check-site: 통과 (작업 트리, jekyll 3.10.0)
 DOCS_BASE_SHA=fb7733412e28
 OK site-clean 06-11-t3 fb7733412e28
+
+## 06-12 후보
+
+Task 1(둘째 푸시 후보를 범위·출력 불변·새 점검·값 누출·실제 훅 경로까지 판정, tracer)의 기록이다. 후보는 이미 `main`에 있는 커밋(이 task를 시작할 때의 HEAD, 06-11 기록 커밋까지 들어감)이라 `commit-tree` 객체를 만들지 않았고 아무것도 푸시하지 않았다. 값은 이 구간에 없다. 건수와 있음/없음만 적는다.
+
+PUSH2_CANDIDATE=ae760273bf46
+PUSH2_PREV=e9d9443692b4
+
+- 시작: 2026-11-27T03:58:32Z (한국 시각 12:58). precondition: 표식 `DOCS_BASE_SHA`·`B1_SHA`·`PUSH1_SHA`가 줄 머리부터 있고, 작업 트리의 사이트 파일(`.planning` 밖)에 고친 것과 스테이징한 것이 없다. 작업 트리의 `.planning/STATE.md` 변경은 오케스트레이터의 단계 시작 기록이고 이 계획은 건드리지 않았다.
+- 스크래치 재확인: `$W/lib.sh` 함수 열둘, Playwright 1.59.1, `$W/pw/p6-deletion.mjs`, `$W/base/TREE`가 `BASE_SHA`의 트리와 같고 `$W/base/site/index.html`이 있다. 비교 기준 `$W/s2/TREE`는 `PUSH1_SHA`의 트리와 같다. 다시 만든 것이 없어 `REGEN` 줄은 없다.
+- 원격: `git fetch` 뒤 원격 main이 `PUSH1_SHA`이고 후보의 조상이다. B1과 `DOCS_BASE_SHA`도 후보의 조상이다. `PUSH2_PREV..PUSH2_CANDIDATE`는 커밋 열이다(B1, 06-09·06-10·06-11의 기록·문서 커밋).
+- check-site: 후보의 `scripts/check-site.sh` 사본(`# ── 8. 삭제 안내` 머리 있음)으로 후보를 점검해 통과했다.
+- 빌드 바이트: `build push2 <후보>` 뒤 `$W/s2/site`와 `$W/push2/site`를 `diff -rq`(파일 이름만 찍음, 다른 줄을 찍지 않아 값이 화면에 나오지 않는다)로 견줘 빈 출력이다. 판정은 `diff -r` 빈 출력과 같다.
+- 값 누출: `vals`가 `excluded=1`을 냈다(값이 `BASE_SHA` 추적 파일에 이미 있다, 06-08·06-09와 같음). 06-01 규칙대로 패턴 점검을 건너뛰고 `leak=skip(no new values)`. 계획 밖 보조 셈(판정 아님): `BASE_SHA..PUSH2_CANDIDATE` 커밋 메시지에서 값이 든 줄은 0이다. 06-11이 고친 문서 셋 가운데 값이 든 파일은 둘(`CLAUDE.md`, `.claude/CLAUDE.md`)이지만 둘 다 `BASE_SHA`·`PUSH1_SHA`·후보에서 같은 1곳씩이고(README는 0), `PUSH1_SHA..후보`의 바뀐 줄 가운데 값이 든 줄은 0이다. 기준 전부터 있던 공개 문자열이고 이 범위가 새로 넣은 것이 아니다.
+- 로컬 경로·토큰 꼴: 06-01 정규식으로 `git diff PUSH2_PREV PUSH2_CANDIDATE`의 더해진 줄에서 0.
+- 훅 경로: 후보의 `scripts/check-site.sh`·`.githooks/pre-push`가 작업 트리와 같고, 실제 훅에 `refs/heads/main <후보 전체 해시> refs/heads/main <origin/main 전체 해시>` 한 줄을 넣어 exit 0, 후보 check-site 통과.
+- 판정 도구: `$W/p612-t1.sh`(출력 `$W/p612-t1.log`). 한 번 돌렸고 모두 통과했다(`RESULT fails=0`).
+
+```
+OK precondition markers=3 site-files=clean staged=0
+OK scratch recheck lib-functions=12 playwright=1.59.1 tool=present base-tree=same
+OK s2 build tree = push1
+OK origin = push1
+OK ancestry b1,docs-base,prev -> candidate
+OK scope push2 = .claude/CLAUDE.md CLAUDE.md README.md scripts/check-site.sh
+NOTE push2 commits=10
+OK check-site has item 8
+check-site: 통과 (커밋 ae760273bf46, jekyll 3.10.0)
+OK push2 same-as-s2
+vals filled=1 emitted=0 excluded=1
+leak=skip(no new values)
+NOTE range base..candidate messages-with-value=0 docs3-files-with-value=2
+NOTE docs3 value-count base=push1=candidate claude-md=1 dot-claude-md=1 readme=0 changed-lines-with-value=0
+OK localpaths 0
+OK hook files = push2
+check-site: 통과 (커밋 ae760273bf46, jekyll 3.10.0)
+OK hook push2 pass
+OK site-clean 06-12-t1 ae760273bf46
+OK yml = HEAD
+```
