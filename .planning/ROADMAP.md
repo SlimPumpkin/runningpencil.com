@@ -296,7 +296,7 @@ Plans:
   3. 앱 안 삭제 경로가 실제 메뉴 이름 「회원탈퇴」로 안내되고, 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내가 있다
   4. `/data-deletion/#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`이 각각 해당 제공자 섹션으로 바로 이동한다
   5. 삭제 안내의 사업자 정보와 연락처(지원 이메일 포함)는 `_data/company.yml`에서 읽고 본문에 값을 직접 쓰지 않아, 그 파일만 고치면 반영된다. 값이 없는 선택 항목(전화 등)은 자리표시 없이 표시되지 않는다
-**Plans**: 12/13 plans executed
+**Plans**: 13/13 plans executed
 
 Plans:
 **Wave 1**
@@ -336,7 +336,7 @@ Plans:
 - [x] 06-11-PLAN.md — 원본 맵·두 CLAUDE.md(재생성)·이름 표·데이터 목록 「확인할 것」·README 문서 커밋
 
 **Wave 13** *(blocked on Wave 12 completion)*
-- [ ] 06-12-PLAN.md — 가드·문서 푸시 후보 판정(tracer), SHA 승인, 푸시·라이브 출력 불변 확인
+- [x] 06-12-PLAN.md — 가드·문서 푸시 후보 판정(tracer), SHA 승인, 푸시·라이브 출력 불변 확인
 **UI hint**: no
 **External gates**: 이메일 게이트(Phase 5)가 열린 뒤에 커밋합니다. 웹 삭제 요청 경로가 이메일에 달려 있어, 경로가 빠진 삭제 안내를 라이브에 올리지 않기 위해서입니다. U6(탈퇴 후 공개 코스 유지, 비공개 코스 처리)이 결정돼야 합니다. D-05 앱 작업 묶음과 U2 결론(D-31)이 들어와 데이터 목록을 재기준(D-06)한 뒤에 커밋합니다.
 **Research flag**: 부분. Meta Data Deletion Instructions의 내용 기준을 확인합니다. 나머지 사실은 Phase 1 데이터 목록을 씁니다.
@@ -454,7 +454,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 13/13 | Complete    | 2026-11-19 |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 15/15 | Complete    | 2026-11-20 |
-| 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 12/13 | In Progress | - |
+| 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 13/13 | In Progress | - |
 | 7. 개인정보처리방침 재작성 (Privacy Policy Rewrite) | 0/TBD | Not started | - |
 | 8. 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms) | 0/TBD | Not started | - |
 | 9. 영문판 (English Versions) | 0/TBD | Not started | - |

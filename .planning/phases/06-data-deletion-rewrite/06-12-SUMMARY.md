@@ -162,3 +162,9 @@ None - no external service configuration required.
 ---
 *Phase: 06-data-deletion-rewrite*
 *Completed: 2026-11-27*
+
+## Self-Check: PASSED
+
+- 파일: `06-12-SUMMARY.md`, `06-EVIDENCE.md` 있음
+- 커밋: `f2b08c4`, `a1b8066`, `d618326`이 HEAD의 조상, 푸시한 `ae76027`이 원격 main
+- Task 1 verify, Task 3 verify 두 명령, 계획 `<verification>`(S2·S1 두 줄)을 bash 스크립트로 다시 돌려 모두 exit 0

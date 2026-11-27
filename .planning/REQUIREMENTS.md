@@ -38,7 +38,7 @@
 - [x] **BIZ-01**: 방문자는 모든 페이지 푸터에서 사업자등록증과 같은 표기의 상호·대표자·사업자등록번호·주소와 지원 이메일을 본다
 - [x] **BIZ-02**: 운영자는 사업자 정보와 연락처를 한 곳(`_data`)만 고쳐 푸터·지원 페이지에 반영하고, 값이 없는 항목은 「추후 기재」 같은 자리표시 없이 아예 표시되지 않는다 (법적 문서는 BIZ-05·BIZ-06·BIZ-07)
 - [x] **BIZ-03**: 운영자가 전화번호를 넣으면 푸터·지원 페이지에 바로 나타난다 (이번에는 값 없이 칸만 마련, U1. 보호책임자·위치약관은 BIZ-06·BIZ-07)
-- [ ] **BIZ-05**: 삭제 안내에 나오는 사업자 정보와 연락처는 `_data` 한 곳에서 읽어, 운영자가 그 파일만 고치면 반영되고 본문에 값을 다시 쓰지 않는다. 값이 없는 선택 항목(전화 등)은 자리표시 없이 표시되지 않는다
+- [x] **BIZ-05**: 삭제 안내에 나오는 사업자 정보와 연락처는 `_data` 한 곳에서 읽어, 운영자가 그 파일만 고치면 반영되고 본문에 값을 다시 쓰지 않는다. 값이 없는 선택 항목(전화 등)은 자리표시 없이 표시되지 않는다
 - [ ] **BIZ-06**: 처리방침에 나오는 사업자 정보와 보호책임자 연락처는 `_data` 한 곳에서 읽어, 운영자가 그 파일만 고치면 반영되고 본문에 값을 다시 쓰지 않는다. 전화번호를 넣으면 보호책임자 연락처에 바로 나타나고, 비어 있으면 그 줄이 표시되지 않는다
 - [ ] **BIZ-07**: 위치약관의 사업자 상호·주소·연락처는 `_data` 한 곳에서 읽어, 운영자가 그 파일만 고치면 반영되고 본문에 값을 다시 쓰지 않는다. 전화번호를 넣으면 연락처에 바로 나타나고, 비어 있으면 그 줄이 표시되지 않는다
 
@@ -52,13 +52,13 @@
 
 ### 데이터 삭제 안내 (DEL)
 
-- [ ] **DEL-01**: 사용자는 앱을 설치하지 않고도 삭제 안내 페이지에서 지원 이메일로 계정·데이터 삭제를 요청하는 방법을 눈에 띄게 찾는다 (Google Play)
+- [x] **DEL-01**: 사용자는 앱을 설치하지 않고도 삭제 안내 페이지에서 지원 이메일로 계정·데이터 삭제를 요청하는 방법을 눈에 띄게 찾는다 (Google Play)
 - [x] **DEL-02**: 심사자는 삭제 안내 페이지에서 스토어에 표시되는 앱 이름과 개발자 이름을 본다
 - [x] **DEL-03**: 사용자는 삭제되는 데이터와 남는 데이터(공개 코스 등), 남는 이유와 기간을 안다
 - [x] **DEL-04**: 사용자는 앱 안 삭제 경로를 실제 메뉴 이름(「회원탈퇴」)으로 안내받는다
 - [x] **DEL-05**: 사용자는 삭제에 걸리는 시간(상한)과 완료를 알려 주는 방법을 안다
 - [x] **DEL-06**: 사용자는 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내를 본다
-- [ ] **DEL-07**: 삭제 안내에 제공자별 섹션(`#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`)이 있어, Facebook Data Deletion Instructions URL 같은 콘솔 필드가 해당 섹션으로 바로 연결된다
+- [x] **DEL-07**: 삭제 안내에 제공자별 섹션(`#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`)이 있어, Facebook Data Deletion Instructions URL 같은 콘솔 필드가 해당 섹션으로 바로 연결된다
 
 ### 개인정보처리방침 (PRIV)
 
@@ -176,7 +176,7 @@
 | BIZ-01 | Phase 5 | Complete |
 | BIZ-02 | Phase 5 | Complete |
 | BIZ-03 | Phase 5 | Complete |
-| BIZ-05 | Phase 6 | Pending |
+| BIZ-05 | Phase 6 | Complete |
 | BIZ-06 | Phase 7 | Pending |
 | BIZ-07 | Phase 8 | Pending |
 | SUP-01 | Phase 5 | Complete |
@@ -184,13 +184,13 @@
 | SUP-03 | Phase 5 | Complete |
 | SUP-04 | Phase 5 | Complete |
 | SUP-05 | Phase 10 | Pending |
-| DEL-01 | Phase 6 | Pending |
+| DEL-01 | Phase 6 | Complete |
 | DEL-02 | Phase 6 | Complete |
 | DEL-03 | Phase 6 | Complete |
 | DEL-04 | Phase 6 | Complete |
 | DEL-05 | Phase 6 | Complete |
 | DEL-06 | Phase 6 | Complete |
-| DEL-07 | Phase 6 | Pending |
+| DEL-07 | Phase 6 | Complete |
 | PRIV-01 | Phase 7 | Pending |
 | PRIV-02 | Phase 7 | Pending |
 | PRIV-03 | Phase 7 | Pending |
