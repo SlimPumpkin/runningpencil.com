@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal)** - Tailwind Play CDN을 정적 CSS로 바꾸되 모양은 그대로 둔다 (completed 2026-11-17)
 - [x] **Phase 4: 홈페이지 서비스 소개 정정 (Landing Content Fix)** - 앱에 없는 기능 설명을 빼고 실제 앱 화면을 보여 준다 (completed 2026-11-19)
 - [x] **Phase 5: 사업자 정보와 지원 연락 경로 (Business Info & Support Contact)** - 푸터 사업자 정보, `/support/`, 실제로 받히는 지원 이메일(이메일 게이트) (completed 2026-11-20)
-- [ ] **Phase 6: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)** - 앱 없이 웹에서 삭제를 요청하는 경로와 삭제·보존 데이터 안내
+- [x] **Phase 6: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)** - 앱 없이 웹에서 삭제를 요청하는 경로와 삭제·보존 데이터 안내 (completed 2026-11-27)
 - [ ] **Phase 7: 개인정보처리방침 재작성 (Privacy Policy Rewrite)** - 데이터 목록 기준의 처리방침(위탁·국외 이전·보호책임자·제공자별 수신 항목)
 - [ ] **Phase 8: 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms)** - 약관 재작성, 위치약관 신설, 법적 페이지 정식 게시
 - [ ] **Phase 9: 영문판 (English Versions)** - `/en/` 홈페이지와 영문 법적 문서·지원 페이지, 언어 전환
@@ -296,7 +296,7 @@ Plans:
   3. 앱 안 삭제 경로가 실제 메뉴 이름 「회원탈퇴」로 안내되고, 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내가 있다
   4. `/data-deletion/#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`이 각각 해당 제공자 섹션으로 바로 이동한다
   5. 삭제 안내의 사업자 정보와 연락처(지원 이메일 포함)는 `_data/company.yml`에서 읽고 본문에 값을 직접 쓰지 않아, 그 파일만 고치면 반영된다. 값이 없는 선택 항목(전화 등)은 자리표시 없이 표시되지 않는다
-**Plans**: 13/13 plans executed
+**Plans**: 13/13 plans complete
 
 Plans:
 **Wave 1**
@@ -454,7 +454,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 3. 법적 페이지 정적 스타일 전환 (Tailwind CDN Removal) | 9/9 | Complete    | 2026-11-17 |
 | 4. 홈페이지 서비스 소개 정정 (Landing Content Fix) | 13/13 | Complete    | 2026-11-19 |
 | 5. 사업자 정보와 지원 연락 경로 (Business Info & Support Contact) | 15/15 | Complete    | 2026-11-20 |
-| 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 13/13 | In Progress | - |
+| 6. 데이터 삭제 안내 재작성 (Data Deletion Rewrite) | 13/13 | Complete    | 2026-11-27 |
 | 7. 개인정보처리방침 재작성 (Privacy Policy Rewrite) | 0/TBD | Not started | - |
 | 8. 이용약관과 위치기반서비스 이용약관 (Terms & Location Terms) | 0/TBD | Not started | - |
 | 9. 영문판 (English Versions) | 0/TBD | Not started | - |

@@ -1,43 +1,43 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 06
-current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
-status: executing
-stopped_at: Completed 06-12-PLAN.md
-last_updated: "2026-11-27T04:17:32.784Z"
+current_phase: 7
+current_phase_name: 개인정보처리방침 재작성 (Privacy Policy Rewrite)
+status: planning
+stopped_at: Phase 06 complete, ready to plan Phase 7
+last_updated: "2026-11-27T07:45:42.915Z"
 last_activity: 2026-11-27
-last_activity_desc: Phase 06 execution started
-state_head: d618326b0a0668e0304ad3703dc55b66cc90abc8
+last_activity_desc: Phase 06 complete, transitioned to Phase 7
+state_head: 8f04d3a2bcfe5522b638426fc095db05b8c560b2
 progress:
   total_phases: 10
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 70
   completed_plans: 70
-  percent: 50
+  percent: 60
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-20)
+See: .planning/PROJECT.md (updated 2026-11-27)
 
 **Core value:** 소셜 로그인 제공자와 스토어 심사자가 이 사이트만 보고 서비스·운영 주체·개인정보 처리·연락과 삭제 방법을 확인할 수 있어, 심사가 웹사이트 때문에 반려되지 않는다
-**Current focus:** Phase 06 — 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
+**Current focus:** Phase 7 — 개인정보처리방침 재작성 (Privacy Policy Rewrite)
 
 ## Current Position
 
-Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 13 of 13
-Status: Ready to execute
-Last activity: 2026-11-27 — Phase 06 execution started
+Phase: 7 — 개인정보처리방침 재작성 (Privacy Policy Rewrite)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-11-27 — Phase 06 complete, transitioned to Phase 7
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 57
+- Total plans completed: 70
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -50,6 +50,7 @@ Progress: [█████░░░░░] 50%
 | 03 | 9 | - | - |
 | 04 | 13 | - | - |
 | 5 | 15 | - | - |
+| 06 | 13 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: -
@@ -288,6 +289,7 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-10: 점검 6번은 랜딩과 삭제 안내 두 출력을 보고 배송지·전자상거래를 더했다. 처리방침·약관은 Phase 7·8이 다시 쓴 뒤 더한다
 - [Phase 06]: 06-11: App Store 표기 차이 행은 APPSTORE_NAME=same이라 데이터 목록 「확인할 것」에 더하지 않음
 - [Phase 06]: 06-12: 둘째 푸시 SHA ae760273bf46 승인·푸시 (사용자가 오케스트레이터 권고 push를 고름, 이 푸시 한 번에만 씀). 라이브 다섯 문서 바이트 동일, 앵커 여덟 개 두 엔진 통과 (LIVE_PUSH2=OK)
+- [Phase 06]: UAT 6/6 통과(2026-11-27). 스토어 공개 페이지는 앱 등록 전이라 없고, Play Console 「개발자 이름」과 Apple Developer 「법인명」이 `store_developer_name` 값과 같음을 콘솔에서 대조함. 조직 계정은 조직 이름이 App Store 판매자 이름으로 나감(Apple 문서 developer.apple.com/programs/enroll)이라 06-09가 남긴 전제는 닫힘. 개발자 이름 truth 넷은 사용자 승인 override(`06-VERIFICATION.md`), 판단 단계 금지 사항 33건은 모두 해결로 받아들임
 
 ### Pending Todos
 
@@ -301,7 +303,7 @@ None yet.
 
 사용자·법률 결정(Phase 1에서 결정 목록으로 넘김):
 - U11 영문 법인명 → Phase 9. 국문 사업자 값은 Phase 5에서 받아 `_data/company.yml`에 있음 (U12는 결정됨: Google Workspace 사용자 별칭 도메인, 지원 주소에서 답장. `.planning/baseline/DECISIONS.md`)
-- U3 소상공인 해당, U5 Email/Password 노출 → Phase 7 / U6 탈퇴 후 코스 처리 → Phase 6·8
+- U3 소상공인 해당, U5 Email/Password 노출 → Phase 7 / U6 탈퇴 후 코스 처리(Phase 6에서 U6-가·U6-나 반영) → 약관은 Phase 8
 - U7 14세 미만 정책 → Phase 7·8 / U2 위치정보법 분류, U8 네이버 지도 고지 → Phase 8
 - U9 Meta 비즈니스 인증, U13 Google 브랜드 검증 → Phase 10
 
@@ -316,16 +318,15 @@ Phase 4 후속:
 - [Phase 04] `deferred-items.md`의 원본 맵 정리 2건이 open: CONCERNS.md 랜딩 크기·줄 수(「72KB, 586줄」), TESTING.md에 `images/app/`과 「실제 앱 화면」 구간 점검 항목 없음. 단계 전환 때 Acknowledged Gaps로 기록(04-VERIFICATION.md). 다음 원본 맵 갱신이나 `/gsd-map-codebase` 때 고침
 
 Phase 5 후속:
-- [Phase 05] 법적 문서 세 곳(삭제 안내·처리방침·위치약관)의 사업자 정보·연락처는 `_data/company.yml`에서 읽음 → Phase 6·7·8 성공 기준(BIZ-05·06·07)
-- [Phase 05] 지원 FAQ의 계정 삭제 경로와 라이브 `/data-deletion/`(임시 게시본)이 다름 → Phase 6 DEL-04에서 맞춤
+- [Phase 05] 처리방침·위치약관의 사업자 정보·연락처는 `_data/company.yml`에서 읽음 → Phase 7·8 성공 기준(BIZ-06·07). 삭제 안내(BIZ-05)는 Phase 6에서 끝남
 - [Phase 05] 코드 리뷰 처분 7건 open (`05-REVIEW-DISPOSITION.md`): WR-01 check-site 7번 mailto 확인이 공유 푸터에도 걸림, WR-02 어두운 푸터 포커스 테두리 대비 약 2.1:1, WR-03·IN-01~04. UI 감사: `/support/#report`로 바로 열면 지원 이메일이 화면 밖, 좁은 화면에서 「고객 지원」은 푸터에서만 닿음
 - [Phase 05] 운영자 Gmail의 지원 주소 수신 스팸 방지 필터(저장소 밖 운영 설정)가 지워지면 iCloud·Outlook에서 온 메일이 다시 스팸함으로 갈 수 있음. 필터 때문에 실제 스팸도 받은편지함에 들어옴
 - [Phase 05] 로컬 브랜치 `p5-support-hold`와 `refs/p5-scratch/c4-cand`는 단계 검증이 끝났으니 사용자가 지움 (원격에는 없음)
-- [Phase 06] 06-04~06-13을 2026-11-26에 다시 짰음(06-CONTEXT D-34~D-44 반영, 계획 검사 blocker 0·warning 0·info 5, 결정 반영 41/41). 실행 중 볼 info 넷: 06-04 추정치가 예산의 0.98, 06-06 Task 2가 보일 앱 문서 문장(익명 자동 정리와 뱃지)이 기준 커밋의 규칙과 어긋남, 06-04가 데이터 목록에 적는 화면 라벨 둘의 근거 줄 미기록, 06-07 `#location`의 「2~4번」 번호 참조(이메일 값 없는 변형에서만 어긋남). D-33 네 항목은 모두 사용자 답으로 닫힘(①과 ②·D-39는 06-06: ga, proposal·「서비스를 운영하는 동안」·삭제 경로 약속 없음·표 범위 넷. ③ 해시 rate_limits 기간은 재계획 전 결정 D-40. ④ 스토어 개발자 이름 값은 06-08: DEV_RECEIVED=OK). 계획 안에 남은 checkpoint는 06-09의 값·SHA 승인과 06-12의 푸시 승인. 앱 문서는 MVP 동안 익명 자동 정리를 끈다고 적고 사이트 D-26은 prod에서 켠다고 정해 어긋남(06-06 Task 2가 보였고 답 ga는 삭제 안내 문장만 닫음. 어긋남과 prod 전제 1번은 열려 있음). 앱 HEAD가 기준 앱 커밋 92e986c3bb29보다 앞서 있음(06-04 Task 1이 쟀음, 2026-11-26: 앱 HEAD d52d13a74f9b, 10커밋, 삭제 관련 경로 변경 0. 뒤 계획에서 앱 HEAD가 더 움직이면 다시 잼). prod 전제 다섯은 D-42이고 목록은 데이터 목록 「prod 전제 (Phase 6 D-42)」 한곳에 있음(06-04). 06-04가 넘긴 것: 화면 라벨 둘(「프로필 사진」, 「Danger zone」)의 근거 줄은 06-EVIDENCE 「06-04 화면 사실」에 적음. 데이터 목록 「확인할 것」 표의 TTL 정책 행은 2026-11-15 조회 표기 그대로(06-11이 다룸)
 - [Phase 06] 06-06이 넘긴 것(단계를 막지 않음. `06-06-SUMMARY.md` 「열린 항목」): 06-13은 끝났음(아래 줄). prod를 만들 때 볼 것 — `D33_C8=proposal`의 전제(Firestore PITR·예약 백업·`mail` 대기열 발송을 켜려면 먼저 남는 데이터 표에 행을 더함, PITR·예약 백업은 `#location` 「지체 없이 파기」 문장도 다시 정함), prod에서 메일을 `mail` 대기열로 보낼지는 미정. 사용자가 정할 것 — D-26과 앱 문서의 익명 자동 정리 어긋남, App Check 토큰·기기 안 설정·installation ID를 Phase 7 처리방침에서 다룰지(06-13이 목록에 Phase 7 인계를 적는 것은 Firebase Authentication 로그 IP 하나). 앱 문서의 「stg·prod를 만들 때 자동 정리가 꺼져 있는지 보고 켜져 있으면 끈다」 문장은 데이터 목록에 없음. 앱 HEAD는 06-06 첫 실행 때 `a298289b50fa`(기준 뒤 26커밋, 삭제 관련 경로 변경 0, 파일 이름만 읽음)
 - [Phase 06] 06-13이 넘긴 것(단계를 막지 않음. `06-13-SUMMARY.md` 「사용자가 읽어 볼 것」): 06-07은 끝났음(아래 줄). 남는 데이터 표는 일곱 행이고, 더해진 두 행(Cloud Functions 로그 「최대 30일」, 지운 프로필 사진의 소프트 삭제 사본 「삭제 뒤 최대 7일」)은 prod 사실이 아니라 약속임(06-07 원고 승인 자료에 표와 함께 보였고 사용자가 approve로 답함). prod를 만들 때 볼 것은 데이터 목록 「prod 전제 (Phase 6 D-42)」의 번호 다섯과 D-33 ② 추가 전제 다섯. 계획이 글자로 주지 않아 실행자가 proposal 글자대로 쓴 문장 둘(`fcmTokens` 행, prod 추가 전제 글머리)은 사용자가 한 번 읽어 봄. 06-06이 연 항목 셋(prod의 `mail` 대기열 발송, App Check 토큰·기기 안 설정·installation ID의 Phase 7 처리, D-26과 앱 문서의 익명 자동 정리 어긋남)은 그대로 열려 있음. 문서 커밋(`a789cf9679ba` 등)은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
-- [Phase 06] 06-07이 넘긴 것(단계를 막지 않음. `06-07-SUMMARY.md` 「열린 항목」·「뒤 계획이 알아야 할 것」): 06-08은 끝났음(아래 줄). `06-EVIDENCE.md`의 `DRAFT_APPROVED`·`DRAFT_BLOB`과 스크래치 ref `refs/p6-scratch/draft`는 그대로 있음. 원고 승인은 푸시 승인이 아님. Phase 7에서 다시 볼 것 셋(사용자 결정이 아니고 승인한 원고는 그대로) — 「공개하지 않은 코스(비공개·검수 대기 등)」의 「검수 대기」(목록 구간 G에 같은 낱말, D-39는 앞으로 생길 상태라고 적음), Google·Apple·Facebook 받는 항목의 회원번호(목록 구간 B 세 행에 없고 구간 A `linkedProviders` 행에는 있음. 고치려면 구간 B가 먼저이고 PRIV-10이 같은 표를 씀. 앱 코드는 이번에 확인하지 않음), 카카오·네이버 연결 해제 안내에 공식 도움말 링크가 없고 실제 메뉴 이름을 확인하지 못함. 승인한 원고의 모양으로 남은 것 — `#location` 「(2~4번)」은 지원 이메일 값이 없는 빌드에서만 번호가 어긋남, 낱말 「둘러보기」와 앱 화면 「게스트로 이용 중」이 다름, 375 폭에서 남는 데이터 표가 `figure` 안에서 가로로 밀림. 위치정보 조항은 법률 확인 전 초안으로 승인됨(D-36). 답이 나온 과정(오케스트레이터가 묻지 않은 권고를 덧붙였고 사용자가 그 뒤 approve로 답함)은 `06-EVIDENCE.md` 「06-07 승인」에 있음. 스크래치(저장소 옆 `-p6-scratch` 폴더)와 `refs/p6-scratch/draft`는 단계 검증 뒤 사용자가 지울 때까지 둠. 문서 커밋 `0255b12b7814` 등은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
-- [Phase 06] 06-08이 넘긴 것(단계를 막지 않음. `06-08-SUMMARY.md` 「열린 항목」·「뒤 계획이 알아야 할 것」): 다음 실행 계획은 06-09(값 커밋·재작성 커밋 후보, 값·SHA 승인, 푸시). 끝난 계획은 아홉(SUMMARY 9/13)이고 위 「Plan: 9 of 13」은 상태 도구가 넣은 값 그대로임. **작업 트리 `_data/company.yml`에 커밋하지 않은 두 줄(머리 주석 한 줄, `store_developer_name` 키 줄)이 있음. 06-09가 쓰므로 되돌리거나 stash하지 않고, `git add -A`·`commit -a`로 올리지 않음.** 값은 기록·SUMMARY·커밋 메시지에 적지 않음(D-18). 06-09가 읽을 것 — `06-EVIDENCE.md`의 `DEV_RECEIVED=OK`·`S2V_CAND`(`4505d77840d0`)·`APPSTORE_NAME=same`과 스크래치 ref `refs/p6-scratch/s2v`. 그 미리보기는 `b2644ec30ad3` 위에 만든 것이라 06-09의 후보와 부모가 다름(06-09는 자기 후보를 새로 만듦). 값 누출 점검은 받은 값이 `vals`의 excluded라 건너뜀(`leak=skip`)이고 06-09·06-12도 같은 규칙으로 건너뜀. 단계 검증에서 정할 것 — `06-VALIDATION.md` 「D-02·D-18」 행의 식(값 파일로 `.planning`을 grep해 빈 출력)이 이 값에서는 성립하지 않음. Phase 10에서 볼 것 — App Store에 표시되는 판매자 이름이 Apple 쪽 법인 이름과 같다는 것은 확인하지 않았고(오케스트레이터의 기억. `APPSTORE_NAME=same`은 이 전제 위의 답), 두 스토어 공개 등록정보의 실제 표시도 보지 않음. 답이 나온 과정(사용자가 두 콘솔 화면을 보였고 Google Play 개발자 이름을 바꾼 뒤, 오케스트레이터가 화면에서 읽은 값과 same을 「예」로 확인함)은 `06-EVIDENCE.md` 「06-08 값 미리보기」에 있음. 값이 든 blob은 `refs/p6-scratch/s2v` 아래 로컬 객체로 있고 푸시되지 않음. 스크래치와 `refs/p6-scratch/*`는 단계 검증 뒤 사용자가 지울 때까지 둠. 문서 커밋 `21ead38189b1` 등은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
+- [Phase 06] 06-07이 넘긴 것(단계를 막지 않음. `06-07-SUMMARY.md` 「열린 항목」·「뒤 계획이 알아야 할 것」): `06-EVIDENCE.md`의 `DRAFT_APPROVED`·`DRAFT_BLOB`과 스크래치 ref `refs/p6-scratch/draft`는 그대로 있음. 원고 승인은 푸시 승인이 아님. Phase 7에서 다시 볼 것 셋(사용자 결정이 아니고 승인한 원고는 그대로) — 「공개하지 않은 코스(비공개·검수 대기 등)」의 「검수 대기」(목록 구간 G에 같은 낱말, D-39는 앞으로 생길 상태라고 적음), Google·Apple·Facebook 받는 항목의 회원번호(목록 구간 B 세 행에 없고 구간 A `linkedProviders` 행에는 있음. 고치려면 구간 B가 먼저이고 PRIV-10이 같은 표를 씀. 앱 코드는 이번에 확인하지 않음), 카카오·네이버 연결 해제 안내에 공식 도움말 링크가 없고 실제 메뉴 이름을 확인하지 못함. 승인한 원고의 모양으로 남은 것 — `#location` 「(2~4번)」은 지원 이메일 값이 없는 빌드에서만 번호가 어긋남, 낱말 「둘러보기」와 앱 화면 「게스트로 이용 중」이 다름, 375 폭에서 남는 데이터 표가 `figure` 안에서 가로로 밀림. 위치정보 조항은 법률 확인 전 초안으로 승인됨(D-36). 답이 나온 과정(오케스트레이터가 묻지 않은 권고를 덧붙였고 사용자가 그 뒤 approve로 답함)은 `06-EVIDENCE.md` 「06-07 승인」에 있음. 스크래치(저장소 옆 `-p6-scratch` 폴더)와 `refs/p6-scratch/draft`는 단계 검증 뒤 사용자가 지울 때까지 둠. 문서 커밋 `0255b12b7814` 등은 푸시하지 않았고 06-09 첫 푸시에 함께 나감
+- [Phase 06] 단계 완료(UAT 6/6, 2026-11-27) 뒤에도 열린 것: 코드 리뷰 WR-01~04 open(`06-REVIEW-DISPOSITION.md`, 점검 8번 본문 추출 fail-open, mailto를 `#request` 안에서 보지 않음, 고정 앵커 점검 없음, `support_email` 빈 값일 때 「2~4번」 참조). 앱 HEAD가 2026-11-27에 `a7aa8ef9`까지 나아갔지만 삭제 관련 경로의 `92e986c3..HEAD` 차이는 0. 앱 저장소 문서 `docs/operator-delete-tool.md`의 `records` 「사이트 이름」 칸이 옛 이름 「위치 기록만」이고 라이브는 「뱃지와 기록 모두 삭제」(앱 저장소 일). 스크래치 폴더(`-p6-scratch`)와 `refs/p6-scratch/*`는 사용자가 지움(원격에는 없음)
+- [Phase 06] Phase 10 콘솔 체크리스트 때 볼 것(사용자 콘솔 작업): Play Console 「판매자 상태 선언」 조치 요청(2027년 2월 기한), App Store Connect 이용약관 동의 대기. 출시 뒤 두 스토어 공개 페이지의 개발자·판매자 이름을 삭제 안내 소개 문단과 다시 대조
 
 ### Quick Tasks Completed
 
@@ -343,6 +344,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-27T04:17:32.014Z
-Stopped at: Completed 06-12-PLAN.md
+Last session: 2026-11-27T07:47:10Z
+Stopped at: Phase 06 complete (UAT 6/6), ready to plan Phase 7
 Resume file: None
