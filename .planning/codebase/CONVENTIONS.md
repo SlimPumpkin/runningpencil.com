@@ -49,7 +49,7 @@ last_mapped_at: 2026-11-14
 
 ### Linting
 
-- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 일곱이다: 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`와 `support/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력(`index.html`)에 포인트·굿즈·코스북 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트). `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
+- 린터 없음. 전역 규칙의 "커밋 전 린터 실행"은 이 저장소에서 `scripts/check-site.sh`로 갈음한다. 점검 항목은 여덟이다: 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개 `index.html`, `privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`와 `support/index.html`)의 `<title>`, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩·삭제 안내 출력(`index.html`, `data-deletion/index.html`)에 포인트·굿즈·코스북·배송지·전자상거래 없음(U10), 지원 페이지(`/support/`)가 있으면 연락처(`mailto:`)가 있고 `/support/` 링크가 있으면 그 페이지가 있음(이메일 게이트), 삭제 안내(`/data-deletion/`)가 있으면 본문 블록에 요청 경로(mailto)와 「러닝펜슬(개발자 」 소개 문단이 있고 검색 제외·임시 표시 없음. `.githooks/pre-push` 훅이 `main` 푸시마다 자동으로 돌린다 (훅 켜기: `git config core.hooksPath .githooks`, 클론마다 한 번).
 
 ## CSS / Styling Patterns
 
@@ -80,6 +80,8 @@ last_mapped_at: 2026-11-14
 
 - 법적 문서(처리방침·약관·삭제 안내), 지원 페이지, 이후 영문판의 본문을 쓸 때 지킨다. `_includes/css/legal.css` 맨 위 주석에도 허용 요소 목록이 짧게 있다.
 - 원본은 HTML이다 (`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`, `support/index.html`). Markdown(kramdown)으로 바꾸지 않는다. kramdown은 곧은 따옴표를 굽은 따옴표로 바꾸고 제목에 자동 `id`를 붙인다 (D-01).
+- 문서 맨 앞 소개 문단은 `section` 밖 최상위 `<p>` 하나로 둘 수 있다(삭제 안내, Phase 6). 조항은 그 뒤에 `section`으로 쓴다.
+- `_includes/css/legal.css` 머리 주석에는 이 소개 문단 줄을 아직 넣지 않았다. 주석이 법적 레이아웃 네 페이지 출력에 인라인되어 고치면 다른 문서 출력이 바뀌기 때문이다(Phase 6은 출력을 삭제 안내 하나로 한정). 다음에 `legal.css` 출력을 바꾸는 단계에서 함께 더한다.
 - 조항마다 `<section>` 하나를 두고 첫 자식은 `<h2>`다. 간격은 본문 최상위 자식 사이 32px(`section`끼리, 마지막 `footer` 앞), `section` 안 자식 사이 12px, 목록 항목(`li`) 사이 4px다 (D-02).
 - 앵커 `id`는 `section`에 둔다(예: `/support/`의 `#contact`·`#report`·`#faq`, Phase 6의 `#facebook`). 앱과 콘솔이 이 앵커로 열므로 이름을 바꾸지 않는다 (Phase 5 D-13).
 - 문서 끝 안내는 `<footer>`(위 1px `line` 선, 위 여백 16px, 14px, `muted-2`), 조항 안 보충 설명(예: 표 아래 「※ …」)은 `<aside>`(14px, `muted-2`, 구분선 없음)로 쓴다. 둘 다 클래스가 없다 (D-03).
@@ -120,7 +122,7 @@ last_mapped_at: 2026-11-14
 
 ### Order (`<head>`)
 
-- meta (charset, viewport, title, description, `theme-color`, 법적 페이지는 `robots noindex`)
+- meta (charset, viewport, title, description, `theme-color`, 처리방침·약관은 `robots noindex`(Phase 7·8에서 지움). 삭제 안내·지원 페이지는 없음)
 - `{% include head-links.html %}` (Pretendard 글꼴 `<link>`와 파비콘·매니페스트 링크 8줄. jsDelivr `orioncactus/pretendard@v1.3.9`, `/favicon/...`)
 - 첫 그리기 전 실행 스크립트 (`index.html`만: `rp-pin` 판정)
 - `<style>` — 맨 위에 「공통」(`{% include css/common.css %}`)이 들어오고, 법적 페이지는 그 다음에 `{% include css/legal.css %}`가 들어온다 (`_layouts/legal.html`). 랜딩은 「공통」 다음에 「랜딩 전용」을 바로 쓴다
@@ -187,13 +189,13 @@ last_mapped_at: 2026-11-14
 - 서비스 이름은 한국어 **러닝펜슬**, 영어 `RunningPencil`이다. 정본은 이름 표(`.planning/baseline/NAMES.md`)이고 사이트·콘솔·스토어에서 같은 값을 쓴다. 현재 사이트(제목, meta, 매니페스트, 워드마크, 본문)에는 한국어 이름만 있다 (2026-11 기준). 영문 이름은 Phase 9 영문판(`/en/`)부터 쓴다. `runningpencil.com`은 도메인 표기다.
 - 운영 회사는 **슬림펌킨**: 저작권 표기, 푸터 운영 안내 문장, 법적 페이지의 `(이하 "회사")` 주체.
 - 모든 페이지 푸터에 사업자 정보 줄(상호·대표자·사업자등록번호), 주소 줄, 이메일 행(`mailto:` 링크)이 있고 값은 `_data/company.yml`에 있다 (Phase 5). 푸터 nav(이름 「약관 및 지원」)에는 약관 링크 3개와 「고객 지원」 링크가 있다. 운영 안내·저작권 문장은 그대로다.
-- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 지원 이메일 하나다. 주소는 `_data/company.yml`의 `support_email` 한 곳에 있고 모든 페이지 푸터와 `/support/`에 나온다(Phase 5, 게이트 2026-11-19). 정본은 이름 표(`.planning/baseline/NAMES.md`)다. 주소를 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거친다. 법적 문서에는 Phase 6~8에서 넣는다. 문서(`CLAUDE.md`·README·원본 맵)에는 주소를 글자로 적지 않고 `support_email` 키와 이름 표로 가리킨다.
-- 현재 법적 페이지 3종에는 `<meta name="robots" content="noindex">`와 「임시 게시본」 표시가 있다 (2026-11 기준). 지원 페이지(`/support/`)에는 둘 다 없다. 문서를 다시 쓰는 커밋(Phase 6 삭제 안내, Phase 7 처리방침, Phase 8 이용약관)에서 둘 다 지운다 (U14).
+- 이메일 수집 폼과 서버 처리는 만들지 않는다 (정적 호스팅, `.planning/REQUIREMENTS.md` Out of Scope). 연락 수단은 지원 이메일 하나다. 주소는 `_data/company.yml`의 `support_email` 한 곳에 있고 모든 페이지 푸터와 `/support/`에 나온다(Phase 5, 게이트 2026-11-19). 정본은 이름 표(`.planning/baseline/NAMES.md`)다. 주소를 바꾸면 이메일 게이트(외부 4곳 수신 시험)를 다시 거친다. 삭제 안내에는 Phase 6에서 넣었고, 처리방침·약관에는 Phase 7·8에서 넣는다. 문서(`CLAUDE.md`·README·원본 맵)에는 주소를 글자로 적지 않고 `support_email` 키와 이름 표로 가리킨다.
+- 현재 처리방침·약관에는 검색 제외와 임시 표시가 있다 (2026-11 기준). 삭제 안내는 Phase 6 재작성 커밋에서 둘 다 지웠고 지원 페이지에는 원래 없다. 처리방침(Phase 7)·이용약관(Phase 8) 재작성 커밋에서 지운다 (U14).
 - 새 마크다운 문서를 추가하면 `_config.yml`의 `exclude`에 적는다. 마크다운 문서뿐 아니라 사이트에 올리지 않을 새 루트 파일·폴더도 `exclude`에 적는다. 사용자 `exclude`가 Jekyll 기본 제외 목록을 덮어쓰기 때문이다.
 
 ### 사실값 슬롯 (_data/company.yml)
 
-- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 지원 페이지, 이후 법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
+- 사업자 정보·연락처 값(키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`·`store_developer_name`. `store_developer_name`은 스토어 개발자 이름이고 삭제 안내 소개 문단이 쓴다, DEL-02)은 `_data/company.yml` 한 곳에만 두고, 바꿀 때도 이 파일만 고친다. 템플릿(푸터, 지원 페이지, 이후 법적 문서)은 `site.data.company.<키>`로 읽고 값을 문자열로 다시 쓰지 않는다.
 - 판정은 `site.data.company.<키>.size > 0`만 쓴다. blank·empty 비교는 로컬 Jekyll 3.10.0(Liquid 4.0.4)에서 값이 없어도 늘 참이라 쓰지 않는다. 값이 없는 키는 행·항목째 그리지 않는다 (render-if-present). 「추후 기재」 같은 자리표시는 쓰지 않는다.
 - 여러 값을 함께 볼 때는 `or`로만 잇는다. 한 조건에 `and`와 섞지 않는다 (Liquid는 괄호 없이 오른쪽부터 묶는다).
 - 출력은 모두 `| escape`를 붙인다. 값 바로 뒤에 조사를 붙이지 않는다 (값에 따라 조사가 달라진다).

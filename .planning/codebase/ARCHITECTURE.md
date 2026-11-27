@@ -12,7 +12,7 @@ last_mapped_at: 2026-11-14
 - 호스팅: GitHub Pages 내장 Jekyll(3.10.0)이 배포할 때 `_layouts`·`_includes`로 페이지를 조립해 정적 파일로 서빙한다. `_config.yml`은 `url`과 `exclude`를 둔다. 커스텀 도메인은 `CNAME` → runningpencil.com.
 - 페이지 5개: 티저 랜딩 `index.html` (vanilla CSS + inline JS), 개인정보처리방침 `privacy-policy/index.html`, 이용약관 `terms/index.html`, 데이터 삭제 안내 `data-deletion/index.html`, 고객 지원 `support/index.html`. 법적 페이지 3종과 지원 페이지는 같은 법적 레이아웃(`_layouts/legal.html`)으로 그리고, 정적 CSS(`_includes/css/legal.css`) + 「공통」 `.rp-*` CSS를 쓴다.
 - include로 공유: 모든 페이지가 `_includes/head-links.html`(글꼴·파비콘 링크), `_includes/css/common.css`(「공통」 CSS), `_includes/header.html`(랜딩은 `home=true`), `_includes/footer.html`을 부른다. 법적 3종과 지원 페이지는 `_layouts/legal.html` + front matter로 그려지고, 랜딩은 `layout: none`에 include 네 줄을 쓴다.
-- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩 기능 이름·지원 페이지 연락처)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
+- 푸시 전 점검: `scripts/check-site.sh`(빌드·내부 파일·제목·Liquid 잔여·Tailwind 없음·랜딩·삭제 안내 기능 이름·지원 페이지 연락처·삭제 안내 본문)를 `.githooks/pre-push`가 `main` 푸시마다 부른다.
 - 외부 CDN: Pretendard (jsDelivr)만. 모든 페이지의 CSS는 Tailwind 없이 직접 쓴 CSS를 `<style>`에 인라인한다 (Tailwind Play CDN은 Phase 3에서 제거).
 - 로컬 정적 자산: `favicon/` (svg/ico/png, `site.webmanifest`), `images/app/` (랜딩 「실제 앱 화면」 구간의 앱 화면 캡처 WebP).
 - 위치 표기: `index.html` 안의 위치는 줄 번호 대신 고정점(그 파일에 한 번만 나오는 문자열: include 태그, 구획 머리 주석, 함수 이름 등)으로 적는다. 줄이 밀려도 `grep -n -F '고정점' index.html`로 찾는다. 다른 파일(`_layouts/legal.html`, `_includes/…`)의 줄 번호는 그대로 둔다.
@@ -28,6 +28,7 @@ last_mapped_at: 2026-11-14
 | 헤더 | 로고·워드마크·주요 메뉴. `include.home`이 참이면 랜딩 링크(`#top`·`#story`·`#demo`·`#get`), 아니면 법적 페이지 링크(`/`·`/#story`·`/#demo`·`/#get`). 두 경우 모두 메뉴 끝에 「고객 지원」(`/support/`, 두 경우 모두 절대 경로) | `_includes/header.html` (`index.html`의 `{% include header.html home=true %}`, `_layouts/legal.html:23`) |
 | 푸터 | 약관 링크 3개와 「고객 지원」 링크(`/support/`, nav 이름 「약관 및 지원」), 운영 안내, 사업자 정보 줄(상호·대표자·사업자등록번호)·주소 줄·이메일 행(`_data/company.yml`. 이메일 행은 `support_email` 값이 있을 때만 `mailto:` 링크로, `phone` 값이 있으면 같은 줄에 전화), 저작권, 경로 데이터 출처 | `_includes/footer.html` (`index.html`의 `{% include footer.html %}`, `_layouts/legal.html:40`) |
 | 법적 레이아웃 | 법적 3종과 지원 페이지의 `<head>`·카드 머리(eyebrow·제목)·본문 틀(`.rp-doc`). `<style>`에 「공통」과 법적 페이지 CSS를 include. `noindex`·`updated`는 값이 있을 때만 출력, 제목은 `heading`이 없으면 `title` | `_layouts/legal.html` (`:18`에서 `_includes/css/legal.css` include) |
+| 삭제 안내 페이지 | 소개 문단(개발자 이름, `store_developer_name` 값이 있을 때만)·요청 방법(`#request`, 앱 회원탈퇴와 지원 이메일)·처리 기간·지워지는/남는 데이터(표)·일부 삭제·위치정보 동의 철회(`#location`)·제공자 섹션 여섯(`#google`·`#apple`·`#facebook`·`#kakao`·`#naver`·`#line`)·문의처. 검색 제외·임시 표시 없음 | `data-deletion/index.html` (layout: legal) |
 | 지원 페이지 | 문의(지원 이메일·응답 안내)·공개 코스 신고·FAQ. 앵커 `#contact`·`#report`·`#faq`는 `section`에 있고 앱·콘솔이 이 앵커로 연다. 연락처·신고 구간과 FAQ 신고 쌍은 support_email 값이 있을 때만, FAQ 운영 주체 쌍은 trade_name 값이 있을 때만. 검색 제외·임시 표시 없음 | `support/index.html` (layout: legal) |
 | 「랜딩 전용」 CSS | 스크롤리(scrollytelling), 폰 목업, 뱃지, 앱 화면 띠, 반응형 | `index.html` `<style>`의 `/* ── 랜딩 전용 ── */`부터 `</style>`까지 |
 | 실제 앱 화면 구간 | 제목·「출시 준비 중」 딱지·캡처 세 장(흑연 폰 테두리 `.rp-shot-frame`)·캡션·지도 출처(「지도 © NAVER Corp.」), 좁은 화면 가로 밀기(`scroll-snap`, 스크립트 없음) | `index.html` `#screens`, `images/app/*.webp` |
@@ -38,7 +39,7 @@ last_mapped_at: 2026-11-14
 | 모눈종이 바탕 | `.rp-grid` 32px 그리드 | `_includes/css/legal.css:9` |
 | Jekyll 설정 | 사이트 정식 주소 `url`, 저장소 문서·빌드 파일이 사이트에 공개되지 않게 하는 열 항목 `exclude` | `_config.yml` |
 | 사실값 슬롯 | 사업자 정보·연락처 값 한 곳. 값이 없는 키는 그리지 않음 (`.size > 0`) | `_data/company.yml` |
-| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음 | `scripts/check-site.sh` + `.githooks/pre-push` |
+| 푸시 전 점검 | 빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩·삭제 안내 출력에 포인트·굿즈·코스북·배송지·전자상거래 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음, 삭제 안내가 있으면 본문에 요청 경로(mailto)와 개발자 이름 소개 문단이 있고 검색 제외·임시 표시 없음 | `scripts/check-site.sh` + `.githooks/pre-push` |
 
 ## Pattern Overview
 
@@ -123,7 +124,8 @@ last_mapped_at: 2026-11-14
 ## Entry Points
 
 - **`index.html`:** 루트 `/`. 티저 랜딩. `<body id="top">`. front matter `layout: none`.
-- **`privacy-policy/index.html`, `terms/index.html`, `data-deletion/index.html`:** `/privacy-policy/` 등 디렉터리 인덱스 URL. front matter `layout: legal`, `noindex`. 앱 스토어 심사용.
+- **`privacy-policy/index.html`, `terms/index.html`:** `/privacy-policy/` 등 디렉터리 인덱스 URL. front matter `layout: legal`, `noindex`. 앱 스토어 심사용.
+- **`data-deletion/index.html`:** `/data-deletion/`. 계정·데이터 삭제 안내(Google Play 계정 삭제 URL, Facebook Data Deletion Instructions URL `#facebook`). front matter `layout: legal`, `noindex` 없음.
 - **`support/index.html`:** `/support/`. 고객 지원(문의·공개 코스 신고·FAQ, 앵커 `#contact`·`#report`·`#faq`). front matter `layout: legal`, `noindex` 없음. 앱·콘솔·스토어의 지원 URL.
 - **`favicon/site.webmanifest`:** PWA 매니페스트 (theme `#F2B134`).
 

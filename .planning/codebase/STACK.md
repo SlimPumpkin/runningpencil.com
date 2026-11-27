@@ -64,13 +64,13 @@ last_mapped_at: 2026-11-14
 
 **Environment:**
 - 환경변수·`.env` 없음 (서버 처리 없음)
-- 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 법적 페이지 3종은 `<meta name="robots" content="noindex">` (지원 페이지는 없음)
+- 메타: `theme-color #F2B134`, Open Graph(`og:url https://runningpencil.com/`, `og:image .../favicon/web-app-manifest-512x512.png`) - `index.html`; 처리방침·약관은 `<meta name="robots" content="noindex">` (삭제 안내·지원 페이지는 없음)
 
 **Build:**
 - `_config.yml` - `url: "https://runningpencil.com"`과 열 항목 `exclude`(`CNAME`, `CLAUDE.md`, `README.md`, `.planning/`, `Gemfile`, `Gemfile.lock`, `vendor/`, `prepare/`, `scripts/`, `.githooks/`). 사용자 `exclude`는 Jekyll 기본 제외 목록을 덮어쓰므로, 사이트에 올리지 않을 새 마크다운 문서나 루트 파일·폴더는 여기에 모두 적는다
-- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트(2026-11-19 통과) 뒤 채웠다
+- `_data/company.yml` - 사실값 슬롯 (상호·대표자·사업자등록번호·주소·지원 이메일·전화·스토어 개발자 이름, 키 `trade_name`·`representative`·`biz_reg_no`·`address`·`support_email`·`phone`·`store_developer_name`). 사이트의 사업자 정보·연락처는 이 파일 한 곳에서만 고친다. 값이 없는 키는 그리지 않는다 (`.size > 0`). 지원 이메일은 이메일 게이트(2026-11-19 통과) 뒤 채웠다
 - `Gemfile` / `Gemfile.lock` - 로컬 빌드용 gem 고정 (위 「로컬 빌드 전용 gem」)
-- `scripts/check-site.sh` - 푸시 전 점검 (빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩 출력에 포인트·굿즈·코스북 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음)
+- `scripts/check-site.sh` - 푸시 전 점검 여덟 가지 (빌드 성공, `_site`에 내부 파일 없음, 문서 5개(기존 URL 4개와 `/support/`)의 제목, 처리되지 않은 Liquid 없음, 출력 HTML에 Tailwind Play CDN 없음, 랜딩·삭제 안내 출력(`index.html`, `data-deletion/index.html`)에 포인트·굿즈·코스북·배송지·전자상거래 없음, 지원 페이지가 있으면 연락처(mailto)가 있고 `/support/` 링크가 있으면 그 페이지가 있음, 삭제 안내(`/data-deletion/`)가 있으면 본문에 요청 경로(mailto)와 개발자 이름 소개 문단이 있고 검색 제외·임시 표시 없음)
 - `.githooks/pre-push` - `main` 푸시마다 `scripts/check-site.sh`를 부른다. 켜기: `git config core.hooksPath .githooks` (클론마다 한 번)
 - `CNAME` - `runningpencil.com`
 - `.gitignore` - `prepare/`, `.DS_Store`, `.playwright-mcp/`, `.planning/research/.cache/`(GSD 연구 캐시), `.planning/state.json`·`.planning/ui-reviews/`(GSD 상태 요약·UI 감사 캡처), Jekyll 로컬 빌드 산출물과 gem 위치 `_site/`, `.jekyll-cache/`, `vendor/`, `.bundle/`
