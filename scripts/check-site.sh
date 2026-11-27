@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 일곱 가지를 확인한다.
+# 푸시 전 점검. 운영(GitHub Pages)과 같은 Jekyll 3.10.0으로 빌드하고 여덟 가지를 확인한다.
 #   1. 빌드가 성공한다
 #   2. 빌드 결과에 내부 파일이 없다
 #   3. 기존 URL 문서 4개와 지원 페이지(/support/)가 있고 <title>이 기대값과 같다
 #   4. 출력 HTML에 처리되지 않은 Liquid({%, {{)가 없다
 #   5. 출력 HTML에 Tailwind Play CDN(cdn.tailwindcss.com, tailwind.config)이 없다
-#   6. 랜딩 출력(index.html)에 출시 범위 밖 기능 이름(포인트·굿즈·코스북)이 없다
+#   6. 랜딩·삭제 안내 출력(index.html, data-deletion/index.html)에 출시 범위 밖 기능 이름(포인트·굿즈·코스북·배송지·전자상거래)이 없다
 #   7. 지원 페이지(/support/)가 있으면 연락처(mailto)가 있고, /support/ 링크가 있으면 그 페이지가 있다 (이메일 게이트)
+#   8. 삭제 안내(/data-deletion/)가 있으면 본문에 요청 경로(mailto)와 개발자 이름 소개 문단이 있고, 검색 제외와 임시 표시가 없다
 # 사용법: scripts/check-site.sh          작업 트리를 빌드해 점검한다
 #         scripts/check-site.sh <커밋>   그 커밋의 추적 파일만 내보내 빌드해 점검한다 (pre-push 훅이 이렇게 부른다)
 # macOS 기본 /bin/bash 3.2에서도 돌도록 연관 배열·mapfile을 쓰지 않는다.
@@ -91,9 +92,9 @@ raw=$(grep -rlF -e '{%' -e '{{' --include='*.html' "$DEST" 2>/dev/null)
 tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' "$DEST" 2>/dev/null)
 [ -n "$tw" ] && problem "Tailwind Play CDN이 출력에 남아 있습니다: ${tw//$DEST/}"
 
-# ── 6. 랜딩에 출시 범위 밖 기능 이름 없음 ──
-# 이번 마일스톤의 출시 앱에 없는 기능 이름(U10, SITE-01)이 랜딩에 다시 들어오면 막는다.
-# 법적 문서 본문에는 Phase 6~8 전까지 남아 있으므로 랜딩 출력 하나만 본다. 코스북이 앱에 들어오면 이 항목을 고친다.
+# ── 6. 랜딩·삭제 안내에 출시 범위 밖 기능 이름 없음 ──
+# 이번 마일스톤의 출시 앱에 없는 기능 이름(U10, SITE-01)이 랜딩·삭제 안내에 다시 들어오면 막는다.
+# 삭제 안내는 Phase 6에서 다시 써서 함께 본다. 처리방침·약관은 Phase 7·8이 다시 쓴 뒤 더한다. 코스북이 앱에 들어오면 이 항목을 고친다.
 # 줄 단위가 아니라 낱말 단위로 센다. 「체크포인트」처럼 기능 이름이 아닌 낱말은 빼되, 같은 줄의 맨 「포인트」는 그대로 잡는다.
 # 허용 낱말(「○○포인트」)의 앞부분은 U10_ALLOW_PREFIX 한 곳에만 둔다. 잡는 쪽과 빼는 쪽이 이 값을 함께 쓴다.
 # 값은 구두점·공백 없는 낱말을 |로 이은 모양만 받는다. 비우거나 빈 항목(||, 앞뒤의 |)을 넣거나 . * ^ $ ( [ 같은 구두점이 들어가면
@@ -101,17 +102,18 @@ tw=$(grep -rlF -e 'cdn.tailwindcss.com' -e 'tailwind.config' --include='*.html' 
 U10_ALLOW_PREFIX='체크|엔드'
 case "|${U10_ALLOW_PREFIX}|" in *'||'*) fail "U10_ALLOW_PREFIX 형식이 잘못되었습니다: '${U10_ALLOW_PREFIX}'" ;; esac
 case "${U10_ALLOW_PREFIX//|/}" in *[[:punct:][:space:]]*) fail "U10_ALLOW_PREFIX 형식이 잘못되었습니다: '${U10_ALLOW_PREFIX}'" ;; esac
-# 랜딩 출력이 없으면 3번 항목이 「문서가 없습니다」로 이미 셌으므로 이 항목은 건너뛴다.
-if [ -f "$DEST/index.html" ]; then
+for f in index.html data-deletion/index.html; do
+    # 출력이 없으면 3번 항목이 「문서가 없습니다」로 이미 셌으므로 그 파일은 건너뛴다.
+    [ -f "$DEST/$f" ] || continue
     # grep 종료 코드 0은 찾음, 1은 못 찾음(정상), 2 이상은 오류다. 오류를 「못 찾음」으로 여기면 점검이 조용히 통과하므로 실패로 다룬다.
-    u10_hits=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북" "$DEST/index.html"); u10_rc=$?
+    u10_hits=$(grep -o -E "(${U10_ALLOW_PREFIX})?포인트|굿즈|코스북|배송지|전자상거래" "$DEST/$f"); u10_rc=$?
     if [ "$u10_rc" -gt 1 ]; then
-        problem "점검 6번 grep이 실패했습니다 (종료 코드 ${u10_rc}, U10_ALLOW_PREFIX='${U10_ALLOW_PREFIX}')"
+        problem "점검 6번 grep이 실패했습니다 (종료 코드 ${u10_rc}, /${f}, U10_ALLOW_PREFIX='${U10_ALLOW_PREFIX}')"
     else
         u10=$(printf '%s\n' "$u10_hits" | grep -v -x -E "(${U10_ALLOW_PREFIX})포인트" | grep -c .)
-        [ "${u10:-0}" -eq 0 ] || problem "랜딩에 출시 범위 밖 기능 이름이 있습니다: /index.html ${u10}곳 (포인트·굿즈·코스북, U10)"
+        [ "${u10:-0}" -eq 0 ] || problem "출시 범위 밖 기능 이름이 있습니다: /${f} ${u10}곳 (포인트·굿즈·코스북·배송지·전자상거래, U10)"
     fi
-fi
+done
 
 # ── 7. 지원 페이지와 연락처 (이메일 게이트, Phase 5 D-04) ──
 # 게이트 전에는 /support/ 문서도 그리로 가는 링크도 없으므로 이 항목은 그냥 지나간다.
@@ -126,6 +128,33 @@ if [ "$sup_rc" -gt 1 ]; then
     problem "점검 7번 grep이 실패했습니다 (종료 코드 ${sup_rc})"
 elif [ -n "$sup_links" ] && [ ! -f "$DEST/support/index.html" ]; then
     problem "지원 페이지 없이 /support/ 링크가 있습니다: $(printf '%s ' ${sup_links//$DEST/})"
+fi
+
+# ── 8. 삭제 안내 본문 (요청 경로·개발자 이름, 검색 제외·임시 표시 없음, Phase 6) ──
+# 공유 푸터에도 mailto가 있으므로 파일 전체가 아니라 본문 블록(.rp-doc, _layouts/legal.html)만 본다. 파일 전체를 보면 푸터 때문에 거짓 통과한다.
+# 지원 이메일이나 개발자 이름 값을 지우면 요청 경로와 소개 문단이 함께 사라지므로 여기서 푸시가 멈춘다.
+# 6·7번과 같은 이유로 grep 종료 코드 2 이상은 「못 찾음」이 아니라 실패로 센다.
+dd="$DEST/data-deletion/index.html"
+if [ -f "$dd" ]; then
+    # 본문 블록: <div class="rp-doc"> 다음 줄부터 16칸 들여쓴 </div> 한 줄 앞까지
+    dd_body=$(awk '/<div class="rp-doc">/{f=1;next} f && /^                <\/div>$/{exit} f' "$dd"); dd_rc=$?
+    [ "$dd_rc" -eq 0 ] || problem "점검 8번 awk가 실패했습니다 (종료 코드 ${dd_rc})"
+    printf '%s\n' "$dd_body" | grep -qF 'href="mailto:'; dd_rc=$?
+    if [ "$dd_rc" -gt 1 ]; then problem "점검 8번 grep이 실패했습니다 (종료 코드 ${dd_rc})"
+    elif [ "$dd_rc" -eq 1 ]; then problem '삭제 안내 본문에 지원 이메일 경로(mailto)가 없습니다: /data-deletion/ (D-20)'
+    fi
+    printf '%s\n' "$dd_body" | grep -qF '러닝펜슬(개발자 '; dd_rc=$?
+    if [ "$dd_rc" -gt 1 ]; then problem "점검 8번 grep이 실패했습니다 (종료 코드 ${dd_rc})"
+    elif [ "$dd_rc" -eq 1 ]; then problem '삭제 안내 본문에 개발자 이름 소개 문단이 없습니다: /data-deletion/ (D-18)'
+    fi
+    grep -qF 'name="robots"' "$dd"; dd_rc=$?
+    if [ "$dd_rc" -gt 1 ]; then problem "점검 8번 grep이 실패했습니다 (종료 코드 ${dd_rc})"
+    elif [ "$dd_rc" -eq 0 ]; then problem '삭제 안내에 검색 제외(noindex)가 남아 있습니다: /data-deletion/ (U14)'
+    fi
+    grep -qF '임시 게시본' "$dd"; dd_rc=$?
+    if [ "$dd_rc" -gt 1 ]; then problem "점검 8번 grep이 실패했습니다 (종료 코드 ${dd_rc})"
+    elif [ "$dd_rc" -eq 0 ]; then problem '삭제 안내에 임시 표시가 남아 있습니다: /data-deletion/ (U14)'
+    fi
 fi
 
 [ "$errors" -eq 0 ] || fail "${errors}건 (${label})"
