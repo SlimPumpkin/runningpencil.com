@@ -219,3 +219,13 @@ None - 외부 서비스 설정이 필요하지 않다.
 
 - 다음 실행 계획은 06-10이다. 삭제 안내 재작성이 라이브에 있다.
 - 막는 것은 없다.
+
+## Self-Check: PASSED
+
+문서 커밋 `ce2283e` 뒤에 확인했다.
+
+- FOUND: `.planning/phases/06-data-deletion-rewrite/06-09-SUMMARY.md`, `06-EVIDENCE.md`, `_data/company.yml`, `data-deletion/index.html`
+- FOUND: `0c48a1175175`(S1), `e9d9443692b4`(S2, 원격 main), `ce2283e`(문서 커밋, 파일 둘, 삭제한 파일 없음). 모두 HEAD의 조상
+- 계획 `<verification>`: Task 1 verify와 Task 3 verify 두 명령을 문서 커밋 뒤 bash 임시 파일로 다시 돌려 모두 exit 0. `git log --format=%h 0addc0105044..e9d9443692b4 -- . ':(exclude).planning'`가 S2·S1 두 줄
+- 새로 쓴 글(EVIDENCE에 더한 줄, 이 SUMMARY, 커밋 메시지)에서 값이 든 줄 0, 경로·토큰 꼴과 홈 경로 0건. 문서 커밋 전 작업 트리 `scripts/check-site.sh` 통과
+- 문서 커밋은 푸시하지 않았다

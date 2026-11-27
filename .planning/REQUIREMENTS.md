@@ -55,9 +55,9 @@
 - [ ] **DEL-01**: 사용자는 앱을 설치하지 않고도 삭제 안내 페이지에서 지원 이메일로 계정·데이터 삭제를 요청하는 방법을 눈에 띄게 찾는다 (Google Play)
 - [ ] **DEL-02**: 심사자는 삭제 안내 페이지에서 스토어에 표시되는 앱 이름과 개발자 이름을 본다
 - [ ] **DEL-03**: 사용자는 삭제되는 데이터와 남는 데이터(공개 코스 등), 남는 이유와 기간을 안다
-- [ ] **DEL-04**: 사용자는 앱 안 삭제 경로를 실제 메뉴 이름(「회원탈퇴」)으로 안내받는다
-- [ ] **DEL-05**: 사용자는 삭제에 걸리는 시간(상한)과 완료를 알려 주는 방법을 안다
-- [ ] **DEL-06**: 사용자는 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내를 본다
+- [x] **DEL-04**: 사용자는 앱 안 삭제 경로를 실제 메뉴 이름(「회원탈퇴」)으로 안내받는다
+- [x] **DEL-05**: 사용자는 삭제에 걸리는 시간(상한)과 완료를 알려 주는 방법을 안다
+- [x] **DEL-06**: 사용자는 위치정보 동의를 철회하면 개인위치정보와 확인자료가 파기된다는 안내를 본다
 - [ ] **DEL-07**: 삭제 안내에 제공자별 섹션(`#facebook`, `#google`, `#apple`, `#kakao`, `#naver`, `#line`)이 있어, Facebook Data Deletion Instructions URL 같은 콘솔 필드가 해당 섹션으로 바로 연결된다
 
 ### 개인정보처리방침 (PRIV)
@@ -187,9 +187,9 @@
 | DEL-01 | Phase 6 | Pending |
 | DEL-02 | Phase 6 | Pending |
 | DEL-03 | Phase 6 | Pending |
-| DEL-04 | Phase 6 | Pending |
-| DEL-05 | Phase 6 | Pending |
-| DEL-06 | Phase 6 | Pending |
+| DEL-04 | Phase 6 | Complete |
+| DEL-05 | Phase 6 | Complete |
+| DEL-06 | Phase 6 | Complete |
 | DEL-07 | Phase 6 | Pending |
 | PRIV-01 | Phase 7 | Pending |
 | PRIV-02 | Phase 7 | Pending |

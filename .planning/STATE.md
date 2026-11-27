@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-08-PLAN.md
-last_updated: "2026-11-27T02:03:59.965Z"
+stopped_at: Completed 06-09-PLAN.md
+last_updated: "2026-11-27T02:45:32.268Z"
 last_activity: 2026-11-27
 last_activity_desc: Phase 06 execution started
-state_head: 21ead38189b157bf145eaddedfccb5252a43a3c2
+state_head: ce2283e28ced5dda6637db2b4fc25093c66539af
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 66
+  completed_plans: 67
   percent: 50
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 9 of 13
+Plan: 10 of 13
 Status: Ready to execute
 Last activity: 2026-11-27 — Phase 06 execution started
 
@@ -126,6 +126,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P13 | 15min | 2 tasks | 2 files |
 | Phase 06 P07 | 1h 8m (사용자 대기 포함) | 3 tasks | 1 files |
 | Phase 06 P08 | 2h 14m (사용자 대기 포함) | 3 tasks | 1 files |
+| Phase 06 P09 | 20min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -278,6 +279,8 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-08: 스토어 개발자 이름 값(D-33 ④, D-18)을 받아 작업 트리 _data/company.yml의 새 키 store_developer_name 한 줄에만 넣었다(DEV_RECEIVED=OK, 2026-11-27 한국 시각). App Store 개발자(판매자) 표기는 Google Play와 같다(APPSTORE_NAME=same). 값은 커밋하지 않았고 이 계획의 기록·SUMMARY·커밋 메시지에 적지 않았다. 값의 커밋 승인도 푸시 승인도 아니다(06-09가 값과 소개 문단을 보이고 그 SHA로 따로 물음) — 사용자가 Play Console 계정 세부정보 화면(개발자 이름 칸)과 Apple Developer 「멤버십 세부 사항」 화면을 보였고 그 시점에는 두 이름이 달랐다. 사용자가 Google Play 개발자 이름을 영문 표기로 바꾸기로 정해 Play Console에서 바꾼 뒤 바뀐 화면을 보였고, 오케스트레이터가 화면에서 읽은 값과 same을 사용자가 「예」로 확인했다. 실행자는 값을 고르거나 고치지 않았고 화면을 보지 않았다(값과 과정을 오케스트레이터가 전한 글로 받음). 과정 전체는 06-EVIDENCE 「06-08 값 미리보기」에 있다
 - [Phase 06]: 06-08: 받은 값으로 만든 미리보기 객체 둘을 판정했다. 값 커밋 미리보기 c5f98e86da21의 출력은 기준 빌드와 바이트까지 같고, 재작성 미리보기 4505d77840d0(S2V_CAND, 스크래치 ref refs/p6-scratch/s2v)은 data-deletion/index.html 하나만 다르며 본문 블록에서 값이 든 줄이 하나다(소개 문단). 두 객체 모두 check-site 통과이고 어떤 브랜치에도 없다. 값을 받기 전에는 실행 때 만든 무작위 가짜 이름으로 같은 파이프라인과 값 누출 점검의 음성·양성 시험을 끝까지 돌렸다(DRY_RUN=OK) — DEL-02는 스토어에 표시되는 개발자 이름을 요구하고 값은 커밋 직전에 대화로만 받는다(D-18). 승인하지 않은 값이 커밋되지 않게(T-06-23) 판정은 ref 없는 객체와 스크래치 ref로만 했다. 가짜 이름은 스크래치 파일에만 두어 계획·기록·기준 커밋에 없게 했고, 그래서 값 누출 점검이 건너뛰지 않고 값을 실제로 잡는다는 것을 실제 값 전에 보일 수 있었다(T-06-22)
 - [Phase 06]: 06-08: 받은 값은 vals가 excluded로 센 값이라(vals filled=1 emitted=0 excluded=1) 06-01 규칙대로 값 누출 점검을 건너뛰었다(leak=skip). 실행자가 따로 센 범위는 새로 쓴 글(값 미리보기 구간, SUMMARY, 커밋 메시지)이고 모두 0이다. 06-09·06-12의 같은 점검도 건너뛰게 되고, 06-VALIDATION 「D-02·D-18」 행의 식(값 파일로 .planning을 grep해 빈 출력)은 이 값에서 성립하지 않아 단계 검증에서 읽는 법을 정해야 한다. 열린 항목: App Store에 표시되는 판매자 이름이 Apple 쪽 법인 이름과 같다는 것은 확인하지 않았고(오케스트레이터의 기억), 두 스토어 공개 등록정보의 실제 표시도 이 계획에서 보지 않았다(Phase 10) — 계획 assumptions 둘째 줄이 미리 정한 경우다. 빈 패턴 파일은 모든 줄에 맞으므로 점검을 돌릴 수 없다. 점검이 돌지 않았다는 것과 실행자가 센 범위를 기록에 남겨 뒤 검증이 「점검 통과」로 읽지 않게 한다. APPSTORE_NAME=same은 확인하지 않은 전제 위의 답이라 열린 항목으로 남긴다
+- [Phase 06]: 06-09: 사용자가 첫 사이트 푸시(삭제 안내 재작성) SHA e9d9443692b4를 승인(조건부 권고를 보고 push 선택, 공개 스토어 페이지 확인은 따로 말하지 않음). fast-forward 뒤 그 SHA만 푸시했고 라이브 다섯 문서 바이트 동일, 앵커 여덟 개 통과
+- [Phase 06]: 06-09: 스토어 공개 등록정보의 개발자 이름 대조와 App Store 판매자 이름=Apple 법인 이름 전제는 미확인으로 Phase 10에 남김
 
 ### Pending Todos
 
@@ -333,6 +336,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-27T02:03:58.622Z
-Stopped at: Completed 06-08-PLAN.md
+Last session: 2026-11-27T02:45:31.556Z
+Stopped at: Completed 06-09-PLAN.md
 Resume file: None
