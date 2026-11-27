@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 06
 current_phase_name: 데이터 삭제 안내 재작성 (Data Deletion Rewrite)
 status: executing
-stopped_at: Completed 06-09-PLAN.md
-last_updated: "2026-11-27T02:45:32.268Z"
+stopped_at: Completed 06-10-PLAN.md
+last_updated: "2026-11-27T03:31:30.442Z"
 last_activity: 2026-11-27
 last_activity_desc: Phase 06 execution started
-state_head: ce2283e28ced5dda6637db2b4fc25093c66539af
+state_head: b7bf4d4ffec0d2f9e762006bc199f663c3ae8b9a
 progress:
   total_phases: 10
   completed_phases: 5
   total_plans: 70
-  completed_plans: 67
+  completed_plans: 68
   percent: 50
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 ## Current Position
 
 Phase: 06 (데이터 삭제 안내 재작성 (Data Deletion Rewrite)) — EXECUTING
-Plan: 10 of 13
+Plan: 11 of 13
 Status: Ready to execute
 Last activity: 2026-11-27 — Phase 06 execution started
 
@@ -127,6 +127,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P07 | 1h 8m (사용자 대기 포함) | 3 tasks | 1 files |
 | Phase 06 P08 | 2h 14m (사용자 대기 포함) | 3 tasks | 1 files |
 | Phase 06 P09 | 20min | 3 tasks | 3 files |
+| Phase 06 P10 | 3 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -281,6 +282,8 @@ Recent decisions affecting current work:
 - [Phase 06]: 06-08: 받은 값은 vals가 excluded로 센 값이라(vals filled=1 emitted=0 excluded=1) 06-01 규칙대로 값 누출 점검을 건너뛰었다(leak=skip). 실행자가 따로 센 범위는 새로 쓴 글(값 미리보기 구간, SUMMARY, 커밋 메시지)이고 모두 0이다. 06-09·06-12의 같은 점검도 건너뛰게 되고, 06-VALIDATION 「D-02·D-18」 행의 식(값 파일로 .planning을 grep해 빈 출력)은 이 값에서 성립하지 않아 단계 검증에서 읽는 법을 정해야 한다. 열린 항목: App Store에 표시되는 판매자 이름이 Apple 쪽 법인 이름과 같다는 것은 확인하지 않았고(오케스트레이터의 기억), 두 스토어 공개 등록정보의 실제 표시도 이 계획에서 보지 않았다(Phase 10) — 계획 assumptions 둘째 줄이 미리 정한 경우다. 빈 패턴 파일은 모든 줄에 맞으므로 점검을 돌릴 수 없다. 점검이 돌지 않았다는 것과 실행자가 센 범위를 기록에 남겨 뒤 검증이 「점검 통과」로 읽지 않게 한다. APPSTORE_NAME=same은 확인하지 않은 전제 위의 답이라 열린 항목으로 남긴다
 - [Phase 06]: 06-09: 사용자가 첫 사이트 푸시(삭제 안내 재작성) SHA e9d9443692b4를 승인(조건부 권고를 보고 push 선택, 공개 스토어 페이지 확인은 따로 말하지 않음). fast-forward 뒤 그 SHA만 푸시했고 라이브 다섯 문서 바이트 동일, 앵커 여덟 개 통과
 - [Phase 06]: 06-09: 스토어 공개 등록정보의 개발자 이름 대조와 App Store 판매자 이름=Apple 법인 이름 전제는 미확인으로 Phase 10에 남김
+- [Phase 06]: 06-10: 점검 8번은 삭제 안내 본문 블록(.rp-doc)에 mailto 링크 하나 이상과 「러닝펜슬(개발자 」 소개 문단을 보고, 문서 전체에서 검색 제외·임시 표시가 없음을 본다. 원고 문구를 바꾸는 단계는 이 항목도 함께 고친다
+- [Phase 06]: 06-10: 점검 6번은 랜딩과 삭제 안내 두 출력을 보고 배송지·전자상거래를 더했다. 처리방침·약관은 Phase 7·8이 다시 쓴 뒤 더한다
 
 ### Pending Todos
 
@@ -336,6 +339,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-27T02:45:31.556Z
-Stopped at: Completed 06-09-PLAN.md
+Last session: 2026-11-27T03:31:29.720Z
+Stopped at: Completed 06-10-PLAN.md
 Resume file: None
