@@ -1448,3 +1448,60 @@ OK webkit 1280 anchor naver ok
 OK webkit 1280 anchor line ok
 PASS deletion
 LIVE_PUSH1=OK
+
+## 06-10 가드
+
+Task 1(점검 6번을 삭제 안내 출력까지 넓히고 8번 항목을 더한 후보 스크립트를 양성·음성으로 판정한 뒤 build 커밋 B1으로 남김)의 기록이다. 스크래치 재확인(함수 열둘, Playwright 1.59.1, `p6-deletion.mjs`, `base/TREE`)에서 다시 만든 것이 없어 `REGEN` 줄은 없다. 후보 K는 B1과 같은 인덱스로 만든 `commit-tree` 객체이고(트리 같음), 시험 객체 다섯은 `mkobj`로 `PUSH1_SHA` 위에 만들었으며 ref에 붙이지 않았다. 판정은 모두 K의 스크립트 사본으로 돌렸다. 시험 재료는 `$W/g/`에 있고 각 재료는 의도한 줄만 바꿨다(mailto 두 줄 삭제, 검색 제외 키 한 줄, 임시 표시 footer 한 줄, U10 낱말 한 줄, 개발자 이름 키 한 줄 비움). 값은 이 구간에 없다.
+
+check-site: 통과 (커밋 e9d9443692b4, jekyll 3.10.0)
+check-site: 통과 (커밋 c82e5c956265, jekyll 3.10.0)
+OK pos8 push1 pass
+check-site: 출시 범위 밖 기능 이름이 있습니다: /data-deletion/index.html 6곳 (포인트·굿즈·코스북·배송지·전자상거래, U10)
+check-site: 삭제 안내 본문에 지원 이메일 경로(mailto)가 없습니다: /data-deletion/ (D-20)
+check-site: 삭제 안내 본문에 개발자 이름 소개 문단이 없습니다: /data-deletion/ (D-18)
+check-site: 삭제 안내에 검색 제외(noindex)가 남아 있습니다: /data-deletion/ (U14)
+check-site: 삭제 안내에 임시 표시가 남아 있습니다: /data-deletion/ (U14)
+check-site: 실패 — 5건 (커밋 89f659a5fdca)
+OK base rejected count=5
+check-site: 삭제 안내 본문에 지원 이메일 경로(mailto)가 없습니다: /data-deletion/ (D-20)
+check-site: 실패 — 1건 (커밋 e6fed491f186)
+OK neg8-mail rc=1 count=1
+check-site: 삭제 안내 본문에 개발자 이름 소개 문단이 없습니다: /data-deletion/ (D-18)
+check-site: 실패 — 1건 (커밋 17bf7c9a41d5)
+OK neg8-dev rc=1 count=1
+check-site: 삭제 안내에 검색 제외(noindex)가 남아 있습니다: /data-deletion/ (U14)
+check-site: 실패 — 1건 (커밋 3de69b6d2324)
+OK neg8-robots rc=1 count=1
+check-site: 삭제 안내에 임시 표시가 남아 있습니다: /data-deletion/ (U14)
+check-site: 실패 — 1건 (커밋 78151a78e3f4)
+OK neg8-temp rc=1 count=1
+check-site: 출시 범위 밖 기능 이름이 있습니다: /data-deletion/index.html 1곳 (포인트·굿즈·코스북·배송지·전자상거래, U10)
+check-site: 실패 — 1건 (커밋 8588ad814c2c)
+OK neg6-word rc=1 count=1
+NEG8_MAIL=e6fed491f186
+NEG8_DEV=17bf7c9a41d5
+NEG8_ROBOTS=3de69b6d2324
+NEG8_TEMP=78151a78e3f4
+NEG6_WORD=8588ad814c2c
+B1_SHA=45f1958c1b5f
+GUARD8=OK
+OK site-clean 06-10-t1 45f1958c1b5f
+
+- 기준 커밋(옛 삭제 안내)은 5건으로 거부됐다: 6번 1건(U10 낱말 6곳 = 포인트 2, 굿즈·코스북·배송지·전자상거래 각 1. 06-01이 센 7곳 가운데 수령인은 6번 정규식에 없다)과 8번 4건(본문 mailto 없음, 개발자 이름 소개 문단 없음, 검색 제외 있음, 임시 표시 있음).
+- 음성 다섯은 각각 한 항목 하나로만(1건) 실패했다. 6번 음성은 삭제 안내 출력에서 잡혔다(랜딩은 그대로).
+
+## 06-10 훅
+
+Task 2(실제 푸시 경로인 `.githooks/pre-push`가 B1은 통과시키고 음성 시험 객체는 거부하는지 확인)의 기록이다. 아무것도 푸시하지 않았고 훅에는 표준 입력만 줬다(`refs/heads/main <전체 해시> refs/heads/main <origin/main 전체 해시>`). 첫 실행은 실행 스크립트가 스크래치 변수를 정하지 않아 음성 두 줄에서 시험 객체 해시를 읽지 못했다(훅이 빈 해시를 받음). 변수를 정한 뒤 처음부터 다시 돌린 결과만 적는다.
+
+OK origin = push1
+OK hook files = b1
+check-site: 통과 (커밋 45f1958c1b5f, jekyll 3.10.0)
+OK hook b1 pass
+check-site: 삭제 안내 본문에 지원 이메일 경로(mailto)가 없습니다: /data-deletion/ (D-20)
+check-site: 실패 — 1건 (커밋 e6fed491f186)
+OK hook neg8-mail rejected
+check-site: 삭제 안내에 검색 제외(noindex)가 남아 있습니다: /data-deletion/ (U14)
+check-site: 실패 — 1건 (커밋 3de69b6d2324)
+OK hook neg8-robots rejected
+HOOK8=OK
