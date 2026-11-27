@@ -1505,3 +1505,39 @@ check-site: 삭제 안내에 검색 제외(noindex)가 남아 있습니다: /dat
 check-site: 실패 — 1건 (커밋 3de69b6d2324)
 OK hook neg8-robots rejected
 HOOK8=OK
+
+## 06-11 원본 맵
+
+Task 1(원본 맵 셋 `CONVENTIONS.md`·`ARCHITECTURE.md`·`STACK.md`를 삭제 안내의 현재 모습대로 고치고 생성기 사본 시험으로 생성 구간까지 이어지는지 확인)의 기록이다. 고치기 전에도 생성기 사본이 저장소의 `.claude/CLAUDE.md`와 바이트가 같았다(출발점 일치). 사본 시험에서 바뀐 구간은 architecture·conventions·stack 셋이고 방침 구간(`<!-- GSD:project-start` 앞)은 바이트가 같았으며, 사본에 `store_developer_name`이 3곳 들어갔다. 저장소의 `.claude/CLAUDE.md`는 이 task에서 고치지 않았다. 값은 이 구간에 없다.
+
+OK generator blocks only
+check-site: 통과 (작업 트리, jekyll 3.10.0)
+vals filled=1 emitted=0 excluded=1
+leak=skip(no new values)
+DOCS_MAPS_SHA=c54e3c6258c9
+OK site-clean 06-11-t1 c54e3c6258c9
+
+## 06-11 CLAUDE
+
+Task 2(두 `CLAUDE.md`의 방침 구간과 루트 본문을 같은 커밋에서 고치고 `.claude/CLAUDE.md` 생성 구간을 다시 만듦)의 기록이다. 방침 구간 세 행(지원 이메일 공개, 포인트·굿즈·코스북 제거, noindex 해제)은 두 사본에 같은 바꿈을 넣었다. 재생성 전 사본 시험에서 바뀐 구간은 architecture·conventions·stack 셋이고 방침 구간은 바이트가 같았다. 저장소에서 `--output` 없이 돌린 뒤 루트 `CLAUDE.md`는 생성기가 건드리지 않았고(바이트 같음), 저장소의 `.claude/CLAUDE.md`는 다시 생성한 사본과 바이트가 같다. skills·workflow·profile 구간은 바뀌지 않았다. 옛 문장 넷의 수는 두 사본 모두 0이다. 값은 이 구간에 없다.
+
+OK generator blocks only
+OK regenerated
+OK policy identical
+check-site: 통과 (작업 트리, jekyll 3.10.0)
+vals filled=1 emitted=0 excluded=1
+leak=skip(no new values)
+DOCS_CLAUDE_SHA=f58fb62ed52b
+OK site-clean 06-11-t2 f58fb62ed52b
+
+## 06-11 기준 문서
+
+Task 3(이름 표·데이터 목록 「확인할 것」·README를 고치고 문서 전체에 옛 문장·값·로컬 경로가 남지 않았는지 훑음)의 기록이다. 이름 표 「스토어 개발자 이름」 행의 값 칸은 「(빈칸)」 그대로다. 「확인할 것」 표에는 (가) 「### prod 전제 (Phase 6 D-42)」 절을 가리키는 추적 행(다섯 줄을 옮겨 적지 않음)과 (나) Analytics 속성 종류·BigQuery 내보내기 전제 행만 더했다. (다) App Store 표기 차이 행은 `APPSTORE_NAME=same`이라 더하지 않았다. 훑기 범위는 두 `CLAUDE.md`, 원본 맵 셋, 이름 표, 데이터 목록, README이고 옛 문장 넷(「현재 세 문서에 `noindex`」, 「법적 문서에는 Phase 6~8에서」, 「점검 항목은 일곱」, 「랜딩 출력 하나만 본다」)은 모두 0건이다. 이 단계 폴더·기준 문서·원본 맵·두 `CLAUDE.md`·README의 추적 파일에 홈 경로 문자열은 0건이다. 값은 이 구간에 없다.
+
+OK stale 0
+vals filled=1 emitted=0 excluded=1
+leak=skip(no new values)
+OK home-path 0
+check-site: 통과 (작업 트리, jekyll 3.10.0)
+DOCS_BASE_SHA=fb7733412e28
+OK site-clean 06-11-t3 fb7733412e28
