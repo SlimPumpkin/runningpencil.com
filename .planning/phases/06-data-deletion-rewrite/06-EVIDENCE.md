@@ -1322,3 +1322,129 @@ vals filled=1 emitted=0 excluded=1
 leak=skip(no new values)
 OK site-clean 06-08-t3 b2644ec30ad3
 ```
+
+## 06-09 후보
+
+값 커밋 S1과 재작성 커밋 S2를 `git commit-tree`로 만든 후보 객체로 판정했다. 두 객체는 승인 전이라 `main`에 없다. 메인 인덱스와 작업 트리는 건드리지 않았고(S1·S2는 임시 인덱스 `$W/idx-s1`·`$W/idx-s2`로 만들고 지웠다) 이 task에서는 커밋하지 않았다(계획 context 「Task 3 fast-forward 전 무커밋」). 이 구간은 fast-forward 전까지 저장소 밖 `$W/06-09-pending.md`에만 있다. 값은 이 구간에 없다. 건수와 있음/없음만 적는다.
+
+S1_SHA=0c48a1175175
+S2_SHA=e9d9443692b4
+PUSH1_CANDIDATE=e9d9443692b4
+PUSH1_PREV=0addc0105044
+
+- 시작: 2026-11-27T02:23:36Z (한국 시각 11:23). HEAD는 `e8448ec3d7a7`이다(06-08 끝 뒤 오케스트레이터의 일시 중지 기록 커밋 `docs(pause)` 하나, `.planning` 아래만).
+- 스크래치 재확인: `$W/lib.sh` 함수 열둘, Playwright 1.59.1, `$W/pw/p6-deletion.mjs`, `$W/base/TREE`가 `BASE_SHA`의 트리와 같고 `$W/base/site/index.html`이 있다. 다시 만든 것이 없어 `REGEN` 줄은 없다.
+- precondition: D-25 닫힘 표식 열두 개(`APP_WORK=reported`, `U2_PROCEED=user-accepted-draft`, `APP_FACTS=OK`, `REBASE_SHA`, `OPS_SHA`, `D33_C7`, `D39_PATH=none`, `INV_DEC_SHA`, `DRAFT_APPROVED`, `DEV_RECEIVED=OK`, `S2V_CAND`, 원고 blob 표식)가 줄 머리부터 있다. 작업 트리 `_data/company.yml`은 06-08이 넣은 두 줄뿐(`git diff --numstat` `2	0`)이고 다른 사이트 파일 변경과 스테이징한 것이 없다. `06-EVIDENCE.md`는 HEAD와 같고 `$W/06-09-pending.md`는 없었다. 작업 트리의 `.planning/STATE.md` 변경은 오케스트레이터의 단계 시작 기록이고 이 계획은 건드리지 않았다.
+- S1: `git read-tree HEAD` 뒤 작업 트리 `_data/company.yml`의 blob을 넣은 트리, 부모 HEAD, 메시지 파일 `$W/msg-s1.txt`. S2: 원고 blob을 `$W/draft/final.html`로 꺼내 `updated:` 줄을 오늘(2026년 11월 27일)과 견줬다. 이미 같아 바꾸지 않았으므로 S2의 `data-deletion/index.html` blob은 승인한 원고 blob 그대로다(`DRAFT_CAND`와 diff 빈 출력). 부모 S1, 메시지 파일 `$W/msg-s2.txt`. 두 메시지 끝 줄은 06-04 「재계획 보충 규칙」 5번(실행 세션의 attribution 줄 `Co-Authored-By` 한 줄, `Claude-Session` 줄 없음)이다. 메시지에 값·사업자 값·지원 주소는 없다.
+- 바이트 비교는 06-08처럼 두 site 폴더의 파일을 `cmp`로 하나씩 견줘 다른 파일 이름만 셌다(`diff -r`는 다른 줄을 찍어 값이 화면에 나온다. 판정은 같다). 계획에 없는 판정 줄 `OK s2 vs s2v same`은 06-08 재작성 미리보기 빌드(`$W/s2v/`)와 바이트까지 같다는 줄이다.
+- 본문 판정 식은 06-07 Task 1 4번(`$W/t1-judge.sh`의 규칙 줄)과 같다. `dev`는 작업 트리 yml에서 읽은 값을 임시 파일에 두고 본문 블록에서 `grep -c -F -f`로 센 뒤 바로 지웠다. 앵커는 여덟 개다.
+- 화면: `serve s2 4604` 뒤 `p6-deletion.mjs`를 `--shot "$W/cap/s2"`로 돌렸다. 종료 코드 0, 앵커 서른두 줄 모두 `ok`(`ok-end` 0). 캡처 네 장은 `$W/cap/s2/<엔진>-<폭>.png`다. 도구 출력 전체는 `$W/p609-t1-pw.log`.
+- 푸시 범위: `git fetch` 뒤 원격 main이 `PUSH1_PREV`이고 S2의 조상이다. `PUSH1_PREV..S2`는 커밋 서른셋이고(로컬 main 앞선 31 + S1·S2), `.planning` 밖 바뀐 파일은 둘이다.
+- 값 누출: `vals`가 `excluded=1`을 냈다(값이 `BASE_SHA` 추적 파일에 이미 있다, 06-08과 같음). 06-01 규칙대로 패턴 점검을 건너뛰고 `leak=skip(no new values)`. 계획 밖 보조 셈으로 푸시 범위 커밋 메시지에서 값이 든 줄을 따로 셌고 0이다(`NOTE range messages-with-value=0`, 판정 아님).
+- 로컬 경로·토큰 꼴: 06-01 정규식으로 `git diff PUSH1_PREV S2`의 더해진 줄에서 0.
+- 훅 경로: S2의 `scripts/check-site.sh`·`.githooks/pre-push`가 작업 트리와 같고, 실제 훅에 `refs/heads/main <S2> refs/heads/main <origin/main>` 한 줄을 넣어 exit 0, S2 check-site 통과.
+- 스크래치 ref `refs/p6-scratch/push1`을 S2에 붙였다. S2는 `main`의 조상이 아니다(`git merge-base --is-ancestor` 종료 코드 1).
+- 판정 도구: `$W/p609-t1.sh`(출력 `$W/p609-t1.log`). 한 번 돌렸고 첫 실행에서 모두 통과했다(다시 돌리면 `commit-tree`가 새 해시를 낸다).
+
+```
+OK precondition markers=12 yml=2/0 other-site-files=0 staged=0 evidence=HEAD pending=absent
+OK scratch recheck lib-functions=12 playwright=1.59.1 tool=present base-tree=same
+NOTE updated already today (blob unchanged)
+OK s2 blob = approved + updated
+OK candidate shape s1=_data/company.yml s2=data-deletion/index.html parents=HEAD,S1
+check-site: 통과 (커밋 0c48a1175175, jekyll 3.10.0)
+check-site: 통과 (커밋 e9d9443692b4, jekyll 3.10.0)
+OK s1 same
+OK s2 only=data-deletion/index.html
+OK s2 vs s2v same
+OK s2 rules class=0 style=0 extra-elements=0 u10=0 robots=0 temp=0 absolute=0 thirtyday=0
+OK s2 values mailto=2 reqmailto=1 dev=1
+OK faqpath both
+NOTE s2 anchors=8
+OK chromium 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK chromium 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK webkit 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK webkit 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+NOTE anchors ok-lines=32 ok-end=0
+PASS deletion
+OK scope push1 = _data/company.yml data-deletion/index.html
+NOTE push1 commits=33
+vals filled=1 emitted=0 excluded=1
+leak=skip(no new values)
+NOTE range messages-with-value=0
+OK localpaths 0
+OK hook files = s2
+OK hook s2 pass
+OK s2 not-in-main
+OK site-clean 06-09-t1 e8448ec3d7a7
+OK nocommit 06-09-t1 head=e8448ec3d7a7
+```
+
+## 06-09 승인
+
+Task 2(실제 값의 소개 문단 대조와 첫 사이트 푸시 SHA 승인, `checkpoint:decision`, gate `blocking-human`)의 기록이다. 묻기 직전에 무커밋을 다시 봤다(HEAD가 S1의 부모, `06-EVIDENCE.md`가 HEAD와 같음, 스테이징 없음). 답은 이어 하기 실행이 이 구간에 적는다. 값은 이 구간에 없다.
+
+```
+OK nocommit 06-09-t2 head=e8448ec3d7a7
+```
+
+답: push
+
+PUSH1_APPROVED=e9d9443692b4
+
+- 답이 나온 과정: 오케스트레이터가 대화에서만(파일로 저장하지 않음) 실제 값으로 그린 소개 문단의 태그를 지운 글, 승인할 SHA, 나갈 커밋 서른셋, `.planning` 밖 파일 둘, Task 1 판정 요약, 캡처 경로를 보였다. 이어 자기 의견이라고 밝힌 조건부 권고를 냈다: 푸시하되, Google Play 공개 스토어 페이지가 아직 옛 개발자 이름을 보이면 보류. 확신이 낮은 이유로 공개 스토어 표시를 확인하지 않았다는 것(Phase 10)과, App Store 판매자 이름이 Apple 법인 이름과 같다는 전제가 확인되지 않았다는 것을 들었다. 사용자는 선택지 「push (권고, 조건부)」를 골랐다. 사용자가 공개 스토어 페이지를 확인했다고 따로 말하지는 않았다. 승인한 SHA는 `PUSH1_CANDIDATE`와 같다. 이 기록은 커밋하지 않았다(fast-forward 전).
+
+## 06-09 라이브
+
+Task 3(승인한 후보로 `main` fast-forward, 그 SHA 하나만 푸시, 배포 완료 뒤 라이브 확인)의 기록이다. 첫 진입(precondition (가): HEAD가 S1의 부모, `06-EVIDENCE.md`가 HEAD와 같음, 스테이징 없음)이었다. 작업 트리 `_data/company.yml` 값 줄을 `git restore`로 거둔 뒤 `git merge --ff-only`로 올렸고(작업 트리 blob이 S1의 blob과 같음을 먼저 봤다), 위 두 구간(`## 06-09 후보`·`## 06-09 승인`)은 `$W/06-09-pending.md`를 그대로 붙인 것이다. 스크래치 재확인(함수 열둘, Playwright 1.59.1, `p6-deletion.mjs`, `base/TREE`, `s2/TREE`가 후보 트리)에서 다시 만든 것이 없어 `REGEN` 줄은 없다. 값은 이 구간에 없다.
+
+OK precondition t3 entry=first head=e8448ec3d7a7
+OK ff main = s2
+OK pending moved
+OK origin = push1-prev
+check-site: 통과 (커밋 e9d9443692b4, jekyll 3.10.0)
+PUSH1_SHA=e9d9443692b4
+OK 빌드 e9d9443692b4 built 2026-11-27T02:41:22Z
+OK HTTP / 200 title=러닝펜슬 - 달리고 걷는 길이 아트가 됩니다 bytes=same
+OK HTTP /privacy-policy/ 200 title=개인정보처리방침 - 러닝펜슬 bytes=same
+OK HTTP /terms/ 200 title=서비스 이용약관 - 러닝펜슬 bytes=same
+OK HTTP /data-deletion/ 200 title=데이터 삭제 안내 - 러닝펜슬 bytes=same
+OK HTTP /support/ 200 title=고객 지원 - 러닝펜슬 bytes=same
+OK chromium 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK chromium 375 anchor request ok
+OK chromium 375 anchor location ok
+OK chromium 375 anchor google ok
+OK chromium 375 anchor apple ok
+OK chromium 375 anchor facebook ok
+OK chromium 375 anchor kakao ok
+OK chromium 375 anchor naver ok
+OK chromium 375 anchor line ok
+OK chromium 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK chromium 1280 anchor request ok
+OK chromium 1280 anchor location ok
+OK chromium 1280 anchor google ok
+OK chromium 1280 anchor apple ok
+OK chromium 1280 anchor facebook ok
+OK chromium 1280 anchor kakao ok
+OK chromium 1280 anchor naver ok
+OK chromium 1280 anchor line ok
+OK webkit 375 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=na figures=1/1
+OK webkit 375 anchor request ok
+OK webkit 375 anchor location ok
+OK webkit 375 anchor google ok
+OK webkit 375 anchor apple ok
+OK webkit 375 anchor facebook ok
+OK webkit 375 anchor kakao ok
+OK webkit 375 anchor naver ok
+OK webkit 375 anchor line ok
+OK webkit 1280 deletion title=ok h1=ok robots=0 ids=request,location,google,apple,facebook,kakao,naver,line reqmailto=1 mailto=2 first=ok mailfirst=ok figures=1/1
+OK webkit 1280 anchor request ok
+OK webkit 1280 anchor location ok
+OK webkit 1280 anchor google ok
+OK webkit 1280 anchor apple ok
+OK webkit 1280 anchor facebook ok
+OK webkit 1280 anchor kakao ok
+OK webkit 1280 anchor naver ok
+OK webkit 1280 anchor line ok
+PASS deletion
+LIVE_PUSH1=OK
